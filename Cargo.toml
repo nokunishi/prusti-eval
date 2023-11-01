@@ -6,9 +6,15 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-serde = "1.0.145"
-serde_derive = "1.0.136"
+serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0.89"
 reqwest = { version = "0.11", features = ["json"] }
 futures = "0.3"
 tokio = { version = "1.12.0", features = ["full"] } 
+log = "0.4.20"
+toml = "0.8.6"
+glob = "0.3.1"
+
+[toolchain]
+channel = "nightly-2023-09-15"
+components = ["rustc-dev", "llvm-tools-preview", "rust-std", "rustfmt", "clippy"]
