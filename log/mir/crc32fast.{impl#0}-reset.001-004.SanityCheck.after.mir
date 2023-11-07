@@ -1,0 +1,68 @@
+// MIR for `<impl at src/lib.rs:61:1: 61:12>::reset` after SanityCheck
+
+fn <impl at src/lib.rs:61:1: 61:12>::reset(_1: &mut Hasher) -> () {
+    debug self => _1;
+    let mut _0: ();
+    let mut _2: isize;
+    let _3: &mut baseline::State;
+    let mut _4: &mut baseline::State;
+    let _5: &mut specialized::pclmulqdq::State;
+    let mut _6: &mut specialized::pclmulqdq::State;
+    scope 1 {
+        debug state => _3;
+    }
+    scope 2 {
+        debug state => _5;
+    }
+
+    bb0: {
+        ((*_1).0: u64) = const 0_u64;
+        FakeRead(ForMatchedPlace(None), ((*_1).1: State));
+        _2 = discriminant(((*_1).1: State));
+        switchInt(move _2) -> [0: bb1, 1: bb2, otherwise: bb3];
+    }
+
+    bb1: {
+        falseEdge -> [real: bb4, imaginary: bb2];
+    }
+
+    bb2: {
+        StorageLive(_5);
+        _5 = &'_ mut ((((*_1).1: State) as Specialized).0: specialized::pclmulqdq::State);
+        StorageLive(_6);
+        _6 = &'_ mut (*_5);
+        _0 = specialized::pclmulqdq::State::reset(move _6) -> [return: bb6, unwind: bb8];
+    }
+
+    bb3: {
+        unreachable;
+    }
+
+    bb4: {
+        StorageLive(_3);
+        _3 = &'_ mut ((((*_1).1: State) as Baseline).0: baseline::State);
+        StorageLive(_4);
+        _4 = &'_ mut (*_3);
+        _0 = baseline::State::reset(move _4) -> [return: bb5, unwind: bb8];
+    }
+
+    bb5: {
+        StorageDead(_4);
+        StorageDead(_3);
+        goto -> bb7;
+    }
+
+    bb6: {
+        StorageDead(_6);
+        StorageDead(_5);
+        goto -> bb7;
+    }
+
+    bb7: {
+        return;
+    }
+
+    bb8 (cleanup): {
+        resume;
+    }
+}

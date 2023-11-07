@@ -1,0 +1,17 @@
+// MIR for `<impl at src/lib.rs:144:1: 144:24>::default` after SimplifyCfg-initial
+
+fn <impl at src/lib.rs:144:1: 144:24>::default() -> Hasher {
+    let mut _0: Hasher;
+
+    bb0: {
+        _0 = Hasher::new() -> [return: bb1, unwind: bb2];
+    }
+
+    bb1: {
+        return;
+    }
+
+    bb2 (cleanup): {
+        resume;
+    }
+}

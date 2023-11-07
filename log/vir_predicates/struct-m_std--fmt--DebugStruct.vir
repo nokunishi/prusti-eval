@@ -1,0 +1,3 @@
+struct_predicate struct$m_std$$fmt$$DebugStruct(self){
+  (acc(self.f$fmt, write)) && ((acc(ref$struct$m_std$$fmt$$Formatter(self.f$fmt), write)) && ((acc(self.f$result, write)) && ((acc(m_std$$result$$Result$_beg_$tuple0$$_sep_$struct$m_std$$fmt$$Error$_end_(self.f$result), write)) && ((acc(self.f$has_fields, write)) && ((acc(bool(self.f$has_fields), write)) && (true))))))
+}

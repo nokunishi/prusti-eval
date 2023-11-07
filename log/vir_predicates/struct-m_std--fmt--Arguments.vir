@@ -1,0 +1,3 @@
+struct_predicate struct$m_std$$fmt$$Arguments(self){
+  (acc(self.f$pieces, write)) && ((acc(ref$Slice$ref$Str(self.f$pieces), write)) && ((acc(self.f$fmt, write)) && ((acc(m_std$$option$$Option$_beg_$ref$Slice$struct$m_core$$fmt$$rt$$Placeholder$_end_(self.f$fmt), write)) && ((acc(self.f$args, write)) && ((acc(ref$Slice$struct$m_core$$fmt$$rt$$Argument(self.f$args), write)) && (true))))))
+}

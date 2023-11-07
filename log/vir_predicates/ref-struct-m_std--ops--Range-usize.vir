@@ -1,0 +1,3 @@
+struct_predicate ref$struct$m_std$$ops$$Range$usize(self){
+  (acc(self.val_ref, write)) && ((acc(struct$m_std$$ops$$Range$usize(self.val_ref), write)) && (true))
+}

@@ -1,0 +1,10 @@
+// MIR for `specialized::pclmulqdq::K3` after RemoveNoopLandingPads
+
+const specialized::pclmulqdq::K3: i64 = {
+    let mut _0: i64;
+
+    bb0: {
+        _0 = const 6259578832_i64;
+        return;
+    }
+}

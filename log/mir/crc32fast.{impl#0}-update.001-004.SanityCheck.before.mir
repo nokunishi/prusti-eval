@@ -1,0 +1,98 @@
+// MIR for `<impl at src/lib.rs:61:1: 61:12>::update` before SanityCheck
+
+fn <impl at src/lib.rs:61:1: 61:12>::update(_1: &mut Hasher, _2: &[u8]) -> () {
+    debug self => _1;
+    debug buf => _2;
+    let mut _0: ();
+    let mut _3: u64;
+    let mut _4: usize;
+    let mut _5: &[u8];
+    let mut _6: (u64, bool);
+    let mut _7: isize;
+    let _8: &mut baseline::State;
+    let mut _9: &mut baseline::State;
+    let mut _10: &[u8];
+    let _11: &mut specialized::pclmulqdq::State;
+    let mut _12: &mut specialized::pclmulqdq::State;
+    let mut _13: &[u8];
+    scope 1 {
+        debug state => _8;
+    }
+    scope 2 {
+        debug state => _11;
+    }
+
+    bb0: {
+        StorageLive(_3);
+        StorageLive(_4);
+        StorageLive(_5);
+        _5 = &'_ (*_2);
+        _4 = core::slice::<impl [u8]>::len(move _5) -> [return: bb1, unwind: bb10];
+    }
+
+    bb1: {
+        StorageDead(_5);
+        _3 = move _4 as u64 (IntToInt);
+        StorageDead(_4);
+        _6 = CheckedAdd(((*_1).0: u64), _3);
+        assert(!move (_6.1: bool), "attempt to compute `{} + {}`, which would overflow", ((*_1).0: u64), move _3) -> [success: bb2, unwind: bb10];
+    }
+
+    bb2: {
+        ((*_1).0: u64) = move (_6.0: u64);
+        StorageDead(_3);
+        FakeRead(ForMatchedPlace(None), ((*_1).1: State));
+        _7 = discriminant(((*_1).1: State));
+        switchInt(move _7) -> [0: bb3, 1: bb4, otherwise: bb5];
+    }
+
+    bb3: {
+        falseEdge -> [real: bb6, imaginary: bb4];
+    }
+
+    bb4: {
+        StorageLive(_11);
+        _11 = &'_ mut ((((*_1).1: State) as Specialized).0: specialized::pclmulqdq::State);
+        StorageLive(_12);
+        _12 = &'_ mut (*_11);
+        StorageLive(_13);
+        _13 = &'_ (*_2);
+        _0 = specialized::pclmulqdq::State::update(move _12, move _13) -> [return: bb8, unwind: bb10];
+    }
+
+    bb5: {
+        unreachable;
+    }
+
+    bb6: {
+        StorageLive(_8);
+        _8 = &'_ mut ((((*_1).1: State) as Baseline).0: baseline::State);
+        StorageLive(_9);
+        _9 = &'_ mut (*_8);
+        StorageLive(_10);
+        _10 = &'_ (*_2);
+        _0 = baseline::State::update(move _9, move _10) -> [return: bb7, unwind: bb10];
+    }
+
+    bb7: {
+        StorageDead(_10);
+        StorageDead(_9);
+        StorageDead(_8);
+        goto -> bb9;
+    }
+
+    bb8: {
+        StorageDead(_13);
+        StorageDead(_12);
+        StorageDead(_11);
+        goto -> bb9;
+    }
+
+    bb9: {
+        return;
+    }
+
+    bb10 (cleanup): {
+        resume;
+    }
+}

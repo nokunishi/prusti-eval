@@ -1,0 +1,10 @@
+// MIR for `specialized::pclmulqdq::K6` before PromoteTemps
+
+const specialized::pclmulqdq::K6: i64 = {
+    let mut _0: i64;
+
+    bb0: {
+        _0 = const 7976584768_i64;
+        return;
+    }
+}

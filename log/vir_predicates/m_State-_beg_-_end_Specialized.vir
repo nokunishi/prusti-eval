@@ -1,0 +1,3 @@
+struct_predicate m_State$_beg_$_end_Specialized(self){
+  (acc(self.f$0, write)) && ((acc(struct$m_specialized$$pclmulqdq$$State(self.f$0), write)) && (true))
+}

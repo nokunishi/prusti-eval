@@ -1,0 +1,37 @@
+digraph RegionInferenceContext {
+    r0[label="ConstraintSccIndex(0) = [\'?12]"][shape="box"];
+    r1[label="ConstraintSccIndex(1) = [\'?11]"][shape="box"];
+    r2[label="ConstraintSccIndex(2) = [\'?4]"][shape="box"];
+    r3[label="ConstraintSccIndex(3) = [\'?10]"][shape="box"];
+    r4[label="ConstraintSccIndex(4) = [\'?3]"][shape="box"];
+    r5[label="ConstraintSccIndex(5) = [\'?13]"][shape="box"];
+    r6[label="ConstraintSccIndex(6) = [\'?9]"][shape="box"];
+    r7[label="ConstraintSccIndex(7) = [\'?6]"][shape="box"];
+    r8[label="ConstraintSccIndex(8) = [\'?8]"][shape="box"];
+    r9[label="ConstraintSccIndex(9) = [\'?5]"][shape="box"];
+    r10[label="ConstraintSccIndex(10) = [\'?1, \'?7]"][shape="box"];
+    r11[label="ConstraintSccIndex(11) = [\'?2]"][shape="box"];
+    r12[label="ConstraintSccIndex(12) = [\'?0]"][shape="box"];
+    r1 -> r0[label=""];
+    r2 -> r1[label=""];
+    r3 -> r2[label=""];
+    r4 -> r3[label=""];
+    r6 -> r5[label=""];
+    r7 -> r6[label=""];
+    r8 -> r7[label=""];
+    r9 -> r8[label=""];
+    r10 -> r4[label=""];
+    r10 -> r9[label=""];
+    r12 -> r10[label=""];
+    r12 -> r11[label=""];
+    r12 -> r4[label=""];
+    r12 -> r2[label=""];
+    r12 -> r9[label=""];
+    r12 -> r7[label=""];
+    r12 -> r8[label=""];
+    r12 -> r6[label=""];
+    r12 -> r3[label=""];
+    r12 -> r1[label=""];
+    r12 -> r0[label=""];
+    r12 -> r5[label=""];
+}

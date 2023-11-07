@@ -1,0 +1,10 @@
+// MIR for `combine::GF2_DIM` after LowerIntrinsics
+
+const combine::GF2_DIM: usize = {
+    let mut _0: usize;
+
+    bb0: {
+        _0 = const 32_usize;
+        return;
+    }
+}

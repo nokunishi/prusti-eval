@@ -1,0 +1,10 @@
+// MIR for `table::CRC32_TABLE::{constant#1}` before ElaborateDrops
+
+table::CRC32_TABLE::{constant#1}: usize = {
+    let mut _0: usize;
+
+    bb0: {
+        _0 = const 16_usize;
+        return;
+    }
+}

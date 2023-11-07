@@ -1,0 +1,17 @@
+// MIR for `<impl at src/lib.rs:61:1: 61:12>::new` before SimplifyCfg-promote-consts
+
+fn <impl at src/lib.rs:61:1: 61:12>::new() -> Hasher {
+    let mut _0: Hasher;
+
+    bb0: {
+        _0 = Hasher::new_with_initial(const _) -> [return: bb1, unwind: bb2];
+    }
+
+    bb1: {
+        return;
+    }
+
+    bb2 (cleanup): {
+        resume;
+    }
+}

@@ -1,0 +1,3 @@
+struct_predicate ref$struct$m_baseline$$State(self){
+  (acc(self.val_ref, write)) && ((acc(struct$m_baseline$$State(self.val_ref), write)) && (true))
+}

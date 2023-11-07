@@ -1,0 +1,93 @@
+// MIR for `<impl at src/lib.rs:52:10: 52:15>::clone` 0 nll
+
+| Free Region Mapping
+| '?0 | Global | ['?0, '?2, '?1]
+| '?1 | Local | ['?2, '?1]
+| '?2 | Local | ['?2]
+|
+| Inferred Region Values
+| '?0 | U0 | {bb0[0..=5], bb1[0..=6], bb2[0..=6], bb3[0], '?0, '?1, '?2}
+| '?1 | U0 | {bb0[0..=5], bb1[0..=6], bb2[0..=6], bb3[0], '?1}
+| '?2 | U0 | {bb0[0..=5], bb1[0..=6], bb2[0..=6], bb3[0], '?2}
+| '?3 | U0 | {bb0[3..=5]}
+| '?4 | U0 | {bb0[4..=5]}
+| '?5 | U0 | {bb1[4..=6]}
+| '?6 | U0 | {bb1[5..=6]}
+| '?7 | U0 | {bb0[0..=5], bb1[0..=6], bb2[0..=6], bb3[0], '?1}
+| '?8 | U0 | {bb0[5]}
+| '?9 | U0 | {bb0[4..=5]}
+| '?10 | U0 | {bb1[6]}
+| '?11 | U0 | {bb1[5..=6]}
+| '?12 | U0 | {bb0[5]}
+| '?13 | U0 | {bb1[6]}
+|
+| Inference Constraints
+| '?0 live at {bb0[0..=5], bb1[0..=6], bb2[0..=6], bb3[0]}
+| '?1 live at {bb0[0..=5], bb1[0..=6], bb2[0..=6], bb3[0]}
+| '?2 live at {bb0[0..=5], bb1[0..=6], bb2[0..=6], bb3[0]}
+| '?3 live at {bb0[3]}
+| '?4 live at {bb0[4]}
+| '?5 live at {bb1[4]}
+| '?6 live at {bb1[5]}
+| '?8 live at {bb0[5]}
+| '?9 live at {bb0[4]}
+| '?10 live at {bb1[6]}
+| '?11 live at {bb1[5]}
+| '?12 live at {bb0[5]}
+| '?13 live at {bb1[6]}
+| '?1: '?7 due to BoringNoLocation at All(src/lib.rs:52:10: 52:15) (src/lib.rs:52:10: 52:15 (#47)
+| '?3: '?9 due to Boring at Single(bb0[3]) (src/lib.rs:55:5: 55:16 (#47)
+| '?4: '?8 due to Boring at Single(bb0[4]) (src/lib.rs:55:5: 55:16 (#47)
+| '?5: '?11 due to Boring at Single(bb1[4]) (src/lib.rs:56:5: 56:17 (#47)
+| '?6: '?10 due to Boring at Single(bb1[5]) (src/lib.rs:56:5: 56:17 (#47)
+| '?7: '?1 due to BoringNoLocation at All(src/lib.rs:52:10: 52:15) (src/lib.rs:52:10: 52:15 (#47)
+| '?7: '?3 due to Boring at Single(bb0[3]) (src/lib.rs:55:5: 55:16 (#47)
+| '?7: '?5 due to Boring at Single(bb1[4]) (src/lib.rs:56:5: 56:17 (#47)
+| '?8: '?12 due to CallArgument(Some(FnDef(DefId(2:2280 ~ core[5e8a]::clone::Clone::clone), [u64]))) at Single(bb0[5]) (src/lib.rs:55:5: 55:16 (#47)
+| '?9: '?4 due to Boring at Single(bb0[4]) (src/lib.rs:55:5: 55:16 (#47)
+| '?10: '?13 due to CallArgument(Some(FnDef(DefId(2:2280 ~ core[5e8a]::clone::Clone::clone), [Adt(State, [])]))) at Single(bb1[6]) (src/lib.rs:56:5: 56:17 (#47)
+| '?11: '?6 due to Boring at Single(bb1[5]) (src/lib.rs:56:5: 56:17 (#47)
+|
+fn <impl at src/lib.rs:52:10: 52:15>::clone(_1: &'?7 Hasher) -> Hasher {
+    debug self => _1;
+    let mut _0: Hasher;
+    let mut _2: u64;
+    let mut _3: &'?8 u64;
+    let _4: &'?9 u64;
+    let mut _5: State;
+    let mut _6: &'?10 State;
+    let _7: &'?11 State;
+
+    bb0: {
+        StorageLive(_2);
+        StorageLive(_3);
+        StorageLive(_4);
+        _4 = &'?3 ((*_1).0: u64);
+        _3 = &'?4 (*_4);
+        _2 = <u64 as std::clone::Clone>::clone(move _3) -> [return: bb1, unwind: bb3];
+    }
+
+    bb1: {
+        StorageDead(_3);
+        StorageLive(_5);
+        StorageLive(_6);
+        StorageLive(_7);
+        _7 = &'?5 ((*_1).1: State);
+        _6 = &'?6 (*_7);
+        _5 = <State as std::clone::Clone>::clone(move _6) -> [return: bb2, unwind: bb3];
+    }
+
+    bb2: {
+        StorageDead(_6);
+        _0 = Hasher { amount: move _2, state: move _5 };
+        StorageDead(_5);
+        StorageDead(_2);
+        StorageDead(_7);
+        StorageDead(_4);
+        return;
+    }
+
+    bb3 (cleanup): {
+        resume;
+    }
+}

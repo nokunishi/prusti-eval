@@ -1,0 +1,16 @@
+// MIR for `baseline::update_fast_16::BYTES_AT_ONCE` before AbortUnwindingCalls
+
+const baseline::update_fast_16::BYTES_AT_ONCE: usize = {
+    let mut _0: usize;
+    let mut _1: (usize, bool);
+
+    bb0: {
+        _1 = CheckedMul(const 16_usize, const _);
+        assert(!move (_1.1: bool), "attempt to compute `{} * {}`, which would overflow", const 16_usize, const _) -> [success: bb1, unwind continue];
+    }
+
+    bb1: {
+        _0 = move (_1.0: usize);
+        return;
+    }
+}

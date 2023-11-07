@@ -1,0 +1,37 @@
+// MIR for `<impl at src/lib.rs:61:1: 61:12>::new_with_initial` after PromoteTemps
+
+fn <impl at src/lib.rs:61:1: 61:12>::new_with_initial(_1: u32) -> Hasher {
+    debug init => _1;
+    let mut _0: Hasher;
+    let mut _2: std::option::Option<Hasher>;
+    let mut _3: u32;
+    let mut _4: [closure@src/lib.rs:75:61: 75:63];
+    let mut _5: &u32;
+
+    bb0: {
+        StorageLive(_2);
+        StorageLive(_3);
+        _3 = _1;
+        _2 = Hasher::internal_new_specialized(move _3) -> [return: bb1, unwind: bb3];
+    }
+
+    bb1: {
+        StorageDead(_3);
+        StorageLive(_4);
+        StorageLive(_5);
+        _5 = &'_ _1;
+        _4 = [closure@src/lib.rs:75:61: 75:63] { init: move _5 };
+        StorageDead(_5);
+        _0 = std::option::Option::<Hasher>::unwrap_or_else::<[closure@src/lib.rs:75:61: 75:63]>(move _2, move _4) -> [return: bb2, unwind: bb3];
+    }
+
+    bb2: {
+        StorageDead(_4);
+        StorageDead(_2);
+        return;
+    }
+
+    bb3 (cleanup): {
+        resume;
+    }
+}

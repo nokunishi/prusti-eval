@@ -1,0 +1,10 @@
+// MIR for `combine::combine::{constant#1}` before AddMovesForPackedDrops
+
+combine::combine::{constant#1}: usize = {
+    let mut _0: usize;
+
+    bb0: {
+        _0 = const _;
+        return;
+    }
+}

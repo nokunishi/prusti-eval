@@ -1,0 +1,7 @@
+function m_State$_beg_$_end_$$discriminant$$<>(self: Ref(m_State$_beg_$_end_)): Int
+  requires acc(m_State$_beg_$_end_(self), read)
+  ensures (((0) <= (__result)) && ((__result) <= (1))) || (false)
+  ensures (discriminant$<Snapshot(m_State$_beg_$_end_)>(snap$<Snapshot(m_State$_beg_$_end_)>(self))) == (__result)
+{
+	(unfolding acc(Ref(m_State$_beg_$_end_)(self), read) in self.discriminant)
+}

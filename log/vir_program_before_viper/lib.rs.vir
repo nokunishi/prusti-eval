@@ -1,0 +1,4347 @@
+method builtin$havoc_bool() returns (ret: Bool);
+
+method builtin$havoc_int() returns (ret: Int);
+
+method builtin$havoc_ref() returns (ret: Ref());
+
+struct_predicate ref$Slice$u8(self){
+  (acc(self.val_ref, write)) && ((acc(Slice$u8(self.val_ref), write)) && (true))
+}
+
+
+struct_predicate u32(self){
+  (acc(self.val_int, write)) && (((0) <= (self.val_int)) && (((self.val_int) <= (4294967295)) && (true)))
+}
+
+
+struct_predicate usize(self){
+  (acc(self.val_int, write)) && (((0) <= (self.val_int)) && (((self.val_int) <= (18446744073709551615)) && (true)))
+}
+
+
+struct_predicate Array$16$Array$256$u32(self);
+
+
+struct_predicate m_std$$option$$Option$_beg_$usize$_end_Some(self){
+  (acc(self.f$0, write)) && ((acc(usize(self.f$0), write)) && (true))
+}
+
+
+enum_predicate m_std$$option$$Option$_beg_$usize$_end_(self){
+  discriminant_field=discriminant
+  None: (self.discriminant) == (0) ==> struct_predicate m_std$$option$$Option$_beg_$usize$_end_None(self){
+  true
+}
+
+
+  Some: (self.discriminant) == (1) ==> struct_predicate m_std$$option$$Option$_beg_$usize$_end_Some(self){
+  (acc(self.f$0, write)) && ((acc(usize(self.f$0), write)) && (true))
+}
+
+
+}
+
+
+struct_predicate struct$m_std$$ops$$Range$usize(self){
+  (acc(self.f$start, write)) && ((acc(usize(self.f$start), write)) && ((acc(self.f$end, write)) && ((acc(usize(self.f$end), write)) && (true))))
+}
+
+
+struct_predicate ref$struct$m_std$$ops$$Range$usize(self){
+  (acc(self.val_ref, write)) && ((acc(struct$m_std$$ops$$Range$usize(self.val_ref), write)) && (true))
+}
+
+
+struct_predicate bool(self){
+  (acc(self.val_bool, write)) && (true)
+}
+
+
+struct_predicate u8(self){
+  (acc(self.val_int, write)) && (((0) <= (self.val_int)) && (((self.val_int) <= (255)) && (true)))
+}
+
+
+struct_predicate struct$m_std$$ops$$RangeFrom$usize(self){
+  (acc(self.f$start, write)) && ((acc(usize(self.f$start), write)) && (true))
+}
+
+
+struct_predicate tuple0$(self){
+  true
+}
+
+
+struct_predicate Never(self);
+
+
+struct_predicate isize(self){
+  (acc(self.val_int, write)) && (((-9223372036854775808) <= (self.val_int)) && (((self.val_int) <= (9223372036854775807)) && (true)))
+}
+
+
+struct_predicate Slice$u8(self);
+
+
+method m_baseline$$update_fast_16(...)
+    returns (_0: Ref(u32))
+{
+  label stub // 0
+    // ========== stub ==========
+    // Def path: "crc32fast::baseline::update_fast_16"
+    // Span: src/baseline.rs:30:1: 59:2 (#0)
+    Return
+  label end_of_method
+}
+
+
+struct_predicate m_std$$option$$Option$_beg_$ref$u8$_end_Some(self){
+  (acc(self.f$0, write)) && ((acc(ref$u8(self.f$0), write)) && (true))
+}
+
+
+enum_predicate m_std$$option$$Option$_beg_$ref$u8$_end_(self){
+  discriminant_field=discriminant
+  None: (self.discriminant) == (0) ==> struct_predicate m_std$$option$$Option$_beg_$ref$u8$_end_None(self){
+  true
+}
+
+
+  Some: (self.discriminant) == (1) ==> struct_predicate m_std$$option$$Option$_beg_$ref$u8$_end_Some(self){
+  (acc(self.f$0, write)) && ((acc(ref$u8(self.f$0), write)) && (true))
+}
+
+
+}
+
+
+struct_predicate ref$struct$m_std$$slice$$Iter$u8(self){
+  (acc(self.val_ref, write)) && ((acc(struct$m_std$$slice$$Iter$u8(self.val_ref), write)) && (true))
+}
+
+
+struct_predicate struct$m_std$$slice$$Iter$u8(self){
+  (acc(self.f$ptr, write)) && ((acc(struct$m_std$$ptr$$NonNull$u8(self.f$ptr), write)) && ((acc(self.f$end_or_len, write)) && ((acc(raw_ref$u8(self.f$end_or_len), write)) && ((acc(self.f$_marker, write)) && ((acc(struct$m_std$$marker$$PhantomData$ref$u8(self.f$_marker), write)) && (true))))))
+}
+
+
+method m_baseline$$update_slow(...)
+    returns (_0: Ref(u32))
+{
+  label stub // 0
+    // ========== stub ==========
+    // Def path: "crc32fast::baseline::update_slow"
+    // Span: src/baseline.rs:61:1: 69:2 (#0)
+    Return
+  label end_of_method
+}
+
+
+struct_predicate ref$Array$32$u32(self){
+  (acc(self.val_ref, write)) && ((acc(Array$32$u32(self.val_ref), write)) && (true))
+}
+
+
+struct_predicate tuple2$usize$bool(self){
+  (acc(self.tuple_0, write)) && ((acc(usize(self.tuple_0), write)) && ((acc(self.tuple_1, write)) && ((acc(bool(self.tuple_1), write)) && (true))))
+}
+
+
+struct_predicate Array$32$u32(self);
+
+
+method m_combine$$gf2_matrix_times(...)
+    returns (_0: Ref(u32))
+{
+  label stub // 0
+    // ========== stub ==========
+    // Def path: "crc32fast::combine::gf2_matrix_times"
+    // Span: src/combine.rs:3:1: 14:2 (#0)
+    Return
+  label end_of_method
+}
+
+
+method m_combine$$gf2_matrix_square(...)
+    returns (_0: Ref(tuple0$))
+{
+  label stub // 0
+    // ========== stub ==========
+    // Def path: "crc32fast::combine::gf2_matrix_square"
+    // Span: src/combine.rs:16:1: 20:2 (#0)
+    Return
+  label end_of_method
+}
+
+
+struct_predicate u64(self){
+  (acc(self.val_int, write)) && (((0) <= (self.val_int)) && (((self.val_int) <= (18446744073709551615)) && (true)))
+}
+
+
+method m_combine$$combine(...)
+    returns (_0: Ref(u32))
+{
+  label stub // 0
+    // ========== stub ==========
+    // Def path: "crc32fast::combine::combine"
+    // Span: src/combine.rs:22:1: 77:2 (#0)
+    Return
+  label end_of_method
+}
+
+
+struct_predicate struct$m_std$$arch$$x86_64$$__m128i(self){
+  (acc(self.f$0, write)) && ((acc(i64(self.f$0), write)) && ((acc(self.f$1, write)) && ((acc(i64(self.f$1), write)) && (true))))
+}
+
+
+struct_predicate ref$Str(self){
+  (acc(self.val_ref, write)) && ((acc(Str(self.val_ref), write)) && (true))
+}
+
+
+struct_predicate Array$16$u8(self);
+
+
+struct_predicate ref$Array$2$ref$Str(self){
+  (acc(self.val_ref, write)) && ((acc(Array$2$ref$Str(self.val_ref), write)) && (true))
+}
+
+
+struct_predicate Array$1$struct$m_core$$fmt$$rt$$Argument(self);
+
+
+struct_predicate ref$Array$1$struct$m_core$$fmt$$rt$$Placeholder(self){
+  (acc(self.val_ref, write)) && ((acc(Array$1$struct$m_core$$fmt$$rt$$Placeholder(self.val_ref), write)) && (true))
+}
+
+
+struct_predicate ref$Array$1$struct$m_core$$fmt$$rt$$Argument(self){
+  (acc(self.val_ref, write)) && ((acc(Array$1$struct$m_core$$fmt$$rt$$Argument(self.val_ref), write)) && (true))
+}
+
+
+struct_predicate ref$u8(self){
+  (acc(self.val_ref, write)) && ((acc(u8(self.val_ref), write)) && (true))
+}
+
+
+struct_predicate Array$1$struct$m_core$$fmt$$rt$$Placeholder(self);
+
+
+struct_predicate ref$ref$u8(self){
+  (acc(self.val_ref, write)) && ((acc(ref$u8(self.val_ref), write)) && (true))
+}
+
+
+struct_predicate struct$m_core$$fmt$$rt$$Placeholder(self){
+  (acc(self.f$position, write)) && ((acc(usize(self.f$position), write)) && ((acc(self.f$fill, write)) && ((acc(char(self.f$fill), write)) && ((acc(self.f$align, write)) && ((acc(m_core$$fmt$$rt$$Alignment$_beg_$_end_(self.f$align), write)) && ((acc(self.f$flags, write)) && ((acc(u32(self.f$flags), write)) && ((acc(self.f$precision, write)) && ((acc(m_core$$fmt$$rt$$Count$_beg_$_end_(self.f$precision), write)) && ((acc(self.f$width, write)) && ((acc(m_core$$fmt$$rt$$Count$_beg_$_end_(self.f$width), write)) && (true))))))))))))
+}
+
+
+struct_predicate ref$Slice$ref$Str(self){
+  (acc(self.val_ref, write)) && ((acc(Slice$ref$Str(self.val_ref), write)) && (true))
+}
+
+
+struct_predicate ref$Slice$struct$m_core$$fmt$$rt$$Argument(self){
+  (acc(self.val_ref, write)) && ((acc(Slice$struct$m_core$$fmt$$rt$$Argument(self.val_ref), write)) && (true))
+}
+
+
+struct_predicate ref$ref$Str(self){
+  (acc(self.val_ref, write)) && ((acc(ref$Str(self.val_ref), write)) && (true))
+}
+
+
+struct_predicate struct$m_std$$fmt$$Arguments(self){
+  (acc(self.f$pieces, write)) && ((acc(ref$Slice$ref$Str(self.f$pieces), write)) && ((acc(self.f$fmt, write)) && ((acc(m_std$$option$$Option$_beg_$ref$Slice$struct$m_core$$fmt$$rt$$Placeholder$_end_(self.f$fmt), write)) && ((acc(self.f$args, write)) && ((acc(ref$Slice$struct$m_core$$fmt$$rt$$Argument(self.f$args), write)) && (true))))))
+}
+
+
+struct_predicate struct$m_core$$fmt$$rt$$Argument(self){
+  (acc(self.f$value, write)) && ((acc(ref$foreign(self.f$value), write)) && ((acc(self.f$formatter, write)) && ((acc(fnptr(self.f$formatter), write)) && (true))))
+}
+
+
+struct_predicate ref$Array$1$ref$Str(self){
+  (acc(self.val_ref, write)) && ((acc(Array$1$ref$Str(self.val_ref), write)) && (true))
+}
+
+
+struct_predicate ref$Slice$struct$m_core$$fmt$$rt$$Placeholder(self){
+  (acc(self.val_ref, write)) && ((acc(Slice$struct$m_core$$fmt$$rt$$Placeholder(self.val_ref), write)) && (true))
+}
+
+
+struct_predicate struct$m_core$$fmt$$rt$$UnsafeArg(self){
+  (acc(self.f$_private, write)) && ((acc(tuple0$(self.f$_private), write)) && (true))
+}
+
+
+struct_predicate m_core$$fmt$$rt$$Count$_beg_$_end_Is(self){
+  (acc(self.f$0, write)) && ((acc(usize(self.f$0), write)) && (true))
+}
+
+
+struct_predicate m_core$$fmt$$rt$$Count$_beg_$_end_Param(self){
+  (acc(self.f$0, write)) && ((acc(usize(self.f$0), write)) && (true))
+}
+
+
+enum_predicate m_core$$fmt$$rt$$Count$_beg_$_end_(self){
+  discriminant_field=discriminant
+  Is: (self.discriminant) == (0) ==> struct_predicate m_core$$fmt$$rt$$Count$_beg_$_end_Is(self){
+  (acc(self.f$0, write)) && ((acc(usize(self.f$0), write)) && (true))
+}
+
+
+  Param: (self.discriminant) == (1) ==> struct_predicate m_core$$fmt$$rt$$Count$_beg_$_end_Param(self){
+  (acc(self.f$0, write)) && ((acc(usize(self.f$0), write)) && (true))
+}
+
+
+  Implied: (self.discriminant) == (2) ==> struct_predicate m_core$$fmt$$rt$$Count$_beg_$_end_Implied(self){
+  true
+}
+
+
+}
+
+
+enum_predicate m_core$$fmt$$rt$$Alignment$_beg_$_end_(self){
+  discriminant_field=discriminant
+  Left: (self.discriminant) == (0) ==> struct_predicate m_core$$fmt$$rt$$Alignment$_beg_$_end_Left(self){
+  true
+}
+
+
+  Right: (self.discriminant) == (1) ==> struct_predicate m_core$$fmt$$rt$$Alignment$_beg_$_end_Right(self){
+  true
+}
+
+
+  Center: (self.discriminant) == (2) ==> struct_predicate m_core$$fmt$$rt$$Alignment$_beg_$_end_Center(self){
+  true
+}
+
+
+  Unknown: (self.discriminant) == (3) ==> struct_predicate m_core$$fmt$$rt$$Alignment$_beg_$_end_Unknown(self){
+  true
+}
+
+
+}
+
+
+struct_predicate ref$ref$Slice$u8(self){
+  (acc(self.val_ref, write)) && ((acc(ref$Slice$u8(self.val_ref), write)) && (true))
+}
+
+
+struct_predicate i32(self){
+  (acc(self.val_int, write)) && (((-2147483648) <= (self.val_int)) && (((self.val_int) <= (2147483647)) && (true)))
+}
+
+
+struct_predicate i64(self){
+  (acc(self.val_int, write)) && (((-9223372036854775808) <= (self.val_int)) && (((self.val_int) <= (9223372036854775807)) && (true)))
+}
+
+
+struct_predicate Str(self);
+
+
+method m_specialized$$pclmulqdq$$calculate(...)
+    returns (_0: Ref(u32))
+{
+  label stub // 0
+    // ========== stub ==========
+    // Def path: "crc32fast::specialized::pclmulqdq::calculate"
+    // Span: src/specialized/pclmulqdq.rs:92:1: 190:2 (#0)
+    Return
+  label end_of_method
+}
+
+
+method m_specialized$$pclmulqdq$$reduce128(...)
+    returns (_0: Ref(struct$m_std$$arch$$x86_64$$__m128i))
+{
+    __t0: Bool
+    __t1: Bool
+    __t2: Bool
+    __t3: Bool
+    __t4: Bool
+    _1: Ref(struct$m_std$$arch$$x86_64$$__m128i)
+    _2: Ref(struct$m_std$$arch$$x86_64$$__m128i)
+    _3: Ref(struct$m_std$$arch$$x86_64$$__m128i)
+    _4: Ref(struct$m_std$$arch$$x86_64$$__m128i)
+    _5: Ref(struct$m_std$$arch$$x86_64$$__m128i)
+    _6: Ref(struct$m_std$$arch$$x86_64$$__m128i)
+    _7: Ref(struct$m_std$$arch$$x86_64$$__m128i)
+    _8: Ref(struct$m_std$$arch$$x86_64$$__m128i)
+    _9: Ref(struct$m_std$$arch$$x86_64$$__m128i)
+    _10: Ref(struct$m_std$$arch$$x86_64$$__m128i)
+    _11: Ref(struct$m_std$$arch$$x86_64$$__m128i)
+    _12: Ref(struct$m_std$$arch$$x86_64$$__m128i)
+    _13: Ref(struct$m_std$$arch$$x86_64$$__m128i)
+  label start // 0
+    // ========== start ==========
+    // Def path: "crc32fast::specialized::pclmulqdq::reduce128"
+    // Span: src/specialized/pclmulqdq.rs:192:1: 196:2 (#0)
+    __t0 := copy false
+    __t1 := copy false
+    __t2 := copy false
+    __t3 := copy false
+    __t4 := copy false
+    // Preconditions:
+    inhale (acc(struct$m_std$$arch$$x86_64$$__m128i(_1), write)) && ((acc(struct$m_std$$arch$$x86_64$$__m128i(_2), write)) && ((acc(struct$m_std$$arch$$x86_64$$__m128i(_3), write)) && (true)))
+    inhale true
+    inhale (true) && ((true) && ((true) && (true)))
+    inhale true
+    label pre
+    Goto(cfg:2)
+  label return // 1
+    // ========== return ==========
+    // Target of any 'return' statement.
+    // Exhale postcondition
+    label l16
+    // Fold predicates for &mut args and transfer borrow permissions to old
+    // Fold the result
+    obtain acc(struct$m_std$$arch$$x86_64$$__m128i(_0), write)
+    // Assert possible strengthening
+    // Assert functional specification of postcondition
+    assert true
+    // Assert type invariants
+    assert (true) && (true)
+    // Exhale permissions of postcondition (1/3)
+    exhale true
+    // Exhale permissions of postcondition (2/3)
+    exhale acc(struct$m_std$$arch$$x86_64$$__m128i(_0), write)
+    // Exhale permissions of postcondition (3/3)
+    Return
+  label bb0 // 2
+    // ========== bb0 ==========
+    __t0 := copy true
+    // [mir] StorageLive(_4)
+    // [mir] StorageLive(_5)
+    // [mir] _5 = _1
+    _5 := builtin$havoc_ref()
+    inhale acc(struct$m_std$$arch$$x86_64$$__m128i(_5), write)
+    inhale (snap$<Snapshot(struct$m_std$$arch$$x86_64$$__m128i)>(_1)) == (snap$<Snapshot(struct$m_std$$arch$$x86_64$$__m128i)>(_5))
+    label l0
+    // [mir] StorageLive(_6)
+    // [mir] _6 = _3
+    _6 := builtin$havoc_ref()
+    inhale acc(struct$m_std$$arch$$x86_64$$__m128i(_6), write)
+    inhale (snap$<Snapshot(struct$m_std$$arch$$x86_64$$__m128i)>(_3)) == (snap$<Snapshot(struct$m_std$$arch$$x86_64$$__m128i)>(_6))
+    label l1
+    // [mir] _4 = std::arch::x86_64::_mm_clmulepi64_si128::<0>(move _5, move _6) -> [return: bb1, unwind: bb5]
+    label l2
+    assert true
+    assert (true) && ((true) && (true))
+    exhale (acc(struct$m_std$$arch$$x86_64$$__m128i(_5), write)) && ((acc(struct$m_std$$arch$$x86_64$$__m128i(_6), write)) && (true))
+    _4 := builtin$havoc_ref()
+    inhale true
+    inhale acc(struct$m_std$$arch$$x86_64$$__m128i(_4), write)
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l3
+    Goto(cfg:3)
+  label bb1 // 3
+    // ========== bb1 ==========
+    __t1 := copy true
+    // [mir] StorageDead(_6)
+    // [mir] StorageDead(_5)
+    // [mir] FakeRead(ForLet(None), _4)
+    // [mir] StorageLive(_7)
+    // [mir] StorageLive(_8)
+    // [mir] _8 = _1
+    _8 := builtin$havoc_ref()
+    inhale acc(struct$m_std$$arch$$x86_64$$__m128i(_8), write)
+    inhale (snap$<Snapshot(struct$m_std$$arch$$x86_64$$__m128i)>(_1)) == (snap$<Snapshot(struct$m_std$$arch$$x86_64$$__m128i)>(_8))
+    label l4
+    // [mir] StorageLive(_9)
+    // [mir] _9 = _3
+    _9 := builtin$havoc_ref()
+    inhale acc(struct$m_std$$arch$$x86_64$$__m128i(_9), write)
+    inhale (snap$<Snapshot(struct$m_std$$arch$$x86_64$$__m128i)>(_3)) == (snap$<Snapshot(struct$m_std$$arch$$x86_64$$__m128i)>(_9))
+    label l5
+    // [mir] _7 = std::arch::x86_64::_mm_clmulepi64_si128::<17>(move _8, move _9) -> [return: bb2, unwind: bb5]
+    label l6
+    assert true
+    assert (true) && ((true) && (true))
+    exhale (acc(struct$m_std$$arch$$x86_64$$__m128i(_8), write)) && ((acc(struct$m_std$$arch$$x86_64$$__m128i(_9), write)) && (true))
+    _7 := builtin$havoc_ref()
+    inhale true
+    inhale acc(struct$m_std$$arch$$x86_64$$__m128i(_7), write)
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l7
+    Goto(cfg:4)
+  label bb2 // 4
+    // ========== bb2 ==========
+    __t2 := copy true
+    // [mir] StorageDead(_9)
+    // [mir] StorageDead(_8)
+    // [mir] FakeRead(ForLet(None), _7)
+    // [mir] StorageLive(_10)
+    // [mir] StorageLive(_11)
+    // [mir] _11 = _2
+    _11 := builtin$havoc_ref()
+    inhale acc(struct$m_std$$arch$$x86_64$$__m128i(_11), write)
+    inhale (snap$<Snapshot(struct$m_std$$arch$$x86_64$$__m128i)>(_2)) == (snap$<Snapshot(struct$m_std$$arch$$x86_64$$__m128i)>(_11))
+    label l8
+    // [mir] StorageLive(_12)
+    // [mir] _12 = _4
+    _12 := builtin$havoc_ref()
+    inhale acc(struct$m_std$$arch$$x86_64$$__m128i(_12), write)
+    inhale (snap$<Snapshot(struct$m_std$$arch$$x86_64$$__m128i)>(_4)) == (snap$<Snapshot(struct$m_std$$arch$$x86_64$$__m128i)>(_12))
+    label l9
+    // [mir] _10 = std::arch::x86_64::_mm_xor_si128(move _11, move _12) -> [return: bb3, unwind: bb5]
+    label l10
+    assert true
+    assert (true) && ((true) && (true))
+    exhale (acc(struct$m_std$$arch$$x86_64$$__m128i(_11), write)) && ((acc(struct$m_std$$arch$$x86_64$$__m128i(_12), write)) && (true))
+    _10 := builtin$havoc_ref()
+    inhale true
+    inhale acc(struct$m_std$$arch$$x86_64$$__m128i(_10), write)
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l11
+    Goto(cfg:5)
+  label bb3 // 5
+    // ========== bb3 ==========
+    __t3 := copy true
+    // [mir] StorageDead(_12)
+    // [mir] StorageDead(_11)
+    // [mir] StorageLive(_13)
+    // [mir] _13 = _7
+    _13 := builtin$havoc_ref()
+    inhale acc(struct$m_std$$arch$$x86_64$$__m128i(_13), write)
+    inhale (snap$<Snapshot(struct$m_std$$arch$$x86_64$$__m128i)>(_7)) == (snap$<Snapshot(struct$m_std$$arch$$x86_64$$__m128i)>(_13))
+    label l12
+    // [mir] _0 = std::arch::x86_64::_mm_xor_si128(move _10, move _13) -> [return: bb4, unwind: bb5]
+    label l13
+    assert true
+    assert (true) && ((true) && (true))
+    exhale (acc(struct$m_std$$arch$$x86_64$$__m128i(_10), write)) && ((acc(struct$m_std$$arch$$x86_64$$__m128i(_13), write)) && (true))
+    _0 := builtin$havoc_ref()
+    inhale true
+    inhale acc(struct$m_std$$arch$$x86_64$$__m128i(_0), write)
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l14
+    Goto(cfg:6)
+  label bb4 // 6
+    // ========== bb4 ==========
+    __t4 := copy true
+    // [mir] StorageDead(_13)
+    // [mir] StorageDead(_10)
+    // [mir] StorageDead(_7)
+    // [mir] StorageDead(_4)
+    // [mir] return
+    Goto(cfg:1)
+  label end_of_method
+}
+
+
+struct_predicate raw_ref$u8(self);
+
+
+struct_predicate raw_ref$struct$m_std$$arch$$x86_64$$__m128i(self);
+
+
+method m_specialized$$pclmulqdq$$get(...)
+    returns (_0: Ref(struct$m_std$$arch$$x86_64$$__m128i))
+{
+  label stub // 0
+    // ========== stub ==========
+    // Def path: "crc32fast::specialized::pclmulqdq::get"
+    // Span: src/specialized/pclmulqdq.rs:198:1: 203:2 (#0)
+    Return
+  label end_of_method
+}
+
+
+struct_predicate ref$struct$m_baseline$$State(self){
+  (acc(self.val_ref, write)) && ((acc(struct$m_baseline$$State(self.val_ref), write)) && (true))
+}
+
+
+struct_predicate ref$u32(self){
+  (acc(self.val_ref, write)) && ((acc(u32(self.val_ref), write)) && (true))
+}
+
+
+struct_predicate struct$m_baseline$$State(self){
+  (acc(self.f$state, write)) && ((acc(u32(self.f$state), write)) && (true))
+}
+
+
+method m_$openang$baseline$$State$space$as$space$std$$clone$$Clone$closeang$$$clone(...)
+    returns (_0: Ref(struct$m_baseline$$State))
+{
+    __t0: Bool
+    __t1: Bool
+    _old$pre$0: Ref(struct$m_baseline$$State)
+    _1: Ref(ref$struct$m_baseline$$State)
+    _2: Ref(u32)
+    _3: Ref(ref$u32)
+    _4: Ref(ref$u32)
+  label start // 0
+    // ========== start ==========
+    // Def path: "crc32fast::baseline::{impl#1}::clone"
+    // Span: src/baseline.rs:3:10: 3:15 (#5)
+    __t0 := copy false
+    __t1 := copy false
+    // Preconditions:
+    inhale (acc(_1.val_ref, write)) && ((acc(struct$m_baseline$$State(_1.val_ref), read)) && (true))
+    inhale true
+    inhale (true) && (true)
+    inhale true
+    label pre
+    Goto(cfg:2)
+  label return // 1
+    // ========== return ==========
+    // Target of any 'return' statement.
+    // Exhale postcondition
+    label l7
+    // Fold predicates for &mut args and transfer borrow permissions to old
+    fold acc(Ref(struct$m_baseline$$State)(_1.val_ref), read)
+    obtain acc(struct$m_baseline$$State(_1.val_ref), write)
+    _old$pre$0 := move _1.val_ref
+    // Fold the result
+    fold acc(Ref(struct$m_baseline$$State)(_0), write)
+    obtain acc(struct$m_baseline$$State(_0), write)
+    // Assert possible strengthening
+    // Assert functional specification of postcondition
+    assert true
+    // Assert type invariants
+    assert (true) && (true)
+    // Exhale permissions of postcondition (1/3)
+    exhale (acc(struct$m_baseline$$State(_old$pre$0), read)) && (true)
+    // Exhale permissions of postcondition (2/3)
+    exhale acc(struct$m_baseline$$State(_0), write)
+    // Exhale permissions of postcondition (3/3)
+    Return
+  label bb0 // 2
+    // ========== bb0 ==========
+    __t0 := copy true
+    // [mir] StorageLive(_2)
+    // [mir] StorageLive(_3)
+    // [mir] StorageLive(_4)
+    // [mir] _4 = &'?3 ((*_1).0: u32)
+    _4 := builtin$havoc_ref()
+    inhale acc(_4.val_ref, write)
+    unfold acc(Ref(struct$m_baseline$$State)(_1.val_ref), read)
+    _4.val_ref := borrow _1.val_ref.f$state // L5
+    inhale acc(u32(_4.val_ref), read)
+    label l0
+    // [mir] _3 = &'?4 (*_4)
+    _3 := builtin$havoc_ref()
+    inhale acc(_3.val_ref, write)
+    _3.val_ref := borrow _4.val_ref // L4
+    inhale acc(u32(_3.val_ref), read)
+    label l1
+    // [mir] _2 = <u32 as std::clone::Clone>::clone(move _3) -> [return: bb1, unwind: bb2]
+    label l2
+    assert true
+    assert (true) && (true)
+    exhale (acc(_3.val_ref, write)) && ((true) && (true))
+    _2 := builtin$havoc_ref()
+    inhale true
+    inhale acc(u32(_2), write)
+    transfer perm _3.val_ref --> old[l2](_3.val_ref) // unchecked: true
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l3
+    Goto(cfg:3)
+  label l4 // 3
+    // ========== l4 ==========
+    // MIR edge bb0 --> bb1
+    // Expire borrows
+    // expire_borrows ReborrowingDAG(L3,L4,L5,)
+
+    if (__t0) && (true) {
+    // expire loan L3
+} else {}
+    if (__t0) && ((__t0) && (true)) {
+    // expire loan L4
+    transfer perm old[l2](_3.val_ref) --> old[l1](_3.val_ref) // unchecked: false
+    exhale acc(u32(old[l1](_3.val_ref)), read)
+} else {}
+    if (__t0) && ((__t0) && ((__t0) && (true))) {
+    // expire loan L5
+    exhale acc(u32(_4.val_ref), read)
+} else {}
+    Goto(cfg:4)
+  label bb1 // 4
+    // ========== bb1 ==========
+    __t1 := copy true
+    // [mir] StorageDead(_3)
+    // [mir] _0 = baseline::State { state: move _2 }
+    _0 := builtin$havoc_ref()
+    inhale acc(struct$m_baseline$$State(_0), write)
+    unfold acc(Ref(struct$m_baseline$$State)(_0), write)
+    _0.f$state := move _2
+    label l5
+    // [mir] StorageDead(_2)
+    // [mir] StorageDead(_4)
+    // [mir] return
+    Goto(cfg:1)
+  label end_of_method
+}
+
+
+method m_baseline$$State$$new(...)
+    returns (_0: Ref(struct$m_baseline$$State))
+{
+    __t0: Bool
+    _1: Ref(u32)
+    _2: Ref(u32)
+  label start // 0
+    // ========== start ==========
+    // Def path: "crc32fast::baseline::{impl#0}::new"
+    // Span: src/baseline.rs:9:5: 11:6 (#0)
+    __t0 := copy false
+    // Preconditions:
+    inhale (acc(u32(_1), write)) && (true)
+    inhale true
+    inhale (true) && (true)
+    inhale true
+    label pre
+    Goto(cfg:2)
+  label return // 1
+    // ========== return ==========
+    // Target of any 'return' statement.
+    // Exhale postcondition
+    label l3
+    // Fold predicates for &mut args and transfer borrow permissions to old
+    // Fold the result
+    fold acc(Ref(u32)(_0.f$state), write)
+    fold acc(Ref(struct$m_baseline$$State)(_0), write)
+    obtain acc(struct$m_baseline$$State(_0), write)
+    // Assert possible strengthening
+    // Assert functional specification of postcondition
+    assert true
+    // Assert type invariants
+    assert (true) && (true)
+    // Exhale permissions of postcondition (1/3)
+    exhale true
+    // Exhale permissions of postcondition (2/3)
+    exhale acc(struct$m_baseline$$State(_0), write)
+    // Exhale permissions of postcondition (3/3)
+    Return
+  label bb0 // 2
+    // ========== bb0 ==========
+    __t0 := copy true
+    // [mir] StorageLive(_2)
+    // [mir] _2 = _1
+    _2 := builtin$havoc_ref()
+    inhale acc(_2.val_int, write)
+    unfold acc(Ref(u32)(_1), write)
+    _2.val_int := copy _1.val_int
+    label l0
+    // [mir] _0 = baseline::State { state: move _2 }
+    _0 := builtin$havoc_ref()
+    inhale acc(struct$m_baseline$$State(_0), write)
+    unfold acc(Ref(struct$m_baseline$$State)(_0), write)
+    _0.f$state := move _2
+    label l1
+    // [mir] StorageDead(_2)
+    // [mir] return
+    Goto(cfg:1)
+  label end_of_method
+}
+
+
+method m_baseline$$State$$update(...)
+    returns (_0: Ref(tuple0$))
+{
+    __t0: Bool
+    __t1: Bool
+    _old$pre$0: Ref(struct$m_baseline$$State)
+    _old$pre$1: Ref(Slice$u8)
+    _1: Ref(ref$struct$m_baseline$$State)
+    _2: Ref(ref$Slice$u8)
+    _3: Ref(u32)
+    _4: Ref(u32)
+    _5: Ref(ref$Slice$u8)
+  label start // 0
+    // ========== start ==========
+    // Def path: "crc32fast::baseline::{impl#0}::update"
+    // Span: src/baseline.rs:13:5: 15:6 (#0)
+    __t0 := copy false
+    __t1 := copy false
+    // Preconditions:
+    inhale (acc(_1.val_ref, write)) && ((acc(struct$m_baseline$$State(_1.val_ref), write)) && ((acc(_2.val_ref, write)) && ((acc(Slice$u8(_2.val_ref), read)) && (true))))
+    inhale true
+    inhale (true) && ((true) && (true))
+    inhale true
+    label pre
+    Goto(cfg:2)
+  label return // 1
+    // ========== return ==========
+    // Target of any 'return' statement.
+    // Exhale postcondition
+    label l7
+    // Fold predicates for &mut args and transfer borrow permissions to old
+    fold acc(Ref(struct$m_baseline$$State)(_1.val_ref), write)
+    obtain acc(struct$m_baseline$$State(_1.val_ref), write)
+    _old$pre$0 := move _1.val_ref
+    obtain acc(Slice$u8(_2.val_ref), write)
+    _old$pre$1 := move _2.val_ref
+    // Fold the result
+    fold acc(Ref(tuple0$)(_0), write)
+    obtain acc(tuple0$(_0), write)
+    // Assert possible strengthening
+    // Assert functional specification of postcondition
+    assert true
+    // Assert type invariants
+    assert (true) && ((true) && (true))
+    // Exhale permissions of postcondition (1/3)
+    exhale (acc(struct$m_baseline$$State(_old$pre$0), write)) && ((acc(Slice$u8(_old$pre$1), read)) && (true))
+    // Exhale permissions of postcondition (2/3)
+    exhale acc(tuple0$(_0), write)
+    // Exhale permissions of postcondition (3/3)
+    Return
+  label bb0 // 2
+    // ========== bb0 ==========
+    __t0 := copy true
+    // [mir] StorageLive(_3)
+    // [mir] StorageLive(_4)
+    // [mir] _4 = ((*_1).0: u32)
+    _4 := builtin$havoc_ref()
+    inhale acc(_4.val_int, write)
+    unfold acc(Ref(struct$m_baseline$$State)(_1.val_ref), write)
+    unfold acc(Ref(u32)(_1.val_ref.f$state), write)
+    _4.val_int := copy _1.val_ref.f$state.val_int
+    label l0
+    // [mir] StorageLive(_5)
+    // [mir] _5 = &'?4 (*_2)
+    _5 := builtin$havoc_ref()
+    inhale acc(_5.val_ref, write)
+    _5.val_ref := borrow _2.val_ref // L4
+    inhale acc(Slice$u8(_5.val_ref), read)
+    label l1
+    // [mir] _3 = baseline::update_fast_16(move _4, move _5) -> [return: bb1, unwind: bb2]
+    label l2
+    assert true
+    assert (true) && ((true) && (true))
+    fold acc(Ref(u32)(_4), write)
+    exhale (acc(u32(_4), write)) && ((acc(_5.val_ref, write)) && ((true) && (true)))
+    _3 := builtin$havoc_ref()
+    inhale true
+    inhale acc(u32(_3), write)
+    transfer perm _5.val_ref --> old[l2](_5.val_ref) // unchecked: true
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l3
+    Goto(cfg:3)
+  label l4 // 3
+    // ========== l4 ==========
+    // MIR edge bb0 --> bb1
+    // Expire borrows
+    // expire_borrows ReborrowingDAG(L5,L4,)
+
+    if (__t0) && (true) {
+    // expire loan L5
+} else {}
+    if (__t0) && ((__t0) && (true)) {
+    // expire loan L4
+    transfer perm old[l2](_5.val_ref) --> old[l1](_5.val_ref) // unchecked: false
+    exhale acc(Slice$u8(old[l1](_5.val_ref)), read)
+} else {}
+    Goto(cfg:4)
+  label bb1 // 4
+    // ========== bb1 ==========
+    __t1 := copy true
+    // [mir] StorageDead(_5)
+    // [mir] StorageDead(_4)
+    // [mir] ((*_1).0: u32) = move _3
+    _1.val_ref.f$state := move _3
+    label l5
+    // [mir] StorageDead(_3)
+    // [mir] _0 = const ()
+    // [mir] return
+    Goto(cfg:1)
+  label end_of_method
+}
+
+
+method m_baseline$$State$$finalize(...)
+    returns (_0: Ref(u32))
+{
+    __t0: Bool
+    _1: Ref(struct$m_baseline$$State)
+  label start // 0
+    // ========== start ==========
+    // Def path: "crc32fast::baseline::{impl#0}::finalize"
+    // Span: src/baseline.rs:17:5: 19:6 (#0)
+    __t0 := copy false
+    // Preconditions:
+    inhale (acc(struct$m_baseline$$State(_1), write)) && (true)
+    inhale true
+    inhale (true) && (true)
+    inhale true
+    label pre
+    Goto(cfg:2)
+  label return // 1
+    // ========== return ==========
+    // Target of any 'return' statement.
+    // Exhale postcondition
+    label l2
+    // Fold predicates for &mut args and transfer borrow permissions to old
+    // Fold the result
+    fold acc(Ref(u32)(_0), write)
+    obtain acc(u32(_0), write)
+    // Assert possible strengthening
+    // Assert functional specification of postcondition
+    assert true
+    // Assert type invariants
+    assert (true) && (true)
+    // Exhale permissions of postcondition (1/3)
+    exhale true
+    // Exhale permissions of postcondition (2/3)
+    exhale acc(u32(_0), write)
+    // Exhale permissions of postcondition (3/3)
+    Return
+  label bb0 // 2
+    // ========== bb0 ==========
+    __t0 := copy true
+    // [mir] _0 = (_1.0: u32)
+    _0 := builtin$havoc_ref()
+    inhale acc(_0.val_int, write)
+    unfold acc(Ref(struct$m_baseline$$State)(_1), write)
+    unfold acc(Ref(u32)(_1.f$state), write)
+    _0.val_int := copy _1.f$state.val_int
+    label l0
+    // [mir] return
+    Goto(cfg:1)
+  label end_of_method
+}
+
+
+method m_baseline$$State$$reset(...)
+    returns (_0: Ref(tuple0$))
+{
+    __t0: Bool
+    _old$pre$0: Ref(struct$m_baseline$$State)
+    _1: Ref(ref$struct$m_baseline$$State)
+  label start // 0
+    // ========== start ==========
+    // Def path: "crc32fast::baseline::{impl#0}::reset"
+    // Span: src/baseline.rs:21:5: 23:6 (#0)
+    __t0 := copy false
+    // Preconditions:
+    inhale (acc(_1.val_ref, write)) && ((acc(struct$m_baseline$$State(_1.val_ref), write)) && (true))
+    inhale true
+    inhale (true) && (true)
+    inhale true
+    label pre
+    Goto(cfg:2)
+  label return // 1
+    // ========== return ==========
+    // Target of any 'return' statement.
+    // Exhale postcondition
+    label l1
+    // Fold predicates for &mut args and transfer borrow permissions to old
+    fold acc(Ref(u32)(_1.val_ref.f$state), write)
+    fold acc(Ref(struct$m_baseline$$State)(_1.val_ref), write)
+    obtain acc(struct$m_baseline$$State(_1.val_ref), write)
+    _old$pre$0 := move _1.val_ref
+    // Fold the result
+    fold acc(Ref(tuple0$)(_0), write)
+    obtain acc(tuple0$(_0), write)
+    // Assert possible strengthening
+    // Assert functional specification of postcondition
+    assert true
+    // Assert type invariants
+    assert (true) && ((true) && (true))
+    // Exhale permissions of postcondition (1/3)
+    exhale (acc(struct$m_baseline$$State(_old$pre$0), write)) && (true)
+    // Exhale permissions of postcondition (2/3)
+    exhale acc(tuple0$(_0), write)
+    // Exhale permissions of postcondition (3/3)
+    Return
+  label bb0 // 2
+    // ========== bb0 ==========
+    __t0 := copy true
+    // [mir] ((*_1).0: u32) = const 0_u32
+    unfold acc(Ref(struct$m_baseline$$State)(_1.val_ref), write)
+    unfold acc(Ref(u32)(_1.val_ref.f$state), write)
+    _1.val_ref.f$state.val_int := copy 0
+    // [mir] _0 = const ()
+    // [mir] return
+    Goto(cfg:1)
+  label end_of_method
+}
+
+
+method m_baseline$$State$$combine(...)
+    returns (_0: Ref(tuple0$))
+{
+    __t0: Bool
+    __t1: Bool
+    _old$pre$0: Ref(struct$m_baseline$$State)
+    _1: Ref(ref$struct$m_baseline$$State)
+    _2: Ref(u32)
+    _3: Ref(u64)
+    _4: Ref(u32)
+    _5: Ref(u32)
+    _6: Ref(u32)
+    _7: Ref(u64)
+  label start // 0
+    // ========== start ==========
+    // Def path: "crc32fast::baseline::{impl#0}::combine"
+    // Span: src/baseline.rs:25:5: 27:6 (#0)
+    __t0 := copy false
+    __t1 := copy false
+    // Preconditions:
+    inhale (acc(_1.val_ref, write)) && ((acc(struct$m_baseline$$State(_1.val_ref), write)) && ((acc(u32(_2), write)) && ((acc(u64(_3), write)) && (true))))
+    inhale true
+    inhale (true) && ((true) && ((true) && (true)))
+    inhale true
+    label pre
+    Goto(cfg:2)
+  label return // 1
+    // ========== return ==========
+    // Target of any 'return' statement.
+    // Exhale postcondition
+    label l7
+    // Fold predicates for &mut args and transfer borrow permissions to old
+    fold acc(Ref(struct$m_baseline$$State)(_1.val_ref), write)
+    obtain acc(struct$m_baseline$$State(_1.val_ref), write)
+    _old$pre$0 := move _1.val_ref
+    // Fold the result
+    fold acc(Ref(tuple0$)(_0), write)
+    obtain acc(tuple0$(_0), write)
+    // Assert possible strengthening
+    // Assert functional specification of postcondition
+    assert true
+    // Assert type invariants
+    assert (true) && ((true) && (true))
+    // Exhale permissions of postcondition (1/3)
+    exhale (acc(struct$m_baseline$$State(_old$pre$0), write)) && (true)
+    // Exhale permissions of postcondition (2/3)
+    exhale acc(tuple0$(_0), write)
+    // Exhale permissions of postcondition (3/3)
+    Return
+  label bb0 // 2
+    // ========== bb0 ==========
+    __t0 := copy true
+    // [mir] StorageLive(_4)
+    // [mir] StorageLive(_5)
+    // [mir] _5 = ((*_1).0: u32)
+    _5 := builtin$havoc_ref()
+    inhale acc(_5.val_int, write)
+    unfold acc(Ref(struct$m_baseline$$State)(_1.val_ref), write)
+    unfold acc(Ref(u32)(_1.val_ref.f$state), write)
+    _5.val_int := copy _1.val_ref.f$state.val_int
+    label l0
+    // [mir] StorageLive(_6)
+    // [mir] _6 = _2
+    _6 := builtin$havoc_ref()
+    inhale acc(_6.val_int, write)
+    unfold acc(Ref(u32)(_2), write)
+    _6.val_int := copy _2.val_int
+    label l1
+    // [mir] StorageLive(_7)
+    // [mir] _7 = _3
+    _7 := builtin$havoc_ref()
+    inhale acc(_7.val_int, write)
+    unfold acc(Ref(u64)(_3), write)
+    _7.val_int := copy _3.val_int
+    label l2
+    // [mir] _4 = combine::combine(move _5, move _6, move _7) -> [return: bb1, unwind: bb2]
+    label l3
+    assert true
+    assert (true) && ((true) && ((true) && (true)))
+    fold acc(Ref(u32)(_5), write)
+    fold acc(Ref(u32)(_6), write)
+    fold acc(Ref(u64)(_7), write)
+    exhale (acc(u32(_5), write)) && ((acc(u32(_6), write)) && ((acc(u64(_7), write)) && (true)))
+    _4 := builtin$havoc_ref()
+    inhale true
+    inhale acc(u32(_4), write)
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l4
+    Goto(cfg:3)
+  label bb1 // 3
+    // ========== bb1 ==========
+    __t1 := copy true
+    // [mir] StorageDead(_7)
+    // [mir] StorageDead(_6)
+    // [mir] StorageDead(_5)
+    // [mir] ((*_1).0: u32) = move _4
+    _1.val_ref.f$state := move _4
+    label l5
+    // [mir] StorageDead(_4)
+    // [mir] _0 = const ()
+    // [mir] return
+    Goto(cfg:1)
+  label end_of_method
+}
+
+
+struct_predicate ref$struct$m_specialized$$pclmulqdq$$State(self){
+  (acc(self.val_ref, write)) && ((acc(struct$m_specialized$$pclmulqdq$$State(self.val_ref), write)) && (true))
+}
+
+
+struct_predicate struct$m_specialized$$pclmulqdq$$State(self){
+  (acc(self.f$state, write)) && ((acc(u32(self.f$state), write)) && (true))
+}
+
+
+method m_$openang$specialized$$pclmulqdq$$State$space$as$space$std$$clone$$Clone$closeang$$$clone(...)
+    returns (_0: Ref(struct$m_specialized$$pclmulqdq$$State))
+{
+    __t0: Bool
+    __t1: Bool
+    _old$pre$0: Ref(struct$m_specialized$$pclmulqdq$$State)
+    _1: Ref(ref$struct$m_specialized$$pclmulqdq$$State)
+    _2: Ref(u32)
+    _3: Ref(ref$u32)
+    _4: Ref(ref$u32)
+  label start // 0
+    // ========== start ==========
+    // Def path: "crc32fast::specialized::pclmulqdq::{impl#1}::clone"
+    // Span: src/specialized/pclmulqdq.rs:6:10: 6:15 (#8)
+    __t0 := copy false
+    __t1 := copy false
+    // Preconditions:
+    inhale (acc(_1.val_ref, write)) && ((acc(struct$m_specialized$$pclmulqdq$$State(_1.val_ref), read)) && (true))
+    inhale true
+    inhale (true) && (true)
+    inhale true
+    label pre
+    Goto(cfg:2)
+  label return // 1
+    // ========== return ==========
+    // Target of any 'return' statement.
+    // Exhale postcondition
+    label l7
+    // Fold predicates for &mut args and transfer borrow permissions to old
+    fold acc(Ref(struct$m_specialized$$pclmulqdq$$State)(_1.val_ref), read)
+    obtain acc(struct$m_specialized$$pclmulqdq$$State(_1.val_ref), write)
+    _old$pre$0 := move _1.val_ref
+    // Fold the result
+    fold acc(Ref(struct$m_specialized$$pclmulqdq$$State)(_0), write)
+    obtain acc(struct$m_specialized$$pclmulqdq$$State(_0), write)
+    // Assert possible strengthening
+    // Assert functional specification of postcondition
+    assert true
+    // Assert type invariants
+    assert (true) && (true)
+    // Exhale permissions of postcondition (1/3)
+    exhale (acc(struct$m_specialized$$pclmulqdq$$State(_old$pre$0), read)) && (true)
+    // Exhale permissions of postcondition (2/3)
+    exhale acc(struct$m_specialized$$pclmulqdq$$State(_0), write)
+    // Exhale permissions of postcondition (3/3)
+    Return
+  label bb0 // 2
+    // ========== bb0 ==========
+    __t0 := copy true
+    // [mir] StorageLive(_2)
+    // [mir] StorageLive(_3)
+    // [mir] StorageLive(_4)
+    // [mir] _4 = &'?3 ((*_1).0: u32)
+    _4 := builtin$havoc_ref()
+    inhale acc(_4.val_ref, write)
+    unfold acc(Ref(struct$m_specialized$$pclmulqdq$$State)(_1.val_ref), read)
+    _4.val_ref := borrow _1.val_ref.f$state // L5
+    inhale acc(u32(_4.val_ref), read)
+    label l0
+    // [mir] _3 = &'?4 (*_4)
+    _3 := builtin$havoc_ref()
+    inhale acc(_3.val_ref, write)
+    _3.val_ref := borrow _4.val_ref // L4
+    inhale acc(u32(_3.val_ref), read)
+    label l1
+    // [mir] _2 = <u32 as std::clone::Clone>::clone(move _3) -> [return: bb1, unwind: bb2]
+    label l2
+    assert true
+    assert (true) && (true)
+    exhale (acc(_3.val_ref, write)) && ((true) && (true))
+    _2 := builtin$havoc_ref()
+    inhale true
+    inhale acc(u32(_2), write)
+    transfer perm _3.val_ref --> old[l2](_3.val_ref) // unchecked: true
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l3
+    Goto(cfg:3)
+  label l4 // 3
+    // ========== l4 ==========
+    // MIR edge bb0 --> bb1
+    // Expire borrows
+    // expire_borrows ReborrowingDAG(L3,L4,L5,)
+
+    if (__t0) && (true) {
+    // expire loan L3
+} else {}
+    if (__t0) && ((__t0) && (true)) {
+    // expire loan L4
+    transfer perm old[l2](_3.val_ref) --> old[l1](_3.val_ref) // unchecked: false
+    exhale acc(u32(old[l1](_3.val_ref)), read)
+} else {}
+    if (__t0) && ((__t0) && ((__t0) && (true))) {
+    // expire loan L5
+    exhale acc(u32(_4.val_ref), read)
+} else {}
+    Goto(cfg:4)
+  label bb1 // 4
+    // ========== bb1 ==========
+    __t1 := copy true
+    // [mir] StorageDead(_3)
+    // [mir] _0 = specialized::pclmulqdq::State { state: move _2 }
+    _0 := builtin$havoc_ref()
+    inhale acc(struct$m_specialized$$pclmulqdq$$State(_0), write)
+    unfold acc(Ref(struct$m_specialized$$pclmulqdq$$State)(_0), write)
+    _0.f$state := move _2
+    label l5
+    // [mir] StorageDead(_2)
+    // [mir] StorageDead(_4)
+    // [mir] return
+    Goto(cfg:1)
+  label end_of_method
+}
+
+
+struct_predicate m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_Some(self){
+  (acc(self.f$0, write)) && ((acc(struct$m_specialized$$pclmulqdq$$State(self.f$0), write)) && (true))
+}
+
+
+enum_predicate m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_(self){
+  discriminant_field=discriminant
+  None: (self.discriminant) == (0) ==> struct_predicate m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_None(self){
+  true
+}
+
+
+  Some: (self.discriminant) == (1) ==> struct_predicate m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_Some(self){
+  (acc(self.f$0, write)) && ((acc(struct$m_specialized$$pclmulqdq$$State(self.f$0), write)) && (true))
+}
+
+
+}
+
+
+method m_specialized$$pclmulqdq$$State$$new(...)
+    returns (_0: Ref(m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_))
+{
+    __t0: Bool
+    __t1: Bool
+    __t2: Bool
+    __t3: Bool
+    __t4: Bool
+    __t5: Bool
+    __t6: Bool
+    __t7: Bool
+    __t8: Bool
+    __t9: Bool
+    __t10: Bool
+    __t11: Bool
+    __t12: Bool
+    __t13: Bool
+    __t14: Bool
+    __t15: Bool
+    __t16: Bool
+    __t17: Bool
+    _1: Ref(u32)
+    _2: Ref(bool)
+    _3: Ref(bool)
+    _4: Ref(bool)
+    _5: Ref(bool)
+    _6: Ref(bool)
+    _7: Ref(bool)
+    _8: Ref(struct$m_specialized$$pclmulqdq$$State)
+    _9: Ref(u32)
+  label start // 0
+    // ========== start ==========
+    // Def path: "crc32fast::specialized::pclmulqdq::{impl#0}::new"
+    // Span: src/specialized/pclmulqdq.rs:27:5: 38:6 (#0)
+    __t0 := copy false
+    __t1 := copy false
+    __t2 := copy false
+    __t3 := copy false
+    __t4 := copy false
+    __t5 := copy false
+    __t6 := copy false
+    __t7 := copy false
+    __t8 := copy false
+    __t9 := copy false
+    __t10 := copy false
+    __t11 := copy false
+    // Preconditions:
+    inhale (acc(u32(_1), write)) && (true)
+    inhale true
+    inhale (true) && (true)
+    inhale true
+    label pre
+    Goto(cfg:2)
+  label return // 1
+    // ========== return ==========
+    // Target of any 'return' statement.
+    // Exhale postcondition
+    label l22
+    // Fold predicates for &mut args and transfer borrow permissions to old
+    // Fold the result
+    obtain acc(m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_(_0), write)
+    // Assert possible strengthening
+    // Assert functional specification of postcondition
+    assert true
+    // Assert type invariants
+    assert (true) && (true)
+    // Exhale permissions of postcondition (1/3)
+    exhale true
+    // Exhale permissions of postcondition (2/3)
+    exhale acc(m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_(_0), write)
+    // Exhale permissions of postcondition (3/3)
+    Return
+  label bb0 // 2
+    // ========== bb0 ==========
+    __t0 := copy true
+    // [mir] StorageLive(_2)
+    // [mir] _2 = const false
+    _2 := builtin$havoc_ref()
+    inhale acc(_2.val_bool, write)
+    _2.val_bool := copy false
+    // [mir] switchInt(move _2) -> [0: bb1, otherwise: bb3]
+    __t12 := copy _2.val_bool
+    GotoSwitch([(UnaryOp(UnaryOp { op_kind: Not, argument: Local(Local { variable: __t12: Bool, position: Position { line: 0, column: 0, id: 0 } }), position: Position { line: 0, column: 0, id: 0 } }), cfg:4)], cfg:3)
+  label l0 // 3
+    // ========== l0 ==========
+    // MIR edge bb0 --> bb3
+    Goto(cfg:9)
+  label l1 // 4
+    // ========== l1 ==========
+    // MIR edge bb0 --> bb1
+    Goto(cfg:5)
+  label bb1 // 5
+    // ========== bb1 ==========
+    __t1 := copy true
+    // [mir] StorageLive(_3)
+    // [mir] _3 = std_detect::detect::arch::x86::__is_feature_detected::pclmulqdq() -> [return: bb2, unwind: bb12]
+    label l2
+    assert true
+    assert true
+    exhale true
+    _3 := builtin$havoc_ref()
+    inhale true
+    inhale acc(bool(_3), write)
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l3
+    Goto(cfg:6)
+  label bb2 // 6
+    // ========== bb2 ==========
+    __t2 := copy true
+    // [mir] switchInt(move _3) -> [0: bb10, otherwise: bb3]
+    unfold acc(Ref(bool)(_3), write)
+    __t13 := copy _3.val_bool
+    GotoSwitch([(UnaryOp(UnaryOp { op_kind: Not, argument: Local(Local { variable: __t13: Bool, position: Position { line: 0, column: 0, id: 0 } }), position: Position { line: 0, column: 0, id: 0 } }), cfg:8)], cfg:7)
+  label l4 // 7
+    // ========== l4 ==========
+    // MIR edge bb2 --> bb3
+    Goto(cfg:26)
+  label l5 // 8
+    // ========== l5 ==========
+    // MIR edge bb2 --> bb10
+    Goto(cfg:29)
+  label bb3 // 9
+    // ========== bb3 ==========
+    __t3 := copy true
+    // [mir] StorageLive(_4)
+    // [mir] _4 = const true
+    _4 := builtin$havoc_ref()
+    inhale acc(_4.val_bool, write)
+    _4.val_bool := copy true
+    // [mir] switchInt(move _4) -> [0: bb4, otherwise: bb6]
+    __t14 := copy _4.val_bool
+    GotoSwitch([(UnaryOp(UnaryOp { op_kind: Not, argument: Local(Local { variable: __t14: Bool, position: Position { line: 0, column: 0, id: 0 } }), position: Position { line: 0, column: 0, id: 0 } }), cfg:11)], cfg:10)
+  label l6 // 10
+    // ========== l6 ==========
+    // MIR edge bb3 --> bb6
+    Goto(cfg:16)
+  label l7 // 11
+    // ========== l7 ==========
+    // MIR edge bb3 --> bb4
+    Goto(cfg:12)
+  label bb4 // 12
+    // ========== bb4 ==========
+    __t4 := copy true
+    // [mir] StorageLive(_5)
+    // [mir] _5 = std_detect::detect::arch::x86::__is_feature_detected::sse2() -> [return: bb5, unwind: bb12]
+    label l8
+    assert true
+    assert true
+    exhale true
+    _5 := builtin$havoc_ref()
+    inhale true
+    inhale acc(bool(_5), write)
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l9
+    Goto(cfg:13)
+  label bb5 // 13
+    // ========== bb5 ==========
+    __t5 := copy true
+    // [mir] switchInt(move _5) -> [0: bb10, otherwise: bb6]
+    unfold acc(Ref(bool)(_5), write)
+    __t15 := copy _5.val_bool
+    GotoSwitch([(UnaryOp(UnaryOp { op_kind: Not, argument: Local(Local { variable: __t15: Bool, position: Position { line: 0, column: 0, id: 0 } }), position: Position { line: 0, column: 0, id: 0 } }), cfg:15)], cfg:14)
+  label l10 // 14
+    // ========== l10 ==========
+    // MIR edge bb5 --> bb6
+    Goto(cfg:27)
+  label l11 // 15
+    // ========== l11 ==========
+    // MIR edge bb5 --> bb10
+    Goto(cfg:30)
+  label bb6 // 16
+    // ========== bb6 ==========
+    __t6 := copy true
+    // [mir] StorageLive(_6)
+    // [mir] _6 = const false
+    _6 := builtin$havoc_ref()
+    inhale acc(_6.val_bool, write)
+    _6.val_bool := copy false
+    // [mir] switchInt(move _6) -> [0: bb7, otherwise: bb9]
+    __t16 := copy _6.val_bool
+    GotoSwitch([(Local(Local { variable: __t16: Bool, position: Position { line: 0, column: 0, id: 0 } }), cfg:18)], cfg:17)
+  label l12 // 17
+    // ========== l12 ==========
+    // MIR edge bb6 --> bb7
+    Goto(cfg:19)
+  label l13 // 18
+    // ========== l13 ==========
+    // MIR edge bb6 --> bb9
+    Goto(cfg:23)
+  label bb7 // 19
+    // ========== bb7 ==========
+    __t7 := copy true
+    // [mir] StorageLive(_7)
+    // [mir] _7 = std_detect::detect::arch::x86::__is_feature_detected::sse4_1() -> [return: bb8, unwind: bb12]
+    label l14
+    assert true
+    assert true
+    exhale true
+    _7 := builtin$havoc_ref()
+    inhale true
+    inhale acc(bool(_7), write)
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l15
+    Goto(cfg:20)
+  label bb8 // 20
+    // ========== bb8 ==========
+    __t8 := copy true
+    // [mir] switchInt(move _7) -> [0: bb10, otherwise: bb9]
+    unfold acc(Ref(bool)(_7), write)
+    __t17 := copy _7.val_bool
+    GotoSwitch([(UnaryOp(UnaryOp { op_kind: Not, argument: Local(Local { variable: __t17: Bool, position: Position { line: 0, column: 0, id: 0 } }), position: Position { line: 0, column: 0, id: 0 } }), cfg:22)], cfg:21)
+  label l16 // 21
+    // ========== l16 ==========
+    // MIR edge bb8 --> bb9
+    Goto(cfg:28)
+  label l17 // 22
+    // ========== l17 ==========
+    // MIR edge bb8 --> bb10
+    Goto(cfg:31)
+  label bb9 // 23
+    // ========== bb9 ==========
+    __t9 := copy true
+    // [mir] StorageLive(_8)
+    // [mir] StorageLive(_9)
+    // [mir] _9 = _1
+    _9 := builtin$havoc_ref()
+    inhale acc(_9.val_int, write)
+    unfold acc(Ref(u32)(_1), write)
+    _9.val_int := copy _1.val_int
+    label l18
+    // [mir] _8 = specialized::pclmulqdq::State { state: move _9 }
+    _8 := builtin$havoc_ref()
+    inhale acc(struct$m_specialized$$pclmulqdq$$State(_8), write)
+    unfold acc(Ref(struct$m_specialized$$pclmulqdq$$State)(_8), write)
+    _8.f$state := move _9
+    label l19
+    // [mir] StorageDead(_9)
+    // [mir] _0 = std::option::Option::<specialized::pclmulqdq::State>::Some(move _8)
+    _0 := builtin$havoc_ref()
+    inhale acc(m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_(_0), write)
+    inhale (m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_$$discriminant$$<>(_0)) == (1)
+    downcast _0 to enum_Some
+
+    unfold acc(Ref(m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_)<variant {Some}>(_0), write)
+    unfold acc(Ref(m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_Some)(_0[enum_Some]), write)
+    _0[enum_Some].f$0 := move _8
+    label l20
+    // [mir] StorageDead(_8)
+    // [mir] goto -> bb11
+    Goto(cfg:32)
+  label bb10 // 24
+    // ========== bb10 ==========
+    __t10 := copy true
+    // [mir] _0 = std::option::Option::<specialized::pclmulqdq::State>::None
+    _0 := builtin$havoc_ref()
+    inhale acc(m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_(_0), write)
+    inhale (m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_$$discriminant$$<>(_0)) == (0)
+    // [mir] goto -> bb11
+    Goto(cfg:33)
+  label bb11 // 25
+    // ========== bb11 ==========
+    __t11 := copy true
+    // [mir] StorageDead(_7)
+    // [mir] StorageDead(_6)
+    // [mir] StorageDead(_5)
+    // [mir] StorageDead(_4)
+    // [mir] StorageDead(_3)
+    // [mir] StorageDead(_2)
+    // [mir] return
+    Goto(cfg:1)
+  label l21 // 26
+    // ========== l21 ==========
+    // drop Acc(_3.val_bool, write) (Acc(_3.val_bool, write))
+    Goto(cfg:9)
+  label l23 // 27
+    // ========== l23 ==========
+    // drop Acc(_5.val_bool, write) (Acc(_5.val_bool, write))
+    Goto(cfg:16)
+  label l24 // 28
+    // ========== l24 ==========
+    // drop Acc(_7.val_bool, write) (Acc(_7.val_bool, write))
+    Goto(cfg:23)
+  label l25 // 29
+    // ========== l25 ==========
+    // drop Acc(_3.val_bool, write) (Acc(_3.val_bool, write))
+    Goto(cfg:24)
+  label l26 // 30
+    // ========== l26 ==========
+    // drop Acc(_5.val_bool, write) (Acc(_5.val_bool, write))
+    // drop Acc(_4.val_bool, write) (Acc(_4.val_bool, write))
+    Goto(cfg:24)
+  label l27 // 31
+    // ========== l27 ==========
+    // drop Acc(_6.val_bool, write) (Acc(_6.val_bool, write))
+    // drop Acc(_7.val_bool, write) (Acc(_7.val_bool, write))
+    // drop Acc(_4.val_bool, write) (Acc(_4.val_bool, write))
+    Goto(cfg:24)
+  label l28 // 32
+    // ========== l28 ==========
+    fold acc(Ref(u32)(_0[enum_Some].f$0.f$state), write)
+    fold acc(Ref(struct$m_specialized$$pclmulqdq$$State)(_0[enum_Some].f$0), write)
+    fold acc(Ref(m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_Some)(_0[enum_Some]), write)
+    fold acc(Ref(m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_)<variant {Some}>(_0), write)
+    // drop Acc(_6.val_bool, write) (Acc(_6.val_bool, write))
+    // drop Acc(_4.val_bool, write) (Acc(_4.val_bool, write))
+    Goto(cfg:25)
+  label l29 // 33
+    // ========== l29 ==========
+    unfold acc(Ref(u32)(_1), write)
+    Goto(cfg:25)
+  label end_of_method
+}
+
+
+method m_specialized$$pclmulqdq$$State$$update(...)
+    returns (_0: Ref(tuple0$))
+{
+    __t0: Bool
+    __t1: Bool
+    _old$pre$0: Ref(struct$m_specialized$$pclmulqdq$$State)
+    _old$pre$1: Ref(Slice$u8)
+    _1: Ref(ref$struct$m_specialized$$pclmulqdq$$State)
+    _2: Ref(ref$Slice$u8)
+    _3: Ref(u32)
+    _4: Ref(u32)
+    _5: Ref(ref$Slice$u8)
+  label start // 0
+    // ========== start ==========
+    // Def path: "crc32fast::specialized::pclmulqdq::{impl#0}::update"
+    // Span: src/specialized/pclmulqdq.rs:40:5: 44:6 (#0)
+    __t0 := copy false
+    __t1 := copy false
+    // Preconditions:
+    inhale (acc(_1.val_ref, write)) && ((acc(struct$m_specialized$$pclmulqdq$$State(_1.val_ref), write)) && ((acc(_2.val_ref, write)) && ((acc(Slice$u8(_2.val_ref), read)) && (true))))
+    inhale true
+    inhale (true) && ((true) && (true))
+    inhale true
+    label pre
+    Goto(cfg:2)
+  label return // 1
+    // ========== return ==========
+    // Target of any 'return' statement.
+    // Exhale postcondition
+    label l7
+    // Fold predicates for &mut args and transfer borrow permissions to old
+    fold acc(Ref(struct$m_specialized$$pclmulqdq$$State)(_1.val_ref), write)
+    obtain acc(struct$m_specialized$$pclmulqdq$$State(_1.val_ref), write)
+    _old$pre$0 := move _1.val_ref
+    obtain acc(Slice$u8(_2.val_ref), write)
+    _old$pre$1 := move _2.val_ref
+    // Fold the result
+    fold acc(Ref(tuple0$)(_0), write)
+    obtain acc(tuple0$(_0), write)
+    // Assert possible strengthening
+    // Assert functional specification of postcondition
+    assert true
+    // Assert type invariants
+    assert (true) && ((true) && (true))
+    // Exhale permissions of postcondition (1/3)
+    exhale (acc(struct$m_specialized$$pclmulqdq$$State(_old$pre$0), write)) && ((acc(Slice$u8(_old$pre$1), read)) && (true))
+    // Exhale permissions of postcondition (2/3)
+    exhale acc(tuple0$(_0), write)
+    // Exhale permissions of postcondition (3/3)
+    Return
+  label bb0 // 2
+    // ========== bb0 ==========
+    __t0 := copy true
+    // [mir] StorageLive(_3)
+    // [mir] StorageLive(_4)
+    // [mir] _4 = ((*_1).0: u32)
+    _4 := builtin$havoc_ref()
+    inhale acc(_4.val_int, write)
+    unfold acc(Ref(struct$m_specialized$$pclmulqdq$$State)(_1.val_ref), write)
+    unfold acc(Ref(u32)(_1.val_ref.f$state), write)
+    _4.val_int := copy _1.val_ref.f$state.val_int
+    label l0
+    // [mir] StorageLive(_5)
+    // [mir] _5 = &'?4 (*_2)
+    _5 := builtin$havoc_ref()
+    inhale acc(_5.val_ref, write)
+    _5.val_ref := borrow _2.val_ref // L4
+    inhale acc(Slice$u8(_5.val_ref), read)
+    label l1
+    // [mir] _3 = specialized::pclmulqdq::calculate(move _4, move _5) -> [return: bb1, unwind: bb2]
+    label l2
+    assert true
+    assert (true) && ((true) && (true))
+    fold acc(Ref(u32)(_4), write)
+    exhale (acc(u32(_4), write)) && ((acc(_5.val_ref, write)) && ((true) && (true)))
+    _3 := builtin$havoc_ref()
+    inhale true
+    inhale acc(u32(_3), write)
+    transfer perm _5.val_ref --> old[l2](_5.val_ref) // unchecked: true
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l3
+    Goto(cfg:3)
+  label l4 // 3
+    // ========== l4 ==========
+    // MIR edge bb0 --> bb1
+    // Expire borrows
+    // expire_borrows ReborrowingDAG(L5,L4,)
+
+    if (__t0) && (true) {
+    // expire loan L5
+} else {}
+    if (__t0) && ((__t0) && (true)) {
+    // expire loan L4
+    transfer perm old[l2](_5.val_ref) --> old[l1](_5.val_ref) // unchecked: false
+    exhale acc(Slice$u8(old[l1](_5.val_ref)), read)
+} else {}
+    Goto(cfg:4)
+  label bb1 // 4
+    // ========== bb1 ==========
+    __t1 := copy true
+    // [mir] StorageDead(_5)
+    // [mir] StorageDead(_4)
+    // [mir] ((*_1).0: u32) = move _3
+    _1.val_ref.f$state := move _3
+    label l5
+    // [mir] _0 = const ()
+    // [mir] StorageDead(_3)
+    // [mir] return
+    Goto(cfg:1)
+  label end_of_method
+}
+
+
+method m_specialized$$pclmulqdq$$State$$finalize(...)
+    returns (_0: Ref(u32))
+{
+    __t0: Bool
+    _1: Ref(struct$m_specialized$$pclmulqdq$$State)
+  label start // 0
+    // ========== start ==========
+    // Def path: "crc32fast::specialized::pclmulqdq::{impl#0}::finalize"
+    // Span: src/specialized/pclmulqdq.rs:46:5: 48:6 (#0)
+    __t0 := copy false
+    // Preconditions:
+    inhale (acc(struct$m_specialized$$pclmulqdq$$State(_1), write)) && (true)
+    inhale true
+    inhale (true) && (true)
+    inhale true
+    label pre
+    Goto(cfg:2)
+  label return // 1
+    // ========== return ==========
+    // Target of any 'return' statement.
+    // Exhale postcondition
+    label l2
+    // Fold predicates for &mut args and transfer borrow permissions to old
+    // Fold the result
+    fold acc(Ref(u32)(_0), write)
+    obtain acc(u32(_0), write)
+    // Assert possible strengthening
+    // Assert functional specification of postcondition
+    assert true
+    // Assert type invariants
+    assert (true) && (true)
+    // Exhale permissions of postcondition (1/3)
+    exhale true
+    // Exhale permissions of postcondition (2/3)
+    exhale acc(u32(_0), write)
+    // Exhale permissions of postcondition (3/3)
+    Return
+  label bb0 // 2
+    // ========== bb0 ==========
+    __t0 := copy true
+    // [mir] _0 = (_1.0: u32)
+    _0 := builtin$havoc_ref()
+    inhale acc(_0.val_int, write)
+    unfold acc(Ref(struct$m_specialized$$pclmulqdq$$State)(_1), write)
+    unfold acc(Ref(u32)(_1.f$state), write)
+    _0.val_int := copy _1.f$state.val_int
+    label l0
+    // [mir] return
+    Goto(cfg:1)
+  label end_of_method
+}
+
+
+method m_specialized$$pclmulqdq$$State$$reset(...)
+    returns (_0: Ref(tuple0$))
+{
+    __t0: Bool
+    _old$pre$0: Ref(struct$m_specialized$$pclmulqdq$$State)
+    _1: Ref(ref$struct$m_specialized$$pclmulqdq$$State)
+  label start // 0
+    // ========== start ==========
+    // Def path: "crc32fast::specialized::pclmulqdq::{impl#0}::reset"
+    // Span: src/specialized/pclmulqdq.rs:50:5: 52:6 (#0)
+    __t0 := copy false
+    // Preconditions:
+    inhale (acc(_1.val_ref, write)) && ((acc(struct$m_specialized$$pclmulqdq$$State(_1.val_ref), write)) && (true))
+    inhale true
+    inhale (true) && (true)
+    inhale true
+    label pre
+    Goto(cfg:2)
+  label return // 1
+    // ========== return ==========
+    // Target of any 'return' statement.
+    // Exhale postcondition
+    label l1
+    // Fold predicates for &mut args and transfer borrow permissions to old
+    fold acc(Ref(u32)(_1.val_ref.f$state), write)
+    fold acc(Ref(struct$m_specialized$$pclmulqdq$$State)(_1.val_ref), write)
+    obtain acc(struct$m_specialized$$pclmulqdq$$State(_1.val_ref), write)
+    _old$pre$0 := move _1.val_ref
+    // Fold the result
+    fold acc(Ref(tuple0$)(_0), write)
+    obtain acc(tuple0$(_0), write)
+    // Assert possible strengthening
+    // Assert functional specification of postcondition
+    assert true
+    // Assert type invariants
+    assert (true) && ((true) && (true))
+    // Exhale permissions of postcondition (1/3)
+    exhale (acc(struct$m_specialized$$pclmulqdq$$State(_old$pre$0), write)) && (true)
+    // Exhale permissions of postcondition (2/3)
+    exhale acc(tuple0$(_0), write)
+    // Exhale permissions of postcondition (3/3)
+    Return
+  label bb0 // 2
+    // ========== bb0 ==========
+    __t0 := copy true
+    // [mir] ((*_1).0: u32) = const 0_u32
+    unfold acc(Ref(struct$m_specialized$$pclmulqdq$$State)(_1.val_ref), write)
+    unfold acc(Ref(u32)(_1.val_ref.f$state), write)
+    _1.val_ref.f$state.val_int := copy 0
+    // [mir] _0 = const ()
+    // [mir] return
+    Goto(cfg:1)
+  label end_of_method
+}
+
+
+method m_specialized$$pclmulqdq$$State$$combine(...)
+    returns (_0: Ref(tuple0$))
+{
+    __t0: Bool
+    __t1: Bool
+    _old$pre$0: Ref(struct$m_specialized$$pclmulqdq$$State)
+    _1: Ref(ref$struct$m_specialized$$pclmulqdq$$State)
+    _2: Ref(u32)
+    _3: Ref(u64)
+    _4: Ref(u32)
+    _5: Ref(u32)
+    _6: Ref(u32)
+    _7: Ref(u64)
+  label start // 0
+    // ========== start ==========
+    // Def path: "crc32fast::specialized::pclmulqdq::{impl#0}::combine"
+    // Span: src/specialized/pclmulqdq.rs:54:5: 56:6 (#0)
+    __t0 := copy false
+    __t1 := copy false
+    // Preconditions:
+    inhale (acc(_1.val_ref, write)) && ((acc(struct$m_specialized$$pclmulqdq$$State(_1.val_ref), write)) && ((acc(u32(_2), write)) && ((acc(u64(_3), write)) && (true))))
+    inhale true
+    inhale (true) && ((true) && ((true) && (true)))
+    inhale true
+    label pre
+    Goto(cfg:2)
+  label return // 1
+    // ========== return ==========
+    // Target of any 'return' statement.
+    // Exhale postcondition
+    label l7
+    // Fold predicates for &mut args and transfer borrow permissions to old
+    fold acc(Ref(struct$m_specialized$$pclmulqdq$$State)(_1.val_ref), write)
+    obtain acc(struct$m_specialized$$pclmulqdq$$State(_1.val_ref), write)
+    _old$pre$0 := move _1.val_ref
+    // Fold the result
+    fold acc(Ref(tuple0$)(_0), write)
+    obtain acc(tuple0$(_0), write)
+    // Assert possible strengthening
+    // Assert functional specification of postcondition
+    assert true
+    // Assert type invariants
+    assert (true) && ((true) && (true))
+    // Exhale permissions of postcondition (1/3)
+    exhale (acc(struct$m_specialized$$pclmulqdq$$State(_old$pre$0), write)) && (true)
+    // Exhale permissions of postcondition (2/3)
+    exhale acc(tuple0$(_0), write)
+    // Exhale permissions of postcondition (3/3)
+    Return
+  label bb0 // 2
+    // ========== bb0 ==========
+    __t0 := copy true
+    // [mir] StorageLive(_4)
+    // [mir] StorageLive(_5)
+    // [mir] _5 = ((*_1).0: u32)
+    _5 := builtin$havoc_ref()
+    inhale acc(_5.val_int, write)
+    unfold acc(Ref(struct$m_specialized$$pclmulqdq$$State)(_1.val_ref), write)
+    unfold acc(Ref(u32)(_1.val_ref.f$state), write)
+    _5.val_int := copy _1.val_ref.f$state.val_int
+    label l0
+    // [mir] StorageLive(_6)
+    // [mir] _6 = _2
+    _6 := builtin$havoc_ref()
+    inhale acc(_6.val_int, write)
+    unfold acc(Ref(u32)(_2), write)
+    _6.val_int := copy _2.val_int
+    label l1
+    // [mir] StorageLive(_7)
+    // [mir] _7 = _3
+    _7 := builtin$havoc_ref()
+    inhale acc(_7.val_int, write)
+    unfold acc(Ref(u64)(_3), write)
+    _7.val_int := copy _3.val_int
+    label l2
+    // [mir] _4 = combine::combine(move _5, move _6, move _7) -> [return: bb1, unwind: bb2]
+    label l3
+    assert true
+    assert (true) && ((true) && ((true) && (true)))
+    fold acc(Ref(u32)(_5), write)
+    fold acc(Ref(u32)(_6), write)
+    fold acc(Ref(u64)(_7), write)
+    exhale (acc(u32(_5), write)) && ((acc(u32(_6), write)) && ((acc(u64(_7), write)) && (true)))
+    _4 := builtin$havoc_ref()
+    inhale true
+    inhale acc(u32(_4), write)
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l4
+    Goto(cfg:3)
+  label bb1 // 3
+    // ========== bb1 ==========
+    __t1 := copy true
+    // [mir] StorageDead(_7)
+    // [mir] StorageDead(_6)
+    // [mir] StorageDead(_5)
+    // [mir] ((*_1).0: u32) = move _4
+    _1.val_ref.f$state := move _4
+    label l5
+    // [mir] StorageDead(_4)
+    // [mir] _0 = const ()
+    // [mir] return
+    Goto(cfg:1)
+  label end_of_method
+}
+
+
+struct_predicate ref$m_State$_beg_$_end_(self){
+  (acc(self.val_ref, write)) && ((acc(m_State$_beg_$_end_(self.val_ref), write)) && (true))
+}
+
+
+struct_predicate m_State$_beg_$_end_Baseline(self){
+  (acc(self.f$0, write)) && ((acc(struct$m_baseline$$State(self.f$0), write)) && (true))
+}
+
+
+struct_predicate m_State$_beg_$_end_Specialized(self){
+  (acc(self.f$0, write)) && ((acc(struct$m_specialized$$pclmulqdq$$State(self.f$0), write)) && (true))
+}
+
+
+enum_predicate m_State$_beg_$_end_(self){
+  discriminant_field=discriminant
+  Baseline: (self.discriminant) == (0) ==> struct_predicate m_State$_beg_$_end_Baseline(self){
+  (acc(self.f$0, write)) && ((acc(struct$m_baseline$$State(self.f$0), write)) && (true))
+}
+
+
+  Specialized: (self.discriminant) == (1) ==> struct_predicate m_State$_beg_$_end_Specialized(self){
+  (acc(self.f$0, write)) && ((acc(struct$m_specialized$$pclmulqdq$$State(self.f$0), write)) && (true))
+}
+
+
+}
+
+
+method m_$openang$State$space$as$space$std$$clone$$Clone$closeang$$$clone(...)
+    returns (_0: Ref(m_State$_beg_$_end_))
+{
+    __t0: Bool
+    __t1: Bool
+    __t2: Bool
+    __t3: Bool
+    __t4: Bool
+    __t5: Bool
+    __t6: Bool
+    __t7: Bool
+    __t8: Int
+    _old$pre$0: Ref(m_State$_beg_$_end_)
+    _1: Ref(ref$m_State$_beg_$_end_)
+    _2: Ref(isize)
+    _3: Ref(ref$struct$m_baseline$$State)
+    _4: Ref(struct$m_baseline$$State)
+    _5: Ref(ref$struct$m_baseline$$State)
+    _6: Ref(ref$struct$m_specialized$$pclmulqdq$$State)
+    _7: Ref(struct$m_specialized$$pclmulqdq$$State)
+    _8: Ref(ref$struct$m_specialized$$pclmulqdq$$State)
+  label start // 0
+    // ========== start ==========
+    // Def path: "crc32fast::{impl#4}::clone"
+    // Span: src/lib.rs:46:10: 46:15 (#46)
+    __t0 := copy false
+    __t1 := copy false
+    __t2 := copy false
+    __t3 := copy false
+    __t4 := copy false
+    __t5 := copy false
+    __t6 := copy false
+    __t7 := copy false
+    // Preconditions:
+    inhale (acc(_1.val_ref, write)) && ((acc(m_State$_beg_$_end_(_1.val_ref), read)) && (true))
+    inhale true
+    inhale (true) && (true)
+    inhale true
+    label pre
+    Goto(cfg:2)
+  label return // 1
+    // ========== return ==========
+    // Target of any 'return' statement.
+    // Exhale postcondition
+    label l15
+    // Fold predicates for &mut args and transfer borrow permissions to old
+    obtain acc(m_State$_beg_$_end_(_1.val_ref), write)
+    _old$pre$0 := move _1.val_ref
+    // Fold the result
+    obtain acc(m_State$_beg_$_end_(_0), write)
+    // Assert possible strengthening
+    // Assert functional specification of postcondition
+    assert true
+    // Assert type invariants
+    assert (true) && (true)
+    // Exhale permissions of postcondition (1/3)
+    exhale (acc(m_State$_beg_$_end_(_old$pre$0), read)) && (true)
+    // Exhale permissions of postcondition (2/3)
+    exhale acc(m_State$_beg_$_end_(_0), write)
+    // Exhale permissions of postcondition (3/3)
+    Return
+  label bb0 // 2
+    // ========== bb0 ==========
+    __t0 := copy true
+    // [mir] FakeRead(ForMatchedPlace(None), _1)
+    // [mir] _2 = discriminant((*_1))
+    _2 := builtin$havoc_ref()
+    inhale acc(_2.val_int, write)
+    _2.val_int := copy m_State$_beg_$_end_$$discriminant$$<>(_1.val_ref)
+    // [mir] switchInt(move _2) -> [0: bb1, 1: bb2, otherwise: bb3]
+    __t8 := copy _2.val_int
+    // Ignore default target bb3, as the compiler marked it as unreachable.
+    GotoSwitch([(BinOp(BinOp { op_kind: EqCmp, left: Local(Local { variable: __t8: Int, position: Position { line: 0, column: 0, id: 0 } }), right: Const(ConstExpr { value: BigInt("0"), position: Position { line: 0, column: 0, id: 0 } }), position: Position { line: 0, column: 0, id: 0 } }), cfg:4)], cfg:3)
+  label l0 // 3
+    // ========== l0 ==========
+    // MIR edge bb0 --> bb2
+    Goto(cfg:6)
+  label l1 // 4
+    // ========== l1 ==========
+    // MIR edge bb0 --> bb1
+    Goto(cfg:9)
+  label bb3 // 5
+    // ========== bb3 ==========
+    __t1 := copy true
+    // [mir] unreachable
+    Return
+  label bb2 // 6
+    // ========== bb2 ==========
+    __t2 := copy true
+    // [mir] StorageLive(_6)
+    // [mir] _6 = &'?3 (((*_1) as Specialized).0: specialized::pclmulqdq::State)
+    _6 := builtin$havoc_ref()
+    inhale acc(_6.val_ref, write)
+    unfold acc(Ref(m_State$_beg_$_end_)<variant {Specialized}>(_1.val_ref), read)
+    unfold acc(Ref(m_State$_beg_$_end_Specialized)(_1.val_ref[enum_Specialized]), read)
+    _6.val_ref := borrow _1.val_ref[enum_Specialized].f$0 // L3
+    inhale acc(struct$m_specialized$$pclmulqdq$$State(_6.val_ref), read)
+    label l2
+    // [mir] StorageLive(_7)
+    // [mir] StorageLive(_8)
+    // [mir] _8 = &'?4 (*_6)
+    _8 := builtin$havoc_ref()
+    inhale acc(_8.val_ref, write)
+    _8.val_ref := borrow _6.val_ref // L6
+    inhale acc(struct$m_specialized$$pclmulqdq$$State(_8.val_ref), read)
+    label l3
+    // [mir] _7 = <specialized::pclmulqdq::State as std::clone::Clone>::clone(move _8) -> [return: bb6, unwind: bb8]
+    label l4
+    assert true
+    assert (true) && (true)
+    exhale (acc(_8.val_ref, write)) && ((true) && (true))
+    _7 := builtin$havoc_ref()
+    inhale true
+    inhale acc(struct$m_specialized$$pclmulqdq$$State(_7), write)
+    transfer perm _8.val_ref --> old[l4](_8.val_ref) // unchecked: true
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l5
+    Goto(cfg:7)
+  label l6 // 7
+    // ========== l6 ==========
+    // MIR edge bb2 --> bb6
+    // Expire borrows
+    // expire_borrows ReborrowingDAG(L8,L6,L3,)
+
+    if (__t2) && (true) {
+    // expire loan L8
+} else {}
+    if (__t2) && ((__t2) && (true)) {
+    // expire loan L6
+    transfer perm old[l4](_8.val_ref) --> old[l3](_8.val_ref) // unchecked: false
+    exhale acc(struct$m_specialized$$pclmulqdq$$State(old[l3](_8.val_ref)), read)
+} else {}
+    if (__t2) && ((__t2) && ((__t2) && (true))) {
+    // expire loan L3
+    exhale acc(struct$m_specialized$$pclmulqdq$$State(_6.val_ref), read)
+} else {}
+    Goto(cfg:8)
+  label bb6 // 8
+    // ========== bb6 ==========
+    __t3 := copy true
+    // [mir] StorageDead(_8)
+    // [mir] _0 = State::Specialized(move _7)
+    _0 := builtin$havoc_ref()
+    inhale acc(m_State$_beg_$_end_(_0), write)
+    inhale (m_State$_beg_$_end_$$discriminant$$<>(_0)) == (1)
+    downcast _0 to enum_Specialized
+
+    unfold acc(Ref(m_State$_beg_$_end_)<variant {Specialized}>(_0), write)
+    unfold acc(Ref(m_State$_beg_$_end_Specialized)(_0[enum_Specialized]), write)
+    _0[enum_Specialized].f$0 := move _7
+    label l7
+    // [mir] StorageDead(_7)
+    // [mir] StorageDead(_6)
+    // [mir] goto -> bb7
+    Goto(cfg:14)
+  label bb1 // 9
+    // ========== bb1 ==========
+    __t4 := copy true
+    // [mir] falseEdge -> [real: bb4, imaginary: bb2]
+    Goto(cfg:10)
+  label bb4 // 10
+    // ========== bb4 ==========
+    __t5 := copy true
+    // [mir] StorageLive(_3)
+    // [mir] _3 = &'?5 (((*_1) as Baseline).0: baseline::State)
+    _3 := builtin$havoc_ref()
+    inhale acc(_3.val_ref, write)
+    unfold acc(Ref(m_State$_beg_$_end_)<variant {Baseline}>(_1.val_ref), read)
+    unfold acc(Ref(m_State$_beg_$_end_Baseline)(_1.val_ref[enum_Baseline]), read)
+    _3.val_ref := borrow _1.val_ref[enum_Baseline].f$0 // L7
+    inhale acc(struct$m_baseline$$State(_3.val_ref), read)
+    label l8
+    // [mir] StorageLive(_4)
+    // [mir] StorageLive(_5)
+    // [mir] _5 = &'?6 (*_3)
+    _5 := builtin$havoc_ref()
+    inhale acc(_5.val_ref, write)
+    _5.val_ref := borrow _3.val_ref // L5
+    inhale acc(struct$m_baseline$$State(_5.val_ref), read)
+    label l9
+    // [mir] _4 = <baseline::State as std::clone::Clone>::clone(move _5) -> [return: bb5, unwind: bb8]
+    label l10
+    assert true
+    assert (true) && (true)
+    exhale (acc(_5.val_ref, write)) && ((true) && (true))
+    _4 := builtin$havoc_ref()
+    inhale true
+    inhale acc(struct$m_baseline$$State(_4), write)
+    transfer perm _5.val_ref --> old[l10](_5.val_ref) // unchecked: true
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l11
+    Goto(cfg:11)
+  label l12 // 11
+    // ========== l12 ==========
+    // MIR edge bb4 --> bb5
+    // Expire borrows
+    // expire_borrows ReborrowingDAG(L4,L5,L7,)
+
+    if (__t5) && (true) {
+    // expire loan L4
+} else {}
+    if (__t5) && ((__t5) && (true)) {
+    // expire loan L5
+    transfer perm old[l10](_5.val_ref) --> old[l9](_5.val_ref) // unchecked: false
+    exhale acc(struct$m_baseline$$State(old[l9](_5.val_ref)), read)
+} else {}
+    if (__t5) && ((__t5) && ((__t5) && (true))) {
+    // expire loan L7
+    exhale acc(struct$m_baseline$$State(_3.val_ref), read)
+} else {}
+    Goto(cfg:12)
+  label bb5 // 12
+    // ========== bb5 ==========
+    __t6 := copy true
+    // [mir] StorageDead(_5)
+    // [mir] _0 = State::Baseline(move _4)
+    _0 := builtin$havoc_ref()
+    inhale acc(m_State$_beg_$_end_(_0), write)
+    inhale (m_State$_beg_$_end_$$discriminant$$<>(_0)) == (0)
+    downcast _0 to enum_Baseline
+
+    unfold acc(Ref(m_State$_beg_$_end_)<variant {Baseline}>(_0), write)
+    unfold acc(Ref(m_State$_beg_$_end_Baseline)(_0[enum_Baseline]), write)
+    _0[enum_Baseline].f$0 := move _4
+    label l13
+    // [mir] StorageDead(_4)
+    // [mir] StorageDead(_3)
+    // [mir] goto -> bb7
+    Goto(cfg:15)
+  label bb7 // 13
+    // ========== bb7 ==========
+    __t7 := copy true
+    // [mir] return
+    Goto(cfg:1)
+  label l14 // 14
+    // ========== l14 ==========
+    fold acc(Ref(m_State$_beg_$_end_Specialized)(_0[enum_Specialized]), write)
+    fold acc(Ref(m_State$_beg_$_end_)<variant {Specialized}>(_0), write)
+    fold acc(Ref(m_State$_beg_$_end_Specialized)(_1.val_ref[enum_Specialized]), read)
+    fold acc(Ref(m_State$_beg_$_end_)<variant {Specialized}>(_1.val_ref), read)
+    // drop Acc(_6.val_ref, write) (Acc(_6.val_ref, write))
+    Goto(cfg:13)
+  label l16 // 15
+    // ========== l16 ==========
+    fold acc(Ref(m_State$_beg_$_end_Baseline)(_0[enum_Baseline]), write)
+    fold acc(Ref(m_State$_beg_$_end_)<variant {Baseline}>(_0), write)
+    fold acc(Ref(m_State$_beg_$_end_Baseline)(_1.val_ref[enum_Baseline]), read)
+    fold acc(Ref(m_State$_beg_$_end_)<variant {Baseline}>(_1.val_ref), read)
+    // drop Acc(_3.val_ref, write) (Acc(_3.val_ref, write))
+    Goto(cfg:13)
+  label end_of_method
+}
+
+
+struct_predicate ref$struct$m_Hasher(self){
+  (acc(self.val_ref, write)) && ((acc(struct$m_Hasher(self.val_ref), write)) && (true))
+}
+
+
+struct_predicate ref$u64(self){
+  (acc(self.val_ref, write)) && ((acc(u64(self.val_ref), write)) && (true))
+}
+
+
+struct_predicate struct$m_Hasher(self){
+  (acc(self.f$amount, write)) && ((acc(u64(self.f$amount), write)) && ((acc(self.f$state, write)) && ((acc(m_State$_beg_$_end_(self.f$state), write)) && (true))))
+}
+
+
+method m_$openang$Hasher$space$as$space$std$$clone$$Clone$closeang$$$clone(...)
+    returns (_0: Ref(struct$m_Hasher))
+{
+    __t0: Bool
+    __t1: Bool
+    __t2: Bool
+    _old$pre$0: Ref(struct$m_Hasher)
+    _1: Ref(ref$struct$m_Hasher)
+    _2: Ref(u64)
+    _3: Ref(ref$u64)
+    _4: Ref(ref$u64)
+    _5: Ref(m_State$_beg_$_end_)
+    _6: Ref(ref$m_State$_beg_$_end_)
+    _7: Ref(ref$m_State$_beg_$_end_)
+  label start // 0
+    // ========== start ==========
+    // Def path: "crc32fast::{impl#5}::clone"
+    // Span: src/lib.rs:52:10: 52:15 (#47)
+    __t0 := copy false
+    __t1 := copy false
+    __t2 := copy false
+    // Preconditions:
+    inhale (acc(_1.val_ref, write)) && ((acc(struct$m_Hasher(_1.val_ref), read)) && (true))
+    inhale true
+    inhale (true) && (true)
+    inhale true
+    label pre
+    Goto(cfg:2)
+  label return // 1
+    // ========== return ==========
+    // Target of any 'return' statement.
+    // Exhale postcondition
+    label l13
+    // Fold predicates for &mut args and transfer borrow permissions to old
+    fold acc(Ref(struct$m_Hasher)(_1.val_ref), read)
+    obtain acc(struct$m_Hasher(_1.val_ref), write)
+    _old$pre$0 := move _1.val_ref
+    // Fold the result
+    fold acc(Ref(struct$m_Hasher)(_0), write)
+    obtain acc(struct$m_Hasher(_0), write)
+    // Assert possible strengthening
+    // Assert functional specification of postcondition
+    assert true
+    // Assert type invariants
+    assert (true) && (true)
+    // Exhale permissions of postcondition (1/3)
+    exhale (acc(struct$m_Hasher(_old$pre$0), read)) && (true)
+    // Exhale permissions of postcondition (2/3)
+    exhale acc(struct$m_Hasher(_0), write)
+    // Exhale permissions of postcondition (3/3)
+    Return
+  label bb0 // 2
+    // ========== bb0 ==========
+    __t0 := copy true
+    // [mir] StorageLive(_2)
+    // [mir] StorageLive(_3)
+    // [mir] StorageLive(_4)
+    // [mir] _4 = &'?3 ((*_1).0: u64)
+    _4 := builtin$havoc_ref()
+    inhale acc(_4.val_ref, write)
+    unfold acc(Ref(struct$m_Hasher)(_1.val_ref), read)
+    _4.val_ref := borrow _1.val_ref.f$amount // L4
+    inhale acc(u64(_4.val_ref), read)
+    label l0
+    // [mir] _3 = &'?4 (*_4)
+    _3 := builtin$havoc_ref()
+    inhale acc(_3.val_ref, write)
+    _3.val_ref := borrow _4.val_ref // L6
+    inhale acc(u64(_3.val_ref), read)
+    label l1
+    // [mir] _2 = <u64 as std::clone::Clone>::clone(move _3) -> [return: bb1, unwind: bb3]
+    label l2
+    assert true
+    assert (true) && (true)
+    exhale (acc(_3.val_ref, write)) && ((true) && (true))
+    _2 := builtin$havoc_ref()
+    inhale true
+    inhale acc(u64(_2), write)
+    transfer perm _3.val_ref --> old[l2](_3.val_ref) // unchecked: true
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l3
+    Goto(cfg:3)
+  label l4 // 3
+    // ========== l4 ==========
+    // MIR edge bb0 --> bb1
+    // Expire borrows
+    // expire_borrows ReborrowingDAG(L8,L6,L4,)
+
+    if (__t0) && (true) {
+    // expire loan L8
+} else {}
+    if (__t0) && ((__t0) && (true)) {
+    // expire loan L6
+    transfer perm old[l2](_3.val_ref) --> old[l1](_3.val_ref) // unchecked: false
+    exhale acc(u64(old[l1](_3.val_ref)), read)
+} else {}
+    if (__t0) && ((__t0) && ((__t0) && (true))) {
+    // expire loan L4
+    exhale acc(u64(_4.val_ref), read)
+} else {}
+    Goto(cfg:4)
+  label bb1 // 4
+    // ========== bb1 ==========
+    __t1 := copy true
+    // [mir] StorageDead(_3)
+    // [mir] StorageLive(_5)
+    // [mir] StorageLive(_6)
+    // [mir] StorageLive(_7)
+    // [mir] _7 = &'?5 ((*_1).1: State)
+    _7 := builtin$havoc_ref()
+    inhale acc(_7.val_ref, write)
+    _7.val_ref := borrow _1.val_ref.f$state // L3
+    inhale acc(m_State$_beg_$_end_(_7.val_ref), read)
+    label l5
+    // [mir] _6 = &'?6 (*_7)
+    _6 := builtin$havoc_ref()
+    inhale acc(_6.val_ref, write)
+    _6.val_ref := borrow _7.val_ref // L5
+    inhale acc(m_State$_beg_$_end_(_6.val_ref), read)
+    label l6
+    // [mir] _5 = <State as std::clone::Clone>::clone(move _6) -> [return: bb2, unwind: bb3]
+    label l7
+    assert true
+    assert (true) && (true)
+    exhale (acc(_6.val_ref, write)) && ((true) && (true))
+    _5 := builtin$havoc_ref()
+    inhale true
+    inhale acc(m_State$_beg_$_end_(_5), write)
+    transfer perm _6.val_ref --> old[l7](_6.val_ref) // unchecked: true
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l8
+    Goto(cfg:5)
+  label l9 // 5
+    // ========== l9 ==========
+    // MIR edge bb1 --> bb2
+    // Expire borrows
+    // expire_borrows ReborrowingDAG(L7,L5,L3,)
+
+    if (__t1) && (true) {
+    // expire loan L7
+} else {}
+    if (__t1) && ((__t1) && (true)) {
+    // expire loan L5
+    transfer perm old[l7](_6.val_ref) --> old[l6](_6.val_ref) // unchecked: false
+    exhale acc(m_State$_beg_$_end_(old[l6](_6.val_ref)), read)
+} else {}
+    if (__t1) && ((__t1) && ((__t1) && (true))) {
+    // expire loan L3
+    exhale acc(m_State$_beg_$_end_(_7.val_ref), read)
+} else {}
+    Goto(cfg:6)
+  label bb2 // 6
+    // ========== bb2 ==========
+    __t2 := copy true
+    // [mir] StorageDead(_6)
+    // [mir] _0 = Hasher { amount: move _2, state: move _5 }
+    _0 := builtin$havoc_ref()
+    inhale acc(struct$m_Hasher(_0), write)
+    unfold acc(Ref(struct$m_Hasher)(_0), write)
+    _0.f$amount := move _2
+    label l10
+    _0.f$state := move _5
+    label l11
+    // [mir] StorageDead(_5)
+    // [mir] StorageDead(_2)
+    // [mir] StorageDead(_7)
+    // [mir] StorageDead(_4)
+    // [mir] return
+    Goto(cfg:1)
+  label end_of_method
+}
+
+
+method m_Hasher$$new(...)
+    returns (_0: Ref(struct$m_Hasher))
+{
+    __t0: Bool
+    __t1: Bool
+    _t1: Ref(u32)
+  label start // 0
+    // ========== start ==========
+    // Def path: "crc32fast::{impl#0}::new"
+    // Span: src/lib.rs:66:5: 68:6 (#0)
+    __t0 := copy false
+    __t1 := copy false
+    // Preconditions:
+    inhale true
+    inhale true
+    inhale true
+    inhale true
+    label pre
+    Goto(cfg:2)
+  label return // 1
+    // ========== return ==========
+    // Target of any 'return' statement.
+    // Exhale postcondition
+    label l3
+    // Fold predicates for &mut args and transfer borrow permissions to old
+    // Fold the result
+    obtain acc(struct$m_Hasher(_0), write)
+    // Assert possible strengthening
+    // Assert functional specification of postcondition
+    assert true
+    // Assert type invariants
+    assert (true) && (true)
+    // Exhale permissions of postcondition (1/3)
+    exhale true
+    // Exhale permissions of postcondition (2/3)
+    exhale acc(struct$m_Hasher(_0), write)
+    // Exhale permissions of postcondition (3/3)
+    Return
+  label bb0 // 2
+    // ========== bb0 ==========
+    __t0 := copy true
+    // [mir] _0 = Hasher::new_with_initial(const _) -> [return: bb1, unwind: bb2]
+    label l0
+    _t1 := builtin$havoc_ref()
+    inhale acc(u32(_t1), write)
+    assert true
+    assert (true) && (true)
+    exhale (acc(u32(_t1), write)) && (true)
+    _0 := builtin$havoc_ref()
+    inhale true
+    inhale acc(struct$m_Hasher(_0), write)
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l1
+    Goto(cfg:3)
+  label bb1 // 3
+    // ========== bb1 ==========
+    __t1 := copy true
+    // [mir] return
+    Goto(cfg:1)
+  label end_of_method
+}
+
+
+struct_predicate m_std$$option$$Option$_beg_$struct$m_Hasher$_end_Some(self){
+  (acc(self.f$0, write)) && ((acc(struct$m_Hasher(self.f$0), write)) && (true))
+}
+
+
+enum_predicate m_std$$option$$Option$_beg_$struct$m_Hasher$_end_(self){
+  discriminant_field=discriminant
+  None: (self.discriminant) == (0) ==> struct_predicate m_std$$option$$Option$_beg_$struct$m_Hasher$_end_None(self){
+  true
+}
+
+
+  Some: (self.discriminant) == (1) ==> struct_predicate m_std$$option$$Option$_beg_$struct$m_Hasher$_end_Some(self){
+  (acc(self.f$0, write)) && ((acc(struct$m_Hasher(self.f$0), write)) && (true))
+}
+
+
+}
+
+
+struct_predicate closure$m_Hasher$$new_with_initial$$$opencur$closure$sharp$0$closecur$(self){
+  (acc(self.closure_0, write)) && ((acc(ref$u32(self.closure_0), write)) && (true))
+}
+
+
+method m_Hasher$$new_with_initial(...)
+    returns (_0: Ref(struct$m_Hasher))
+{
+  label stub // 0
+    // ========== stub ==========
+    // Def path: "crc32fast::{impl#0}::new_with_initial"
+    // Span: src/lib.rs:74:5: 76:6 (#0)
+    Return
+  label end_of_method
+}
+
+
+method m_Hasher$$internal_new_baseline(...)
+    returns (_0: Ref(struct$m_Hasher))
+{
+    __t0: Bool
+    __t1: Bool
+    _aux_havoc_u64: Ref(u64)
+    _1: Ref(u32)
+    _2: Ref(m_State$_beg_$_end_)
+    _3: Ref(struct$m_baseline$$State)
+    _4: Ref(u32)
+  label start // 0
+    // ========== start ==========
+    // Def path: "crc32fast::{impl#0}::internal_new_baseline"
+    // Span: src/lib.rs:80:5: 85:6 (#0)
+    __t0 := copy false
+    __t1 := copy false
+    // Preconditions:
+    inhale (acc(u32(_1), write)) && (true)
+    inhale true
+    inhale (true) && (true)
+    inhale true
+    label pre
+    Goto(cfg:2)
+  label return // 1
+    // ========== return ==========
+    // Target of any 'return' statement.
+    // Exhale postcondition
+    label l6
+    // Fold predicates for &mut args and transfer borrow permissions to old
+    // Fold the result
+    fold acc(Ref(m_State$_beg_$_end_Baseline)(_0.f$state[enum_Baseline]), write)
+    fold acc(Ref(m_State$_beg_$_end_)<variant {Baseline}>(_0.f$state), write)
+    fold acc(Ref(u64)(_0.f$amount), write)
+    fold acc(Ref(struct$m_Hasher)(_0), write)
+    obtain acc(struct$m_Hasher(_0), write)
+    // Assert possible strengthening
+    // Assert functional specification of postcondition
+    assert true
+    // Assert type invariants
+    assert (true) && (true)
+    // Exhale permissions of postcondition (1/3)
+    exhale true
+    // Exhale permissions of postcondition (2/3)
+    exhale acc(struct$m_Hasher(_0), write)
+    // Exhale permissions of postcondition (3/3)
+    Return
+  label bb0 // 2
+    // ========== bb0 ==========
+    __t0 := copy true
+    // [mir] StorageLive(_2)
+    // [mir] StorageLive(_3)
+    // [mir] StorageLive(_4)
+    // [mir] _4 = _1
+    _4 := builtin$havoc_ref()
+    inhale acc(_4.val_int, write)
+    unfold acc(Ref(u32)(_1), write)
+    _4.val_int := copy _1.val_int
+    label l0
+    // [mir] _3 = baseline::State::new(move _4) -> [return: bb1, unwind: bb2]
+    label l1
+    assert true
+    assert (true) && (true)
+    fold acc(Ref(u32)(_4), write)
+    exhale (acc(u32(_4), write)) && (true)
+    _3 := builtin$havoc_ref()
+    inhale true
+    inhale acc(struct$m_baseline$$State(_3), write)
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l2
+    Goto(cfg:3)
+  label bb1 // 3
+    // ========== bb1 ==========
+    __t1 := copy true
+    // [mir] StorageDead(_4)
+    // [mir] _2 = State::Baseline(move _3)
+    _2 := builtin$havoc_ref()
+    inhale acc(m_State$_beg_$_end_(_2), write)
+    inhale (m_State$_beg_$_end_$$discriminant$$<>(_2)) == (0)
+    downcast _2 to enum_Baseline
+
+    unfold acc(Ref(m_State$_beg_$_end_)<variant {Baseline}>(_2), write)
+    unfold acc(Ref(m_State$_beg_$_end_Baseline)(_2[enum_Baseline]), write)
+    _2[enum_Baseline].f$0 := move _3
+    label l3
+    // [mir] StorageDead(_3)
+    // [mir] _0 = Hasher { amount: const 0_u64, state: move _2 }
+    _0 := builtin$havoc_ref()
+    inhale acc(struct$m_Hasher(_0), write)
+    _aux_havoc_u64 := builtin$havoc_ref()
+    unfold acc(Ref(struct$m_Hasher)(_0), write)
+    _0.f$amount := move _aux_havoc_u64
+    inhale acc(_0.f$amount.val_int, write)
+    _0.f$amount.val_int := copy 0
+    _0.f$state := move _2
+    label l4
+    // [mir] StorageDead(_2)
+    // [mir] return
+    Goto(cfg:1)
+  label end_of_method
+}
+
+
+method m_Hasher$$internal_new_specialized(...)
+    returns (_0: Ref(m_std$$option$$Option$_beg_$struct$m_Hasher$_end_))
+{
+    __t0: Bool
+    __t1: Bool
+    __t2: Bool
+    __t3: Bool
+    __t4: Bool
+    __t5: Bool
+    __t6: Int
+    _aux_havoc_u64: Ref(u64)
+    _1: Ref(u32)
+    _2: Ref(tuple0$)
+    _3: Ref(m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_)
+    _4: Ref(u32)
+    _5: Ref(isize)
+    _6: Ref(struct$m_specialized$$pclmulqdq$$State)
+    _7: Ref(Never)
+    _8: Ref(struct$m_Hasher)
+    _9: Ref(m_State$_beg_$_end_)
+    _10: Ref(struct$m_specialized$$pclmulqdq$$State)
+  label start // 0
+    // ========== start ==========
+    // Def path: "crc32fast::{impl#0}::internal_new_specialized"
+    // Span: src/lib.rs:89:5: 99:6 (#0)
+    __t0 := copy false
+    __t1 := copy false
+    __t2 := copy false
+    __t3 := copy false
+    __t4 := copy false
+    __t5 := copy false
+    // Preconditions:
+    inhale (acc(u32(_1), write)) && (true)
+    inhale true
+    inhale (true) && (true)
+    inhale true
+    label pre
+    Goto(cfg:2)
+  label return // 1
+    // ========== return ==========
+    // Target of any 'return' statement.
+    // Exhale postcondition
+    label l11
+    // Fold predicates for &mut args and transfer borrow permissions to old
+    // Fold the result
+    obtain acc(m_std$$option$$Option$_beg_$struct$m_Hasher$_end_(_0), write)
+    // Assert possible strengthening
+    // Assert functional specification of postcondition
+    assert true
+    // Assert type invariants
+    assert (true) && (true)
+    // Exhale permissions of postcondition (1/3)
+    exhale true
+    // Exhale permissions of postcondition (2/3)
+    exhale acc(m_std$$option$$Option$_beg_$struct$m_Hasher$_end_(_0), write)
+    // Exhale permissions of postcondition (3/3)
+    Return
+  label bb0 // 2
+    // ========== bb0 ==========
+    __t0 := copy true
+    // [mir] StorageLive(_2)
+    // [mir] StorageLive(_3)
+    // [mir] StorageLive(_4)
+    // [mir] _4 = _1
+    _4 := builtin$havoc_ref()
+    inhale acc(_4.val_int, write)
+    unfold acc(Ref(u32)(_1), write)
+    _4.val_int := copy _1.val_int
+    label l0
+    // [mir] _3 = specialized::pclmulqdq::State::new(move _4) -> [return: bb1, unwind: bb6]
+    label l1
+    assert true
+    assert (true) && (true)
+    fold acc(Ref(u32)(_4), write)
+    exhale (acc(u32(_4), write)) && (true)
+    _3 := builtin$havoc_ref()
+    inhale true
+    inhale acc(m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_(_3), write)
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l2
+    Goto(cfg:3)
+  label bb1 // 3
+    // ========== bb1 ==========
+    __t1 := copy true
+    // [mir] StorageDead(_4)
+    // [mir] FakeRead(ForMatchedPlace(None), _3)
+    // [mir] _5 = discriminant(_3)
+    _5 := builtin$havoc_ref()
+    inhale acc(_5.val_int, write)
+    _5.val_int := copy m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_$$discriminant$$<>(_3)
+    // [mir] switchInt(move _5) -> [1: bb2, otherwise: bb4]
+    __t6 := copy _5.val_int
+    GotoSwitch([(BinOp(BinOp { op_kind: EqCmp, left: Local(Local { variable: __t6: Int, position: Position { line: 0, column: 0, id: 0 } }), right: Const(ConstExpr { value: BigInt("1"), position: Position { line: 0, column: 0, id: 0 } }), position: Position { line: 0, column: 0, id: 0 } }), cfg:5)], cfg:4)
+  label l3 // 4
+    // ========== l3 ==========
+    // MIR edge bb1 --> bb4
+    Goto(cfg:6)
+  label l4 // 5
+    // ========== l4 ==========
+    // MIR edge bb1 --> bb2
+    Goto(cfg:7)
+  label bb4 // 6
+    // ========== bb4 ==========
+    __t2 := copy true
+    // [mir] _2 = const ()
+    // [mir] StorageDead(_3)
+    // [mir] StorageDead(_2)
+    // [mir] _0 = std::option::Option::<Hasher>::None
+    _0 := builtin$havoc_ref()
+    inhale acc(m_std$$option$$Option$_beg_$struct$m_Hasher$_end_(_0), write)
+    inhale (m_std$$option$$Option$_beg_$struct$m_Hasher$_end_$$discriminant$$<>(_0)) == (0)
+    // [mir] goto -> bb5
+    Goto(cfg:10)
+  label bb2 // 7
+    // ========== bb2 ==========
+    __t3 := copy true
+    // [mir] falseEdge -> [real: bb3, imaginary: bb4]
+    Goto(cfg:8)
+  label bb3 // 8
+    // ========== bb3 ==========
+    __t4 := copy true
+    // [mir] StorageLive(_6)
+    // [mir] _6 = move ((_3 as Some).0: specialized::pclmulqdq::State)
+    unfold acc(Ref(m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_)<variant {Some}>(_3), write)
+    unfold acc(Ref(m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_Some)(_3[enum_Some]), write)
+    _6 := move _3[enum_Some].f$0
+    label l5
+    // [mir] StorageLive(_8)
+    // [mir] StorageLive(_9)
+    // [mir] StorageLive(_10)
+    // [mir] _10 = move _6
+    _10 := move _6
+    label l6
+    // [mir] _9 = State::Specialized(move _10)
+    _9 := builtin$havoc_ref()
+    inhale acc(m_State$_beg_$_end_(_9), write)
+    inhale (m_State$_beg_$_end_$$discriminant$$<>(_9)) == (1)
+    downcast _9 to enum_Specialized
+
+    unfold acc(Ref(m_State$_beg_$_end_)<variant {Specialized}>(_9), write)
+    unfold acc(Ref(m_State$_beg_$_end_Specialized)(_9[enum_Specialized]), write)
+    _9[enum_Specialized].f$0 := move _10
+    label l7
+    // [mir] StorageDead(_10)
+    // [mir] _8 = Hasher { amount: const 0_u64, state: move _9 }
+    _8 := builtin$havoc_ref()
+    inhale acc(struct$m_Hasher(_8), write)
+    _aux_havoc_u64 := builtin$havoc_ref()
+    unfold acc(Ref(struct$m_Hasher)(_8), write)
+    _8.f$amount := move _aux_havoc_u64
+    inhale acc(_8.f$amount.val_int, write)
+    _8.f$amount.val_int := copy 0
+    _8.f$state := move _9
+    label l8
+    // [mir] StorageDead(_9)
+    // [mir] _0 = std::option::Option::<Hasher>::Some(move _8)
+    _0 := builtin$havoc_ref()
+    inhale acc(m_std$$option$$Option$_beg_$struct$m_Hasher$_end_(_0), write)
+    inhale (m_std$$option$$Option$_beg_$struct$m_Hasher$_end_$$discriminant$$<>(_0)) == (1)
+    downcast _0 to enum_Some
+
+    unfold acc(Ref(m_std$$option$$Option$_beg_$struct$m_Hasher$_end_)<variant {Some}>(_0), write)
+    unfold acc(Ref(m_std$$option$$Option$_beg_$struct$m_Hasher$_end_Some)(_0[enum_Some]), write)
+    _0[enum_Some].f$0 := move _8
+    label l9
+    // [mir] StorageDead(_8)
+    // [mir] StorageDead(_6)
+    // [mir] StorageDead(_3)
+    // [mir] StorageDead(_2)
+    // [mir] goto -> bb5
+    Goto(cfg:11)
+  label bb5 // 9
+    // ========== bb5 ==========
+    __t5 := copy true
+    // [mir] return
+    Goto(cfg:1)
+  label l10 // 10
+    // ========== l10 ==========
+    // drop Pred(_3, write) (Pred(_3[enum_Some].f$0, write))
+    Goto(cfg:9)
+  label l12 // 11
+    // ========== l12 ==========
+    // drop Acc(_3[enum_Some].f$0, write) (Pred(_3[enum_Some].f$0, write))
+    // drop Acc(_3.discriminant, write) (Pred(_3[enum_Some].f$0, write))
+    // drop Acc(_3[enum_Some], write) (Pred(_3[enum_Some].f$0, write))
+    fold acc(Ref(m_State$_beg_$_end_Specialized)(_0[enum_Some].f$0.f$state[enum_Specialized]), write)
+    fold acc(Ref(m_State$_beg_$_end_)<variant {Specialized}>(_0[enum_Some].f$0.f$state), write)
+    fold acc(Ref(u64)(_0[enum_Some].f$0.f$amount), write)
+    fold acc(Ref(struct$m_Hasher)(_0[enum_Some].f$0), write)
+    fold acc(Ref(m_std$$option$$Option$_beg_$struct$m_Hasher$_end_Some)(_0[enum_Some]), write)
+    fold acc(Ref(m_std$$option$$Option$_beg_$struct$m_Hasher$_end_)<variant {Some}>(_0), write)
+    Goto(cfg:9)
+  label end_of_method
+}
+
+
+struct_predicate tuple2$u64$bool(self){
+  (acc(self.tuple_0, write)) && ((acc(u64(self.tuple_0), write)) && ((acc(self.tuple_1, write)) && ((acc(bool(self.tuple_1), write)) && (true))))
+}
+
+
+method m_Hasher$$update(...)
+    returns (_0: Ref(tuple0$))
+{
+    __t0: Bool
+    __t1: Bool
+    __t2: Bool
+    __t3: Bool
+    __t4: Bool
+    __t5: Bool
+    __t6: Bool
+    __t7: Bool
+    __t8: Bool
+    __t9: Bool
+    __t10: Bool
+    __t11: Int
+    _old$pre$0: Ref(struct$m_Hasher)
+    _old$pre$1: Ref(Slice$u8)
+    _1: Ref(ref$struct$m_Hasher)
+    _2: Ref(ref$Slice$u8)
+    _3: Ref(u64)
+    _4: Ref(usize)
+    _5: Ref(ref$Slice$u8)
+    _6: Ref(tuple2$u64$bool)
+    _7: Ref(isize)
+    _8: Ref(ref$struct$m_baseline$$State)
+    _9: Ref(ref$struct$m_baseline$$State)
+    _10: Ref(ref$Slice$u8)
+    _11: Ref(ref$struct$m_specialized$$pclmulqdq$$State)
+    _12: Ref(ref$struct$m_specialized$$pclmulqdq$$State)
+    _13: Ref(ref$Slice$u8)
+  label start // 0
+    // ========== start ==========
+    // Def path: "crc32fast::{impl#0}::update"
+    // Span: src/lib.rs:102:5: 108:6 (#0)
+    __t0 := copy false
+    __t1 := copy false
+    __t2 := copy false
+    __t3 := copy false
+    __t4 := copy false
+    __t5 := copy false
+    __t6 := copy false
+    __t7 := copy false
+    __t8 := copy false
+    __t9 := copy false
+    // Preconditions:
+    inhale (acc(_1.val_ref, write)) && ((acc(struct$m_Hasher(_1.val_ref), write)) && ((acc(_2.val_ref, write)) && ((acc(Slice$u8(_2.val_ref), read)) && (true))))
+    inhale true
+    inhale (true) && ((true) && (true))
+    inhale true
+    label pre
+    Goto(cfg:2)
+  label return // 1
+    // ========== return ==========
+    // Target of any 'return' statement.
+    // Exhale postcondition
+    label l19
+    // Fold predicates for &mut args and transfer borrow permissions to old
+    fold acc(Ref(u64)(_1.val_ref.f$amount), write)
+    fold acc(Ref(struct$m_Hasher)(_1.val_ref), write)
+    obtain acc(struct$m_Hasher(_1.val_ref), write)
+    _old$pre$0 := move _1.val_ref
+    obtain acc(Slice$u8(_2.val_ref), write)
+    _old$pre$1 := move _2.val_ref
+    // Fold the result
+    obtain acc(tuple0$(_0), write)
+    // Assert possible strengthening
+    // Assert functional specification of postcondition
+    assert true
+    // Assert type invariants
+    assert (true) && ((true) && (true))
+    // Exhale permissions of postcondition (1/3)
+    exhale (acc(struct$m_Hasher(_old$pre$0), write)) && ((acc(Slice$u8(_old$pre$1), read)) && (true))
+    // Exhale permissions of postcondition (2/3)
+    exhale acc(tuple0$(_0), write)
+    // Exhale permissions of postcondition (3/3)
+    Return
+  label bb0 // 2
+    // ========== bb0 ==========
+    __t0 := copy true
+    // [mir] StorageLive(_3)
+    // [mir] StorageLive(_4)
+    // [mir] StorageLive(_5)
+    // [mir] _5 = &'?4 (*_2)
+    _5 := builtin$havoc_ref()
+    inhale acc(_5.val_ref, write)
+    _5.val_ref := borrow _2.val_ref // L12
+    inhale acc(Slice$u8(_5.val_ref), read)
+    label l0
+    // [mir] _4 = core::slice::<impl [u8]>::len(move _5) -> [return: bb1, unwind: bb10]
+    label l1
+    _4 := builtin$havoc_ref()
+    inhale acc(_4.val_int, write)
+    _4.val_int := copy Slice$len<Ref(u8)>(_5.val_ref)
+    transfer perm _5.val_ref --> old[l1](_5.val_ref) // unchecked: false
+    Goto(cfg:3)
+  label l2 // 3
+    // ========== l2 ==========
+    // MIR edge bb0 --> bb1
+    // Expire borrows
+    // expire_borrows ReborrowingDAG(L15,L12,)
+
+    if (__t0) && (true) {
+    // expire loan L15
+} else {}
+    if (__t0) && ((__t0) && (true)) {
+    // expire loan L12
+    transfer perm old[l1](_5.val_ref) --> old[l0](_5.val_ref) // unchecked: false
+    exhale acc(Slice$u8(old[l0](_5.val_ref)), read)
+} else {}
+    Goto(cfg:4)
+  label bb1 // 4
+    // ========== bb1 ==========
+    __t1 := copy true
+    // [mir] StorageDead(_5)
+    // [mir] _3 = move _4 as u64 (IntToInt)
+    _3 := builtin$havoc_ref()
+    inhale acc(_3.val_int, write)
+    _3.val_int := copy builtin$cast$usize$u64<>(_4.val_int)
+    // [mir] StorageDead(_4)
+    // [mir] _6 = CheckedAdd(((*_1).0: u64), _3)
+    _6 := builtin$havoc_ref()
+    inhale acc(_6.tuple_0, write)
+    inhale acc(_6.tuple_0.val_int, write)
+    inhale acc(_6.tuple_1, write)
+    inhale acc(_6.tuple_1.val_bool, write)
+    unfold acc(Ref(struct$m_Hasher)(_1.val_ref), write)
+    unfold acc(Ref(u64)(_1.val_ref.f$amount), write)
+    _6.tuple_0.val_int := copy (_1.val_ref.f$amount.val_int) + (_3.val_int)
+    _6.tuple_1.val_bool := copy (((_1.val_ref.f$amount.val_int) + (_3.val_int)) < (0)) || (((_1.val_ref.f$amount.val_int) + (_3.val_int)) > (18446744073709551615))
+    // [mir] assert(!move (_6.1: bool), "attempt to compute `{} + {}`, which would overflow", ((*_1).0: u64), move _3) -> [success: bb2, unwind: bb10]
+    __t10 := copy _6.tuple_1.val_bool
+    // Rust assertion: attempt to add with overflow
+    assert !(__t10)
+    Goto(cfg:5)
+  label bb2 // 5
+    // ========== bb2 ==========
+    __t2 := copy true
+    // [mir] ((*_1).0: u64) = move (_6.0: u64)
+    _1.val_ref.f$amount := move _6.tuple_0
+    label l3
+    // [mir] StorageDead(_3)
+    // [mir] FakeRead(ForMatchedPlace(None), ((*_1).1: State))
+    // [mir] _7 = discriminant(((*_1).1: State))
+    _7 := builtin$havoc_ref()
+    inhale acc(_7.val_int, write)
+    _7.val_int := copy m_State$_beg_$_end_$$discriminant$$<>(_1.val_ref.f$state)
+    // [mir] switchInt(move _7) -> [0: bb3, 1: bb4, otherwise: bb5]
+    __t11 := copy _7.val_int
+    // Ignore default target bb5, as the compiler marked it as unreachable.
+    GotoSwitch([(BinOp(BinOp { op_kind: EqCmp, left: Local(Local { variable: __t11: Int, position: Position { line: 0, column: 0, id: 0 } }), right: Const(ConstExpr { value: BigInt("0"), position: Position { line: 0, column: 0, id: 0 } }), position: Position { line: 0, column: 0, id: 0 } }), cfg:7)], cfg:6)
+  label l4 // 6
+    // ========== l4 ==========
+    // MIR edge bb2 --> bb4
+    Goto(cfg:9)
+  label l5 // 7
+    // ========== l5 ==========
+    // MIR edge bb2 --> bb3
+    Goto(cfg:12)
+  label bb5 // 8
+    // ========== bb5 ==========
+    __t3 := copy true
+    // [mir] unreachable
+    Return
+  label bb4 // 9
+    // ========== bb4 ==========
+    __t4 := copy true
+    // [mir] StorageLive(_11)
+    // [mir] _11 = &'?5 mut ((((*_1).1: State) as Specialized).0: specialized::pclmulqdq::State)
+    _11 := builtin$havoc_ref()
+    inhale acc(_11.val_ref, write)
+    unfold acc(Ref(m_State$_beg_$_end_)<variant {Specialized}>(_1.val_ref.f$state), write)
+    unfold acc(Ref(m_State$_beg_$_end_Specialized)(_1.val_ref.f$state[enum_Specialized]), write)
+    _11.val_ref := mut borrow _1.val_ref.f$state[enum_Specialized].f$0 // L0
+    label l6
+    // [mir] StorageLive(_12)
+    // [mir] _12 = &'?6 mut (*_11)
+    _12 := builtin$havoc_ref()
+    inhale acc(_12.val_ref, write)
+    _12.val_ref := mut borrow _11.val_ref // L1
+    label l7
+    // [mir] StorageLive(_13)
+    // [mir] _13 = &'?7 (*_2)
+    _13 := builtin$havoc_ref()
+    inhale acc(_13.val_ref, write)
+    _13.val_ref := borrow _2.val_ref // L13
+    inhale acc(Slice$u8(_13.val_ref), read)
+    label l8
+    // [mir] _0 = specialized::pclmulqdq::State::update(move _12, move _13) -> [return: bb8, unwind: bb10]
+    label l9
+    assert true
+    assert (true) && ((true) && (true))
+    exhale (acc(_12.val_ref, write)) && ((acc(struct$m_specialized$$pclmulqdq$$State(_12.val_ref), write)) && ((acc(_13.val_ref, write)) && ((true) && (true))))
+    _0 := builtin$havoc_ref()
+    inhale (acc(struct$m_specialized$$pclmulqdq$$State(old[l9](_12.val_ref)), write)) && (true)
+    inhale acc(tuple0$(_0), write)
+    transfer perm _13.val_ref --> old[l9](_13.val_ref) // unchecked: true
+    inhale (true) && ((true) && (true))
+    inhale true
+    exhale true
+    label l10
+    Goto(cfg:10)
+  label l11 // 10
+    // ========== l11 ==========
+    // MIR edge bb4 --> bb8
+    // Expire borrows
+    // expire_borrows ReborrowingDAG(L9,L13,L8,L1,L0,)
+
+    if (__t4) && (true) {
+    // expire loan L9
+} else {}
+    if (__t4) && ((__t4) && (true)) {
+    // expire loan L13
+    transfer perm old[l9](_13.val_ref) --> old[l8](_13.val_ref) // unchecked: false
+    exhale acc(Slice$u8(old[l8](_13.val_ref)), read)
+    // drop Pred(old[l9](_12.val_ref), write) (Pred(old[l9](_12.val_ref), write))
+} else {}
+    if (__t4) && (true) {
+    // expire loan L8
+} else {}
+    if (__t4) && ((__t4) && (true)) {
+    // expire loan L1
+    transfer perm old[l9](_12.val_ref) --> old[l7](_12.val_ref) // unchecked: false
+    transfer perm old[l7](_12.val_ref) --> _11.val_ref // unchecked: false
+} else {}
+    if (__t4) && ((__t4) && ((__t4) && (true))) {
+    // expire loan L0
+    transfer perm _11.val_ref --> _1.val_ref.f$state[enum_Specialized].f$0 // unchecked: false
+    // drop Pred(old[l9](_13.val_ref), read) (Pred(old[l9](_13.val_ref), read))
+    // drop Pred(_1.val_ref.f$state[enum_Specialized].f$0, write) (Pred(_1.val_ref.f$state[enum_Specialized].f$0, write))
+    // restored (in branch merge): Pred(_1.val_ref.f$state[enum_Specialized].f$0, write) (Pred(_1.val_ref.f$state[enum_Specialized].f$0, write))
+} else {}
+    Goto(cfg:11)
+  label bb8 // 11
+    // ========== bb8 ==========
+    __t5 := copy true
+    // [mir] StorageDead(_13)
+    // [mir] StorageDead(_12)
+    // [mir] StorageDead(_11)
+    // [mir] goto -> bb9
+    Goto(cfg:17)
+  label bb3 // 12
+    // ========== bb3 ==========
+    __t6 := copy true
+    // [mir] falseEdge -> [real: bb6, imaginary: bb4]
+    Goto(cfg:13)
+  label bb6 // 13
+    // ========== bb6 ==========
+    __t7 := copy true
+    // [mir] StorageLive(_8)
+    // [mir] _8 = &'?8 mut ((((*_1).1: State) as Baseline).0: baseline::State)
+    _8 := builtin$havoc_ref()
+    inhale acc(_8.val_ref, write)
+    unfold acc(Ref(m_State$_beg_$_end_)<variant {Baseline}>(_1.val_ref.f$state), write)
+    unfold acc(Ref(m_State$_beg_$_end_Baseline)(_1.val_ref.f$state[enum_Baseline]), write)
+    _8.val_ref := mut borrow _1.val_ref.f$state[enum_Baseline].f$0 // L2
+    label l12
+    // [mir] StorageLive(_9)
+    // [mir] _9 = &'?9 mut (*_8)
+    _9 := builtin$havoc_ref()
+    inhale acc(_9.val_ref, write)
+    _9.val_ref := mut borrow _8.val_ref // L3
+    label l13
+    // [mir] StorageLive(_10)
+    // [mir] _10 = &'?10 (*_2)
+    _10 := builtin$havoc_ref()
+    inhale acc(_10.val_ref, write)
+    _10.val_ref := borrow _2.val_ref // L14
+    inhale acc(Slice$u8(_10.val_ref), read)
+    label l14
+    // [mir] _0 = baseline::State::update(move _9, move _10) -> [return: bb7, unwind: bb10]
+    label l15
+    assert true
+    assert (true) && ((true) && (true))
+    exhale (acc(_9.val_ref, write)) && ((acc(struct$m_baseline$$State(_9.val_ref), write)) && ((acc(_10.val_ref, write)) && ((true) && (true))))
+    _0 := builtin$havoc_ref()
+    inhale (acc(struct$m_baseline$$State(old[l15](_9.val_ref)), write)) && (true)
+    inhale acc(tuple0$(_0), write)
+    transfer perm _10.val_ref --> old[l15](_10.val_ref) // unchecked: true
+    inhale (true) && ((true) && (true))
+    inhale true
+    exhale true
+    label l16
+    Goto(cfg:14)
+  label l17 // 14
+    // ========== l17 ==========
+    // MIR edge bb6 --> bb7
+    // Expire borrows
+    // expire_borrows ReborrowingDAG(L11,L14,L10,L3,L2,)
+
+    if (__t7) && (true) {
+    // expire loan L11
+} else {}
+    if (__t7) && ((__t7) && (true)) {
+    // expire loan L14
+    transfer perm old[l15](_10.val_ref) --> old[l14](_10.val_ref) // unchecked: false
+    exhale acc(Slice$u8(old[l14](_10.val_ref)), read)
+    // drop Pred(old[l15](_9.val_ref), write) (Pred(old[l15](_9.val_ref), write))
+} else {}
+    if (__t7) && (true) {
+    // expire loan L10
+} else {}
+    if (__t7) && ((__t7) && (true)) {
+    // expire loan L3
+    transfer perm old[l15](_9.val_ref) --> old[l13](_9.val_ref) // unchecked: false
+    transfer perm old[l13](_9.val_ref) --> _8.val_ref // unchecked: false
+} else {}
+    if (__t7) && ((__t7) && ((__t7) && (true))) {
+    // expire loan L2
+    transfer perm _8.val_ref --> _1.val_ref.f$state[enum_Baseline].f$0 // unchecked: false
+    // drop Pred(_1.val_ref.f$state[enum_Baseline].f$0, write) (Pred(_1.val_ref.f$state[enum_Baseline].f$0, write))
+    // restored (in branch merge): Pred(_1.val_ref.f$state[enum_Baseline].f$0, write) (Pred(_1.val_ref.f$state[enum_Baseline].f$0, write))
+    // drop Pred(old[l15](_10.val_ref), read) (Pred(old[l15](_10.val_ref), read))
+} else {}
+    Goto(cfg:15)
+  label bb7 // 15
+    // ========== bb7 ==========
+    __t8 := copy true
+    // [mir] StorageDead(_10)
+    // [mir] StorageDead(_9)
+    // [mir] StorageDead(_8)
+    // [mir] goto -> bb9
+    Goto(cfg:18)
+  label bb9 // 16
+    // ========== bb9 ==========
+    __t9 := copy true
+    // [mir] return
+    Goto(cfg:1)
+  label l18 // 17
+    // ========== l18 ==========
+    fold acc(Ref(m_State$_beg_$_end_Specialized)(_1.val_ref.f$state[enum_Specialized]), write)
+    fold acc(Ref(m_State$_beg_$_end_)<variant {Specialized}>(_1.val_ref.f$state), write)
+    // drop Acc(_11.val_ref, write) (Acc(_11.val_ref, write))
+    Goto(cfg:16)
+  label l20 // 18
+    // ========== l20 ==========
+    fold acc(Ref(m_State$_beg_$_end_Baseline)(_1.val_ref.f$state[enum_Baseline]), write)
+    fold acc(Ref(m_State$_beg_$_end_)<variant {Baseline}>(_1.val_ref.f$state), write)
+    // drop Acc(_8.val_ref, write) (Acc(_8.val_ref, write))
+    Goto(cfg:16)
+  label end_of_method
+}
+
+
+method m_Hasher$$finalize(...)
+    returns (_0: Ref(u32))
+{
+    __t0: Bool
+    __t1: Bool
+    __t2: Bool
+    __t3: Bool
+    __t4: Bool
+    __t5: Bool
+    __t6: Bool
+    __t7: Bool
+    __t8: Int
+    _1: Ref(struct$m_Hasher)
+    _2: Ref(isize)
+    _3: Ref(struct$m_baseline$$State)
+    _4: Ref(struct$m_baseline$$State)
+    _5: Ref(struct$m_specialized$$pclmulqdq$$State)
+    _6: Ref(struct$m_specialized$$pclmulqdq$$State)
+  label start // 0
+    // ========== start ==========
+    // Def path: "crc32fast::{impl#0}::finalize"
+    // Span: src/lib.rs:111:5: 116:6 (#0)
+    __t0 := copy false
+    __t1 := copy false
+    __t2 := copy false
+    __t3 := copy false
+    __t4 := copy false
+    __t5 := copy false
+    __t6 := copy false
+    __t7 := copy false
+    // Preconditions:
+    inhale (acc(struct$m_Hasher(_1), write)) && (true)
+    inhale true
+    inhale (true) && (true)
+    inhale true
+    label pre
+    Goto(cfg:2)
+  label return // 1
+    // ========== return ==========
+    // Target of any 'return' statement.
+    // Exhale postcondition
+    label l11
+    // Fold predicates for &mut args and transfer borrow permissions to old
+    // Fold the result
+    obtain acc(u32(_0), write)
+    // Assert possible strengthening
+    // Assert functional specification of postcondition
+    assert true
+    // Assert type invariants
+    assert (true) && (true)
+    // Exhale permissions of postcondition (1/3)
+    exhale true
+    // Exhale permissions of postcondition (2/3)
+    exhale acc(u32(_0), write)
+    // Exhale permissions of postcondition (3/3)
+    Return
+  label bb0 // 2
+    // ========== bb0 ==========
+    __t0 := copy true
+    // [mir] FakeRead(ForMatchedPlace(None), (_1.1: State))
+    // [mir] _2 = discriminant((_1.1: State))
+    _2 := builtin$havoc_ref()
+    inhale acc(_2.val_int, write)
+    unfold acc(Ref(struct$m_Hasher)(_1), write)
+    _2.val_int := copy m_State$_beg_$_end_$$discriminant$$<>(_1.f$state)
+    // [mir] switchInt(move _2) -> [0: bb1, 1: bb2, otherwise: bb3]
+    __t8 := copy _2.val_int
+    // Ignore default target bb3, as the compiler marked it as unreachable.
+    GotoSwitch([(BinOp(BinOp { op_kind: EqCmp, left: Local(Local { variable: __t8: Int, position: Position { line: 0, column: 0, id: 0 } }), right: Const(ConstExpr { value: BigInt("0"), position: Position { line: 0, column: 0, id: 0 } }), position: Position { line: 0, column: 0, id: 0 } }), cfg:4)], cfg:3)
+  label l0 // 3
+    // ========== l0 ==========
+    // MIR edge bb0 --> bb2
+    Goto(cfg:6)
+  label l1 // 4
+    // ========== l1 ==========
+    // MIR edge bb0 --> bb1
+    Goto(cfg:8)
+  label bb3 // 5
+    // ========== bb3 ==========
+    __t1 := copy true
+    // [mir] unreachable
+    Return
+  label bb2 // 6
+    // ========== bb2 ==========
+    __t2 := copy true
+    // [mir] StorageLive(_5)
+    // [mir] _5 = move (((_1.1: State) as Specialized).0: specialized::pclmulqdq::State)
+    unfold acc(Ref(m_State$_beg_$_end_)<variant {Specialized}>(_1.f$state), write)
+    unfold acc(Ref(m_State$_beg_$_end_Specialized)(_1.f$state[enum_Specialized]), write)
+    _5 := move _1.f$state[enum_Specialized].f$0
+    label l2
+    // [mir] StorageLive(_6)
+    // [mir] _6 = move _5
+    _6 := move _5
+    label l3
+    // [mir] _0 = specialized::pclmulqdq::State::finalize(move _6) -> [return: bb6, unwind: bb8]
+    label l4
+    assert true
+    assert (true) && (true)
+    exhale (acc(struct$m_specialized$$pclmulqdq$$State(_6), write)) && (true)
+    _0 := builtin$havoc_ref()
+    inhale true
+    inhale acc(u32(_0), write)
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l5
+    Goto(cfg:7)
+  label bb6 // 7
+    // ========== bb6 ==========
+    __t3 := copy true
+    // [mir] StorageDead(_6)
+    // [mir] StorageDead(_5)
+    // [mir] goto -> bb7
+    Goto(cfg:12)
+  label bb1 // 8
+    // ========== bb1 ==========
+    __t4 := copy true
+    // [mir] falseEdge -> [real: bb4, imaginary: bb2]
+    Goto(cfg:9)
+  label bb4 // 9
+    // ========== bb4 ==========
+    __t5 := copy true
+    // [mir] StorageLive(_3)
+    // [mir] _3 = move (((_1.1: State) as Baseline).0: baseline::State)
+    unfold acc(Ref(m_State$_beg_$_end_)<variant {Baseline}>(_1.f$state), write)
+    unfold acc(Ref(m_State$_beg_$_end_Baseline)(_1.f$state[enum_Baseline]), write)
+    _3 := move _1.f$state[enum_Baseline].f$0
+    label l6
+    // [mir] StorageLive(_4)
+    // [mir] _4 = move _3
+    _4 := move _3
+    label l7
+    // [mir] _0 = baseline::State::finalize(move _4) -> [return: bb5, unwind: bb8]
+    label l8
+    assert true
+    assert (true) && (true)
+    exhale (acc(struct$m_baseline$$State(_4), write)) && (true)
+    _0 := builtin$havoc_ref()
+    inhale true
+    inhale acc(u32(_0), write)
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l9
+    Goto(cfg:10)
+  label bb5 // 10
+    // ========== bb5 ==========
+    __t6 := copy true
+    // [mir] StorageDead(_4)
+    // [mir] StorageDead(_3)
+    // [mir] goto -> bb7
+    Goto(cfg:13)
+  label bb7 // 11
+    // ========== bb7 ==========
+    __t7 := copy true
+    // [mir] return
+    Goto(cfg:1)
+  label l10 // 12
+    // ========== l10 ==========
+    // drop Acc(_1.f$state[enum_Specialized], write) (Pred(_1.f$state[enum_Specialized].f$0, write))
+    // drop Acc(_1.f$state.discriminant, write) (Pred(_1.f$state[enum_Specialized].f$0, write))
+    // drop Acc(_1.f$state[enum_Specialized].f$0, write) (Pred(_1.f$state[enum_Specialized].f$0, write))
+    Goto(cfg:11)
+  label l12 // 13
+    // ========== l12 ==========
+    // drop Acc(_1.f$state[enum_Baseline], write) (Pred(_1.f$state[enum_Specialized].f$0, write))
+    // drop Acc(_1.f$state[enum_Baseline].f$0, write) (Pred(_1.f$state[enum_Specialized].f$0, write))
+    // drop Acc(_1.f$state.discriminant, write) (Pred(_1.f$state[enum_Specialized].f$0, write))
+    Goto(cfg:11)
+  label end_of_method
+}
+
+
+method m_Hasher$$reset(...)
+    returns (_0: Ref(tuple0$))
+{
+    __t0: Bool
+    __t1: Bool
+    __t2: Bool
+    __t3: Bool
+    __t4: Bool
+    __t5: Bool
+    __t6: Bool
+    __t7: Bool
+    __t8: Int
+    _old$pre$0: Ref(struct$m_Hasher)
+    _1: Ref(ref$struct$m_Hasher)
+    _2: Ref(isize)
+    _3: Ref(ref$struct$m_baseline$$State)
+    _4: Ref(ref$struct$m_baseline$$State)
+    _5: Ref(ref$struct$m_specialized$$pclmulqdq$$State)
+    _6: Ref(ref$struct$m_specialized$$pclmulqdq$$State)
+  label start // 0
+    // ========== start ==========
+    // Def path: "crc32fast::{impl#0}::reset"
+    // Span: src/lib.rs:119:5: 125:6 (#0)
+    __t0 := copy false
+    __t1 := copy false
+    __t2 := copy false
+    __t3 := copy false
+    __t4 := copy false
+    __t5 := copy false
+    __t6 := copy false
+    __t7 := copy false
+    // Preconditions:
+    inhale (acc(_1.val_ref, write)) && ((acc(struct$m_Hasher(_1.val_ref), write)) && (true))
+    inhale true
+    inhale (true) && (true)
+    inhale true
+    label pre
+    Goto(cfg:2)
+  label return // 1
+    // ========== return ==========
+    // Target of any 'return' statement.
+    // Exhale postcondition
+    label l13
+    // Fold predicates for &mut args and transfer borrow permissions to old
+    fold acc(Ref(u64)(_1.val_ref.f$amount), write)
+    fold acc(Ref(struct$m_Hasher)(_1.val_ref), write)
+    obtain acc(struct$m_Hasher(_1.val_ref), write)
+    _old$pre$0 := move _1.val_ref
+    // Fold the result
+    obtain acc(tuple0$(_0), write)
+    // Assert possible strengthening
+    // Assert functional specification of postcondition
+    assert true
+    // Assert type invariants
+    assert (true) && ((true) && (true))
+    // Exhale permissions of postcondition (1/3)
+    exhale (acc(struct$m_Hasher(_old$pre$0), write)) && (true)
+    // Exhale permissions of postcondition (2/3)
+    exhale acc(tuple0$(_0), write)
+    // Exhale permissions of postcondition (3/3)
+    Return
+  label bb0 // 2
+    // ========== bb0 ==========
+    __t0 := copy true
+    // [mir] ((*_1).0: u64) = const 0_u64
+    unfold acc(Ref(struct$m_Hasher)(_1.val_ref), write)
+    unfold acc(Ref(u64)(_1.val_ref.f$amount), write)
+    _1.val_ref.f$amount.val_int := copy 0
+    // [mir] FakeRead(ForMatchedPlace(None), ((*_1).1: State))
+    // [mir] _2 = discriminant(((*_1).1: State))
+    _2 := builtin$havoc_ref()
+    inhale acc(_2.val_int, write)
+    _2.val_int := copy m_State$_beg_$_end_$$discriminant$$<>(_1.val_ref.f$state)
+    // [mir] switchInt(move _2) -> [0: bb1, 1: bb2, otherwise: bb3]
+    __t8 := copy _2.val_int
+    // Ignore default target bb3, as the compiler marked it as unreachable.
+    GotoSwitch([(BinOp(BinOp { op_kind: EqCmp, left: Local(Local { variable: __t8: Int, position: Position { line: 0, column: 0, id: 0 } }), right: Const(ConstExpr { value: BigInt("0"), position: Position { line: 0, column: 0, id: 0 } }), position: Position { line: 0, column: 0, id: 0 } }), cfg:4)], cfg:3)
+  label l0 // 3
+    // ========== l0 ==========
+    // MIR edge bb0 --> bb2
+    Goto(cfg:6)
+  label l1 // 4
+    // ========== l1 ==========
+    // MIR edge bb0 --> bb1
+    Goto(cfg:9)
+  label bb3 // 5
+    // ========== bb3 ==========
+    __t1 := copy true
+    // [mir] unreachable
+    Return
+  label bb2 // 6
+    // ========== bb2 ==========
+    __t2 := copy true
+    // [mir] StorageLive(_5)
+    // [mir] _5 = &'?3 mut ((((*_1).1: State) as Specialized).0: specialized::pclmulqdq::State)
+    _5 := builtin$havoc_ref()
+    inhale acc(_5.val_ref, write)
+    unfold acc(Ref(m_State$_beg_$_end_)<variant {Specialized}>(_1.val_ref.f$state), write)
+    unfold acc(Ref(m_State$_beg_$_end_Specialized)(_1.val_ref.f$state[enum_Specialized]), write)
+    _5.val_ref := mut borrow _1.val_ref.f$state[enum_Specialized].f$0 // L0
+    label l2
+    // [mir] StorageLive(_6)
+    // [mir] _6 = &'?4 mut (*_5)
+    _6 := builtin$havoc_ref()
+    inhale acc(_6.val_ref, write)
+    _6.val_ref := mut borrow _5.val_ref // L1
+    label l3
+    // [mir] _0 = specialized::pclmulqdq::State::reset(move _6) -> [return: bb6, unwind: bb8]
+    label l4
+    assert true
+    assert (true) && (true)
+    exhale (acc(_6.val_ref, write)) && ((acc(struct$m_specialized$$pclmulqdq$$State(_6.val_ref), write)) && (true))
+    _0 := builtin$havoc_ref()
+    inhale (acc(struct$m_specialized$$pclmulqdq$$State(old[l4](_6.val_ref)), write)) && (true)
+    inhale acc(tuple0$(_0), write)
+    inhale (true) && ((true) && (true))
+    inhale true
+    exhale true
+    label l5
+    Goto(cfg:7)
+  label l6 // 7
+    // ========== l6 ==========
+    // MIR edge bb2 --> bb6
+    // Expire borrows
+    // expire_borrows ReborrowingDAG(L8,L1,L0,)
+
+    if (__t2) && (true) {
+    // expire loan L8
+} else {}
+    if (__t2) && ((__t2) && (true)) {
+    // expire loan L1
+    transfer perm old[l4](_6.val_ref) --> old[l3](_6.val_ref) // unchecked: false
+    transfer perm old[l3](_6.val_ref) --> _5.val_ref // unchecked: false
+} else {}
+    if (__t2) && ((__t2) && ((__t2) && (true))) {
+    // expire loan L0
+    transfer perm _5.val_ref --> _1.val_ref.f$state[enum_Specialized].f$0 // unchecked: false
+} else {}
+    Goto(cfg:8)
+  label bb6 // 8
+    // ========== bb6 ==========
+    __t3 := copy true
+    // [mir] StorageDead(_6)
+    // [mir] StorageDead(_5)
+    // [mir] goto -> bb7
+    Goto(cfg:14)
+  label bb1 // 9
+    // ========== bb1 ==========
+    __t4 := copy true
+    // [mir] falseEdge -> [real: bb4, imaginary: bb2]
+    Goto(cfg:10)
+  label bb4 // 10
+    // ========== bb4 ==========
+    __t5 := copy true
+    // [mir] StorageLive(_3)
+    // [mir] _3 = &'?5 mut ((((*_1).1: State) as Baseline).0: baseline::State)
+    _3 := builtin$havoc_ref()
+    inhale acc(_3.val_ref, write)
+    unfold acc(Ref(m_State$_beg_$_end_)<variant {Baseline}>(_1.val_ref.f$state), write)
+    unfold acc(Ref(m_State$_beg_$_end_Baseline)(_1.val_ref.f$state[enum_Baseline]), write)
+    _3.val_ref := mut borrow _1.val_ref.f$state[enum_Baseline].f$0 // L2
+    label l7
+    // [mir] StorageLive(_4)
+    // [mir] _4 = &'?6 mut (*_3)
+    _4 := builtin$havoc_ref()
+    inhale acc(_4.val_ref, write)
+    _4.val_ref := mut borrow _3.val_ref // L3
+    label l8
+    // [mir] _0 = baseline::State::reset(move _4) -> [return: bb5, unwind: bb8]
+    label l9
+    assert true
+    assert (true) && (true)
+    exhale (acc(_4.val_ref, write)) && ((acc(struct$m_baseline$$State(_4.val_ref), write)) && (true))
+    _0 := builtin$havoc_ref()
+    inhale (acc(struct$m_baseline$$State(old[l9](_4.val_ref)), write)) && (true)
+    inhale acc(tuple0$(_0), write)
+    inhale (true) && ((true) && (true))
+    inhale true
+    exhale true
+    label l10
+    Goto(cfg:11)
+  label l11 // 11
+    // ========== l11 ==========
+    // MIR edge bb4 --> bb5
+    // Expire borrows
+    // expire_borrows ReborrowingDAG(L7,L3,L2,)
+
+    if (__t5) && (true) {
+    // expire loan L7
+} else {}
+    if (__t5) && ((__t5) && (true)) {
+    // expire loan L3
+    transfer perm old[l9](_4.val_ref) --> old[l8](_4.val_ref) // unchecked: false
+    transfer perm old[l8](_4.val_ref) --> _3.val_ref // unchecked: false
+} else {}
+    if (__t5) && ((__t5) && ((__t5) && (true))) {
+    // expire loan L2
+    transfer perm _3.val_ref --> _1.val_ref.f$state[enum_Baseline].f$0 // unchecked: false
+} else {}
+    Goto(cfg:12)
+  label bb5 // 12
+    // ========== bb5 ==========
+    __t6 := copy true
+    // [mir] StorageDead(_4)
+    // [mir] StorageDead(_3)
+    // [mir] goto -> bb7
+    Goto(cfg:15)
+  label bb7 // 13
+    // ========== bb7 ==========
+    __t7 := copy true
+    // [mir] return
+    Goto(cfg:1)
+  label l12 // 14
+    // ========== l12 ==========
+    fold acc(Ref(m_State$_beg_$_end_Specialized)(_1.val_ref.f$state[enum_Specialized]), write)
+    fold acc(Ref(m_State$_beg_$_end_)<variant {Specialized}>(_1.val_ref.f$state), write)
+    // drop Acc(_5.val_ref, write) (Acc(_5.val_ref, write))
+    Goto(cfg:13)
+  label l14 // 15
+    // ========== l14 ==========
+    fold acc(Ref(m_State$_beg_$_end_Baseline)(_1.val_ref.f$state[enum_Baseline]), write)
+    fold acc(Ref(m_State$_beg_$_end_)<variant {Baseline}>(_1.val_ref.f$state), write)
+    // drop Acc(_3.val_ref, write) (Acc(_3.val_ref, write))
+    Goto(cfg:13)
+  label end_of_method
+}
+
+
+method m_Hasher$$combine(...)
+    returns (_0: Ref(tuple0$))
+{
+    __t0: Bool
+    __t1: Bool
+    __t2: Bool
+    __t3: Bool
+    __t4: Bool
+    __t5: Bool
+    __t6: Bool
+    __t7: Bool
+    __t8: Bool
+    __t9: Bool
+    __t10: Bool
+    __t11: Bool
+    __t12: Int
+    _old$pre$0: Ref(struct$m_Hasher)
+    _old$pre$1: Ref(struct$m_Hasher)
+    _1: Ref(ref$struct$m_Hasher)
+    _2: Ref(ref$struct$m_Hasher)
+    _3: Ref(u64)
+    _4: Ref(tuple2$u64$bool)
+    _5: Ref(u32)
+    _6: Ref(struct$m_Hasher)
+    _7: Ref(ref$struct$m_Hasher)
+    _8: Ref(isize)
+    _9: Ref(ref$struct$m_baseline$$State)
+    _10: Ref(ref$struct$m_baseline$$State)
+    _11: Ref(u32)
+    _12: Ref(u64)
+    _13: Ref(ref$struct$m_specialized$$pclmulqdq$$State)
+    _14: Ref(ref$struct$m_specialized$$pclmulqdq$$State)
+    _15: Ref(u32)
+    _16: Ref(u64)
+  label start // 0
+    // ========== start ==========
+    // Def path: "crc32fast::{impl#0}::combine"
+    // Span: src/lib.rs:128:5: 135:6 (#0)
+    __t0 := copy false
+    __t1 := copy false
+    __t2 := copy false
+    __t3 := copy false
+    __t4 := copy false
+    __t5 := copy false
+    __t6 := copy false
+    __t7 := copy false
+    __t8 := copy false
+    __t9 := copy false
+    __t10 := copy false
+    // Preconditions:
+    inhale (acc(_1.val_ref, write)) && ((acc(struct$m_Hasher(_1.val_ref), write)) && ((acc(_2.val_ref, write)) && ((acc(struct$m_Hasher(_2.val_ref), read)) && (true))))
+    inhale true
+    inhale (true) && ((true) && (true))
+    inhale true
+    label pre
+    Goto(cfg:2)
+  label return // 1
+    // ========== return ==========
+    // Target of any 'return' statement.
+    // Exhale postcondition
+    label l25
+    // Fold predicates for &mut args and transfer borrow permissions to old
+    fold acc(Ref(u64)(_1.val_ref.f$amount), write)
+    fold acc(Ref(struct$m_Hasher)(_1.val_ref), write)
+    obtain acc(struct$m_Hasher(_1.val_ref), write)
+    _old$pre$0 := move _1.val_ref
+    fold acc(Ref(u64)(_2.val_ref.f$amount), read)
+    fold acc(Ref(struct$m_Hasher)(_2.val_ref), read)
+    obtain acc(struct$m_Hasher(_2.val_ref), write)
+    _old$pre$1 := move _2.val_ref
+    // Fold the result
+    obtain acc(tuple0$(_0), write)
+    // Assert possible strengthening
+    // Assert functional specification of postcondition
+    assert true
+    // Assert type invariants
+    assert (true) && ((true) && (true))
+    // Exhale permissions of postcondition (1/3)
+    exhale (acc(struct$m_Hasher(_old$pre$0), write)) && ((acc(struct$m_Hasher(_old$pre$1), read)) && (true))
+    // Exhale permissions of postcondition (2/3)
+    exhale acc(tuple0$(_0), write)
+    // Exhale permissions of postcondition (3/3)
+    Return
+  label bb0 // 2
+    // ========== bb0 ==========
+    __t0 := copy true
+    // [mir] StorageLive(_3)
+    // [mir] _3 = ((*_2).0: u64)
+    _3 := builtin$havoc_ref()
+    inhale acc(_3.val_int, write)
+    unfold acc(Ref(struct$m_Hasher)(_2.val_ref), read)
+    unfold acc(Ref(u64)(_2.val_ref.f$amount), read)
+    _3.val_int := copy _2.val_ref.f$amount.val_int
+    label l0
+    // [mir] _4 = CheckedAdd(((*_1).0: u64), _3)
+    _4 := builtin$havoc_ref()
+    inhale acc(_4.tuple_0, write)
+    inhale acc(_4.tuple_0.val_int, write)
+    inhale acc(_4.tuple_1, write)
+    inhale acc(_4.tuple_1.val_bool, write)
+    unfold acc(Ref(struct$m_Hasher)(_1.val_ref), write)
+    unfold acc(Ref(u64)(_1.val_ref.f$amount), write)
+    _4.tuple_0.val_int := copy (_1.val_ref.f$amount.val_int) + (_3.val_int)
+    _4.tuple_1.val_bool := copy (((_1.val_ref.f$amount.val_int) + (_3.val_int)) < (0)) || (((_1.val_ref.f$amount.val_int) + (_3.val_int)) > (18446744073709551615))
+    // [mir] assert(!move (_4.1: bool), "attempt to compute `{} + {}`, which would overflow", ((*_1).0: u64), move _3) -> [success: bb1, unwind: bb11]
+    __t11 := copy _4.tuple_1.val_bool
+    // Rust assertion: attempt to add with overflow
+    assert !(__t11)
+    Goto(cfg:3)
+  label bb1 // 3
+    // ========== bb1 ==========
+    __t1 := copy true
+    // [mir] ((*_1).0: u64) = move (_4.0: u64)
+    _1.val_ref.f$amount := move _4.tuple_0
+    label l1
+    // [mir] StorageDead(_3)
+    // [mir] StorageLive(_5)
+    // [mir] StorageLive(_6)
+    // [mir] StorageLive(_7)
+    // [mir] _7 = &'?4 (*_2)
+    _7 := builtin$havoc_ref()
+    inhale acc(_7.val_ref, write)
+    _7.val_ref := borrow _2.val_ref // L11
+    inhale acc(_7.val_ref.f$amount, read)
+    inhale acc(_7.val_ref.f$state, read)
+    inhale acc(_7.val_ref.f$amount.val_int, read)
+    inhale acc(m_State$_beg_$_end_(_7.val_ref.f$state), read)
+    label l2
+    // [mir] _6 = <Hasher as std::clone::Clone>::clone(move _7) -> [return: bb2, unwind: bb11]
+    label l3
+    assert true
+    assert (true) && (true)
+    exhale (acc(_7.val_ref, write)) && ((true) && (true))
+    _6 := builtin$havoc_ref()
+    inhale true
+    inhale acc(struct$m_Hasher(_6), write)
+    transfer perm _7.val_ref --> old[l3](_7.val_ref) // unchecked: true
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l4
+    Goto(cfg:4)
+  label l5 // 4
+    // ========== l5 ==========
+    // MIR edge bb1 --> bb2
+    // Expire borrows
+    // expire_borrows ReborrowingDAG(L10,L11,)
+
+    if (__t1) && (true) {
+    // expire loan L10
+} else {}
+    if (__t1) && ((__t1) && (true)) {
+    // expire loan L11
+    transfer perm old[l3](_7.val_ref) --> old[l2](_7.val_ref) // unchecked: false
+    exhale acc(m_State$_beg_$_end_(old[l2](_7.val_ref).f$state), read)
+    exhale acc(old[l2](_7.val_ref).f$amount.val_int, read)
+    exhale acc(old[l2](_7.val_ref).f$state, read)
+    exhale acc(old[l2](_7.val_ref).f$amount, read)
+} else {}
+    Goto(cfg:5)
+  label bb2 // 5
+    // ========== bb2 ==========
+    __t2 := copy true
+    // [mir] StorageDead(_7)
+    // [mir] _5 = Hasher::finalize(move _6) -> [return: bb3, unwind: bb11]
+    label l6
+    assert true
+    assert (true) && (true)
+    exhale (acc(struct$m_Hasher(_6), write)) && (true)
+    _5 := builtin$havoc_ref()
+    inhale true
+    inhale acc(u32(_5), write)
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l7
+    Goto(cfg:6)
+  label bb3 // 6
+    // ========== bb3 ==========
+    __t3 := copy true
+    // [mir] StorageDead(_6)
+    // [mir] FakeRead(ForLet(None), _5)
+    // [mir] FakeRead(ForMatchedPlace(None), ((*_1).1: State))
+    // [mir] _8 = discriminant(((*_1).1: State))
+    _8 := builtin$havoc_ref()
+    inhale acc(_8.val_int, write)
+    _8.val_int := copy m_State$_beg_$_end_$$discriminant$$<>(_1.val_ref.f$state)
+    // [mir] switchInt(move _8) -> [0: bb4, 1: bb5, otherwise: bb6]
+    __t12 := copy _8.val_int
+    // Ignore default target bb6, as the compiler marked it as unreachable.
+    GotoSwitch([(BinOp(BinOp { op_kind: EqCmp, left: Local(Local { variable: __t12: Int, position: Position { line: 0, column: 0, id: 0 } }), right: Const(ConstExpr { value: BigInt("0"), position: Position { line: 0, column: 0, id: 0 } }), position: Position { line: 0, column: 0, id: 0 } }), cfg:8)], cfg:7)
+  label l8 // 7
+    // ========== l8 ==========
+    // MIR edge bb3 --> bb5
+    Goto(cfg:10)
+  label l9 // 8
+    // ========== l9 ==========
+    // MIR edge bb3 --> bb4
+    Goto(cfg:13)
+  label bb6 // 9
+    // ========== bb6 ==========
+    __t4 := copy true
+    // [mir] unreachable
+    Return
+  label bb5 // 10
+    // ========== bb5 ==========
+    __t5 := copy true
+    // [mir] StorageLive(_13)
+    // [mir] _13 = &'?5 mut ((((*_1).1: State) as Specialized).0: specialized::pclmulqdq::State)
+    _13 := builtin$havoc_ref()
+    inhale acc(_13.val_ref, write)
+    unfold acc(Ref(m_State$_beg_$_end_)<variant {Specialized}>(_1.val_ref.f$state), write)
+    unfold acc(Ref(m_State$_beg_$_end_Specialized)(_1.val_ref.f$state[enum_Specialized]), write)
+    _13.val_ref := mut borrow _1.val_ref.f$state[enum_Specialized].f$0 // L0
+    label l10
+    // [mir] StorageLive(_14)
+    // [mir] _14 = &'?6 mut (*_13)
+    _14 := builtin$havoc_ref()
+    inhale acc(_14.val_ref, write)
+    _14.val_ref := mut borrow _13.val_ref // L1
+    label l11
+    // [mir] StorageLive(_15)
+    // [mir] _15 = _5
+    _15 := builtin$havoc_ref()
+    inhale acc(_15.val_int, write)
+    unfold acc(Ref(u32)(_5), write)
+    _15.val_int := copy _5.val_int
+    label l12
+    // [mir] StorageLive(_16)
+    // [mir] _16 = ((*_2).0: u64)
+    _16 := builtin$havoc_ref()
+    inhale acc(_16.val_int, write)
+    _16.val_int := copy _2.val_ref.f$amount.val_int
+    label l13
+    // [mir] _0 = specialized::pclmulqdq::State::combine(move _14, move _15, move _16) -> [return: bb9, unwind: bb11]
+    label l14
+    assert true
+    assert (true) && ((true) && ((true) && (true)))
+    fold acc(Ref(u32)(_15), write)
+    fold acc(Ref(u64)(_16), write)
+    exhale (acc(_14.val_ref, write)) && ((acc(struct$m_specialized$$pclmulqdq$$State(_14.val_ref), write)) && ((acc(u32(_15), write)) && ((acc(u64(_16), write)) && (true))))
+    _0 := builtin$havoc_ref()
+    inhale (acc(struct$m_specialized$$pclmulqdq$$State(old[l14](_14.val_ref)), write)) && (true)
+    inhale acc(tuple0$(_0), write)
+    inhale (true) && ((true) && (true))
+    inhale true
+    exhale true
+    label l15
+    Goto(cfg:11)
+  label l16 // 11
+    // ========== l16 ==========
+    // MIR edge bb5 --> bb9
+    // Expire borrows
+    // expire_borrows ReborrowingDAG(L8,L1,L0,)
+
+    if (__t5) && (true) {
+    // expire loan L8
+} else {}
+    if (__t5) && ((__t5) && (true)) {
+    // expire loan L1
+    transfer perm old[l14](_14.val_ref) --> old[l11](_14.val_ref) // unchecked: false
+    transfer perm old[l11](_14.val_ref) --> _13.val_ref // unchecked: false
+} else {}
+    if (__t5) && ((__t5) && ((__t5) && (true))) {
+    // expire loan L0
+    transfer perm _13.val_ref --> _1.val_ref.f$state[enum_Specialized].f$0 // unchecked: false
+} else {}
+    Goto(cfg:12)
+  label bb9 // 12
+    // ========== bb9 ==========
+    __t6 := copy true
+    // [mir] StorageDead(_16)
+    // [mir] StorageDead(_15)
+    // [mir] StorageDead(_14)
+    // [mir] StorageDead(_13)
+    // [mir] goto -> bb10
+    Goto(cfg:18)
+  label bb4 // 13
+    // ========== bb4 ==========
+    __t7 := copy true
+    // [mir] falseEdge -> [real: bb7, imaginary: bb5]
+    Goto(cfg:14)
+  label bb7 // 14
+    // ========== bb7 ==========
+    __t8 := copy true
+    // [mir] StorageLive(_9)
+    // [mir] _9 = &'?7 mut ((((*_1).1: State) as Baseline).0: baseline::State)
+    _9 := builtin$havoc_ref()
+    inhale acc(_9.val_ref, write)
+    unfold acc(Ref(m_State$_beg_$_end_)<variant {Baseline}>(_1.val_ref.f$state), write)
+    unfold acc(Ref(m_State$_beg_$_end_Baseline)(_1.val_ref.f$state[enum_Baseline]), write)
+    _9.val_ref := mut borrow _1.val_ref.f$state[enum_Baseline].f$0 // L2
+    label l17
+    // [mir] StorageLive(_10)
+    // [mir] _10 = &'?8 mut (*_9)
+    _10 := builtin$havoc_ref()
+    inhale acc(_10.val_ref, write)
+    _10.val_ref := mut borrow _9.val_ref // L3
+    label l18
+    // [mir] StorageLive(_11)
+    // [mir] _11 = _5
+    _11 := builtin$havoc_ref()
+    inhale acc(_11.val_int, write)
+    unfold acc(Ref(u32)(_5), write)
+    _11.val_int := copy _5.val_int
+    label l19
+    // [mir] StorageLive(_12)
+    // [mir] _12 = ((*_2).0: u64)
+    _12 := builtin$havoc_ref()
+    inhale acc(_12.val_int, write)
+    _12.val_int := copy _2.val_ref.f$amount.val_int
+    label l20
+    // [mir] _0 = baseline::State::combine(move _10, move _11, move _12) -> [return: bb8, unwind: bb11]
+    label l21
+    assert true
+    assert (true) && ((true) && ((true) && (true)))
+    fold acc(Ref(u32)(_11), write)
+    fold acc(Ref(u64)(_12), write)
+    exhale (acc(_10.val_ref, write)) && ((acc(struct$m_baseline$$State(_10.val_ref), write)) && ((acc(u32(_11), write)) && ((acc(u64(_12), write)) && (true))))
+    _0 := builtin$havoc_ref()
+    inhale (acc(struct$m_baseline$$State(old[l21](_10.val_ref)), write)) && (true)
+    inhale acc(tuple0$(_0), write)
+    inhale (true) && ((true) && (true))
+    inhale true
+    exhale true
+    label l22
+    Goto(cfg:15)
+  label l23 // 15
+    // ========== l23 ==========
+    // MIR edge bb7 --> bb8
+    // Expire borrows
+    // expire_borrows ReborrowingDAG(L9,L3,L2,)
+
+    if (__t8) && (true) {
+    // expire loan L9
+} else {}
+    if (__t8) && ((__t8) && (true)) {
+    // expire loan L3
+    transfer perm old[l21](_10.val_ref) --> old[l18](_10.val_ref) // unchecked: false
+    transfer perm old[l18](_10.val_ref) --> _9.val_ref // unchecked: false
+} else {}
+    if (__t8) && ((__t8) && ((__t8) && (true))) {
+    // expire loan L2
+    transfer perm _9.val_ref --> _1.val_ref.f$state[enum_Baseline].f$0 // unchecked: false
+} else {}
+    Goto(cfg:16)
+  label bb8 // 16
+    // ========== bb8 ==========
+    __t9 := copy true
+    // [mir] StorageDead(_12)
+    // [mir] StorageDead(_11)
+    // [mir] StorageDead(_10)
+    // [mir] StorageDead(_9)
+    // [mir] goto -> bb10
+    Goto(cfg:19)
+  label bb10 // 17
+    // ========== bb10 ==========
+    __t10 := copy true
+    // [mir] StorageDead(_5)
+    // [mir] return
+    Goto(cfg:1)
+  label l24 // 18
+    // ========== l24 ==========
+    fold acc(Ref(m_State$_beg_$_end_Specialized)(_1.val_ref.f$state[enum_Specialized]), write)
+    fold acc(Ref(m_State$_beg_$_end_)<variant {Specialized}>(_1.val_ref.f$state), write)
+    // drop Acc(_13.val_ref, write) (Acc(_13.val_ref, write))
+    Goto(cfg:17)
+  label l26 // 19
+    // ========== l26 ==========
+    fold acc(Ref(m_State$_beg_$_end_Baseline)(_1.val_ref.f$state[enum_Baseline]), write)
+    fold acc(Ref(m_State$_beg_$_end_)<variant {Baseline}>(_1.val_ref.f$state), write)
+    // drop Acc(_9.val_ref, write) (Acc(_9.val_ref, write))
+    Goto(cfg:17)
+  label end_of_method
+}
+
+
+struct_predicate ref$struct$m_std$$fmt$$Formatter(self){
+  (acc(self.val_ref, write)) && ((acc(struct$m_std$$fmt$$Formatter(self.val_ref), write)) && (true))
+}
+
+
+struct_predicate m_std$$result$$Result$_beg_$tuple0$$_sep_$struct$m_std$$fmt$$Error$_end_Ok(self){
+  (acc(self.f$0, write)) && ((acc(tuple0$(self.f$0), write)) && (true))
+}
+
+
+struct_predicate m_std$$result$$Result$_beg_$tuple0$$_sep_$struct$m_std$$fmt$$Error$_end_Err(self){
+  (acc(self.f$0, write)) && ((acc(struct$m_std$$fmt$$Error(self.f$0), write)) && (true))
+}
+
+
+enum_predicate m_std$$result$$Result$_beg_$tuple0$$_sep_$struct$m_std$$fmt$$Error$_end_(self){
+  discriminant_field=discriminant
+  Ok: (self.discriminant) == (0) ==> struct_predicate m_std$$result$$Result$_beg_$tuple0$$_sep_$struct$m_std$$fmt$$Error$_end_Ok(self){
+  (acc(self.f$0, write)) && ((acc(tuple0$(self.f$0), write)) && (true))
+}
+
+
+  Err: (self.discriminant) == (1) ==> struct_predicate m_std$$result$$Result$_beg_$tuple0$$_sep_$struct$m_std$$fmt$$Error$_end_Err(self){
+  (acc(self.f$0, write)) && ((acc(struct$m_std$$fmt$$Error(self.f$0), write)) && (true))
+}
+
+
+}
+
+
+struct_predicate struct$m_std$$fmt$$DebugStruct(self){
+  (acc(self.f$fmt, write)) && ((acc(ref$struct$m_std$$fmt$$Formatter(self.f$fmt), write)) && ((acc(self.f$result, write)) && ((acc(m_std$$result$$Result$_beg_$tuple0$$_sep_$struct$m_std$$fmt$$Error$_end_(self.f$result), write)) && ((acc(self.f$has_fields, write)) && ((acc(bool(self.f$has_fields), write)) && (true))))))
+}
+
+
+struct_predicate ref$struct$m_std$$fmt$$DebugStruct(self){
+  (acc(self.val_ref, write)) && ((acc(struct$m_std$$fmt$$DebugStruct(self.val_ref), write)) && (true))
+}
+
+
+struct_predicate struct$m_std$$fmt$$Formatter(self){
+  (acc(self.f$flags, write)) && ((acc(u32(self.f$flags), write)) && ((acc(self.f$fill, write)) && ((acc(char(self.f$fill), write)) && ((acc(self.f$align, write)) && ((acc(m_core$$fmt$$rt$$Alignment$_beg_$_end_(self.f$align), write)) && ((acc(self.f$width, write)) && ((acc(m_std$$option$$Option$_beg_$usize$_end_(self.f$width), write)) && ((acc(self.f$precision, write)) && ((acc(m_std$$option$$Option$_beg_$usize$_end_(self.f$precision), write)) && ((acc(self.f$buf, write)) && ((acc(ref$dynamic(self.f$buf), write)) && (true))))))))))))
+}
+
+
+method m_$openang$Hasher$space$as$space$std$$fmt$$Debug$closeang$$$fmt(...)
+    returns (_0: Ref(m_std$$result$$Result$_beg_$tuple0$$_sep_$struct$m_std$$fmt$$Error$_end_))
+{
+  label stub // 0
+    // ========== stub ==========
+    // Def path: "crc32fast::{impl#1}::fmt"
+    // Span: src/lib.rs:139:5: 141:6 (#0)
+    Return
+  label end_of_method
+}
+
+
+method m_$openang$Hasher$space$as$space$std$$default$$Default$closeang$$$default(...)
+    returns (_0: Ref(struct$m_Hasher))
+{
+    __t0: Bool
+    __t1: Bool
+  label start // 0
+    // ========== start ==========
+    // Def path: "crc32fast::{impl#2}::default"
+    // Span: src/lib.rs:145:5: 147:6 (#0)
+    __t0 := copy false
+    __t1 := copy false
+    // Preconditions:
+    inhale true
+    inhale true
+    inhale true
+    inhale true
+    label pre
+    Goto(cfg:2)
+  label return // 1
+    // ========== return ==========
+    // Target of any 'return' statement.
+    // Exhale postcondition
+    label l3
+    // Fold predicates for &mut args and transfer borrow permissions to old
+    // Fold the result
+    obtain acc(struct$m_Hasher(_0), write)
+    // Assert possible strengthening
+    // Assert functional specification of postcondition
+    assert true
+    // Assert type invariants
+    assert (true) && (true)
+    // Exhale permissions of postcondition (1/3)
+    exhale true
+    // Exhale permissions of postcondition (2/3)
+    exhale acc(struct$m_Hasher(_0), write)
+    // Exhale permissions of postcondition (3/3)
+    Return
+  label bb0 // 2
+    // ========== bb0 ==========
+    __t0 := copy true
+    // [mir] _0 = Hasher::new() -> [return: bb1, unwind: bb2]
+    label l0
+    assert true
+    assert true
+    exhale true
+    _0 := builtin$havoc_ref()
+    inhale true
+    inhale acc(struct$m_Hasher(_0), write)
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l1
+    Goto(cfg:3)
+  label bb1 // 3
+    // ========== bb1 ==========
+    __t1 := copy true
+    // [mir] return
+    Goto(cfg:1)
+  label end_of_method
+}
+
+
+method m_$openang$Hasher$space$as$space$std$$hash$$Hasher$closeang$$$write(...)
+    returns (_0: Ref(tuple0$))
+{
+    __t0: Bool
+    __t1: Bool
+    _old$pre$0: Ref(struct$m_Hasher)
+    _old$pre$1: Ref(Slice$u8)
+    _1: Ref(ref$struct$m_Hasher)
+    _2: Ref(ref$Slice$u8)
+    _3: Ref(ref$struct$m_Hasher)
+    _4: Ref(ref$Slice$u8)
+  label start // 0
+    // ========== start ==========
+    // Def path: "crc32fast::{impl#3}::write"
+    // Span: src/lib.rs:151:5: 153:6 (#0)
+    __t0 := copy false
+    __t1 := copy false
+    // Preconditions:
+    inhale (acc(_1.val_ref, write)) && ((acc(struct$m_Hasher(_1.val_ref), write)) && ((acc(_2.val_ref, write)) && ((acc(Slice$u8(_2.val_ref), read)) && (true))))
+    inhale true
+    inhale (true) && ((true) && (true))
+    inhale true
+    label pre
+    Goto(cfg:2)
+  label return // 1
+    // ========== return ==========
+    // Target of any 'return' statement.
+    // Exhale postcondition
+    label l6
+    // Fold predicates for &mut args and transfer borrow permissions to old
+    obtain acc(struct$m_Hasher(_1.val_ref), write)
+    _old$pre$0 := move _1.val_ref
+    obtain acc(Slice$u8(_2.val_ref), write)
+    _old$pre$1 := move _2.val_ref
+    // Fold the result
+    obtain acc(tuple0$(_0), write)
+    // Assert possible strengthening
+    // Assert functional specification of postcondition
+    assert true
+    // Assert type invariants
+    assert (true) && ((true) && (true))
+    // Exhale permissions of postcondition (1/3)
+    exhale (acc(struct$m_Hasher(_old$pre$0), write)) && ((acc(Slice$u8(_old$pre$1), read)) && (true))
+    // Exhale permissions of postcondition (2/3)
+    exhale acc(tuple0$(_0), write)
+    // Exhale permissions of postcondition (3/3)
+    Return
+  label bb0 // 2
+    // ========== bb0 ==========
+    __t0 := copy true
+    // [mir] StorageLive(_3)
+    // [mir] _3 = &'?4 mut (*_1)
+    _3 := builtin$havoc_ref()
+    inhale acc(_3.val_ref, write)
+    _3.val_ref := mut borrow _1.val_ref // L0
+    label l0
+    // [mir] StorageLive(_4)
+    // [mir] _4 = &'?5 (*_2)
+    _4 := builtin$havoc_ref()
+    inhale acc(_4.val_ref, write)
+    _4.val_ref := borrow _2.val_ref // L5
+    inhale acc(Slice$u8(_4.val_ref), read)
+    label l1
+    // [mir] _0 = Hasher::update(move _3, move _4) -> [return: bb1, unwind: bb2]
+    label l2
+    assert true
+    assert (true) && ((true) && (true))
+    exhale (acc(_3.val_ref, write)) && ((acc(struct$m_Hasher(_3.val_ref), write)) && ((acc(_4.val_ref, write)) && ((true) && (true))))
+    _0 := builtin$havoc_ref()
+    inhale (acc(struct$m_Hasher(old[l2](_3.val_ref)), write)) && (true)
+    inhale acc(tuple0$(_0), write)
+    transfer perm _4.val_ref --> old[l2](_4.val_ref) // unchecked: true
+    inhale (true) && ((true) && (true))
+    inhale true
+    exhale true
+    label l3
+    Goto(cfg:3)
+  label l4 // 3
+    // ========== l4 ==========
+    // MIR edge bb0 --> bb1
+    // Expire borrows
+    // expire_borrows ReborrowingDAG(L7,L6,L5,L0,)
+
+    if (__t0) && (true) {
+    // expire loan L7
+} else {}
+    if (__t0) && (true) {
+    // expire loan L6
+} else {}
+    if (__t0) && ((__t0) && (true)) {
+    // expire loan L5
+    transfer perm old[l2](_4.val_ref) --> old[l1](_4.val_ref) // unchecked: false
+    exhale acc(Slice$u8(old[l1](_4.val_ref)), read)
+    // drop Pred(old[l2](_3.val_ref), write) (Pred(old[l2](_3.val_ref), write))
+} else {}
+    if (__t0) && ((__t0) && (true)) {
+    // expire loan L0
+    transfer perm old[l2](_3.val_ref) --> old[l0](_3.val_ref) // unchecked: false
+    transfer perm old[l0](_3.val_ref) --> _1.val_ref // unchecked: false
+    // drop Pred(_1.val_ref, write) (Pred(_1.val_ref, write))
+    // restored (in branch merge): Pred(_1.val_ref, write) (Pred(_1.val_ref, write))
+    // drop Pred(old[l2](_4.val_ref), read) (Pred(old[l2](_4.val_ref), read))
+} else {}
+    Goto(cfg:4)
+  label bb1 // 4
+    // ========== bb1 ==========
+    __t1 := copy true
+    // [mir] StorageDead(_4)
+    // [mir] StorageDead(_3)
+    // [mir] return
+    Goto(cfg:1)
+  label end_of_method
+}
+
+
+method m_$openang$Hasher$space$as$space$std$$hash$$Hasher$closeang$$$finish(...)
+    returns (_0: Ref(u64))
+{
+    __t0: Bool
+    __t1: Bool
+    __t2: Bool
+    __t3: Bool
+    _old$pre$0: Ref(struct$m_Hasher)
+    _1: Ref(ref$struct$m_Hasher)
+    _2: Ref(u32)
+    _3: Ref(struct$m_Hasher)
+    _4: Ref(ref$struct$m_Hasher)
+  label start // 0
+    // ========== start ==========
+    // Def path: "crc32fast::{impl#3}::finish"
+    // Span: src/lib.rs:155:5: 157:6 (#0)
+    __t0 := copy false
+    __t1 := copy false
+    __t2 := copy false
+    __t3 := copy false
+    // Preconditions:
+    inhale (acc(_1.val_ref, write)) && ((acc(struct$m_Hasher(_1.val_ref), read)) && (true))
+    inhale true
+    inhale (true) && (true)
+    inhale true
+    label pre
+    Goto(cfg:2)
+  label return // 1
+    // ========== return ==========
+    // Target of any 'return' statement.
+    // Exhale postcondition
+    label l9
+    // Fold predicates for &mut args and transfer borrow permissions to old
+    obtain acc(struct$m_Hasher(_1.val_ref), write)
+    _old$pre$0 := move _1.val_ref
+    // Fold the result
+    obtain acc(u64(_0), write)
+    // Assert possible strengthening
+    // Assert functional specification of postcondition
+    assert true
+    // Assert type invariants
+    assert (true) && (true)
+    // Exhale permissions of postcondition (1/3)
+    exhale (acc(struct$m_Hasher(_old$pre$0), read)) && (true)
+    // Exhale permissions of postcondition (2/3)
+    exhale acc(u64(_0), write)
+    // Exhale permissions of postcondition (3/3)
+    Return
+  label bb0 // 2
+    // ========== bb0 ==========
+    __t0 := copy true
+    // [mir] StorageLive(_2)
+    // [mir] StorageLive(_3)
+    // [mir] StorageLive(_4)
+    // [mir] _4 = &'?3 (*_1)
+    _4 := builtin$havoc_ref()
+    inhale acc(_4.val_ref, write)
+    _4.val_ref := borrow _1.val_ref // L4
+    inhale acc(struct$m_Hasher(_4.val_ref), read)
+    label l0
+    // [mir] _3 = <Hasher as std::clone::Clone>::clone(move _4) -> [return: bb1, unwind: bb4]
+    label l1
+    assert true
+    assert (true) && (true)
+    exhale (acc(_4.val_ref, write)) && ((true) && (true))
+    _3 := builtin$havoc_ref()
+    inhale true
+    inhale acc(struct$m_Hasher(_3), write)
+    transfer perm _4.val_ref --> old[l1](_4.val_ref) // unchecked: true
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l2
+    Goto(cfg:3)
+  label l3 // 3
+    // ========== l3 ==========
+    // MIR edge bb0 --> bb1
+    // Expire borrows
+    // expire_borrows ReborrowingDAG(L3,L4,)
+
+    if (__t0) && (true) {
+    // expire loan L3
+} else {}
+    if (__t0) && ((__t0) && (true)) {
+    // expire loan L4
+    transfer perm old[l1](_4.val_ref) --> old[l0](_4.val_ref) // unchecked: false
+    exhale acc(struct$m_Hasher(old[l0](_4.val_ref)), read)
+} else {}
+    Goto(cfg:4)
+  label bb1 // 4
+    // ========== bb1 ==========
+    __t1 := copy true
+    // [mir] StorageDead(_4)
+    // [mir] _2 = Hasher::finalize(move _3) -> [return: bb2, unwind: bb4]
+    label l4
+    assert true
+    assert (true) && (true)
+    exhale (acc(struct$m_Hasher(_3), write)) && (true)
+    _2 := builtin$havoc_ref()
+    inhale true
+    inhale acc(u32(_2), write)
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l5
+    Goto(cfg:5)
+  label bb2 // 5
+    // ========== bb2 ==========
+    __t2 := copy true
+    // [mir] StorageDead(_3)
+    // [mir] _0 = <u64 as std::convert::From<u32>>::from(move _2) -> [return: bb3, unwind: bb4]
+    label l6
+    assert true
+    assert (true) && (true)
+    exhale (acc(u32(_2), write)) && (true)
+    _0 := builtin$havoc_ref()
+    inhale true
+    inhale acc(u64(_0), write)
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l7
+    Goto(cfg:6)
+  label bb3 // 6
+    // ========== bb3 ==========
+    __t3 := copy true
+    // [mir] StorageDead(_2)
+    // [mir] return
+    Goto(cfg:1)
+  label end_of_method
+}
+
+
+method m_Hasher$$new_with_initial$$$opencur$closure$sharp$0$closecur$(...)
+    returns (_0: Ref(struct$m_Hasher))
+{
+    __t0: Bool
+    __t1: Bool
+    _1: Ref(closure$m_Hasher$$new_with_initial$$$opencur$closure$sharp$0$closecur$)
+    _2: Ref(u32)
+  label start // 0
+    // ========== start ==========
+    // Def path: "crc32fast::{impl#0}::new_with_initial::{closure#0}"
+    // Span: src/lib.rs:75:61: 75:97 (#0)
+    __t0 := copy false
+    __t1 := copy false
+    // Preconditions:
+    inhale (acc(closure$m_Hasher$$new_with_initial$$$opencur$closure$sharp$0$closecur$(_1), write)) && (true)
+    inhale true
+    inhale (true) && (true)
+    inhale true
+    label pre
+    Goto(cfg:2)
+  label return // 1
+    // ========== return ==========
+    // Target of any 'return' statement.
+    // Exhale postcondition
+    label l4
+    // Fold predicates for &mut args and transfer borrow permissions to old
+    // Fold the result
+    obtain acc(struct$m_Hasher(_0), write)
+    // Assert possible strengthening
+    // Assert functional specification of postcondition
+    assert true
+    // Assert type invariants
+    assert (true) && (true)
+    // Exhale permissions of postcondition (1/3)
+    exhale true
+    // Exhale permissions of postcondition (2/3)
+    exhale acc(struct$m_Hasher(_0), write)
+    // Exhale permissions of postcondition (3/3)
+    Return
+  label bb0 // 2
+    // ========== bb0 ==========
+    __t0 := copy true
+    // [mir] StorageLive(_2)
+    // [mir] _2 = (*(_1.0: &'?3 u32))
+    _2 := builtin$havoc_ref()
+    inhale acc(_2.val_int, write)
+    unfold acc(Ref(closure$m_Hasher$$new_with_initial$$$opencur$closure$sharp$0$closecur$)(_1), write)
+    unfold acc(Ref(ref$u32)(_1.closure_0), write)
+    unfold acc(Ref(u32)(_1.closure_0.val_ref), write)
+    _2.val_int := copy _1.closure_0.val_ref.val_int
+    label l0
+    // [mir] _0 = Hasher::internal_new_baseline(move _2) -> [return: bb1, unwind: bb2]
+    label l1
+    assert true
+    assert (true) && (true)
+    fold acc(Ref(u32)(_2), write)
+    exhale (acc(u32(_2), write)) && (true)
+    _0 := builtin$havoc_ref()
+    inhale true
+    inhale acc(struct$m_Hasher(_0), write)
+    inhale (true) && (true)
+    inhale true
+    exhale true
+    label l2
+    Goto(cfg:3)
+  label bb1 // 3
+    // ========== bb1 ==========
+    __t1 := copy true
+    // [mir] StorageDead(_2)
+    // [mir] return
+    Goto(cfg:1)
+  label end_of_method
+}
+
+

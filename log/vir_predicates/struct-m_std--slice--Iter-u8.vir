@@ -1,0 +1,3 @@
+struct_predicate struct$m_std$$slice$$Iter$u8(self){
+  (acc(self.f$ptr, write)) && ((acc(struct$m_std$$ptr$$NonNull$u8(self.f$ptr), write)) && ((acc(self.f$end_or_len, write)) && ((acc(raw_ref$u8(self.f$end_or_len), write)) && ((acc(self.f$_marker, write)) && ((acc(struct$m_std$$marker$$PhantomData$ref$u8(self.f$_marker), write)) && (true))))))
+}

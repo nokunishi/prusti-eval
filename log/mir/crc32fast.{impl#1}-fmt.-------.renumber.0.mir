@@ -1,0 +1,42 @@
+// MIR for `<impl at src/lib.rs:138:1: 138:27>::fmt` 0 renumber
+
+fn <impl at src/lib.rs:138:1: 138:27>::fmt(_1: &'?12 Hasher, _2: &'?13 mut std::fmt::Formatter<'?14>) -> std::result::Result<(), std::fmt::Error> {
+    debug self => _1;
+    debug f => _2;
+    let mut _0: std::result::Result<(), std::fmt::Error>;
+    let mut _3: &'?15 mut std::fmt::DebugStruct<'?16, '?17>;
+    let mut _4: std::fmt::DebugStruct<'?18, '?19>;
+    let mut _5: &'?20 mut std::fmt::Formatter<'?21>;
+    let mut _6: &'?22 str;
+    let _7: &'?23 str;
+
+    bb0: {
+        StorageLive(_3);
+        StorageLive(_4);
+        StorageLive(_5);
+        _5 = &'?5 mut (*_2);
+        StorageLive(_6);
+        StorageLive(_7);
+        _7 = const "crc32fast::Hasher";
+        _6 = &'?7 (*_7);
+        _4 = std::fmt::Formatter::<'?8>::debug_struct(move _5, move _6) -> [return: bb1, unwind: bb3];
+    }
+
+    bb1: {
+        _3 = &'?9 mut _4;
+        StorageDead(_6);
+        StorageDead(_5);
+        _0 = std::fmt::DebugStruct::<'?10, '?11>::finish(move _3) -> [return: bb2, unwind: bb3];
+    }
+
+    bb2: {
+        StorageDead(_3);
+        StorageDead(_7);
+        StorageDead(_4);
+        return;
+    }
+
+    bb3 (cleanup): {
+        resume;
+    }
+}

@@ -1,0 +1,28 @@
+digraph RegionInferenceContext {
+    r0[label="\'?0"][shape="box"];
+    r1[label="\'?1"][shape="box"];
+    r2[label="\'?2"][shape="box"];
+    r3[label="\'?3"][shape="box"];
+    r4[label="\'?4"][shape="box"];
+    r5[label="\'?5"][shape="box"];
+    r6[label="\'?6"][shape="box"];
+    r7[label="\'?7"][shape="box"];
+    r8[label="\'?8"][shape="box"];
+    r9[label="\'?9"][shape="box"];
+    r10[label="\'?10"][shape="box"];
+    r11[label="\'?11"][shape="box"];
+    r12[label="\'?12"][shape="box"];
+    r13[label="\'?13"][shape="box"];
+    r3 -> r10[label="Single(bb2[1])"];
+    r7 -> r3[label="Single(bb2[1])"];
+    r4 -> r11[label="Single(bb2[3])"];
+    r10 -> r4[label="Single(bb2[3])"];
+    r11 -> r12[label="Single(bb2[4])"];
+    r5 -> r8[label="Single(bb4[1])"];
+    r7 -> r5[label="Single(bb4[1])"];
+    r6 -> r9[label="Single(bb4[3])"];
+    r8 -> r6[label="Single(bb4[3])"];
+    r9 -> r13[label="Single(bb4[4])"];
+    r1 -> r7[label="All(src/lib.rs:119:18: 119:27 (#0))"];
+    r7 -> r1[label="All(src/lib.rs:119:18: 119:27 (#0))"];
+}

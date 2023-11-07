@@ -1,0 +1,29 @@
+// MIR for `<impl at src/lib.rs:144:1: 144:24>::default` 0 nll
+
+| Free Region Mapping
+| '?0 | Global | ['?0, '?1]
+| '?1 | Local | ['?1]
+|
+| Inferred Region Values
+| '?0 | U0 | {bb0[0], bb1[0], bb2[0], '?0, '?1}
+| '?1 | U0 | {bb0[0], bb1[0], bb2[0], '?1}
+|
+| Inference Constraints
+| '?0 live at {bb0[0], bb1[0], bb2[0]}
+| '?1 live at {bb0[0], bb1[0], bb2[0]}
+|
+fn <impl at src/lib.rs:144:1: 144:24>::default() -> Hasher {
+    let mut _0: Hasher;
+
+    bb0: {
+        _0 = Hasher::new() -> [return: bb1, unwind: bb2];
+    }
+
+    bb1: {
+        return;
+    }
+
+    bb2 (cleanup): {
+        resume;
+    }
+}

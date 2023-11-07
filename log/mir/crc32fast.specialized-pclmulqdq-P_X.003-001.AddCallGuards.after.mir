@@ -1,0 +1,10 @@
+// MIR for `specialized::pclmulqdq::P_X` after AddCallGuards
+
+const specialized::pclmulqdq::P_X: i64 = {
+    let mut _0: i64;
+
+    bb0: {
+        _0 = const 7976584769_i64;
+        return;
+    }
+}

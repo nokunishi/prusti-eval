@@ -1,0 +1,35 @@
+digraph Mir_0_44 {
+    graph [fontname="Courier, monospace"];
+    node [fontname="Courier, monospace"];
+    edge [fontname="Courier, monospace"];
+    label=<fn Hasher::combine(_1: &amp;ReErased mut Adt(Hasher, []), _2: &amp;ReErased Adt(Hasher, [])) -&gt; ()<br align="left"/>let mut _3: u64;<br align="left"/>let mut _4: (u64bool));<br align="left"/>let _5: u32;<br align="left"/>let mut _6: Adt(Hasher, []);<br align="left"/>let mut _7: &amp;ReErased Adt(Hasher, []);<br align="left"/>let mut _8: isize;<br align="left"/>let _9: &amp;ReErased mut Adt(baseline::State, []);<br align="left"/>let mut _10: &amp;ReErased mut Adt(baseline::State, []);<br align="left"/>let mut _11: u32;<br align="left"/>let mut _12: u64;<br align="left"/>let _13: &amp;ReErased mut Adt(specialized::pclmulqdq::State, []);<br align="left"/>let mut _14: &amp;ReErased mut Adt(specialized::pclmulqdq::State, []);<br align="left"/>let mut _15: u32;<br align="left"/>let mut _16: u64;<br align="left"/>debug self =&gt; _1;<br align="left"/>debug other =&gt; _2;<br align="left"/>debug other_crc =&gt; _5;<br align="left"/>debug state =&gt; _9;<br align="left"/>debug state =&gt; _13;<br align="left"/>>;
+    bb0__0_44 [shape="none", label=<<table border="0" cellborder="1" cellspacing="0"><tr><td bgcolor="gray" align="center" colspan="1">0</td></tr><tr><td align="left" balign="left">StorageLive(_3)<br/>_3 = ((*_2).0: u64)<br/>_4 = CheckedAdd(((*_1).0: u64), _3)<br/></td></tr><tr><td align="left">assert(!move (_4.1: bool), &quot;attempt to compute `{} + {}`, which would overflow&quot;, ((*_1).0: u64), move _3)</td></tr></table>>];
+    bb1__0_44 [shape="none", label=<<table border="0" cellborder="1" cellspacing="0"><tr><td bgcolor="gray" align="center" colspan="1">1</td></tr><tr><td align="left" balign="left">((*_1).0: u64) = move (_4.0: u64)<br/>StorageDead(_3)<br/>StorageLive(_5)<br/>StorageLive(_6)<br/>StorageLive(_7)<br/>_7 = &amp;'_ (*_2)<br/></td></tr><tr><td align="left">_6 = &lt;Hasher as std::clone::Clone&gt;::clone(move _7)</td></tr></table>>];
+    bb2__0_44 [shape="none", label=<<table border="0" cellborder="1" cellspacing="0"><tr><td bgcolor="gray" align="center" colspan="1">2</td></tr><tr><td align="left" balign="left">StorageDead(_7)<br/></td></tr><tr><td align="left">_5 = Hasher::finalize(move _6)</td></tr></table>>];
+    bb3__0_44 [shape="none", label=<<table border="0" cellborder="1" cellspacing="0"><tr><td bgcolor="gray" align="center" colspan="1">3</td></tr><tr><td align="left" balign="left">StorageDead(_6)<br/>FakeRead(ForLet(None), _5)<br/>FakeRead(ForMatchedPlace(None), ((*_1).1: State))<br/>_8 = discriminant(((*_1).1: State))<br/></td></tr><tr><td align="left">switchInt(move _8)</td></tr></table>>];
+    bb4__0_44 [shape="none", label=<<table border="0" cellborder="1" cellspacing="0"><tr><td bgcolor="gray" align="center" colspan="1">4</td></tr><tr><td align="left">falseEdge</td></tr></table>>];
+    bb5__0_44 [shape="none", label=<<table border="0" cellborder="1" cellspacing="0"><tr><td bgcolor="gray" align="center" colspan="1">5</td></tr><tr><td align="left" balign="left">StorageLive(_13)<br/>_13 = &amp;'_ mut ((((*_1).1: State) as Specialized).0: specialized::pclmulqdq::State)<br/>StorageLive(_14)<br/>_14 = &amp;'_ mut (*_13)<br/>StorageLive(_15)<br/>_15 = _5<br/>StorageLive(_16)<br/>_16 = ((*_2).0: u64)<br/></td></tr><tr><td align="left">_0 = specialized::pclmulqdq::State::combine(move _14, move _15, move _16)</td></tr></table>>];
+    bb6__0_44 [shape="none", label=<<table border="0" cellborder="1" cellspacing="0"><tr><td bgcolor="gray" align="center" colspan="1">6</td></tr><tr><td align="left">unreachable</td></tr></table>>];
+    bb7__0_44 [shape="none", label=<<table border="0" cellborder="1" cellspacing="0"><tr><td bgcolor="gray" align="center" colspan="1">7</td></tr><tr><td align="left" balign="left">StorageLive(_9)<br/>_9 = &amp;'_ mut ((((*_1).1: State) as Baseline).0: baseline::State)<br/>StorageLive(_10)<br/>_10 = &amp;'_ mut (*_9)<br/>StorageLive(_11)<br/>_11 = _5<br/>StorageLive(_12)<br/>_12 = ((*_2).0: u64)<br/></td></tr><tr><td align="left">_0 = baseline::State::combine(move _10, move _11, move _12)</td></tr></table>>];
+    bb8__0_44 [shape="none", label=<<table border="0" cellborder="1" cellspacing="0"><tr><td bgcolor="gray" align="center" colspan="1">8</td></tr><tr><td align="left" balign="left">StorageDead(_12)<br/>StorageDead(_11)<br/>StorageDead(_10)<br/>StorageDead(_9)<br/></td></tr><tr><td align="left">goto</td></tr></table>>];
+    bb9__0_44 [shape="none", label=<<table border="0" cellborder="1" cellspacing="0"><tr><td bgcolor="gray" align="center" colspan="1">9</td></tr><tr><td align="left" balign="left">StorageDead(_16)<br/>StorageDead(_15)<br/>StorageDead(_14)<br/>StorageDead(_13)<br/></td></tr><tr><td align="left">goto</td></tr></table>>];
+    bb10__0_44 [shape="none", label=<<table border="0" cellborder="1" cellspacing="0"><tr><td bgcolor="gray" align="center" colspan="1">10</td></tr><tr><td align="left" balign="left">StorageDead(_5)<br/></td></tr><tr><td align="left">return</td></tr></table>>];
+    bb11__0_44 [shape="none", label=<<table border="0" cellborder="1" cellspacing="0"><tr><td bgcolor="lightblue" align="center" colspan="1">11 (cleanup)</td></tr><tr><td align="left">resume</td></tr></table>>];
+    bb0__0_44 -> bb1__0_44 [label="success"];
+    bb0__0_44 -> bb11__0_44 [label="unwind"];
+    bb1__0_44 -> bb2__0_44 [label="return"];
+    bb1__0_44 -> bb11__0_44 [label="unwind"];
+    bb2__0_44 -> bb3__0_44 [label="return"];
+    bb2__0_44 -> bb11__0_44 [label="unwind"];
+    bb3__0_44 -> bb4__0_44 [label="0"];
+    bb3__0_44 -> bb5__0_44 [label="1"];
+    bb3__0_44 -> bb6__0_44 [label="otherwise"];
+    bb4__0_44 -> bb7__0_44 [label="real"];
+    bb4__0_44 -> bb5__0_44 [label="imaginary"];
+    bb5__0_44 -> bb9__0_44 [label="return"];
+    bb5__0_44 -> bb11__0_44 [label="unwind"];
+    bb7__0_44 -> bb8__0_44 [label="return"];
+    bb7__0_44 -> bb11__0_44 [label="unwind"];
+    bb8__0_44 -> bb10__0_44 [label=""];
+    bb9__0_44 -> bb10__0_44 [label=""];
+}

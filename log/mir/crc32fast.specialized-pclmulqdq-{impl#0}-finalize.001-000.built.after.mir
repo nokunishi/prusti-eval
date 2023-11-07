@@ -1,0 +1,11 @@
+// MIR for `specialized::pclmulqdq::<impl at src/specialized/pclmulqdq.rs:11:1: 11:11>::finalize` after built
+
+fn specialized::pclmulqdq::<impl at src/specialized/pclmulqdq.rs:11:1: 11:11>::finalize(_1: specialized::pclmulqdq::State) -> u32 {
+    debug self => _1;
+    let mut _0: u32;
+
+    bb0: {
+        _0 = (_1.0: u32);
+        return;
+    }
+}

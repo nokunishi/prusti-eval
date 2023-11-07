@@ -1,0 +1,32 @@
+// MIR for `baseline::update_fast_16::BYTES_AT_ONCE` 0 nll
+
+| Free Region Mapping
+| '?0 | Global | ['?0, '?1]
+| '?1 | Local | ['?1]
+|
+| Inferred Region Values
+| '?0 | U0 | {bb0[0..=1], bb1[0..=1], bb2[0], '?0, '?1}
+| '?1 | U0 | {bb0[0..=1], bb1[0..=1], bb2[0], '?1}
+|
+| Inference Constraints
+| '?0 live at {bb0[0..=1], bb1[0..=1], bb2[0]}
+| '?1 live at {bb0[0..=1], bb1[0..=1], bb2[0]}
+|
+const baseline::update_fast_16::BYTES_AT_ONCE: usize = {
+    let mut _0: usize;
+    let mut _1: (usize, bool);
+
+    bb0: {
+        _1 = CheckedMul(const 16_usize, const _);
+        assert(!move (_1.1: bool), "attempt to compute `{} * {}`, which would overflow", const 16_usize, const _) -> [success: bb1, unwind: bb2];
+    }
+
+    bb1: {
+        _0 = move (_1.0: usize);
+        return;
+    }
+
+    bb2 (cleanup): {
+        resume;
+    }
+}

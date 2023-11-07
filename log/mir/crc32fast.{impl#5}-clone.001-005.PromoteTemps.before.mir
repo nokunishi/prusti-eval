@@ -1,0 +1,45 @@
+// MIR for `<impl at src/lib.rs:52:10: 52:15>::clone` before PromoteTemps
+
+fn <impl at src/lib.rs:52:10: 52:15>::clone(_1: &Hasher) -> Hasher {
+    debug self => _1;
+    let mut _0: Hasher;
+    let mut _2: u64;
+    let mut _3: &u64;
+    let _4: &u64;
+    let mut _5: State;
+    let mut _6: &State;
+    let _7: &State;
+
+    bb0: {
+        StorageLive(_2);
+        StorageLive(_3);
+        StorageLive(_4);
+        _4 = &'_ ((*_1).0: u64);
+        _3 = &'_ (*_4);
+        _2 = <u64 as std::clone::Clone>::clone(move _3) -> [return: bb1, unwind: bb3];
+    }
+
+    bb1: {
+        StorageDead(_3);
+        StorageLive(_5);
+        StorageLive(_6);
+        StorageLive(_7);
+        _7 = &'_ ((*_1).1: State);
+        _6 = &'_ (*_7);
+        _5 = <State as std::clone::Clone>::clone(move _6) -> [return: bb2, unwind: bb3];
+    }
+
+    bb2: {
+        StorageDead(_6);
+        _0 = Hasher { amount: move _2, state: move _5 };
+        StorageDead(_5);
+        StorageDead(_2);
+        StorageDead(_7);
+        StorageDead(_4);
+        return;
+    }
+
+    bb3 (cleanup): {
+        resume;
+    }
+}

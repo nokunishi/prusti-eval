@@ -1,0 +1,39 @@
+// MIR for `<impl at src/lib.rs:150:1: 150:29>::finish` before SimplifyCfg-promote-consts
+
+| User Type Annotations
+| 0: user_ty: Canonical { value: TypeOf(DefId(2:2535 ~ core[5e8a]::convert::From::from), UserArgs { args: [u64, ^0], user_self_ty: None }), max_universe: U0, variables: [CanonicalVarInfo { kind: Ty(General(U0)) }] }, span: src/lib.rs:156:9: 156:18, inferred_ty: fn(u32) -> u64 {<u64 as std::convert::From<u32>>::from}
+|
+fn <impl at src/lib.rs:150:1: 150:29>::finish(_1: &Hasher) -> u64 {
+    debug self => _1;
+    let mut _0: u64;
+    let mut _2: u32;
+    let mut _3: Hasher;
+    let mut _4: &Hasher;
+
+    bb0: {
+        StorageLive(_2);
+        StorageLive(_3);
+        StorageLive(_4);
+        _4 = &'_ (*_1);
+        _3 = <Hasher as std::clone::Clone>::clone(move _4) -> [return: bb1, unwind: bb4];
+    }
+
+    bb1: {
+        StorageDead(_4);
+        _2 = Hasher::finalize(move _3) -> [return: bb2, unwind: bb4];
+    }
+
+    bb2: {
+        StorageDead(_3);
+        _0 = <u64 as std::convert::From<u32>>::from(move _2) -> [return: bb3, unwind: bb4];
+    }
+
+    bb3: {
+        StorageDead(_2);
+        return;
+    }
+
+    bb4 (cleanup): {
+        resume;
+    }
+}

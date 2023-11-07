@@ -1,0 +1,10 @@
+// MIR for `combine::gf2_matrix_square::{constant#1}` after SimplifyCfg-elaborate-drops
+
+combine::gf2_matrix_square::{constant#1}: usize = {
+    let mut _0: usize;
+
+    bb0: {
+        _0 = const _;
+        return;
+    }
+}

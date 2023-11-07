@@ -1,0 +1,8 @@
+digraph CFG {
+graph [fontname=monospace];
+node [fontname=monospace];
+edge [fontname=monospace];
+labelloc="t";
+label="Method m_combine$$gf2_matrix_times";
+"block_stub" [shape=none,label=<<table border="0" cellborder="1" cellspacing="0"><tr><td bgcolor="gray" align="center">stub (cfg:0)</td></tr><tr><td align="left" balign="left"><font color="orange">// ========== stub ==========</font><br/><font color="orange">// Def path: "crc32fast::combine::gf2_matrix_times"</font><br/><font color="orange">// Span: src/combine.rs:3:1: 14:2 (#0)</font></td></tr><tr><td align="left" bgcolor="#82CA9D">Return<br/></td></tr></table>>];
+}

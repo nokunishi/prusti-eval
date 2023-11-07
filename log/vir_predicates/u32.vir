@@ -1,0 +1,3 @@
+struct_predicate u32(self){
+  (acc(self.val_int, write)) && (((0) <= (self.val_int)) && (((self.val_int) <= (4294967295)) && (true)))
+}

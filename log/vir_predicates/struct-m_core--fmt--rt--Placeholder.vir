@@ -1,0 +1,3 @@
+struct_predicate struct$m_core$$fmt$$rt$$Placeholder(self){
+  (acc(self.f$position, write)) && ((acc(usize(self.f$position), write)) && ((acc(self.f$fill, write)) && ((acc(char(self.f$fill), write)) && ((acc(self.f$align, write)) && ((acc(m_core$$fmt$$rt$$Alignment$_beg_$_end_(self.f$align), write)) && ((acc(self.f$flags, write)) && ((acc(u32(self.f$flags), write)) && ((acc(self.f$precision, write)) && ((acc(m_core$$fmt$$rt$$Count$_beg_$_end_(self.f$precision), write)) && ((acc(self.f$width, write)) && ((acc(m_core$$fmt$$rt$$Count$_beg_$_end_(self.f$width), write)) && (true))))))))))))
+}

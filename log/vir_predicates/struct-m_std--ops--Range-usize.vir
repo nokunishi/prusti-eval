@@ -1,0 +1,3 @@
+struct_predicate struct$m_std$$ops$$Range$usize(self){
+  (acc(self.f$start, write)) && ((acc(usize(self.f$start), write)) && ((acc(self.f$end, write)) && ((acc(usize(self.f$end), write)) && (true))))
+}

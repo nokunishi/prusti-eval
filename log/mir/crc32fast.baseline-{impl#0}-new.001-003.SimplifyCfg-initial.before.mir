@@ -1,0 +1,15 @@
+// MIR for `baseline::<impl at src/baseline.rs:8:1: 8:11>::new` before SimplifyCfg-initial
+
+fn baseline::<impl at src/baseline.rs:8:1: 8:11>::new(_1: u32) -> baseline::State {
+    debug state => _1;
+    let mut _0: baseline::State;
+    let mut _2: u32;
+
+    bb0: {
+        StorageLive(_2);
+        _2 = _1;
+        _0 = baseline::State { state: move _2 };
+        StorageDead(_2);
+        return;
+    }
+}

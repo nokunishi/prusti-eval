@@ -1,0 +1,3 @@
+struct_predicate ref$Array$32$u32(self){
+  (acc(self.val_ref, write)) && ((acc(Array$32$u32(self.val_ref), write)) && (true))
+}

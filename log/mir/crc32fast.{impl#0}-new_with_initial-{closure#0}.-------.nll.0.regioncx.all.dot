@@ -1,0 +1,13 @@
+digraph RegionInferenceContext {
+    r0[label="\'?0"][shape="box"];
+    r1[label="\'?1"][shape="box"];
+    r2[label="\'?2"][shape="box"];
+    r3[label="\'?3"][shape="box"];
+    r4[label="\'?4"][shape="box"];
+    r5[label="\'?5"][shape="box"];
+    r4 -> r3[label="Single(bb0[1])"];
+    r4 -> r5[label="Single(bb0[0])"];
+    r5 -> r4[label="Single(bb0[0])"];
+    r1 -> r4[label="All(src/lib.rs:75:61: 75:97 (#0))"];
+    r4 -> r1[label="All(src/lib.rs:75:61: 75:97 (#0))"];
+}

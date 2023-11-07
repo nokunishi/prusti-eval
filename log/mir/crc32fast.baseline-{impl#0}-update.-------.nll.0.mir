@@ -1,0 +1,65 @@
+// MIR for `baseline::<impl at src/baseline.rs:8:1: 8:11>::update` 0 nll
+
+| Free Region Mapping
+| '?0 | Global | ['?0, '?3, '?1, '?2]
+| '?1 | Local | ['?3, '?1]
+| '?2 | Local | ['?3, '?2]
+| '?3 | Local | ['?3]
+|
+| Inferred Region Values
+| '?0 | U0 | {bb0[0..=5], bb1[0..=5], bb2[0], '?0, '?1, '?2, '?3}
+| '?1 | U0 | {bb0[0..=5], bb1[0..=5], bb2[0], '?1}
+| '?2 | U0 | {bb0[0..=5], bb1[0..=5], bb2[0], '?2}
+| '?3 | U0 | {bb0[0..=5], bb1[0..=5], bb2[0], '?3}
+| '?4 | U0 | {bb0[4..=5]}
+| '?5 | U0 | {bb0[0..=5], bb1[0..=5], bb2[0], '?1}
+| '?6 | U0 | {bb0[0..=5], bb1[0..=5], bb2[0], '?2}
+| '?7 | U0 | {bb0[5]}
+| '?8 | U0 | {bb0[5]}
+|
+| Inference Constraints
+| '?0 live at {bb0[0..=5], bb1[0..=5], bb2[0]}
+| '?1 live at {bb0[0..=5], bb1[0..=5], bb2[0]}
+| '?2 live at {bb0[0..=5], bb1[0..=5], bb2[0]}
+| '?3 live at {bb0[0..=5], bb1[0..=5], bb2[0]}
+| '?4 live at {bb0[4]}
+| '?7 live at {bb0[5]}
+| '?8 live at {bb0[5]}
+| '?1: '?5 due to BoringNoLocation at All(src/baseline.rs:13:19: 13:28) (src/baseline.rs:13:19: 13:28 (#0)
+| '?2: '?6 due to BoringNoLocation at All(src/baseline.rs:13:30: 13:33) (src/baseline.rs:13:30: 13:33 (#0)
+| '?4: '?7 due to Boring at Single(bb0[4]) (src/baseline.rs:14:49: 14:52 (#0)
+| '?5: '?1 due to BoringNoLocation at All(src/baseline.rs:13:19: 13:28) (src/baseline.rs:13:19: 13:28 (#0)
+| '?6: '?2 due to BoringNoLocation at All(src/baseline.rs:13:30: 13:33) (src/baseline.rs:13:30: 13:33 (#0)
+| '?6: '?4 due to Boring at Single(bb0[4]) (src/baseline.rs:14:49: 14:52 (#0)
+| '?7: '?8 due to CallArgument(Some(FnDef(DefId(0:15 ~ crc32fast[c0c6]::baseline::update_fast_16), []))) at Single(bb0[5]) (src/baseline.rs:14:22: 14:53 (#0)
+|
+fn baseline::<impl at src/baseline.rs:8:1: 8:11>::update(_1: &'?5 mut baseline::State, _2: &'?6 [u8]) -> () {
+    debug self => _1;
+    debug buf => _2;
+    let mut _0: ();
+    let mut _3: u32;
+    let mut _4: u32;
+    let mut _5: &'?7 [u8];
+
+    bb0: {
+        StorageLive(_3);
+        StorageLive(_4);
+        _4 = ((*_1).0: u32);
+        StorageLive(_5);
+        _5 = &'?4 (*_2);
+        _3 = baseline::update_fast_16(move _4, move _5) -> [return: bb1, unwind: bb2];
+    }
+
+    bb1: {
+        StorageDead(_5);
+        StorageDead(_4);
+        ((*_1).0: u32) = move _3;
+        StorageDead(_3);
+        _0 = const ();
+        return;
+    }
+
+    bb2 (cleanup): {
+        resume;
+    }
+}

@@ -1,0 +1,1118 @@
+// MIR for `baseline::update_fast_16` after SimplifyCfg-promote-consts
+
+fn baseline::update_fast_16(_1: u32, _2: &[u8]) -> u32 {
+    debug prev => _1;
+    debug buf => _2;
+    let mut _0: u32;
+    let mut _3: u32;
+    let mut _4: u32;
+    let _5: ();
+    let mut _6: ();
+    let mut _7: bool;
+    let mut _8: usize;
+    let mut _9: &[u8];
+    let mut _10: std::ops::Range<usize>;
+    let mut _11: std::ops::Range<usize>;
+    let _13: ();
+    let mut _14: std::option::Option<usize>;
+    let mut _15: &mut std::ops::Range<usize>;
+    let mut _16: &mut std::ops::Range<usize>;
+    let mut _17: isize;
+    let mut _18: !;
+    let mut _19: u32;
+    let mut _20: u32;
+    let mut _21: u32;
+    let mut _22: u32;
+    let mut _23: u32;
+    let mut _24: u32;
+    let mut _25: u32;
+    let mut _26: u32;
+    let mut _27: u32;
+    let mut _28: u32;
+    let mut _29: u32;
+    let mut _30: u32;
+    let mut _31: u32;
+    let mut _32: u32;
+    let mut _33: u32;
+    let mut _34: [[u32; 256]; 16];
+    let _35: usize;
+    let mut _36: usize;
+    let mut _37: bool;
+    let _38: usize;
+    let mut _39: u8;
+    let _40: usize;
+    let mut _41: usize;
+    let mut _42: bool;
+    let mut _43: usize;
+    let mut _44: bool;
+    let mut _45: u32;
+    let mut _46: [[u32; 256]; 16];
+    let _47: usize;
+    let mut _48: usize;
+    let mut _49: bool;
+    let _50: usize;
+    let mut _51: u8;
+    let _52: usize;
+    let mut _53: usize;
+    let mut _54: bool;
+    let mut _55: usize;
+    let mut _56: bool;
+    let mut _57: u32;
+    let mut _58: [[u32; 256]; 16];
+    let _59: usize;
+    let mut _60: usize;
+    let mut _61: bool;
+    let _62: usize;
+    let mut _63: u8;
+    let _64: usize;
+    let mut _65: usize;
+    let mut _66: bool;
+    let mut _67: usize;
+    let mut _68: bool;
+    let mut _69: u32;
+    let mut _70: [[u32; 256]; 16];
+    let _71: usize;
+    let mut _72: usize;
+    let mut _73: bool;
+    let _74: usize;
+    let mut _75: u8;
+    let _76: usize;
+    let mut _77: usize;
+    let mut _78: bool;
+    let mut _79: usize;
+    let mut _80: bool;
+    let mut _81: u32;
+    let mut _82: [[u32; 256]; 16];
+    let _83: usize;
+    let mut _84: usize;
+    let mut _85: bool;
+    let _86: usize;
+    let mut _87: u8;
+    let _88: usize;
+    let mut _89: usize;
+    let mut _90: bool;
+    let mut _91: usize;
+    let mut _92: bool;
+    let mut _93: u32;
+    let mut _94: [[u32; 256]; 16];
+    let _95: usize;
+    let mut _96: usize;
+    let mut _97: bool;
+    let _98: usize;
+    let mut _99: u8;
+    let _100: usize;
+    let mut _101: usize;
+    let mut _102: bool;
+    let mut _103: usize;
+    let mut _104: bool;
+    let mut _105: u32;
+    let mut _106: [[u32; 256]; 16];
+    let _107: usize;
+    let mut _108: usize;
+    let mut _109: bool;
+    let _110: usize;
+    let mut _111: u8;
+    let _112: usize;
+    let mut _113: usize;
+    let mut _114: bool;
+    let mut _115: usize;
+    let mut _116: bool;
+    let mut _117: u32;
+    let mut _118: [[u32; 256]; 16];
+    let _119: usize;
+    let mut _120: usize;
+    let mut _121: bool;
+    let _122: usize;
+    let mut _123: u8;
+    let _124: usize;
+    let mut _125: usize;
+    let mut _126: bool;
+    let mut _127: usize;
+    let mut _128: bool;
+    let mut _129: u32;
+    let mut _130: [[u32; 256]; 16];
+    let _131: usize;
+    let mut _132: usize;
+    let mut _133: bool;
+    let _134: usize;
+    let mut _135: u8;
+    let _136: usize;
+    let mut _137: usize;
+    let mut _138: bool;
+    let mut _139: usize;
+    let mut _140: bool;
+    let mut _141: u32;
+    let mut _142: [[u32; 256]; 16];
+    let _143: usize;
+    let mut _144: usize;
+    let mut _145: bool;
+    let _146: usize;
+    let mut _147: u8;
+    let _148: usize;
+    let mut _149: usize;
+    let mut _150: bool;
+    let mut _151: usize;
+    let mut _152: bool;
+    let mut _153: u32;
+    let mut _154: [[u32; 256]; 16];
+    let _155: usize;
+    let mut _156: usize;
+    let mut _157: bool;
+    let _158: usize;
+    let mut _159: u8;
+    let _160: usize;
+    let mut _161: usize;
+    let mut _162: bool;
+    let mut _163: usize;
+    let mut _164: bool;
+    let mut _165: u32;
+    let mut _166: [[u32; 256]; 16];
+    let _167: usize;
+    let mut _168: usize;
+    let mut _169: bool;
+    let _170: usize;
+    let mut _171: u8;
+    let _172: usize;
+    let mut _173: usize;
+    let mut _174: bool;
+    let mut _175: usize;
+    let mut _176: bool;
+    let mut _177: u32;
+    let mut _178: [[u32; 256]; 16];
+    let _179: usize;
+    let mut _180: usize;
+    let mut _181: bool;
+    let _182: usize;
+    let mut _183: usize;
+    let mut _184: u8;
+    let _185: usize;
+    let mut _186: usize;
+    let mut _187: bool;
+    let mut _188: usize;
+    let mut _189: u32;
+    let mut _190: u32;
+    let mut _191: u32;
+    let mut _192: u32;
+    let mut _193: bool;
+    let mut _194: usize;
+    let mut _195: bool;
+    let mut _196: u32;
+    let mut _197: [[u32; 256]; 16];
+    let _198: usize;
+    let mut _199: usize;
+    let mut _200: bool;
+    let _201: usize;
+    let mut _202: usize;
+    let mut _203: u8;
+    let _204: usize;
+    let mut _205: usize;
+    let mut _206: bool;
+    let mut _207: usize;
+    let mut _208: u32;
+    let mut _209: u32;
+    let mut _210: u32;
+    let mut _211: u32;
+    let mut _212: bool;
+    let mut _213: usize;
+    let mut _214: bool;
+    let mut _215: u32;
+    let mut _216: [[u32; 256]; 16];
+    let _217: usize;
+    let mut _218: usize;
+    let mut _219: bool;
+    let _220: usize;
+    let mut _221: usize;
+    let mut _222: u8;
+    let _223: usize;
+    let mut _224: usize;
+    let mut _225: bool;
+    let mut _226: usize;
+    let mut _227: u32;
+    let mut _228: u32;
+    let mut _229: u32;
+    let mut _230: u32;
+    let mut _231: bool;
+    let mut _232: usize;
+    let mut _233: bool;
+    let mut _234: u32;
+    let mut _235: [[u32; 256]; 16];
+    let _236: usize;
+    let mut _237: usize;
+    let mut _238: bool;
+    let _239: usize;
+    let mut _240: usize;
+    let mut _241: u8;
+    let _242: usize;
+    let mut _243: usize;
+    let mut _244: bool;
+    let mut _245: usize;
+    let mut _246: u32;
+    let mut _247: u32;
+    let mut _248: u32;
+    let mut _249: u32;
+    let mut _250: bool;
+    let mut _251: usize;
+    let mut _252: bool;
+    let mut _253: &[u8];
+    let _254: &[u8];
+    let _255: &[u8];
+    let mut _256: &[u8];
+    let mut _257: std::ops::RangeFrom<usize>;
+    let mut _258: !;
+    let _259: ();
+    let mut _260: !;
+    let mut _261: u32;
+    let mut _262: u32;
+    let mut _263: &[u8];
+    scope 1 {
+        debug crc => _3;
+        let mut _12: std::ops::Range<usize>;
+        scope 2 {
+            debug iter => _12;
+        }
+    }
+
+    bb0: {
+        StorageLive(_3);
+        StorageLive(_4);
+        _4 = _1;
+        _3 = Not(move _4);
+        StorageDead(_4);
+        FakeRead(ForLet(None), _3);
+        StorageLive(_5);
+        goto -> bb1;
+    }
+
+    bb1: {
+        falseUnwind -> [real: bb2, unwind: bb68];
+    }
+
+    bb2: {
+        StorageLive(_7);
+        StorageLive(_8);
+        StorageLive(_9);
+        _9 = &'_ (*_2);
+        _8 = core::slice::<impl [u8]>::len(move _9) -> [return: bb3, unwind: bb68];
+    }
+
+    bb3: {
+        StorageDead(_9);
+        _7 = Ge(move _8, const _);
+        switchInt(move _7) -> [0: bb66, otherwise: bb4];
+    }
+
+    bb4: {
+        StorageDead(_8);
+        StorageLive(_10);
+        StorageLive(_11);
+        _11 = std::ops::Range::<usize> { start: const 0_usize, end: const _ };
+        _10 = <std::ops::Range<usize> as std::iter::IntoIterator>::into_iter(move _11) -> [return: bb5, unwind: bb68];
+    }
+
+    bb5: {
+        StorageDead(_11);
+        FakeRead(ForMatchedPlace(None), _10);
+        StorageLive(_12);
+        _12 = move _10;
+        goto -> bb6;
+    }
+
+    bb6: {
+        falseUnwind -> [real: bb7, unwind: bb68];
+    }
+
+    bb7: {
+        StorageLive(_13);
+        StorageLive(_14);
+        StorageLive(_15);
+        StorageLive(_16);
+        _16 = &'_ mut _12;
+        _15 = &'_ mut (*_16);
+        _14 = <std::ops::Range<usize> as std::iter::Iterator>::next(move _15) -> [return: bb8, unwind: bb68];
+    }
+
+    bb8: {
+        StorageDead(_15);
+        FakeRead(ForMatchedPlace(None), _14);
+        _17 = discriminant(_14);
+        switchInt(move _17) -> [0: bb9, 1: bb10, otherwise: bb11];
+    }
+
+    bb9: {
+        falseEdge -> [real: bb12, imaginary: bb10];
+    }
+
+    bb10: {
+        StorageLive(_19);
+        StorageLive(_20);
+        StorageLive(_21);
+        StorageLive(_22);
+        StorageLive(_23);
+        StorageLive(_24);
+        StorageLive(_25);
+        StorageLive(_26);
+        StorageLive(_27);
+        StorageLive(_28);
+        StorageLive(_29);
+        StorageLive(_30);
+        StorageLive(_31);
+        StorageLive(_32);
+        StorageLive(_33);
+        StorageLive(_34);
+        _34 = const _;
+        StorageLive(_35);
+        _35 = const 0_usize;
+        _36 = Len(_34);
+        _37 = Lt(_35, _36);
+        assert(move _37, "index out of bounds: the length is {} but the index is {}", move _36, _35) -> [success: bb13, unwind: bb68];
+    }
+
+    bb11: {
+        unreachable;
+    }
+
+    bb12: {
+        _6 = const ();
+        StorageDead(_16);
+        StorageDead(_14);
+        StorageDead(_13);
+        StorageDead(_12);
+        StorageDead(_10);
+        StorageDead(_7);
+        goto -> bb1;
+    }
+
+    bb13: {
+        StorageLive(_38);
+        StorageLive(_39);
+        StorageLive(_40);
+        _40 = const 15_usize;
+        _41 = Len((*_2));
+        _42 = Lt(_40, _41);
+        assert(move _42, "index out of bounds: the length is {} but the index is {}", move _41, _40) -> [success: bb14, unwind: bb68];
+    }
+
+    bb14: {
+        _39 = (*_2)[_40];
+        _38 = move _39 as usize (IntToInt);
+        StorageDead(_39);
+        _43 = Len(_34[_35]);
+        _44 = Lt(_38, _43);
+        assert(move _44, "index out of bounds: the length is {} but the index is {}", move _43, _38) -> [success: bb15, unwind: bb68];
+    }
+
+    bb15: {
+        _33 = _34[_35][_38];
+        StorageLive(_45);
+        StorageLive(_46);
+        _46 = const _;
+        StorageLive(_47);
+        _47 = const 1_usize;
+        _48 = Len(_46);
+        _49 = Lt(_47, _48);
+        assert(move _49, "index out of bounds: the length is {} but the index is {}", move _48, _47) -> [success: bb16, unwind: bb68];
+    }
+
+    bb16: {
+        StorageLive(_50);
+        StorageLive(_51);
+        StorageLive(_52);
+        _52 = const 14_usize;
+        _53 = Len((*_2));
+        _54 = Lt(_52, _53);
+        assert(move _54, "index out of bounds: the length is {} but the index is {}", move _53, _52) -> [success: bb17, unwind: bb68];
+    }
+
+    bb17: {
+        _51 = (*_2)[_52];
+        _50 = move _51 as usize (IntToInt);
+        StorageDead(_51);
+        _55 = Len(_46[_47]);
+        _56 = Lt(_50, _55);
+        assert(move _56, "index out of bounds: the length is {} but the index is {}", move _55, _50) -> [success: bb18, unwind: bb68];
+    }
+
+    bb18: {
+        _45 = _46[_47][_50];
+        _32 = BitXor(move _33, move _45);
+        StorageDead(_45);
+        StorageDead(_33);
+        StorageLive(_57);
+        StorageLive(_58);
+        _58 = const _;
+        StorageLive(_59);
+        _59 = const 2_usize;
+        _60 = Len(_58);
+        _61 = Lt(_59, _60);
+        assert(move _61, "index out of bounds: the length is {} but the index is {}", move _60, _59) -> [success: bb19, unwind: bb68];
+    }
+
+    bb19: {
+        StorageLive(_62);
+        StorageLive(_63);
+        StorageLive(_64);
+        _64 = const 13_usize;
+        _65 = Len((*_2));
+        _66 = Lt(_64, _65);
+        assert(move _66, "index out of bounds: the length is {} but the index is {}", move _65, _64) -> [success: bb20, unwind: bb68];
+    }
+
+    bb20: {
+        _63 = (*_2)[_64];
+        _62 = move _63 as usize (IntToInt);
+        StorageDead(_63);
+        _67 = Len(_58[_59]);
+        _68 = Lt(_62, _67);
+        assert(move _68, "index out of bounds: the length is {} but the index is {}", move _67, _62) -> [success: bb21, unwind: bb68];
+    }
+
+    bb21: {
+        _57 = _58[_59][_62];
+        _31 = BitXor(move _32, move _57);
+        StorageDead(_57);
+        StorageDead(_32);
+        StorageLive(_69);
+        StorageLive(_70);
+        _70 = const _;
+        StorageLive(_71);
+        _71 = const 3_usize;
+        _72 = Len(_70);
+        _73 = Lt(_71, _72);
+        assert(move _73, "index out of bounds: the length is {} but the index is {}", move _72, _71) -> [success: bb22, unwind: bb68];
+    }
+
+    bb22: {
+        StorageLive(_74);
+        StorageLive(_75);
+        StorageLive(_76);
+        _76 = const 12_usize;
+        _77 = Len((*_2));
+        _78 = Lt(_76, _77);
+        assert(move _78, "index out of bounds: the length is {} but the index is {}", move _77, _76) -> [success: bb23, unwind: bb68];
+    }
+
+    bb23: {
+        _75 = (*_2)[_76];
+        _74 = move _75 as usize (IntToInt);
+        StorageDead(_75);
+        _79 = Len(_70[_71]);
+        _80 = Lt(_74, _79);
+        assert(move _80, "index out of bounds: the length is {} but the index is {}", move _79, _74) -> [success: bb24, unwind: bb68];
+    }
+
+    bb24: {
+        _69 = _70[_71][_74];
+        _30 = BitXor(move _31, move _69);
+        StorageDead(_69);
+        StorageDead(_31);
+        StorageLive(_81);
+        StorageLive(_82);
+        _82 = const _;
+        StorageLive(_83);
+        _83 = const 4_usize;
+        _84 = Len(_82);
+        _85 = Lt(_83, _84);
+        assert(move _85, "index out of bounds: the length is {} but the index is {}", move _84, _83) -> [success: bb25, unwind: bb68];
+    }
+
+    bb25: {
+        StorageLive(_86);
+        StorageLive(_87);
+        StorageLive(_88);
+        _88 = const 11_usize;
+        _89 = Len((*_2));
+        _90 = Lt(_88, _89);
+        assert(move _90, "index out of bounds: the length is {} but the index is {}", move _89, _88) -> [success: bb26, unwind: bb68];
+    }
+
+    bb26: {
+        _87 = (*_2)[_88];
+        _86 = move _87 as usize (IntToInt);
+        StorageDead(_87);
+        _91 = Len(_82[_83]);
+        _92 = Lt(_86, _91);
+        assert(move _92, "index out of bounds: the length is {} but the index is {}", move _91, _86) -> [success: bb27, unwind: bb68];
+    }
+
+    bb27: {
+        _81 = _82[_83][_86];
+        _29 = BitXor(move _30, move _81);
+        StorageDead(_81);
+        StorageDead(_30);
+        StorageLive(_93);
+        StorageLive(_94);
+        _94 = const _;
+        StorageLive(_95);
+        _95 = const 5_usize;
+        _96 = Len(_94);
+        _97 = Lt(_95, _96);
+        assert(move _97, "index out of bounds: the length is {} but the index is {}", move _96, _95) -> [success: bb28, unwind: bb68];
+    }
+
+    bb28: {
+        StorageLive(_98);
+        StorageLive(_99);
+        StorageLive(_100);
+        _100 = const 10_usize;
+        _101 = Len((*_2));
+        _102 = Lt(_100, _101);
+        assert(move _102, "index out of bounds: the length is {} but the index is {}", move _101, _100) -> [success: bb29, unwind: bb68];
+    }
+
+    bb29: {
+        _99 = (*_2)[_100];
+        _98 = move _99 as usize (IntToInt);
+        StorageDead(_99);
+        _103 = Len(_94[_95]);
+        _104 = Lt(_98, _103);
+        assert(move _104, "index out of bounds: the length is {} but the index is {}", move _103, _98) -> [success: bb30, unwind: bb68];
+    }
+
+    bb30: {
+        _93 = _94[_95][_98];
+        _28 = BitXor(move _29, move _93);
+        StorageDead(_93);
+        StorageDead(_29);
+        StorageLive(_105);
+        StorageLive(_106);
+        _106 = const _;
+        StorageLive(_107);
+        _107 = const 6_usize;
+        _108 = Len(_106);
+        _109 = Lt(_107, _108);
+        assert(move _109, "index out of bounds: the length is {} but the index is {}", move _108, _107) -> [success: bb31, unwind: bb68];
+    }
+
+    bb31: {
+        StorageLive(_110);
+        StorageLive(_111);
+        StorageLive(_112);
+        _112 = const 9_usize;
+        _113 = Len((*_2));
+        _114 = Lt(_112, _113);
+        assert(move _114, "index out of bounds: the length is {} but the index is {}", move _113, _112) -> [success: bb32, unwind: bb68];
+    }
+
+    bb32: {
+        _111 = (*_2)[_112];
+        _110 = move _111 as usize (IntToInt);
+        StorageDead(_111);
+        _115 = Len(_106[_107]);
+        _116 = Lt(_110, _115);
+        assert(move _116, "index out of bounds: the length is {} but the index is {}", move _115, _110) -> [success: bb33, unwind: bb68];
+    }
+
+    bb33: {
+        _105 = _106[_107][_110];
+        _27 = BitXor(move _28, move _105);
+        StorageDead(_105);
+        StorageDead(_28);
+        StorageLive(_117);
+        StorageLive(_118);
+        _118 = const _;
+        StorageLive(_119);
+        _119 = const 7_usize;
+        _120 = Len(_118);
+        _121 = Lt(_119, _120);
+        assert(move _121, "index out of bounds: the length is {} but the index is {}", move _120, _119) -> [success: bb34, unwind: bb68];
+    }
+
+    bb34: {
+        StorageLive(_122);
+        StorageLive(_123);
+        StorageLive(_124);
+        _124 = const 8_usize;
+        _125 = Len((*_2));
+        _126 = Lt(_124, _125);
+        assert(move _126, "index out of bounds: the length is {} but the index is {}", move _125, _124) -> [success: bb35, unwind: bb68];
+    }
+
+    bb35: {
+        _123 = (*_2)[_124];
+        _122 = move _123 as usize (IntToInt);
+        StorageDead(_123);
+        _127 = Len(_118[_119]);
+        _128 = Lt(_122, _127);
+        assert(move _128, "index out of bounds: the length is {} but the index is {}", move _127, _122) -> [success: bb36, unwind: bb68];
+    }
+
+    bb36: {
+        _117 = _118[_119][_122];
+        _26 = BitXor(move _27, move _117);
+        StorageDead(_117);
+        StorageDead(_27);
+        StorageLive(_129);
+        StorageLive(_130);
+        _130 = const _;
+        StorageLive(_131);
+        _131 = const 8_usize;
+        _132 = Len(_130);
+        _133 = Lt(_131, _132);
+        assert(move _133, "index out of bounds: the length is {} but the index is {}", move _132, _131) -> [success: bb37, unwind: bb68];
+    }
+
+    bb37: {
+        StorageLive(_134);
+        StorageLive(_135);
+        StorageLive(_136);
+        _136 = const 7_usize;
+        _137 = Len((*_2));
+        _138 = Lt(_136, _137);
+        assert(move _138, "index out of bounds: the length is {} but the index is {}", move _137, _136) -> [success: bb38, unwind: bb68];
+    }
+
+    bb38: {
+        _135 = (*_2)[_136];
+        _134 = move _135 as usize (IntToInt);
+        StorageDead(_135);
+        _139 = Len(_130[_131]);
+        _140 = Lt(_134, _139);
+        assert(move _140, "index out of bounds: the length is {} but the index is {}", move _139, _134) -> [success: bb39, unwind: bb68];
+    }
+
+    bb39: {
+        _129 = _130[_131][_134];
+        _25 = BitXor(move _26, move _129);
+        StorageDead(_129);
+        StorageDead(_26);
+        StorageLive(_141);
+        StorageLive(_142);
+        _142 = const _;
+        StorageLive(_143);
+        _143 = const 9_usize;
+        _144 = Len(_142);
+        _145 = Lt(_143, _144);
+        assert(move _145, "index out of bounds: the length is {} but the index is {}", move _144, _143) -> [success: bb40, unwind: bb68];
+    }
+
+    bb40: {
+        StorageLive(_146);
+        StorageLive(_147);
+        StorageLive(_148);
+        _148 = const 6_usize;
+        _149 = Len((*_2));
+        _150 = Lt(_148, _149);
+        assert(move _150, "index out of bounds: the length is {} but the index is {}", move _149, _148) -> [success: bb41, unwind: bb68];
+    }
+
+    bb41: {
+        _147 = (*_2)[_148];
+        _146 = move _147 as usize (IntToInt);
+        StorageDead(_147);
+        _151 = Len(_142[_143]);
+        _152 = Lt(_146, _151);
+        assert(move _152, "index out of bounds: the length is {} but the index is {}", move _151, _146) -> [success: bb42, unwind: bb68];
+    }
+
+    bb42: {
+        _141 = _142[_143][_146];
+        _24 = BitXor(move _25, move _141);
+        StorageDead(_141);
+        StorageDead(_25);
+        StorageLive(_153);
+        StorageLive(_154);
+        _154 = const _;
+        StorageLive(_155);
+        _155 = const 10_usize;
+        _156 = Len(_154);
+        _157 = Lt(_155, _156);
+        assert(move _157, "index out of bounds: the length is {} but the index is {}", move _156, _155) -> [success: bb43, unwind: bb68];
+    }
+
+    bb43: {
+        StorageLive(_158);
+        StorageLive(_159);
+        StorageLive(_160);
+        _160 = const 5_usize;
+        _161 = Len((*_2));
+        _162 = Lt(_160, _161);
+        assert(move _162, "index out of bounds: the length is {} but the index is {}", move _161, _160) -> [success: bb44, unwind: bb68];
+    }
+
+    bb44: {
+        _159 = (*_2)[_160];
+        _158 = move _159 as usize (IntToInt);
+        StorageDead(_159);
+        _163 = Len(_154[_155]);
+        _164 = Lt(_158, _163);
+        assert(move _164, "index out of bounds: the length is {} but the index is {}", move _163, _158) -> [success: bb45, unwind: bb68];
+    }
+
+    bb45: {
+        _153 = _154[_155][_158];
+        _23 = BitXor(move _24, move _153);
+        StorageDead(_153);
+        StorageDead(_24);
+        StorageLive(_165);
+        StorageLive(_166);
+        _166 = const _;
+        StorageLive(_167);
+        _167 = const 11_usize;
+        _168 = Len(_166);
+        _169 = Lt(_167, _168);
+        assert(move _169, "index out of bounds: the length is {} but the index is {}", move _168, _167) -> [success: bb46, unwind: bb68];
+    }
+
+    bb46: {
+        StorageLive(_170);
+        StorageLive(_171);
+        StorageLive(_172);
+        _172 = const 4_usize;
+        _173 = Len((*_2));
+        _174 = Lt(_172, _173);
+        assert(move _174, "index out of bounds: the length is {} but the index is {}", move _173, _172) -> [success: bb47, unwind: bb68];
+    }
+
+    bb47: {
+        _171 = (*_2)[_172];
+        _170 = move _171 as usize (IntToInt);
+        StorageDead(_171);
+        _175 = Len(_166[_167]);
+        _176 = Lt(_170, _175);
+        assert(move _176, "index out of bounds: the length is {} but the index is {}", move _175, _170) -> [success: bb48, unwind: bb68];
+    }
+
+    bb48: {
+        _165 = _166[_167][_170];
+        _22 = BitXor(move _23, move _165);
+        StorageDead(_165);
+        StorageDead(_23);
+        StorageLive(_177);
+        StorageLive(_178);
+        _178 = const _;
+        StorageLive(_179);
+        _179 = const 12_usize;
+        _180 = Len(_178);
+        _181 = Lt(_179, _180);
+        assert(move _181, "index out of bounds: the length is {} but the index is {}", move _180, _179) -> [success: bb49, unwind: bb68];
+    }
+
+    bb49: {
+        StorageLive(_182);
+        StorageLive(_183);
+        StorageLive(_184);
+        StorageLive(_185);
+        _185 = const 3_usize;
+        _186 = Len((*_2));
+        _187 = Lt(_185, _186);
+        assert(move _187, "index out of bounds: the length is {} but the index is {}", move _186, _185) -> [success: bb50, unwind: bb68];
+    }
+
+    bb50: {
+        _184 = (*_2)[_185];
+        _183 = move _184 as usize (IntToInt);
+        StorageDead(_184);
+        StorageLive(_188);
+        StorageLive(_189);
+        StorageLive(_190);
+        StorageLive(_191);
+        _191 = _3;
+        _192 = const 24_i32 as u32 (IntToInt);
+        _193 = Lt(move _192, const 32_u32);
+        assert(move _193, "attempt to shift right by `{}`, which would overflow", const 24_i32) -> [success: bb51, unwind: bb68];
+    }
+
+    bb51: {
+        _190 = Shr(move _191, const 24_i32);
+        StorageDead(_191);
+        _189 = BitAnd(move _190, const 255_u32);
+        StorageDead(_190);
+        _188 = move _189 as usize (IntToInt);
+        StorageDead(_189);
+        _182 = BitXor(move _183, move _188);
+        StorageDead(_188);
+        StorageDead(_183);
+        _194 = Len(_178[_179]);
+        _195 = Lt(_182, _194);
+        assert(move _195, "index out of bounds: the length is {} but the index is {}", move _194, _182) -> [success: bb52, unwind: bb68];
+    }
+
+    bb52: {
+        _177 = _178[_179][_182];
+        _21 = BitXor(move _22, move _177);
+        StorageDead(_177);
+        StorageDead(_22);
+        StorageLive(_196);
+        StorageLive(_197);
+        _197 = const _;
+        StorageLive(_198);
+        _198 = const 13_usize;
+        _199 = Len(_197);
+        _200 = Lt(_198, _199);
+        assert(move _200, "index out of bounds: the length is {} but the index is {}", move _199, _198) -> [success: bb53, unwind: bb68];
+    }
+
+    bb53: {
+        StorageLive(_201);
+        StorageLive(_202);
+        StorageLive(_203);
+        StorageLive(_204);
+        _204 = const 2_usize;
+        _205 = Len((*_2));
+        _206 = Lt(_204, _205);
+        assert(move _206, "index out of bounds: the length is {} but the index is {}", move _205, _204) -> [success: bb54, unwind: bb68];
+    }
+
+    bb54: {
+        _203 = (*_2)[_204];
+        _202 = move _203 as usize (IntToInt);
+        StorageDead(_203);
+        StorageLive(_207);
+        StorageLive(_208);
+        StorageLive(_209);
+        StorageLive(_210);
+        _210 = _3;
+        _211 = const 16_i32 as u32 (IntToInt);
+        _212 = Lt(move _211, const 32_u32);
+        assert(move _212, "attempt to shift right by `{}`, which would overflow", const 16_i32) -> [success: bb55, unwind: bb68];
+    }
+
+    bb55: {
+        _209 = Shr(move _210, const 16_i32);
+        StorageDead(_210);
+        _208 = BitAnd(move _209, const 255_u32);
+        StorageDead(_209);
+        _207 = move _208 as usize (IntToInt);
+        StorageDead(_208);
+        _201 = BitXor(move _202, move _207);
+        StorageDead(_207);
+        StorageDead(_202);
+        _213 = Len(_197[_198]);
+        _214 = Lt(_201, _213);
+        assert(move _214, "index out of bounds: the length is {} but the index is {}", move _213, _201) -> [success: bb56, unwind: bb68];
+    }
+
+    bb56: {
+        _196 = _197[_198][_201];
+        _20 = BitXor(move _21, move _196);
+        StorageDead(_196);
+        StorageDead(_21);
+        StorageLive(_215);
+        StorageLive(_216);
+        _216 = const _;
+        StorageLive(_217);
+        _217 = const 14_usize;
+        _218 = Len(_216);
+        _219 = Lt(_217, _218);
+        assert(move _219, "index out of bounds: the length is {} but the index is {}", move _218, _217) -> [success: bb57, unwind: bb68];
+    }
+
+    bb57: {
+        StorageLive(_220);
+        StorageLive(_221);
+        StorageLive(_222);
+        StorageLive(_223);
+        _223 = const 1_usize;
+        _224 = Len((*_2));
+        _225 = Lt(_223, _224);
+        assert(move _225, "index out of bounds: the length is {} but the index is {}", move _224, _223) -> [success: bb58, unwind: bb68];
+    }
+
+    bb58: {
+        _222 = (*_2)[_223];
+        _221 = move _222 as usize (IntToInt);
+        StorageDead(_222);
+        StorageLive(_226);
+        StorageLive(_227);
+        StorageLive(_228);
+        StorageLive(_229);
+        _229 = _3;
+        _230 = const 8_i32 as u32 (IntToInt);
+        _231 = Lt(move _230, const 32_u32);
+        assert(move _231, "attempt to shift right by `{}`, which would overflow", const 8_i32) -> [success: bb59, unwind: bb68];
+    }
+
+    bb59: {
+        _228 = Shr(move _229, const 8_i32);
+        StorageDead(_229);
+        _227 = BitAnd(move _228, const 255_u32);
+        StorageDead(_228);
+        _226 = move _227 as usize (IntToInt);
+        StorageDead(_227);
+        _220 = BitXor(move _221, move _226);
+        StorageDead(_226);
+        StorageDead(_221);
+        _232 = Len(_216[_217]);
+        _233 = Lt(_220, _232);
+        assert(move _233, "index out of bounds: the length is {} but the index is {}", move _232, _220) -> [success: bb60, unwind: bb68];
+    }
+
+    bb60: {
+        _215 = _216[_217][_220];
+        _19 = BitXor(move _20, move _215);
+        StorageDead(_215);
+        StorageDead(_20);
+        StorageLive(_234);
+        StorageLive(_235);
+        _235 = const _;
+        StorageLive(_236);
+        _236 = const 15_usize;
+        _237 = Len(_235);
+        _238 = Lt(_236, _237);
+        assert(move _238, "index out of bounds: the length is {} but the index is {}", move _237, _236) -> [success: bb61, unwind: bb68];
+    }
+
+    bb61: {
+        StorageLive(_239);
+        StorageLive(_240);
+        StorageLive(_241);
+        StorageLive(_242);
+        _242 = const 0_usize;
+        _243 = Len((*_2));
+        _244 = Lt(_242, _243);
+        assert(move _244, "index out of bounds: the length is {} but the index is {}", move _243, _242) -> [success: bb62, unwind: bb68];
+    }
+
+    bb62: {
+        _241 = (*_2)[_242];
+        _240 = move _241 as usize (IntToInt);
+        StorageDead(_241);
+        StorageLive(_245);
+        StorageLive(_246);
+        StorageLive(_247);
+        StorageLive(_248);
+        _248 = _3;
+        _249 = const 0_i32 as u32 (IntToInt);
+        _250 = Lt(move _249, const 32_u32);
+        assert(move _250, "attempt to shift right by `{}`, which would overflow", const 0_i32) -> [success: bb63, unwind: bb68];
+    }
+
+    bb63: {
+        _247 = Shr(move _248, const 0_i32);
+        StorageDead(_248);
+        _246 = BitAnd(move _247, const 255_u32);
+        StorageDead(_247);
+        _245 = move _246 as usize (IntToInt);
+        StorageDead(_246);
+        _239 = BitXor(move _240, move _245);
+        StorageDead(_245);
+        StorageDead(_240);
+        _251 = Len(_235[_236]);
+        _252 = Lt(_239, _251);
+        assert(move _252, "index out of bounds: the length is {} but the index is {}", move _251, _239) -> [success: bb64, unwind: bb68];
+    }
+
+    bb64: {
+        _234 = _235[_236][_239];
+        _3 = BitXor(move _19, move _234);
+        StorageDead(_234);
+        StorageDead(_19);
+        StorageDead(_242);
+        StorageDead(_239);
+        StorageDead(_236);
+        StorageDead(_235);
+        StorageDead(_223);
+        StorageDead(_220);
+        StorageDead(_217);
+        StorageDead(_216);
+        StorageDead(_204);
+        StorageDead(_201);
+        StorageDead(_198);
+        StorageDead(_197);
+        StorageDead(_185);
+        StorageDead(_182);
+        StorageDead(_179);
+        StorageDead(_178);
+        StorageDead(_172);
+        StorageDead(_170);
+        StorageDead(_167);
+        StorageDead(_166);
+        StorageDead(_160);
+        StorageDead(_158);
+        StorageDead(_155);
+        StorageDead(_154);
+        StorageDead(_148);
+        StorageDead(_146);
+        StorageDead(_143);
+        StorageDead(_142);
+        StorageDead(_136);
+        StorageDead(_134);
+        StorageDead(_131);
+        StorageDead(_130);
+        StorageDead(_124);
+        StorageDead(_122);
+        StorageDead(_119);
+        StorageDead(_118);
+        StorageDead(_112);
+        StorageDead(_110);
+        StorageDead(_107);
+        StorageDead(_106);
+        StorageDead(_100);
+        StorageDead(_98);
+        StorageDead(_95);
+        StorageDead(_94);
+        StorageDead(_88);
+        StorageDead(_86);
+        StorageDead(_83);
+        StorageDead(_82);
+        StorageDead(_76);
+        StorageDead(_74);
+        StorageDead(_71);
+        StorageDead(_70);
+        StorageDead(_64);
+        StorageDead(_62);
+        StorageDead(_59);
+        StorageDead(_58);
+        StorageDead(_52);
+        StorageDead(_50);
+        StorageDead(_47);
+        StorageDead(_46);
+        StorageDead(_40);
+        StorageDead(_38);
+        StorageDead(_35);
+        StorageDead(_34);
+        StorageLive(_253);
+        StorageLive(_254);
+        StorageLive(_255);
+        StorageLive(_256);
+        _256 = &'_ (*_2);
+        StorageLive(_257);
+        _257 = std::ops::RangeFrom::<usize> { start: const 16_usize };
+        _255 = <[u8] as std::ops::Index<std::ops::RangeFrom<usize>>>::index(move _256, move _257) -> [return: bb65, unwind: bb68];
+    }
+
+    bb65: {
+        StorageDead(_257);
+        StorageDead(_256);
+        _254 = &'_ (*_255);
+        _253 = &'_ (*_254);
+        _2 = move _253;
+        StorageDead(_253);
+        StorageDead(_255);
+        StorageDead(_254);
+        _13 = const ();
+        StorageDead(_16);
+        StorageDead(_14);
+        StorageDead(_13);
+        _6 = const ();
+        goto -> bb6;
+    }
+
+    bb66: {
+        StorageDead(_8);
+        StorageLive(_259);
+        _5 = const ();
+        StorageDead(_259);
+        StorageDead(_7);
+        StorageDead(_5);
+        StorageLive(_261);
+        StorageLive(_262);
+        _262 = _3;
+        _261 = Not(move _262);
+        StorageDead(_262);
+        StorageLive(_263);
+        _263 = &'_ (*_2);
+        _0 = baseline::update_slow(move _261, move _263) -> [return: bb67, unwind: bb68];
+    }
+
+    bb67: {
+        StorageDead(_263);
+        StorageDead(_261);
+        StorageDead(_3);
+        return;
+    }
+
+    bb68 (cleanup): {
+        resume;
+    }
+}

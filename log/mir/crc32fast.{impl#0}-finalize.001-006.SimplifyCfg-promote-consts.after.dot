@@ -1,0 +1,26 @@
+digraph Mir_0_42 {
+    graph [fontname="Courier, monospace"];
+    node [fontname="Courier, monospace"];
+    edge [fontname="Courier, monospace"];
+    label=<fn Hasher::finalize(_1: Adt(Hasher, [])) -&gt; u32<br align="left"/>let mut _2: isize;<br align="left"/>let _3: Adt(baseline::State, []);<br align="left"/>let mut _4: Adt(baseline::State, []);<br align="left"/>let _5: Adt(specialized::pclmulqdq::State, []);<br align="left"/>let mut _6: Adt(specialized::pclmulqdq::State, []);<br align="left"/>debug self =&gt; _1;<br align="left"/>debug state =&gt; _3;<br align="left"/>debug state =&gt; _5;<br align="left"/>>;
+    bb0__0_42 [shape="none", label=<<table border="0" cellborder="1" cellspacing="0"><tr><td bgcolor="gray" align="center" colspan="1">0</td></tr><tr><td align="left" balign="left">FakeRead(ForMatchedPlace(None), (_1.1: State))<br/>_2 = discriminant((_1.1: State))<br/></td></tr><tr><td align="left">switchInt(move _2)</td></tr></table>>];
+    bb1__0_42 [shape="none", label=<<table border="0" cellborder="1" cellspacing="0"><tr><td bgcolor="gray" align="center" colspan="1">1</td></tr><tr><td align="left">falseEdge</td></tr></table>>];
+    bb2__0_42 [shape="none", label=<<table border="0" cellborder="1" cellspacing="0"><tr><td bgcolor="gray" align="center" colspan="1">2</td></tr><tr><td align="left" balign="left">StorageLive(_5)<br/>_5 = move (((_1.1: State) as Specialized).0: specialized::pclmulqdq::State)<br/>StorageLive(_6)<br/>_6 = move _5<br/></td></tr><tr><td align="left">_0 = specialized::pclmulqdq::State::finalize(move _6)</td></tr></table>>];
+    bb3__0_42 [shape="none", label=<<table border="0" cellborder="1" cellspacing="0"><tr><td bgcolor="gray" align="center" colspan="1">3</td></tr><tr><td align="left">unreachable</td></tr></table>>];
+    bb4__0_42 [shape="none", label=<<table border="0" cellborder="1" cellspacing="0"><tr><td bgcolor="gray" align="center" colspan="1">4</td></tr><tr><td align="left" balign="left">StorageLive(_3)<br/>_3 = move (((_1.1: State) as Baseline).0: baseline::State)<br/>StorageLive(_4)<br/>_4 = move _3<br/></td></tr><tr><td align="left">_0 = baseline::State::finalize(move _4)</td></tr></table>>];
+    bb5__0_42 [shape="none", label=<<table border="0" cellborder="1" cellspacing="0"><tr><td bgcolor="gray" align="center" colspan="1">5</td></tr><tr><td align="left" balign="left">StorageDead(_4)<br/>StorageDead(_3)<br/></td></tr><tr><td align="left">goto</td></tr></table>>];
+    bb6__0_42 [shape="none", label=<<table border="0" cellborder="1" cellspacing="0"><tr><td bgcolor="gray" align="center" colspan="1">6</td></tr><tr><td align="left" balign="left">StorageDead(_6)<br/>StorageDead(_5)<br/></td></tr><tr><td align="left">goto</td></tr></table>>];
+    bb7__0_42 [shape="none", label=<<table border="0" cellborder="1" cellspacing="0"><tr><td bgcolor="gray" align="center" colspan="1">7</td></tr><tr><td align="left">return</td></tr></table>>];
+    bb8__0_42 [shape="none", label=<<table border="0" cellborder="1" cellspacing="0"><tr><td bgcolor="lightblue" align="center" colspan="1">8 (cleanup)</td></tr><tr><td align="left">resume</td></tr></table>>];
+    bb0__0_42 -> bb1__0_42 [label="0"];
+    bb0__0_42 -> bb2__0_42 [label="1"];
+    bb0__0_42 -> bb3__0_42 [label="otherwise"];
+    bb1__0_42 -> bb4__0_42 [label="real"];
+    bb1__0_42 -> bb2__0_42 [label="imaginary"];
+    bb2__0_42 -> bb6__0_42 [label="return"];
+    bb2__0_42 -> bb8__0_42 [label="unwind"];
+    bb4__0_42 -> bb5__0_42 [label="return"];
+    bb4__0_42 -> bb8__0_42 [label="unwind"];
+    bb5__0_42 -> bb7__0_42 [label=""];
+    bb6__0_42 -> bb7__0_42 [label=""];
+}

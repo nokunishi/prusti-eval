@@ -1,0 +1,30 @@
+// MIR for `<impl at src/lib.rs:61:1: 61:12>::internal_new_baseline` before SanityCheck
+
+fn <impl at src/lib.rs:61:1: 61:12>::internal_new_baseline(_1: u32) -> Hasher {
+    debug init => _1;
+    let mut _0: Hasher;
+    let mut _2: State;
+    let mut _3: baseline::State;
+    let mut _4: u32;
+
+    bb0: {
+        StorageLive(_2);
+        StorageLive(_3);
+        StorageLive(_4);
+        _4 = _1;
+        _3 = baseline::State::new(move _4) -> [return: bb1, unwind: bb2];
+    }
+
+    bb1: {
+        StorageDead(_4);
+        _2 = State::Baseline(move _3);
+        StorageDead(_3);
+        _0 = Hasher { amount: const 0_u64, state: move _2 };
+        StorageDead(_2);
+        return;
+    }
+
+    bb2 (cleanup): {
+        resume;
+    }
+}

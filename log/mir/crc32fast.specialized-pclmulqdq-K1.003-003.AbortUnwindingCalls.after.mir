@@ -1,0 +1,10 @@
+// MIR for `specialized::pclmulqdq::K1` after AbortUnwindingCalls
+
+const specialized::pclmulqdq::K1: i64 = {
+    let mut _0: i64;
+
+    bb0: {
+        _0 = const 5708721108_i64;
+        return;
+    }
+}

@@ -1,0 +1,3 @@
+struct_predicate ref$Array$1$struct$m_core$$fmt$$rt$$Argument(self){
+  (acc(self.val_ref, write)) && ((acc(Array$1$struct$m_core$$fmt$$rt$$Argument(self.val_ref), write)) && (true))
+}

@@ -1,0 +1,10 @@
+// MIR for `table::CRC32_TABLE::{constant#0}` before SanityCheck
+
+table::CRC32_TABLE::{constant#0}: usize = {
+    let mut _0: usize;
+
+    bb0: {
+        _0 = const 256_usize;
+        return;
+    }
+}

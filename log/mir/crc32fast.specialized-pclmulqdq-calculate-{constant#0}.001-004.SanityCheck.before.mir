@@ -1,0 +1,10 @@
+// MIR for `specialized::pclmulqdq::calculate::{constant#0}` before SanityCheck
+
+specialized::pclmulqdq::calculate::{constant#0}: i32 = {
+    let mut _0: i32;
+
+    bb0: {
+        _0 = const 16_i32;
+        return;
+    }
+}

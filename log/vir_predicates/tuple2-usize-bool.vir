@@ -1,0 +1,3 @@
+struct_predicate tuple2$usize$bool(self){
+  (acc(self.tuple_0, write)) && ((acc(usize(self.tuple_0), write)) && ((acc(self.tuple_1, write)) && ((acc(bool(self.tuple_1), write)) && (true))))
+}

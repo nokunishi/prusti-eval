@@ -1,0 +1,13 @@
+enum_predicate m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_(self){
+  discriminant_field=discriminant
+  None: (self.discriminant) == (0) ==> struct_predicate m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_None(self){
+  true
+}
+
+
+  Some: (self.discriminant) == (1) ==> struct_predicate m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_Some(self){
+  (acc(self.f$0, write)) && ((acc(struct$m_specialized$$pclmulqdq$$State(self.f$0), write)) && (true))
+}
+
+
+}

@@ -17,7 +17,7 @@ use std::env;
 use log::*;
 use serde::{Serialize, Deserialize};
 use crate::io::Cursor;
-use std::process::Command;
+use std::process;
 use std::io::BufReader;
 use std::os::unix::fs::PermissionsExt;
 #[cfg(feature = "unstable-toolchain-ci")]
@@ -25,8 +25,10 @@ use crate::tools::RUSTUP_TOOLCHAIN_INSTALL_MASTER;
 
 const CRATELIST_PATH:&str = "./CrateList.json";
 
-async fn read_json() {
-    let path = Path::new(CRATELIST_PATH);
+async fn read_json() -> io::Result<()> {
+
+
+    let path = Path::new(&CRATELIST_PATH);
     let mut file = fs::read_to_string(path)
     .expect("failed to read CrateList");
 
@@ -59,6 +61,8 @@ async fn read_json() {
     } else {
         println!("No crates in CrateList.json")
     }
+
+    Ok(())
     
 }
 
@@ -75,43 +79,13 @@ async fn fetch_and_write(name: &str, version:&str) {
         let mut tmp_file = File::create(filename.clone()).expect("failed to create a tmp file");
         let mut content = Cursor::new(res);
         io::copy(&mut content, &mut tmp_file).expect("failed to write to tmp file");
-        println!("Unwrapping: {filename}");
+        // println!("Unwrapping: {filename}");
     }
-    info!("{filename} already exists")
+    // info!("{filename} already exists")
 }
 
-struct CargoPrusti {
-    prusti_home: PathBuf,
-    viper_home: PathBuf,
-    z3_exe: PathBuf,
-    java_home: Option<PathBuf>,
-}
-
-#[derive(Deserialize)]
-struct RustToolchainFile {
-    toolchain: Toolchain,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-struct Config {
-    toolchain: Toolchain
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-struct Toolchain {
-    channel: String,
-    components: Option<Vec<String>>
-}
-
-fn get_rust_toolchain() -> Toolchain {
-    let content = include_str!("../../rust-toolchain");
-    let rust_toolchain: RustToolchainFile =
-        toml::from_str(content).expect("failed to parse rust-toolchain file");
-    rust_toolchain.toolchain
-}
 
 fn run_prusti(name: &str, version: &str) {
-    install_toolchain();
     let _ = init_prusti(name, version);
 }
 
@@ -120,21 +94,6 @@ fn run_prusti(name: &str, version: &str) {
 fn init_prusti(name: &str, version:&str) -> io::Result<()> {
     let dirname = format!("/tmp/{name}-{version}");
     let filename = format!("{dirname}.crate");
-
-    let status = std::process::Command::new("tar")
-        .args(["-xf", &filename, "-C", "/tmp/"])
-        .status()
-        .unwrap();
-    assert!(status.success());
-    let mut file = std::fs::OpenOptions::new()
-        .write(true)
-        .append(true)
-        .open(format!("{dirname}/Cargo.toml"))
-        .unwrap();
-
-
-    use std::io::Write;
-    writeln!(file, "\n[workspace]").unwrap();   
 
     let cwd = std::env::current_dir().unwrap();
     let target = if cfg!(debug_assertions) {
@@ -171,15 +130,35 @@ fn init_prusti(name: &str, version:&str) -> io::Result<()> {
             }
     } */
 
-    let host_z3_home = Path::new("viper_tools/z3/bin");
 
-    env::set_var("Z3_EXE", host_z3_home.to_path_buf());
+    let env_root_path = fs::read_to_string("./.env").unwrap();
+    let _ = env::set_current_dir(Path::new(env_root_path.as_str()));
+    let z3_path = env::current_dir().unwrap().join("viper_tools/z3/bin/z3");
+    let host_viper_home = env::current_dir().unwrap().join("viper_tools/backends");
+    
+
+    env::set_var("Z3_EXE", z3_path);
+    env::set_var("viper_home",  host_viper_home);
+    let pwd = env::current_dir();
+    let p = pwd?.join("log");
+    env::set_var("LOG_DIR", p.clone());
 
     // println!("Running: {prusti:?} on {dirname}");
 
-    if (dirname.clone() == "/tmp/rand-0.7.3") {
-        println!("{:#?}", dirname.clone());
+    if dirname.clone() == "/tmp/crc32fast-1.2.0" {
+
+        let exit = std::process::Command::new(prusti)
+        .env("PRUSTI_LOG_DIR", p.clone().as_os_str())
+        .env("PRUSTI_DUMP_DEBUG_INFO", "true")
+        .env("PRUSTI_DUMP_VIPER_PROGRAM", "true")
+        .env("PRUSTI_SKIP_UNSUPPORTED_FEATURES", "true")
+        // .env("PRUSTI_NO_VERIFY_DEPS", "true")
+        .current_dir(&dirname)
+        .status()
+        .expect("failed");
     }
+
+
     
 /*     let exit = std::process::Command::new(prusti)
         .env("PRUSTI_SKIP_UNSUPPORTED_FEATURES", "true")
@@ -196,73 +175,15 @@ fn init_prusti(name: &str, version:&str) -> io::Result<()> {
 
 
 
-pub fn install_toolchain() {
-    info!("Install the toolchain...");
-    let rust_toolchain = get_rust_toolchain();
-    info!("toolchain: {}", rust_toolchain.channel);
-
-    let config = Config {
-        toolchain: rust_toolchain
-    };
-
-    let config_toml = toml::to_string(&config).unwrap();
-
-    let toml_path = env::current_dir().unwrap().join("Cargo.toml");
-    let content = fs::read_to_string(&toml_path.clone()).unwrap();
-    let toolchain = toml::from_str::<Config>(&content.clone().as_str());
-
-     if toolchain.is_ok() {
-        info!("Rust Toolchain already configed")
-    } else {
- /*        let backup_path = env::current_dir().unwrap().join("tmp_toml");  
-        let _ = fs::write(&backup_path, content.clone());
-        let new_content = content + "\n" + config_toml.as_str();
-        fs::write(toml_path, new_content).expect("failed to config Rust toolchain in toml"); */
-    }
-    // stub 
-    info!("Rust toolchain installed, rerun cargo build")
-}
-
-/// Find the Java home directory
-pub fn find_java_home() -> Option<PathBuf> {
-    Command::new("java")
-        .arg("-XshowSettings:properties")
-        .arg("-version")
-        .output()
-        .ok()
-        .and_then(|output| {
-            let stdout = String::from_utf8_lossy(&output.stdout);
-            let stderr = String::from_utf8_lossy(&output.stderr);
-            for line in stdout.lines().chain(stderr.lines()) {
-                if line.contains("java.home") {
-                    let pos = line.find('=').unwrap() + 1;
-                    let path = line[pos..].trim();
-                    return Some(PathBuf::from(path));
-                }
-            }
-            None
-        })
-}
-
-pub fn collect_java_policies() -> Vec<PathBuf> {
-    glob::glob("/etc/java-*")
-        .unwrap()
-        .map(|result| result.unwrap())
-        .collect()
-}
-
-
-
 #[tokio::main]
 async fn main() {
     let cwd = std::env::current_dir().unwrap();
-    let workspace = cwd.join("data");
-            
-    if !PathBuf::from(workspace.clone()).exists() {
-        println!("{:#?}", workspace);
-        let _ = fs::create_dir(workspace)
-                .expect("failed to create workspace dir");
+    let log = cwd.join("log");
+
+    if !PathBuf::from(log.clone()).exists() {
+        let _ = fs::create_dir(log)
+                .expect("failed to create debug_info dir");
     }
 
-    read_json().await;
+    let _ = read_json().await;
 }

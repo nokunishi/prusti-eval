@@ -1,0 +1,8 @@
+digraph CFG {
+graph [fontname=monospace];
+node [fontname=monospace];
+edge [fontname=monospace];
+labelloc="t";
+label="Method m_baseline$$update_fast_16";
+"block_stub" [shape=none,label=<<table border="0" cellborder="1" cellspacing="0"><tr><td bgcolor="gray" align="center">stub (cfg:0)</td></tr><tr><td align="left" balign="left"><font color="orange">// ========== stub ==========</font><br/><font color="orange">// Def path: "crc32fast::baseline::update_fast_16"</font><br/><font color="orange">// Span: src/baseline.rs:30:1: 59:2 (#0)</font></td></tr><tr><td align="left" bgcolor="#82CA9D">Return<br/></td></tr></table>>];
+}
