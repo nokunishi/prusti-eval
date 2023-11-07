@@ -20,6 +20,8 @@ use crate::io::Cursor;
 use std::process::Command;
 use std::io::BufReader;
 use std::os::unix::fs::PermissionsExt;
+#[cfg(feature = "unstable-toolchain-ci")]
+use crate::tools::RUSTUP_TOOLCHAIN_INSTALL_MASTER;
 
 const CRATELIST_PATH:&str = "./CrateList.json";
 
@@ -50,7 +52,7 @@ async fn read_json() {
             name.remove(name.len() -1);
             version.remove(0);
             version.remove(version.len()-1);
-            
+
             fetch_and_write(name.as_str(), version.as_str()).await;
             run_prusti(name.as_str(), version.as_str());
         }
@@ -75,7 +77,7 @@ async fn fetch_and_write(name: &str, version:&str) {
         io::copy(&mut content, &mut tmp_file).expect("failed to write to tmp file");
         println!("Unwrapping: {filename}");
     }
-    // println!("{filename} already exists");
+    info!("{filename} already exists")
 }
 
 struct CargoPrusti {
@@ -108,9 +110,14 @@ fn get_rust_toolchain() -> Toolchain {
     rust_toolchain.toolchain
 }
 
+fn run_prusti(name: &str, version: &str) {
+    install_toolchain();
+    let _ = init_prusti(name, version);
+}
+
 // cite https://github.com/viperproject/prusti-dev/blob/2e47a2705a88ba523dc3ad2e0359799943f26e0f/mir-state-analysis/tests/top_crates.rs
 // https://github.com/viperproject/prusti-dev/blob/master/test-crates/src/main.rs
-fn run_prusti(name: &str, version:&str) {
+fn init_prusti(name: &str, version:&str) -> io::Result<()> {
     let dirname = format!("/tmp/{name}-{version}");
     let filename = format!("{dirname}.crate");
 
@@ -125,40 +132,66 @@ fn run_prusti(name: &str, version:&str) {
         .open(format!("{dirname}/Cargo.toml"))
         .unwrap();
 
+
     use std::io::Write;
     writeln!(file, "\n[workspace]").unwrap();   
 
     let cwd = std::env::current_dir().unwrap();
-    assert!(
-        cfg!(debug_assertions),
-        "Must be run in debug mode, to enable full checking"
-    );
-     let host_prusti_home = if cfg!(debug_assertions) {
-        Path::new("target/debug")
+    let target = if cfg!(debug_assertions) {
+        "debug"
     } else {
-        Path::new("target/release")
+        "release"
     };
-    let host_viper_home = Path::new("viper_tools/backends");
+
+    let prusti = cwd.join(
+        ["target", target, "prusti-release-macos", "cargo-prusti"]
+            .iter()
+            .collect::<PathBuf>(),
+    );
+
+    // automate chmod 755?
+    /*
+     let prusti = cwd.join(
+        ["target", target, "prusti-release-macos"]
+            .iter()
+            .collect::<PathBuf>(),
+    );
+
+    let _change_cwd = env::set_current_dir(prusti.clone());
+    let prusti_macos_path = env::current_dir().expect("failed to change dir to prusti_macos");
+    assert_eq!(prusti_macos_path, prusti);
+    
+    for prusti_dev in fs::read_dir(prusti_macos_path.clone())? {
+            let prusti_dev_path = prusti_dev?.path();
+
+            if !prusti_dev_path.ends_with(".DS_Store")  && !prusti_dev_path.ends_with("deps")  {
+                let mut perms = fs::metadata(prusti_dev_path.clone())?.permissions();
+                perms.set_readonly(false);
+                fs::set_permissions(prusti_dev_path.clone(), perms)?;
+            }
+    } */
+
     let host_z3_home = Path::new("viper_tools/z3/bin");
-    let host_java_home = env::var("JAVA_HOME")
-        .ok()
-        .map(|s| s.into())
-        .or_else(find_java_home)
-        .expect("Please set JAVA_HOME");
-    let host_java_policies = collect_java_policies();
 
-     // clippy false positive (https://github.com/rust-lang/rust-clippy/issues/10577)
-    #[allow(clippy::redundant_clone)]
-    let guest_java_home = host_java_home.clone();
-       info!("Using host's Java home {:?}", host_java_home);
-    let cargo_prusti = CargoPrusti {
-        prusti_home: host_prusti_home.to_path_buf(),
-        viper_home: host_viper_home.to_path_buf(),
-        z3_exe:  host_z3_home.to_path_buf(),
-        java_home: Some(guest_java_home.clone()),
-    };
+    env::set_var("Z3_EXE", host_z3_home.to_path_buf());
 
-    install_toolchain();
+    // println!("Running: {prusti:?} on {dirname}");
+
+    if (dirname.clone() == "/tmp/rand-0.7.3") {
+        println!("{:#?}", dirname.clone());
+    }
+    
+/*     let exit = std::process::Command::new(prusti)
+        .env("PRUSTI_SKIP_UNSUPPORTED_FEATURES", "true")
+        // .env("PRUSTI_LOG", "debug")
+        .env("PRUSTI_NO_VERIFY_DEPS", "true")
+        // .env("PRUSTI_TOP_CRATES", "true")
+        .current_dir(&dirname)
+        .status()
+        .unwrap(); */
+
+    // assert!(exit.success());
+    Ok(())
 }
 
 
@@ -178,16 +211,16 @@ pub fn install_toolchain() {
     let content = fs::read_to_string(&toml_path.clone()).unwrap();
     let toolchain = toml::from_str::<Config>(&content.clone().as_str());
 
-    if toolchain.is_ok() {
+     if toolchain.is_ok() {
         info!("Rust Toolchain already configed")
     } else {
-        let backup_path = env::current_dir().unwrap().join("tmp_toml");  
+ /*        let backup_path = env::current_dir().unwrap().join("tmp_toml");  
         let _ = fs::write(&backup_path, content.clone());
         let new_content = content + "\n" + config_toml.as_str();
-        fs::write(toml_path, new_content).expect("failed to config Rust toolchain in toml")
+        fs::write(toml_path, new_content).expect("failed to config Rust toolchain in toml"); */
     }
-
-    // toml::to_string
+    // stub 
+    info!("Rust toolchain installed, rerun cargo build")
 }
 
 /// Find the Java home directory
@@ -218,87 +251,7 @@ pub fn collect_java_policies() -> Vec<PathBuf> {
         .collect()
 }
 
-/* 
 
-/* cite: https://github.com/viperproject/prusti-dev/blob/master/test-crates/src/main.rs*/
-use clap::Parser;
-use log::{error, info, warn, LevelFilter};
-use serde::Deserialize;
-use env_logger::Builder;
-use std::{
-    env,
-    error::Error,
-    process::Stdio
-};
-
-
-/// How a crate should be tested. All tests use `check_panics=false`, `check_overflows=false` and
-/// `skip_unsupported_features=true`.
-#[derive(Clone, Copy, Debug, Deserialize, PartialEq, Eq)]
-enum TestKind {
-    /// Test that Prusti does not crash nor generate "internal/invalid" when the
-    /// `allow_unreachable_unsupported_code` flag is set.
-    NoErrorsWithUnreachableUnsupportedCode,
-    /// Test that Prusti does not crash nor generate "internal/invalid" errors.
-    NoErrors,
-    /// Test that Prusti does not crash nor generate "invalid" errors.
-    NoCrash,
-    /// Skip the crate. Prusti crashes or the crate does not compile with the standard compiler.
-    Skip,
-}
-
-#[derive(Debug, Deserialize)]
-struct CrateRecord {
-    name: String,
-    version: String,
-    test_kind: TestKind,
-}
-
-fn setup_logs() {
-    let mut env = env_logger::Builder::new();
-    env.filter_module("test_crates", log::LevelFilter::Info);
-    if let Ok(content) = std::env::var("TEST_CRATES_LOG") {
-        env.parse_filters(&content);
-    }
-    info!("{:#?}", env.build());
-}
-
-struct CargoPrusti {
-    prusti_home: PathBuf,
-    viper_home: PathBuf,
-    z3_exe: PathBuf,
-    java_home: Option<PathBuf>,
-}
-
-fn run_prusti() {
-    let crates = fs::read_dir("/tmp/").expect("failed to read /tmp file");
-
-    for crate_ in crates {
-        let crate_file = crate_.unwrap();
-        let crate_path = crate_file.path();
-        let dirname = crate_path.to_str().expect("failed to convert path to str");
-
-       if dirname.contains(".crate") {
-            let file = fs::OpenOptions::new()
-                .write(true)
-                .append(true)
-                .open(format!("{dirname}/Cargo.toml"));
-        
-        let status = std::process::Command::new("tar")
-            .args(["-xf", &dirname, "-C", "/tmp/"])
-            .status()
-            .unwrap();
-
-        assert!(status.success());
-
-        let target = if cfg!(debug_assertions) {
-            "debug"
-        } else {
-            "release"
-        };
-       }
-    }
-} */
 
 #[tokio::main]
 async fn main() {
