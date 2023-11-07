@@ -1,3 +1,0 @@
-struct_predicate m_core$$fmt$$rt$$Count$_beg_$_end_Is(self){
-  (acc(self.f$0, write)) && ((acc(usize(self.f$0), write)) && (true))
-}

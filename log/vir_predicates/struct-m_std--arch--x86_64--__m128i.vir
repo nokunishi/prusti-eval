@@ -1,3 +1,0 @@
-struct_predicate struct$m_std$$arch$$x86_64$$__m128i(self){
-  (acc(self.f$0, write)) && ((acc(i64(self.f$0), write)) && ((acc(self.f$1, write)) && ((acc(i64(self.f$1), write)) && (true))))
-}

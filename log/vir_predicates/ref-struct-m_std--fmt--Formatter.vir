@@ -1,3 +1,0 @@
-struct_predicate ref$struct$m_std$$fmt$$Formatter(self){
-  (acc(self.val_ref, write)) && ((acc(struct$m_std$$fmt$$Formatter(self.val_ref), write)) && (true))
-}

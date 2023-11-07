@@ -1,3 +1,0 @@
-struct_predicate ref$Slice$u8(self){
-  (acc(self.val_ref, write)) && ((acc(Slice$u8(self.val_ref), write)) && (true))
-}

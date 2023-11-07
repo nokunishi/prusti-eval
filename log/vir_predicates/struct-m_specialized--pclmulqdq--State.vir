@@ -1,3 +1,0 @@
-struct_predicate struct$m_specialized$$pclmulqdq$$State(self){
-  (acc(self.f$state, write)) && ((acc(u32(self.f$state), write)) && (true))
-}

@@ -1,8 +1,0 @@
-digraph CFG {
-graph [fontname=monospace];
-node [fontname=monospace];
-edge [fontname=monospace];
-labelloc="t";
-label="Method m_Hasher$$new_with_initial";
-"block_stub" [shape=none,label=<<table border="0" cellborder="1" cellspacing="0"><tr><td bgcolor="gray" align="center">stub (cfg:0)</td></tr><tr><td align="left" balign="left"><font color="orange">// ========== stub ==========</font><br/><font color="orange">// Def path: "crc32fast::\{impl#0\}::new_with_initial"</font><br/><font color="orange">// Span: src/lib.rs:74:5: 76:6 (#0)</font></td></tr><tr><td align="left" bgcolor="#82CA9D">Return<br/></td></tr></table>>];
-}

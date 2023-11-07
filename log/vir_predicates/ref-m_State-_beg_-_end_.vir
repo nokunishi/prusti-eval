@@ -1,3 +1,0 @@
-struct_predicate ref$m_State$_beg_$_end_(self){
-  (acc(self.val_ref, write)) && ((acc(m_State$_beg_$_end_(self.val_ref), write)) && (true))
-}

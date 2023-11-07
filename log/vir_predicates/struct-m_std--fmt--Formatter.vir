@@ -1,3 +1,0 @@
-struct_predicate struct$m_std$$fmt$$Formatter(self){
-  (acc(self.f$flags, write)) && ((acc(u32(self.f$flags), write)) && ((acc(self.f$fill, write)) && ((acc(char(self.f$fill), write)) && ((acc(self.f$align, write)) && ((acc(m_core$$fmt$$rt$$Alignment$_beg_$_end_(self.f$align), write)) && ((acc(self.f$width, write)) && ((acc(m_std$$option$$Option$_beg_$usize$_end_(self.f$width), write)) && ((acc(self.f$precision, write)) && ((acc(m_std$$option$$Option$_beg_$usize$_end_(self.f$precision), write)) && ((acc(self.f$buf, write)) && ((acc(ref$dynamic(self.f$buf), write)) && (true))))))))))))
-}

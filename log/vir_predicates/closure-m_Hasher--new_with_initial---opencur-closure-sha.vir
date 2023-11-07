@@ -1,3 +1,0 @@
-struct_predicate closure$m_Hasher$$new_with_initial$$$opencur$closure$sharp$0$closecur$(self){
-  (acc(self.closure_0, write)) && ((acc(ref$u32(self.closure_0), write)) && (true))
-}

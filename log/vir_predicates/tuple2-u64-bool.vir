@@ -1,3 +1,0 @@
-struct_predicate tuple2$u64$bool(self){
-  (acc(self.tuple_0, write)) && ((acc(u64(self.tuple_0), write)) && ((acc(self.tuple_1, write)) && ((acc(bool(self.tuple_1), write)) && (true))))
-}

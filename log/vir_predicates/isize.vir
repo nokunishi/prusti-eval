@@ -1,3 +1,0 @@
-struct_predicate isize(self){
-  (acc(self.val_int, write)) && (((-9223372036854775808) <= (self.val_int)) && (((self.val_int) <= (9223372036854775807)) && (true)))
-}

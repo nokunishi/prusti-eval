@@ -1,3 +1,0 @@
-struct_predicate u8(self){
-  (acc(self.val_int, write)) && (((0) <= (self.val_int)) && (((self.val_int) <= (255)) && (true)))
-}

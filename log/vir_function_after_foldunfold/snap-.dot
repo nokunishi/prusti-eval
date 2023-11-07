@@ -1,5 +1,0 @@
-function snap$<Snapshot(m_std$$option$$Option$_beg_$struct$m_Hasher$_end_)>(self: Ref(m_std$$option$$Option$_beg_$struct$m_Hasher$_end_)): Snapshot(m_std$$option$$Option$_beg_$struct$m_Hasher$_end_)
-  requires acc(m_std$$option$$Option$_beg_$struct$m_Hasher$_end_(self), read)
-{
-	(((unfolding acc(Ref(m_std$$option$$Option$_beg_$struct$m_Hasher$_end_)(self), read) in self.discriminant)) == (1))?(cons$1$<Snapshot(m_std$$option$$Option$_beg_$struct$m_Hasher$_end_)>((unfolding acc(Ref(m_std$$option$$Option$_beg_$struct$m_Hasher$_end_)<variant {Some}>(self), read) in (unfolding acc(Ref(m_std$$option$$Option$_beg_$struct$m_Hasher$_end_Some)(self[enum_Some]), read) in snap$<Snapshot(struct$m_Hasher)>(self[enum_Some].f$0))))):(cons$0$<Snapshot(m_std$$option$$Option$_beg_$struct$m_Hasher$_end_)>())
-}

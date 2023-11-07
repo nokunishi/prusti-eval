@@ -1,3 +1,0 @@
-struct_predicate ref$u8(self){
-  (acc(self.val_ref, write)) && ((acc(u8(self.val_ref), write)) && (true))
-}

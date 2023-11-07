@@ -1,3 +1,0 @@
-struct_predicate struct$m_core$$fmt$$rt$$UnsafeArg(self){
-  (acc(self.f$_private, write)) && ((acc(tuple0$(self.f$_private), write)) && (true))
-}

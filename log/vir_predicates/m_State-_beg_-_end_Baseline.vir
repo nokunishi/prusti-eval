@@ -1,3 +1,0 @@
-struct_predicate m_State$_beg_$_end_Baseline(self){
-  (acc(self.f$0, write)) && ((acc(struct$m_baseline$$State(self.f$0), write)) && (true))
-}

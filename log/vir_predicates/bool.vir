@@ -1,3 +1,0 @@
-struct_predicate bool(self){
-  (acc(self.val_bool, write)) && (true)
-}

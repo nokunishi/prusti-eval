@@ -1,7 +1,0 @@
-function m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_$$discriminant$$<>(self: Ref(m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_)): Int
-  requires acc(m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_(self), read)
-  ensures (((0) <= (__result)) && ((__result) <= (1))) || (false)
-  ensures (discriminant$<Snapshot(m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_)>(snap$<Snapshot(m_std$$option$$Option$_beg_$struct$m_specialized$$pclmulqdq$$State$_end_)>(self))) == (__result)
-{
-	self.discriminant
-}

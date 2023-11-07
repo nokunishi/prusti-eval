@@ -1,3 +1,0 @@
-struct_predicate i32(self){
-  (acc(self.val_int, write)) && (((-2147483648) <= (self.val_int)) && (((self.val_int) <= (2147483647)) && (true)))
-}
