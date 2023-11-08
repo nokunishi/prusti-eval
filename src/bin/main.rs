@@ -15,17 +15,15 @@ use std::fs::File;
 use std::io;
 use std::env;
 use log::*;
+use std::io::Cursor;
 use serde::{Serialize, Deserialize};
-use crate::io::Cursor;
-use std::process;
-use std::io::BufReader;
-use std::os::unix::fs::PermissionsExt;
+use std::process::{self, Command};
 #[cfg(feature = "unstable-toolchain-ci")]
 use crate::tools::RUSTUP_TOOLCHAIN_INSTALL_MASTER;
 
 const CRATELIST_PATH:&str = "./CrateList.json";
 
-async fn read_json() -> io::Result<()> {
+async fn read_json() {
 
 
     let path = Path::new(&CRATELIST_PATH);
@@ -59,10 +57,8 @@ async fn read_json() -> io::Result<()> {
             run_prusti(name.as_str(), version.as_str());
         }
     } else {
-        println!("No crates in CrateList.json")
+        println!("No crates in CrateList.json");
     }
-
-    Ok(())
     
 }
 
@@ -71,6 +67,7 @@ async fn fetch_and_write(name: &str, version:&str) {
     let filename = format!("{dirname}.crate");
 
     if !PathBuf::from(&filename).exists() { 
+
         let url = format!("https://crates.io/api/v1/crates/{name}/{version}/download");
         let res = reqwest::get(url)
         .await.expect("failed to fetch from crates.io")
@@ -79,14 +76,27 @@ async fn fetch_and_write(name: &str, version:&str) {
         let mut tmp_file = File::create(filename.clone()).expect("failed to create a tmp file");
         let mut content = Cursor::new(res);
         io::copy(&mut content, &mut tmp_file).expect("failed to write to tmp file");
-        // println!("Unwrapping: {filename}");
-    }
+
+        let status = std::process::Command::new("tar")
+        .args(["-xf", &filename, "-C", "/tmp/"])
+        .status()
+        .unwrap();
+        assert!(status.success());
+
+        println!("Unwrapping: {dirname}");
+    }  
+
+    // reset /tmp
+  /*   if PathBuf::from(&filename).exists() { 
+      let _ = fs::remove_file(&filename);
+    }   
+ */
     // info!("{filename} already exists")
 }
 
 
 fn run_prusti(name: &str, version: &str) {
-    let _ = init_prusti(name, version);
+    init_prusti(name, version);
 }
 
 // cite https://github.com/viperproject/prusti-dev/blob/2e47a2705a88ba523dc3ad2e0359799943f26e0f/mir-state-analysis/tests/top_crates.rs
@@ -140,34 +150,29 @@ fn init_prusti(name: &str, version:&str) -> io::Result<()> {
     env::set_var("Z3_EXE", z3_path);
     env::set_var("viper_home",  host_viper_home);
     let pwd = env::current_dir();
-    let p = pwd?.join("log");
-    env::set_var("LOG_DIR", p.clone());
 
-    // println!("Running: {prusti:?} on {dirname}");
+    if pwd.is_err() {
+        process::exit(1);
+    }
+    let pwd_path = pwd.unwrap();
+    let cache = pwd_path.clone().join("cache");
 
-    if dirname.clone() == "/tmp/crc32fast-1.2.0" {
+    if dirname.clone() == "/tmp/adler32-1.0.4" {
 
         let exit = std::process::Command::new(prusti)
-        .env("PRUSTI_LOG_DIR", p.clone().as_os_str())
-        .env("PRUSTI_DUMP_DEBUG_INFO", "true")
-        .env("PRUSTI_DUMP_VIPER_PROGRAM", "true")
+        // .env("PRUSTI_LOG_DIR", "/tmp/prusti_log")
+        // .env("PRUSTI_DUMP_DEBUG_INFO", "true")
+        // .env("PRUSTI_DUMP_VIPER_PROGRAM", "true")
+        // .env("PRUSTI_CACHE_PATH", cache)
+        .env("PRUSTI_ENABLE_CACHE", "true")
         .env("PRUSTI_SKIP_UNSUPPORTED_FEATURES", "true")
-        // .env("PRUSTI_NO_VERIFY_DEPS", "true")
+       // .env("PRUSTI_LOG", "prusti_viper=trace")
+        // .env("PRUSTI_LOG_TRACING", "true")
+        //.env("PRUSTI_JSON_COMMUNICATION", "true")
         .current_dir(&dirname)
         .status()
         .expect("failed");
-    }
-
-
-    
-/*     let exit = std::process::Command::new(prusti)
-        .env("PRUSTI_SKIP_UNSUPPORTED_FEATURES", "true")
-        // .env("PRUSTI_LOG", "debug")
-        .env("PRUSTI_NO_VERIFY_DEPS", "true")
-        // .env("PRUSTI_TOP_CRATES", "true")
-        .current_dir(&dirname)
-        .status()
-        .unwrap(); */
+    } 
 
     // assert!(exit.success());
     Ok(())
@@ -177,13 +182,13 @@ fn init_prusti(name: &str, version:&str) -> io::Result<()> {
 
 #[tokio::main]
 async fn main() {
-    let cwd = std::env::current_dir().unwrap();
-    let log = cwd.join("log");
+    // let cwd = std::env::current_dir().unwrap();
+    let log = Path::new("/tmp/prusti_log");
 
-    if !PathBuf::from(log.clone()).exists() {
+    if !log.exists() {
         let _ = fs::create_dir(log)
                 .expect("failed to create debug_info dir");
     }
 
-    let _ = read_json().await;
+    read_json().await;
 }
