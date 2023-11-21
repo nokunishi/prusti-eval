@@ -6,3 +6,6 @@
 tmp_toml
 
 /log
+
+/__pycache__
+/viper_tools

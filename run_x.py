@@ -1,63 +1,66 @@
 import os
 import sys
-from contextlib import contextmanager
+import shutil
+import time
+import asyncio
 
-def fileno(file_or_fd):
-    fd = getattr(file_or_fd, 'fileno', lambda: file_or_fd)()
-    if not isinstance(fd, int):
-        raise ValueError("Expected a file (`.fileno()`) or a file descriptor")
-    return fd
+tmp = os.listdir("/tmp")
+parent_dir = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
+log_dir = os.path.join(parent_dir, "log")
+log = os.listdir(log_dir)
 
-@contextmanager
-def stdout_redirected(to=os.devnull, stdout=None):
-    if stdout is None:
-       stdout = sys.stdout
+err_dir = ""
+err_reports = []
+if "err_report" in log:
+    err_dir = os.path.join(log_dir, "err_report")
+    err_reports = os.listdir(err_dir)
 
-    stdout_fd = fileno(stdout)
-    # copy stdout_fd before it is overwritten
-    #NOTE: `copied` is inheritable on Windows when duplicating a standard stream
-    with os.fdopen(os.dup(stdout_fd), 'wb') as copied: 
-        stdout.flush()  # flush library buffers that dup2 knows nothing about
-        try:
-            os.dup2(fileno(to), stdout_fd)  # $ exec >&to
-        except ValueError:  # filename
-            with open(to, 'wb') as to_file:
-                os.dup2(to_file.fileno(), stdout_fd)  # $ exec > to
-        try:
-            yield stdout # allow code to be run with the redirected stdout
-        finally:
-            # restore stdout to its previous value
-            #NOTE: dup2 makes stdout_fd inheritable unconditionally
-            stdout.flush()
-            os.dup2(copied.fileno(), stdout_fd)  # $ exec >&copied
+def setup():
+    if len(sys.argv) != 2:
+        print("incorrect number of args")
+        exit()
+
+    os.system("python3 ./x.py run --bin setup_crates" ) 
+    print("setup complete")
 
 
-stdout_fd = sys.stdout.fileno()
-with open('tr.txt', 'w') as f, stdout_redirected(f):
-    import subprocess
-    import io
-    proc = subprocess.Popen(['python3','x.py', "run"],stdout=subprocess.PIPE)
-    line = proc.stdout.readline();
-    line = line.decode("utf-8")
-    print(proc.stdout)
-    os.write(stdout_fd, b'it is redirected now\n')
-    os.system('echo this is also redirected')
-print('this is goes back to stdout')
+async def run_prusti(crate_name):
+    os.system("python3 ./x.py run --bin run_prusti clippy &> " + log_dir + "/" + crate_name + " crate:" + crate_name)
+
+if __name__ == '__main__':
+    setup()
+    
+    i = 0
+    num = int(sys.argv[1])
+
+    while i < num: 
+        crate_name = tmp[i][:-6] + ".txt" 
+        report_name = tmp[i][:-6] + ".json"
+
+        if crate_name in log or report_name in err_reports:
+            print("Prusti already ran on crate:" + tmp[i])
+            os.remove('/tmp/' + tmp[i])
+            shutil.rmtree('/tmp/' + tmp[i][:-6])
+            num += 1
+    
+        else:
+            if ".crate" in tmp[i]:
+                start = time.time()
+                open(log_dir + "/" + crate_name, "w")
+                print("running on: " + tmp[i])
+                try: 
+                    loop = asyncio.get_event_loop()
+                    loop.run_until_complete(asyncio.wait_for(run_prusti(crate_name), 180))
+                except:
+                    print("failed to run Prusti on " + crate_name)
+            else:
+                num += 1
+        i += 1
+
+    import err_log
 
 
 
-"""os.system("python3 ./x.py setup")
-os.system("python3 ./x.py build")"""
 
-""" os.system("python3 ./x.py run")"""
-"""
-import subprocess
-proc = subprocess.Popen(['python3','x.py', "run"],stdout=subprocess.PIPE)
-sys.std.flush()
-while True:
-  line = proc.stdout.readline()
-  if not line:
-    break
-  #the real code does filtering here
-  print ("test:", line.rstrip())"""
+          
 

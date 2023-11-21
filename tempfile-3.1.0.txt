@@ -1,0 +1,550 @@
+warning: value assigned to `name` is never read
+  --> src/bin/run_prusti.rs:50:17
+   |
+50 |         let mut name = "";
+   |                 ^^^^
+   |
+   = help: maybe it is overwritten before being read?
+   = note: `#[warn(unused_assignments)]` on by default
+
+warning: value assigned to `ver` is never read
+  --> src/bin/run_prusti.rs:51:17
+   |
+51 |         let mut ver = "";
+   |                 ^^^
+   |
+   = help: maybe it is overwritten before being read?
+
+warning: `prusti-eval` (bin "run_prusti") generated 2 warnings
+    Finished dev [unoptimized + debuginfo] target(s) in 0.11s
+     Running `target/debug/run_prusti clippy 'crate:tempfile-3.1.0.txt'`
+    Checking tempfile v3.1.0 (/private/tmp/tempfile-3.1.0)
+warning: unused return value of `std::mem::replace` that must be used
+   --> src/file/mod.rs:181:9
+    |
+181 |         mem::replace(&mut self.path, PathBuf::new());
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: if you don't need the old value, you can just assign the new value directly
+    = note: `#[warn(unused_must_use)]` on by default
+help: use `let _ = ...` to ignore the resulting value
+    |
+181 |         let _ = mem::replace(&mut self.path, PathBuf::new());
+    |         +++++++
+
+warning: unused return value of `std::mem::replace` that must be used
+   --> src/file/mod.rs:232:17
+    |
+232 |                 mem::replace(&mut self.path, PathBuf::new());
+    |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: if you don't need the old value, you can just assign the new value directly
+help: use `let _ = ...` to ignore the resulting value
+    |
+232 |                 let _ = mem::replace(&mut self.path, PathBuf::new());
+    |                 +++++++
+
+warning: unused return value of `std::mem::replace` that must be used
+   --> src/file/mod.rs:294:17
+    |
+294 |                 mem::replace(&mut self.path, PathBuf::new());
+    |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: if you don't need the old value, you can just assign the new value directly
+help: use `let _ = ...` to ignore the resulting value
+    |
+294 |                 let _ = mem::replace(&mut self.path, PathBuf::new());
+    |                 +++++++
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+   --> src/dir.rs:402:1
+    |
+402 | / pub(crate) fn create(path: PathBuf) -> io::Result<TempDir> {
+403 | |     fs::create_dir(&path)
+404 | |         .with_err_path(|| &path)
+405 | |         .map(|_| TempDir { path: Some(path) })
+406 | | }
+    | |_^
+    |
+    = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+    = note: Details: Type Closure(DefId(0:44 ~ tempfile[082f]::dir::create::{closure#0}), [i32, Binder(extern "RustCall" fn(()) -> &'?11 Adt(std::path::PathBuf, []), []), (&'?12 Adt(std::path::PathBuf, []),)]) can not be dereferenced
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+  --> src/file/imp/unix.rs:44:1
+   |
+44 | / fn create_unlinked(path: &Path) -> io::Result<File> {
+45 | |     let tmp;
+46 | |     // shadow this to decrease the lifetime. It can't live longer than `tmp`.
+47 | |     let mut path = path;
+...  |
+58 | |     Ok(f)
+59 | | }
+   | |_^
+   |
+   = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+   = note: Details: cannot generate fold-unfold Viper statements. The required permission Pred(old[l30](_22.val_ref), read) cannot be obtained.
+           
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+   --> src/file/mod.rs:940:1
+    |
+940 | / pub(crate) fn create_named(
+941 | |     mut path: PathBuf,
+942 | |     open_options: &mut OpenOptions,
+943 | | ) -> io::Result<NamedTempFile> {
+...   |
+954 | |         })
+955 | | }
+    | |_^
+    |
+    = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+    = note: Details: cannot generate fold-unfold Viper statements. Failed to subtract fractional permissions: invalid substraction: read - write.
+            
+
+warning: [Prusti: unsupported feature] unsupported constant type &'?11 Adt(rand::distributions::Alphanumeric, [])
+  --> src/util.rs:18:26
+   |
+18 |             .sample_iter(&Alphanumeric)
+   |                          ^^^^^^^^^^^^^
+
+warning: [Prusti: unsupported feature] iterators are not fully supported yet
+  --> src/util.rs:38:14
+   |
+38 |     for _ in 0..num_retries {
+   |              ^^^^^^^^^^^^^^
+
+warning: [Prusti: unsupported feature] access to reference-typed fields is not supported
+   --> src/dir.rs:294:5
+    |
+294 | /     pub fn path(&self) -> &path::Path {
+295 | |         self.path.as_ref().unwrap()
+296 | |     }
+    | |_____^
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+   --> src/dir.rs:369:5
+    |
+369 | /     pub fn close(mut self) -> io::Result<()> {
+370 | |         let result = remove_dir_all(self.path()).with_err_path(|| self.path());
+371 | |
+372 | |         // Prevent the Drop impl from removing the dir a second time.
+...   |
+375 | |         result
+376 | |     }
+    | |_____^
+    |
+    = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+    = note: Details: Type Closure(DefId(0:36 ~ tempfile[082f]::dir::{impl#0}::close::{closure#0}), [i32, Binder(extern "RustCall" fn(()) -> &'?12 Adt(std::path::Path, []), []), (&'?13 Adt(dir::TempDir, []),)]) can not be dereferenced
+
+warning: [Prusti: unsupported feature] cast statements that create loans are not supported
+   --> src/dir.rs:388:28
+    |
+388 |             .field("path", &self.path())
+    |                            ^^^^^^^^^^^^
+
+warning: [Prusti: unsupported feature] cast statements that create loans are not supported
+ --> src/error.rs:6:5
+  |
+4 | #[derive(Debug)]
+  |          ----- in this derive macro expansion
+5 | struct PathError {
+6 |     path: PathBuf,
+  |     ^^^^^^^^^^^^^
+  |
+  = note: this warning originates in the derive macro `Debug` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: [Prusti: unsupported feature] unsupported constant type &'?15 [&'?16 str; Const { ty: usize, kind: Leaf(0x0000000000000002) }]
+  --> src/error.rs:12:19
+   |
+12 |         write!(f, "{} at path {:?}", self.err, self.path)
+   |                   ^^^^^^^^^^^^^^^^^
+
+warning: [Prusti: unsupported feature] cast statements that create loans are not supported
+   --> src/file/mod.rs:104:5
+    |
+101 | #[derive(Debug)]
+    |          ----- in this derive macro expansion
+...
+104 |     pub error: io::Error,
+    |     ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: this warning originates in the derive macro `Debug` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: [Prusti: unsupported feature] unsupported constant type &'?14 [&'?15 str; Const { ty: usize, kind: Leaf(0x0000000000000001) }]
+   --> src/file/mod.rs:125:19
+    |
+125 |         write!(f, "failed to persist temporary file path: {}", self.error)
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: [Prusti: unsupported feature] cast statements that create loans are not supported
+   --> src/file/mod.rs:131:14
+    |
+131 |         Some(&self.error)
+    |              ^^^^^^^^^^^
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+   --> src/file/mod.rs:179:5
+    |
+179 | /     pub fn close(mut self) -> io::Result<()> {
+180 | |         let result = fs::remove_file(&self.path).with_err_path(|| &self.path);
+181 | |         mem::replace(&mut self.path, PathBuf::new());
+182 | |         mem::forget(self);
+183 | |         result
+184 | |     }
+    | |_____^
+    |
+    = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+    = note: Details: Type Closure(DefId(0:106 ~ tempfile[082f]::file::{impl#4}::close::{closure#0}), [i32, Binder(extern "RustCall" fn(()) -> &'?13 Adt(std::path::PathBuf, []), []), (&'?14 Adt(file::TempPath, []),)]) can not be dereferenced
+
+warning: [Prusti: unsupported feature] unsupported constant type &'?15 [&'?16 str; Const { ty: usize, kind: Leaf(0x0000000000000002) }]
+   --> src/file/mod.rs:475:19
+    |
+475 |         write!(f, "NamedTempFile({:?})", self.path)
+    |                   ^^^^^^^^^^^^^^^^^^^^^
+
+warning: [Prusti: unsupported feature] cast statements that create loans are not supported
+   --> src/file/mod.rs:490:5
+    |
+487 | #[derive(Debug)]
+    |          ----- in this derive macro expansion
+...
+490 |     pub error: io::Error,
+    |     ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: this warning originates in the derive macro `Debug` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: [Prusti: unsupported feature] unsupported constant type &'?14 [&'?15 str; Const { ty: usize, kind: Leaf(0x0000000000000001) }]
+   --> src/file/mod.rs:511:19
+    |
+511 |         write!(f, "failed to persist temporary file: {}", self.error)
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: [Prusti: unsupported feature] cast statements that create loans are not supported
+   --> src/file/mod.rs:517:14
+    |
+517 |         Some(&self.error)
+    |              ^^^^^^^^^^^
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+   --> src/file/mod.rs:841:5
+    |
+841 | /     pub fn reopen(&self) -> io::Result<File> {
+842 | |         imp::reopen(self.as_file(), NamedTempFile::path(self))
+843 | |             .with_err_path(|| NamedTempFile::path(self))
+844 | |     }
+    | |_____^
+    |
+    = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+    = note: Details: Type Closure(DefId(0:150 ~ tempfile[082f]::file::{impl#16}::reopen::{closure#0}), [i32, Binder(extern "RustCall" fn(()) -> &'?22 Adt(std::path::Path, []), []), (&'?23 &'?24 Adt(file::NamedTempFile, []),)]) can not be dereferenced
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+   --> src/file/mod.rs:881:5
+    |
+881 | /     fn read(&mut self, buf: &mut [u8]) -> io::Result<usize> {
+882 | |         self.as_file_mut().read(buf).with_err_path(|| self.path())
+883 | |     }
+    | |_____^
+    |
+    = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+    = note: Details: Type Closure(DefId(0:158 ~ tempfile[082f]::file::{impl#17}::read::{closure#0}), [i32, Binder(extern "RustCall" fn(()) -> &'?21 Adt(std::path::Path, []), []), (&'?22 &'?23 mut Adt(file::NamedTempFile, []),)]) can not be dereferenced
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+   --> src/file/mod.rs:887:5
+    |
+887 | /     fn read(&mut self, buf: &mut [u8]) -> io::Result<usize> {
+888 | |         self.as_file().read(buf).with_err_path(|| self.path())
+889 | |     }
+    | |_____^
+    |
+    = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+    = note: Details: Type Closure(DefId(0:162 ~ tempfile[082f]::file::{impl#18}::read::{closure#0}), ['?29, i32, Binder(extern "RustCall" fn(()) -> &'?30 Adt(std::path::Path, []), []), (&'?31 &'?32 mut &'?33 Adt(file::NamedTempFile, []),)]) can not be dereferenced
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+   --> src/file/mod.rs:893:5
+    |
+893 | /     fn write(&mut self, buf: &[u8]) -> io::Result<usize> {
+894 | |         self.as_file_mut().write(buf).with_err_path(|| self.path())
+895 | |     }
+    | |_____^
+    |
+    = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+    = note: Details: Type Closure(DefId(0:165 ~ tempfile[082f]::file::{impl#19}::write::{closure#0}), [i32, Binder(extern "RustCall" fn(()) -> &'?21 Adt(std::path::Path, []), []), (&'?22 &'?23 mut Adt(file::NamedTempFile, []),)]) can not be dereferenced
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+   --> src/file/mod.rs:897:5
+    |
+897 | /     fn flush(&mut self) -> io::Result<()> {
+898 | |         self.as_file_mut().flush().with_err_path(|| self.path())
+899 | |     }
+    | |_____^
+    |
+    = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+    = note: Details: Type Closure(DefId(0:167 ~ tempfile[082f]::file::{impl#19}::flush::{closure#0}), [i32, Binder(extern "RustCall" fn(()) -> &'?17 Adt(std::path::Path, []), []), (&'?18 &'?19 mut Adt(file::NamedTempFile, []),)]) can not be dereferenced
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+   --> src/file/mod.rs:903:5
+    |
+903 | /     fn write(&mut self, buf: &[u8]) -> io::Result<usize> {
+904 | |         self.as_file().write(buf).with_err_path(|| self.path())
+905 | |     }
+    | |_____^
+    |
+    = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+    = note: Details: Type Closure(DefId(0:171 ~ tempfile[082f]::file::{impl#20}::write::{closure#0}), ['?29, i32, Binder(extern "RustCall" fn(()) -> &'?30 Adt(std::path::Path, []), []), (&'?31 &'?32 mut &'?33 Adt(file::NamedTempFile, []),)]) can not be dereferenced
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+   --> src/file/mod.rs:907:5
+    |
+907 | /     fn flush(&mut self) -> io::Result<()> {
+908 | |         self.as_file().flush().with_err_path(|| self.path())
+909 | |     }
+    | |_____^
+    |
+    = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+    = note: Details: Type Closure(DefId(0:173 ~ tempfile[082f]::file::{impl#20}::flush::{closure#0}), ['?25, i32, Binder(extern "RustCall" fn(()) -> &'?26 Adt(std::path::Path, []), []), (&'?27 &'?28 mut &'?29 Adt(file::NamedTempFile, []),)]) can not be dereferenced
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+   --> src/file/mod.rs:913:5
+    |
+913 | /     fn seek(&mut self, pos: SeekFrom) -> io::Result<u64> {
+914 | |         self.as_file_mut().seek(pos).with_err_path(|| self.path())
+915 | |     }
+    | |_____^
+    |
+    = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+    = note: Details: Type Closure(DefId(0:176 ~ tempfile[082f]::file::{impl#21}::seek::{closure#0}), [i32, Binder(extern "RustCall" fn(()) -> &'?17 Adt(std::path::Path, []), []), (&'?18 &'?19 mut Adt(file::NamedTempFile, []),)]) can not be dereferenced
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+   --> src/file/mod.rs:919:5
+    |
+919 | /     fn seek(&mut self, pos: SeekFrom) -> io::Result<u64> {
+920 | |         self.as_file().seek(pos).with_err_path(|| self.path())
+921 | |     }
+    | |_____^
+    |
+    = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+    = note: Details: Type Closure(DefId(0:180 ~ tempfile[082f]::file::{impl#22}::seek::{closure#0}), ['?25, i32, Binder(extern "RustCall" fn(()) -> &'?26 Adt(std::path::Path, []), []), (&'?27 &'?28 mut &'?29 Adt(file::NamedTempFile, []),)]) can not be dereferenced
+
+warning: [Prusti: unsupported feature] cast statements that create loans are not supported
+ --> src/spooled.rs:7:14
+  |
+5 | #[derive(Debug)]
+  |          ----- in this derive macro expansion
+6 | enum SpooledInner {
+7 |     InMemory(Cursor<Vec<u8>>),
+  |              ^^^^^^^^^^^^^^^
+  |
+  = note: this warning originates in the derive macro `Debug` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: [Prusti: unsupported feature] cast statements that create loans are not supported
+  --> src/spooled.rs:17:5
+   |
+15 | #[derive(Debug)]
+   |          ----- in this derive macro expansion
+16 | pub struct SpooledTempFile {
+17 |     max_size: usize,
+   |     ^^^^^^^^^^^^^^^
+   |
+   = note: this warning originates in the derive macro `Debug` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: [Prusti: unsupported feature] cast statements that create loans are not supported
+   --> src/lib.rs:152:5
+    |
+150 | #[derive(Debug, Clone, Eq, PartialEq)]
+    |          ----- in this derive macro expansion
+151 | pub struct Builder<'a, 'b> {
+152 |     random_len: usize,
+    |     ^^^^^^^^^^^^^^^^^
+    |
+    = note: this warning originates in the derive macro `Debug` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: [Prusti: unsupported feature] access to reference-typed fields is not supported
+   --> src/lib.rs:153:5
+    |
+150 | #[derive(Debug, Clone, Eq, PartialEq)]
+    |                 ----- in this derive macro expansion
+...
+153 |     prefix: &'a OsStr,
+    |     ^^^^^^^^^^^^^^^^^
+    |
+    = note: this warning originates in the derive macro `Clone` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: [Prusti: unsupported feature] access to reference-typed fields is not supported
+   --> src/lib.rs:153:5
+    |
+150 | #[derive(Debug, Clone, Eq, PartialEq)]
+    |                            --------- in this derive macro expansion
+...
+153 |     prefix: &'a OsStr,
+    |     ^^^^^^^^^^^^^^^^^
+    |
+    = note: this warning originates in the derive macro `PartialEq` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+   --> src/lib.rs:159:5
+    |
+159 | /     fn default() -> Self {
+160 | |         Builder {
+161 | |             random_len: crate::NUM_RAND_CHARS,
+162 | |             prefix: OsStr::new(".tmp"),
+...   |
+165 | |         }
+166 | |     }
+    | |_____^
+    |
+    = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+    = note: Details: cannot generate fold-unfold Viper statements. Failed to subtract fractional permissions: invalid substraction: read - write.
+            
+
+warning: [Prusti: unsupported feature] determining the region of a dereferentiation is not supported
+   --> src/lib.rs:266:9
+    |
+266 |         self.prefix = prefix.as_ref();
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: [Prusti: unsupported feature] determining the region of a dereferentiation is not supported
+   --> src/lib.rs:293:9
+    |
+293 |         self.suffix = suffix.as_ref();
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: [Prusti: unsupported feature] access to reference-typed fields is not supported
+   --> src/lib.rs:420:13
+    |
+420 |             self.prefix,
+    |             ^^^^^^^^^^^
+
+warning: [Prusti: unsupported feature] access to reference-typed fields is not supported
+   --> src/lib.rs:495:34
+    |
+495 |         util::create_helper(dir, self.prefix, self.suffix, self.random_len, dir::create)
+    |                                  ^^^^^^^^^^^
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+   --> src/dir.rs:404:24
+    |
+404 |         .with_err_path(|| &path)
+    |                        ^^^^^^^^
+    |
+    = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+    = note: Details: Type Closure(DefId(0:44 ~ tempfile[082f]::dir::create::{closure#0}), [i32, Binder(extern "RustCall" fn(()) -> &'?8 Adt(std::path::PathBuf, []), []), (&'?9 Adt(std::path::PathBuf, []),)]) can not be dereferenced
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+  --> src/util.rs:50:20
+   |
+50 |     .with_err_path(|| base)
+   |                    ^^^^^^^
+   |
+   = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+   = note: Details: Type Closure(DefId(0:229 ~ tempfile[082f]::util::create_helper::{closure#0}), [F/#0, R/#1, i32, Binder(extern "RustCall" fn(()) -> &'?12 Adt(std::path::Path, []), []), (&'?13 &'?14 Adt(std::path::Path, []),)]) can not be dereferenced
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+   --> src/dir.rs:370:64
+    |
+370 |         let result = remove_dir_all(self.path()).with_err_path(|| self.path());
+    |                                                                ^^^^^^^^^^^^^^
+    |
+    = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+    = note: Details: Type Closure(DefId(0:36 ~ tempfile[082f]::dir::{impl#0}::close::{closure#0}), [i32, Binder(extern "RustCall" fn(()) -> &'?8 Adt(std::path::Path, []), []), (&'?9 Adt(dir::TempDir, []),)]) can not be dereferenced
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+   --> src/file/mod.rs:180:64
+    |
+180 |         let result = fs::remove_file(&self.path).with_err_path(|| &self.path);
+    |                                                                ^^^^^^^^^^^^^
+    |
+    = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+    = note: Details: Type Closure(DefId(0:106 ~ tempfile[082f]::file::{impl#4}::close::{closure#0}), [i32, Binder(extern "RustCall" fn(()) -> &'?8 Adt(std::path::PathBuf, []), []), (&'?9 Adt(file::TempPath, []),)]) can not be dereferenced
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+   --> src/file/mod.rs:843:28
+    |
+843 |             .with_err_path(|| NamedTempFile::path(self))
+    |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+    = note: Details: Type Closure(DefId(0:150 ~ tempfile[082f]::file::{impl#16}::reopen::{closure#0}), [i32, Binder(extern "RustCall" fn(()) -> &'?11 Adt(std::path::Path, []), []), (&'?12 &'?13 Adt(file::NamedTempFile, []),)]) can not be dereferenced
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+   --> src/file/mod.rs:882:52
+    |
+882 |         self.as_file_mut().read(buf).with_err_path(|| self.path())
+    |                                                    ^^^^^^^^^^^^^^
+    |
+    = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+    = note: Details: Type Closure(DefId(0:158 ~ tempfile[082f]::file::{impl#17}::read::{closure#0}), [i32, Binder(extern "RustCall" fn(()) -> &'?12 Adt(std::path::Path, []), []), (&'?13 &'?14 mut Adt(file::NamedTempFile, []),)]) can not be dereferenced
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+   --> src/file/mod.rs:888:48
+    |
+888 |         self.as_file().read(buf).with_err_path(|| self.path())
+    |                                                ^^^^^^^^^^^^^^
+    |
+    = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+    = note: Details: Type Closure(DefId(0:162 ~ tempfile[082f]::file::{impl#18}::read::{closure#0}), ['?15, i32, Binder(extern "RustCall" fn(()) -> &'?16 Adt(std::path::Path, []), []), (&'?17 &'?18 mut &'?19 Adt(file::NamedTempFile, []),)]) can not be dereferenced
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+   --> src/file/mod.rs:894:53
+    |
+894 |         self.as_file_mut().write(buf).with_err_path(|| self.path())
+    |                                                     ^^^^^^^^^^^^^^
+    |
+    = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+    = note: Details: Type Closure(DefId(0:165 ~ tempfile[082f]::file::{impl#19}::write::{closure#0}), [i32, Binder(extern "RustCall" fn(()) -> &'?12 Adt(std::path::Path, []), []), (&'?13 &'?14 mut Adt(file::NamedTempFile, []),)]) can not be dereferenced
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+   --> src/file/mod.rs:898:50
+    |
+898 |         self.as_file_mut().flush().with_err_path(|| self.path())
+    |                                                  ^^^^^^^^^^^^^^
+    |
+    = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+    = note: Details: Type Closure(DefId(0:167 ~ tempfile[082f]::file::{impl#19}::flush::{closure#0}), [i32, Binder(extern "RustCall" fn(()) -> &'?11 Adt(std::path::Path, []), []), (&'?12 &'?13 mut Adt(file::NamedTempFile, []),)]) can not be dereferenced
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+   --> src/file/mod.rs:904:49
+    |
+904 |         self.as_file().write(buf).with_err_path(|| self.path())
+    |                                                 ^^^^^^^^^^^^^^
+    |
+    = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+    = note: Details: Type Closure(DefId(0:171 ~ tempfile[082f]::file::{impl#20}::write::{closure#0}), ['?15, i32, Binder(extern "RustCall" fn(()) -> &'?16 Adt(std::path::Path, []), []), (&'?17 &'?18 mut &'?19 Adt(file::NamedTempFile, []),)]) can not be dereferenced
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+   --> src/file/mod.rs:908:46
+    |
+908 |         self.as_file().flush().with_err_path(|| self.path())
+    |                                              ^^^^^^^^^^^^^^
+    |
+    = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+    = note: Details: Type Closure(DefId(0:173 ~ tempfile[082f]::file::{impl#20}::flush::{closure#0}), ['?14, i32, Binder(extern "RustCall" fn(()) -> &'?15 Adt(std::path::Path, []), []), (&'?16 &'?17 mut &'?18 Adt(file::NamedTempFile, []),)]) can not be dereferenced
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+   --> src/file/mod.rs:914:52
+    |
+914 |         self.as_file_mut().seek(pos).with_err_path(|| self.path())
+    |                                                    ^^^^^^^^^^^^^^
+    |
+    = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+    = note: Details: Type Closure(DefId(0:176 ~ tempfile[082f]::file::{impl#21}::seek::{closure#0}), [i32, Binder(extern "RustCall" fn(()) -> &'?11 Adt(std::path::Path, []), []), (&'?12 &'?13 mut Adt(file::NamedTempFile, []),)]) can not be dereferenced
+
+error: [Prusti: internal error] Prusti encountered an unexpected internal error
+   --> src/file/mod.rs:920:48
+    |
+920 |         self.as_file().seek(pos).with_err_path(|| self.path())
+    |                                                ^^^^^^^^^^^^^^
+    |
+    = note: This is likely to be a bug in Prusti. We would appreciate a bug report: https://github.com/viperproject/prusti-dev/issues/new
+    = note: Details: Type Closure(DefId(0:180 ~ tempfile[082f]::file::{impl#22}::seek::{closure#0}), ['?14, i32, Binder(extern "RustCall" fn(()) -> &'?15 Adt(std::path::Path, []), []), (&'?16 &'?17 mut &'?18 Adt(file::NamedTempFile, []),)]) can not be dereferenced
+
+error: [Prusti: verification error] assertion might fail with "attempt to add with overflow"
+   --> src/spooled.rs:123:23
+    |
+123 |             rolling = cursor.position() as usize + buf.len() > self.max_size;
+    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `tempfile` (lib) generated 25 warnings
+error: could not compile `tempfile` (lib) due to 29 previous errors; 25 warnings emitted
+thread 'main' panicked at src/bin/run_prusti.rs:44:9:
+assertion failed: cmd.success()
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

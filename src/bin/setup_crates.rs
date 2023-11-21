@@ -4,18 +4,18 @@
 // and 
 // https://github.com/viperproject/prusti-dev/blob/master/test-crates/src/main.rs
 
-// TODO: refactor later to use sandbox
+
 #![feature(try_trait_v2)]
 extern crate reqwest; 
 
-use std::fs::{self, create_dir};
+use std::fmt::format;
+use std::fs;
 use std::path::{Path, PathBuf};
 use serde_json::*;
 use std::fs::File;
 use std::io;
-use std::env;
-use log::*;
 use std::io::Cursor;
+use std::env;
 use serde::{Serialize, Deserialize};
 use std::process::{self, Command};
 #[cfg(feature = "unstable-toolchain-ci")]
@@ -54,7 +54,6 @@ async fn read_json() {
             version.remove(version.len()-1);
 
             fetch_and_write(name.as_str(), version.as_str()).await;
-            run_prusti(name.as_str(), version.as_str());
         }
     } else {
         println!("No crates in CrateList.json");
@@ -65,6 +64,22 @@ async fn read_json() {
 async fn fetch_and_write(name: &str, version:&str) {
     let dirname = format!("/tmp/{name}-{version}");
     let filename = format!("{dirname}.crate");
+    let crate_name_json = format!("{name}-{version}.json");
+    let crate_name_txt = format!("{name}-{version}.txt");
+
+    let cwd = env::current_dir().expect("failed to get cwd");
+    let log_dir = cwd.parent().expect("failed to get parent dir").join("log");
+    let err_report_path = log_dir.join(
+        ["err_report", crate_name_json.as_str()]
+            .iter()
+            .collect::<PathBuf>(),
+    );
+
+    let txt_path = log_dir.join(crate_name_txt.as_str());
+
+    if txt_path.exists() || err_report_path.exists() {
+        return
+    }
 
     if !PathBuf::from(&filename).exists() { 
 
@@ -94,112 +109,16 @@ async fn fetch_and_write(name: &str, version:&str) {
 }
 
 
-fn run_prusti(name: &str, version: &str) {
-    init_prusti(name, version);
-}
-
-// cite https://github.com/viperproject/prusti-dev/blob/2e47a2705a88ba523dc3ad2e0359799943f26e0f/mir-state-analysis/tests/top_crates.rs
-// https://github.com/viperproject/prusti-dev/blob/master/test-crates/src/main.rs
-fn init_prusti(name: &str, version:&str) -> io::Result<()> {
-    let dirname = format!("/tmp/{name}-{version}");
-
-    let cwd = std::env::current_dir().unwrap();
-    let target = if cfg!(debug_assertions) {
-        "debug"
-    } else {
-        "release"
-    };
-
-    let prusti = cwd.join(
-        ["target", target, "prusti-release-macos", "cargo-prusti"]
-            .iter()
-            .collect::<PathBuf>(),
-    );
-
-    let env_root_path = fs::read_to_string("./.env").unwrap();
-    let _ = env::set_current_dir(Path::new(env_root_path.as_str()));
-    let z3_path = env::current_dir().unwrap().join("viper_tools/z3/bin/z3");
-    let host_viper_home = env::current_dir().unwrap().join("viper_tools/backends");
-    
-
-    env::set_var("Z3_EXE", z3_path);
-    env::set_var("viper_home",  host_viper_home);
-    let pwd = env::current_dir();
-
-    if pwd.is_err() {
-        process::exit(1);
-    }
-    let pwd_path = pwd.unwrap();
-    let log = pwd_path.clone().join("log");
-    let cache = pwd_path.clone().join("cache");
-
-    use std::process::Stdio;
-    use std::io::BufReader;
-
-    if dirname.clone() == "/tmp/adler32-1.0.4" {
-
-        let cmd = std::process::Command::new(prusti)
-        .env("PRUSTI_LOG_DIR", log.as_os_str())
-        //.env("PRUSTI_DUMP_DEBUG_INFO", "true")
-        .env("PRUSTI_CACHE_PATH", cache)
-        .env("PRUSTI_ENABLE_CACHE", "true")
-        .env("PRUSTI_SKIP_UNSUPPORTED_FEATURES", "true")
-        // .env("PRUSTI_LOG", "info")
-        .current_dir(&dirname)
-        .status()
-        .expect("failed");
-}
-
-    // assert!(exit.success());
-    Ok(())
-}
-
-
-fn analyze_prusti() {
-    let cwd = std::env::current_dir().unwrap();
-    let trace_path = cwd.join("log/trace.json");
-    let cwd = std::env::current_dir().unwrap();
-    let data_dir = cwd.join("data");
-
-    if !trace_path.exists() {
-        println!("trace file does not exit");
-        return;
-    }
-
-    if !data_dir.exists() {
-        let _ = fs::create_dir(&data_dir);
-    }
-
-    let trace_file = File::open(cwd.join(&trace_path)).expect("failed to read trace file");
-    let mut trace_json: serde_json::Value =
-        serde_json::from_reader(&trace_file).expect("JSON was not well-formatted");
-    let arr = trace_json.as_array_mut().unwrap();
-    let filtered:Vec<&mut Value> = arr.iter_mut().filter(|o| o[".file"] != serde_json::Value::Null
-        && o[".file"].to_string().contains("prusti-viper/src/encoder/errors")).collect();
-    println!("{:#?}", filtered.len()); 
-     
-}
-
 #[tokio::main]
 async fn main() {
-/*     use std::env;
-    use env_logger::{Builder, Target};
-
-    let mut builder = Builder::from_default_env();
-    builder.target(Target::Stderr);
-
-    builder.init(); 
- */
-    // let cwd = std::env::current_dir().unwrap();
     let log = Path::new("/tmp/prusti_log");
 
     if !log.exists() {
         let _ = fs::create_dir(log)
-                .expect("failed to create debug_info dir");
+                .expect("failed to create /tmp/prusti_log dir");
     }
 
     read_json().await;
-    // analyze_prusti();
 }
 
 
