@@ -1,6 +1,5 @@
 import os
 import json
-import shutil
 from pathlib import Path
 
 """TODO: report panics too"""
@@ -11,7 +10,9 @@ cwd =  "`" + os.getcwd() + "`"
 unsupported_feature = "[Prusti: unsupported feature]"
 internal_errors = "[Prusti: internal error]"
 warning = "warning:"
-non_rust_warnings = ["warning", "warnings", "prusti", "Prusti", "generated", "(lib)", cwd, run_prusti_file]
+non_rust_warnings = ["warning", "warnings", "prusti", "Prusti", "generated", "(lib)", cwd, run_prusti_file
+                     , "`name`", "`ver`", '`cmd`']
+verification_error = "error: [Prusti: verification error]"
 
 parent_dir = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 log_dir = os.path.join(parent_dir, "log")
@@ -38,12 +39,13 @@ logs = os.listdir(os.path.join(log_dir, "archive"))
 for log in logs:
     err_file = log[:-4] + ".json"
     err_file_path = os.path.join(log_dir, "err_report",  err_file)
-    
 
+    """
     if os.path.exists(err_file_path):
         print("err report for " + log + " exists already")
-        """os.remove(log)"""
+        os.remove(log)  
         continue
+    """
 
     with open(os.path.join(log_dir, "archive", log), "r") as f:
         unsupported_reasons = []
@@ -55,6 +57,9 @@ for log in logs:
         panic_report =False
         filename = os.path.join(log_dir, "panic_report", log)
         crash_report = open(filename, "w")
+
+        ver_error_reasons = []
+        ver_err_num = 0;
 
         for l_no, line in enumerate(f):
             if unsupported_feature in line:
@@ -142,22 +147,21 @@ for log in logs:
                     if not err_type_distinct == "unsupported constant type" and not err_type_distinct =="unsupported constant value":
                         unsupported_distinct.append(err_type_distinct)
 
-            else:
-                if warning in line:
-                    err_line = line.replace("warning:", "").split(" ")
+            if warning in line and not unsupported_feature in line:
+                line = line.replace("warning:", "").replace("\n", "")
+                for warn in non_rust_warnings:
+                    if warn in line:
+                        line = ""
+                        break
+                if len(line) > 0:
+                    err_line = line.split(" ")
                     err_type = ""
-                    rust = True
-                    for warn in non_rust_warnings:
-                        if warn in err_line:
-                            rust = False
-                            break
-                    if rust:
-                        for err in err_line:
-                            err_type += err + " "
-                        err_type = err_type.strip()
-                        if not err_type in rust_warnings_reasons:
-                            rust_warnings_reasons.append(err_type)
-                        rust_warnings += 1;
+                    for err in err_line:
+                        err_type += err + " "
+                    err_type = err_type.strip()
+                    if not err_type in rust_warnings_reasons:
+                        rust_warnings_reasons.append(err_type)
+                    rust_warnings += 1;
             if internal_errors in line:
                 internal += 1
             if "thread 'rustc' panicked at" in line:
@@ -165,6 +169,13 @@ for log in logs:
                 panic_report = True
             if panic_report:
                 crash_report.write(line)
+            if verification_error in line:
+                line= line.replace(verification_error, "").replace("\"", "")
+                line = line.strip();
+                ver_err_num += 1;
+            
+                if line not in ver_error_reasons:
+                    ver_error_reasons.append(line)
 
     trace = {
         "unsupported_feature_err_num": unsupported,
@@ -176,7 +187,10 @@ for log in logs:
         "rust_warning_distinct_num": len(rust_warnings_reasons),
         "rust_warning_reasons": rust_warnings_reasons,
         "internal_err_num": internal,
-        "has_panic_reports": panic_report
+        "has_panic_reports": panic_report,
+        "verification_failed_num_total": ver_err_num,
+        "verification_failed_num_distinct": len(ver_error_reasons),
+        "verification_failed_reason": ver_error_reasons
     }
 
     json_trace = json.dumps(trace, indent= 4)
