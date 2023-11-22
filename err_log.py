@@ -1,5 +1,9 @@
 import os
 import json
+import shutil
+from pathlib import Path
+
+"""TODO: report panics too"""
 
 run_prusti_file = '(bin "run_prusti")'
 cwd =  "`" + os.getcwd() + "`"
@@ -8,7 +12,6 @@ unsupported_feature = "[Prusti: unsupported feature]"
 internal_errors = "[Prusti: internal error]"
 warning = "warning:"
 non_rust_warnings = ["warning", "warnings", "prusti", "Prusti", "generated", "(lib)", cwd, run_prusti_file]
-
 
 parent_dir = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 log_dir = os.path.join(parent_dir, "log")
@@ -20,23 +23,38 @@ if "err_report" in logs:
 else:
     os.mkdir(os.path.join(log_dir, "err_report"))
 
+panic_reports = []
+if "panic_report" in logs:
+    panic_reports = os.listdir(os.path.join(log_dir, "panic_report"))
+    logs.remove("panic_report")
+else:
+    os.mkdir(os.path.join(log_dir, "panic_report"))
+
+if not "archive" in logs:
+    print("No file to extract log from")
+
+logs = os.listdir(os.path.join(log_dir, "archive"))
+
 for log in logs:
     err_file = log[:-4] + ".json"
     err_file_path = os.path.join(log_dir, "err_report",  err_file)
     
-    """
+
     if os.path.exists(err_file_path):
         print("err report for " + log + " exists already")
+        """os.remove(log)"""
         continue
-    """
 
-    with open(os.path.join(log_dir, log), "r") as f:
+    with open(os.path.join(log_dir, "archive", log), "r") as f:
         unsupported_reasons = []
         unsupported = 0;
         unsupported_distinct = []
         internal = 0;
         rust_warnings_reasons = []
         rust_warnings = 0;
+        panic_report =False
+        filename = os.path.join(log_dir, "panic_report", log)
+        crash_report = open(filename, "w")
 
         for l_no, line in enumerate(f):
             if unsupported_feature in line:
@@ -108,7 +126,7 @@ for log in logs:
                                 err_word = err_word_[0] + "::" + err_word_[1]
                             err_line_distinct = err_line_distinct[:index]
                             err_line_distinct.append(err_word)
-                            
+
                 err_type_distinct = ""    
                 for err_word in err_line_distinct:
                     err_word = err_word.strip()
@@ -142,6 +160,11 @@ for log in logs:
                         rust_warnings += 1;
             if internal_errors in line:
                 internal += 1
+            if "thread 'rustc' panicked at" in line:
+                print("writing to panic_report: " + log)
+                panic_report = True
+            if panic_report:
+                crash_report.write(line)
 
     trace = {
         "unsupported_feature_err_num": unsupported,
@@ -153,10 +176,15 @@ for log in logs:
         "rust_warning_distinct_num": len(rust_warnings_reasons),
         "rust_warning_reasons": rust_warnings_reasons,
         "internal_err_num": internal,
+        "has_panic_reports": panic_report
     }
 
     json_trace = json.dumps(trace, indent= 4)
     with open(os.path.join(log_dir, "err_report", log[:-4] + ".json"), "w") as outfile:
+        print("writing to json: " + log)
         outfile.write(json_trace)
+
+    if os.path.getsize(filename) == 0:
+        os.remove(filename)
     
 

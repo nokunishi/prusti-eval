@@ -5,7 +5,9 @@
 
 tmp_toml
 
-/log
+/log/archive
+/log/err_report
+/log/panic_report
 
 /__pycache__
 /viper_tools
