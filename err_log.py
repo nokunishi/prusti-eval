@@ -1,8 +1,7 @@
 import os
 import json
+import sys
 from pathlib import Path
-
-"""TODO: report panics too"""
 
 run_prusti_file = '(bin "run_prusti")'
 cwd =  "`" + os.getcwd() + "`"
@@ -40,12 +39,10 @@ for log in logs:
     err_file = log[:-4] + ".json"
     err_file_path = os.path.join(log_dir, "err_report",  err_file)
 
-    """
-    if os.path.exists(err_file_path):
-        print("err report for " + log + " exists already")
-        os.remove(log)  
-        continue
-    """
+    if "reset" not in sys.argv:
+        if os.path.exists(err_file_path):
+            print("err report for " + log + " exists already")
+            continue
 
     with open(os.path.join(log_dir, "archive", log), "r") as f:
         unsupported_reasons = []
@@ -165,7 +162,6 @@ for log in logs:
             if internal_errors in line:
                 internal += 1
             if "thread 'rustc' panicked at" in line:
-                print("writing to panic_report: " + log)
                 panic_report = True
             if panic_report:
                 crash_report.write(line)
@@ -176,7 +172,9 @@ for log in logs:
             
                 if line not in ver_error_reasons:
                     ver_error_reasons.append(line)
-
+    if panic_report:
+        print("writing to panic_report: " + log)
+        
     trace = {
         "unsupported_feature_err_num": unsupported,
         "unsupported_distinct_detailed_num": len(unsupported_reasons),

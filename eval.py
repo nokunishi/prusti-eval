@@ -7,7 +7,7 @@ import operator
 parent_dir = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 err_report_dir = os.path.join(parent_dir, "log", "err_report")
 err_reports = os.listdir(err_report_dir)
-stat_report_dir =  os.path.join(parent_dir, "log", "stats_report")
+stat_report_dir =  os.path.join(parent_dir, "log", "eval_summary")
 
 {
   "unsupported_feature_err_num": 3,
@@ -92,6 +92,7 @@ stats = {
     "unsupported_feature_grouped_num": len(unsupported),
     "unsupported_feature_summary": unsupported,
     "rust_warning_total": rust_warning,
+    "rust_warning_distinct": len(rust_reason),
     "rust_warning_summary": rust_reason,
     "internal_errors_total": internal_error,
 }

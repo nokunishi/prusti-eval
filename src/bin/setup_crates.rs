@@ -77,7 +77,9 @@ async fn fetch_and_write(name: &str, version:&str) {
 
     let txt_path = log_dir.join(crate_name_txt.as_str());
 
-    if txt_path.exists() || err_report_path.exists() {
+    let args: Vec<String> = env::args().collect();
+
+    if !args.contains(&String::from("reset")) && (txt_path.exists() || err_report_path.exists()) {
         return
     }
 
@@ -97,15 +99,15 @@ async fn fetch_and_write(name: &str, version:&str) {
         .status()
         .unwrap();
         assert!(status.success());
-
+        
         println!("Unwrapping: {dirname}");
-    }  
+    } 
 
-    // reset /tmp
-  /*   if PathBuf::from(&filename).exists() { 
+
+   /*  // reset /tmp
+    if PathBuf::from(&filename).exists() { 
       let _ = fs::remove_file(&filename);
-    }   
- */
+    }    */
 }
 
 
@@ -123,25 +125,3 @@ async fn main() {
 
 
 
-
-    // automate chmod 755?
-    /*
-     let prusti = cwd.join(
-        ["target", target, "prusti-release-macos"]
-            .iter()
-            .collect::<PathBuf>(),
-    );
-
-    let _change_cwd = env::set_current_dir(prusti.clone());
-    let prusti_macos_path = env::current_dir().expect("failed to change dir to prusti_macos");
-    assert_eq!(prusti_macos_path, prusti);
-    
-    for prusti_dev in fs::read_dir(prusti_macos_path.clone())? {
-            let prusti_dev_path = prusti_dev?.path();
-
-            if !prusti_dev_path.ends_with(".DS_Store")  && !prusti_dev_path.ends_with("deps")  {
-                let mut perms = fs::metadata(prusti_dev_path.clone())?.permissions();
-                perms.set_readonly(false);
-                fs::set_permissions(prusti_dev_path.clone(), perms)?;
-            }
-    } */
