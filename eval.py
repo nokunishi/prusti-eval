@@ -25,10 +25,12 @@ class Stat:
     failed_total = 0;
     failed_reason = {};
     i = 0
+    
+    crates_ommitted = [];
         
 
 
-def sync(crate):
+def sync(crate, s):
         report_path = sys.argv[2]
 
         with open(os.path.join(parent_dir, report_path), "r") as f:
@@ -36,11 +38,11 @@ def sync(crate):
             for l_no, line in enumerate(reader):
                 rows_csv = line[0].split(",")[0]
 
-                if rows_csv == crate:
-                    print(rows_csv)
-                    print(crate + " not in line_summary report")
+                if rows_csv == crate:      
                     return True
 
+            print(crate + " not found in line summary")
+            s.crates_ommitted.append(crate)
             return False
 
 def eval(report, s):
@@ -110,15 +112,28 @@ def main():
     for report in err_reports:
         if "-s" in sys.argv:
             report_name = report[:-5]
-            if sync(report_name):
+            if sync(report_name, s):
                 eval(report, s)
         else:
             eval(report, s)
                 
+    if "-s" in sys.argv:
+        report_path = sys.argv[2]
+
+        with open(os.path.join(parent_dir, report_path), "r") as f:
+            lines = f.read().splitlines()
+            lastline = lines[-1]
+            if not int(lastline.split(",")[0]) == s.i:
+                print("inconsistent number of crates")
+                print("# of crates in line summary: " + lastline.split(",")[0])
+                print("# of crates in error reports: " + s.i)
+                return
+
     s.unsupported = sorted_dict = dict(sorted(s.unsupported.items(),  key=lambda x: x[1]['num'], reverse=True))
     s.unsupported_detailed = sorted_dict = dict(sorted(s.unsupported_detailed.items(), key=lambda x: x[1]['num'], reverse=True))
     s.rust_reason = sorted_dict = dict(sorted(s.rust_reason.items(),  key=lambda x: x[1]['num'], reverse=True))
     s.failed_reason = sorted_dict = dict(sorted(s.failed_reason.items(), key=lambda x: x[1]['num'], reverse=True))
+
     stats = {
         "number_of_crates": s.i,
         "panicked_total": s.panicked,
@@ -134,10 +149,14 @@ def main():
         "rust_warning_distinct_num": len(s.rust_reason),
         "rust_warning_summary": s.rust_reason,
         "internal_errors_total": s.internal_error,
+        "crates_ommitted_num": len(s.crates_ommitted),
+        "crates_ommitted": s.crates_ommitted
     }
 
     json_stats = json.dumps(stats, indent= 8)
-    with open(os.path.join(stat_report_dir, "summary-" + str(datetime.datetime.now()) + ".json"), "w") as outfile:
+    date_ = str(datetime.datetime.now()).split(" ")
+    date = date_[0] + "-" + date_[1]
+    with open(os.path.join(stat_report_dir, "summary-" + date + ".json"), "w") as outfile:
         print("writing to summary")
         outfile.write(json_stats)
        

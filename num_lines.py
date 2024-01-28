@@ -60,7 +60,7 @@ def count_num_fn(name, paths):
                 row_exists = True
 
     if not row_exists:
-        df.to_csv(summary_csv_path, mode = "a", index=False, header = not os.path.isfile(summary_csv_path))
+        df.to_csv(summary_csv_path, mode = "a", index=False, header = os.path.getsize(summary_csv_path) == 0)
 
 def summary():
     total_num_lines = 0;
@@ -72,11 +72,12 @@ def summary():
         for l_no, line in enumerate(reader):
             if not line == header and not line == []:
                 row = line[0].split(",")
+
                 total_num_lines += int(row[line_index])
                 total_num_fns += int(row[fn_index])
                 i+=1
 
-    data = {"Total Number of Crates": i,
+    data = {"Total Number of Crates": i -1,
             "Total Number of Lines": total_num_lines, 
             "Number of Functions": total_num_fns}
 
