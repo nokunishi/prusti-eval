@@ -99,8 +99,9 @@ async fn read_json_err_report() {
             if crate_name != "" {
                 crate_name.push_str("-");
             }
-            crate_name.push_str(name);
         }
+
+        crate_name.remove(crate_name.len() -1);
 
     fetch_and_write(crate_name.as_str(), version.as_str()).await;
     }
