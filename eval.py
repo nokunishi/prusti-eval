@@ -1,123 +1,149 @@
 import os
 import json
-import operator
 import datetime
+import sys
+import csv
 
 
 parent_dir = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 err_report_dir = os.path.join(parent_dir, "log", "err_report")
 err_reports = os.listdir(err_report_dir)
 stat_report_dir =  os.path.join(parent_dir, "log", "eval_summary")
+lines_report_dir =  os.path.join(parent_dir, "log", "lines_summary")
 
-{
-  "unsupported_feature_err_num": 3,
-  "unsupported_distinct_detailed_num": 3,
-  "unsupported_distinct_detailed": [],
-  "unsupported_distinct_summary_num": 3,
-  "unsupported_distinct_summary": [],
-  "rust_warning_num": 5,
-  "rust_warning_distinct_num": 4,
-  "rust_warning_reasons": [],
-  "internal_err_num": 0,
-  "has_panic_reports": False,
-  "verification_failed_num_total": 0,
-  "verification_failed_num_distinct": 0,
-  "verification_failed_reason": []
-}
 
-unsupported_total = 0;
+class Stat:
+    unsupported_total = 0
+    rust_warning = 0;
+    internal_error = 0;
+    panicked = 0;
 
-rust_warning = 0;
-internal_error = 0;
-panicked = 0;
+    unsupported = {}
+    unsupported_detailed = {}
+    rust_reason = {}
 
-unsupported = {}
-unsupported_detailed = {}
-rust_reason = {}
+    failed_total = 0;
+    failed_reason = {};
+    i = 0
+        
 
-failed_total = 0;
-failed_reason = {}
 
-num_reports = len(err_reports)
+def sync(crate):
+        report_path = sys.argv[2]
 
-for report in err_reports:
+        with open(os.path.join(parent_dir, report_path), "r") as f:
+            reader = csv.reader(f, delimiter="\t")
+            for l_no, line in enumerate(reader):
+                rows_csv = line[0].split(",")[0]
+
+                if rows_csv == crate:
+                    print(rows_csv)
+                    print(crate + " not in line_summary report")
+                    return True
+
+            return False
+
+def eval(report, s):
+    s.i += 1;
     with open(os.path.join(err_report_dir, report), "r") as f:
         f = json.load(f)
-        unsupported_total += f["unsupported_feature_total_num"]
+    
+        s.unsupported_total += f["unsupported_feature_total_num"]
         try:
-            rust_warning += f["rust_warning_total_num"]
-            internal_error += f["internal_err_total_num"]
+            s.rust_warning += f["rust_warning_total_num"]
+            s.internal_error += f["internal_err_total_num"]
         except:
             print(report)
-        failed_total += f["verification_failed_num_total"]
+        s.failed_total += f["verification_failed_num_total"]
         if f["has_panic_reports"] == True:
-            panicked += 1
+            s.panicked += 1
 
         unsuppported_errs = f["unsupported_summary"]
 
         for err in f["unsupported_detailed"]:
-            if err in unsupported_detailed:
-                unsupported_detailed[err]["num"] += 1
+            if err in s.unsupported_detailed:
+                s.unsupported_detailed[err]["num"] += 1
             else:
-                unsupported_detailed[err] = {
+                s.unsupported_detailed[err] = {
                     "num": 1,
                     "i.e.": report[:-5]
                 }
         
         for err in f["unsupported_summary"]:
-            if err in unsupported:
-                unsupported[err]["num"] += 1
+            if err in s.unsupported:
+                s.unsupported[err]["num"] += 1
             else:
-                unsupported[err] = {
+                s.unsupported[err] = {
                     "num": 1,
                     "i.e.": report[:-5]
                 }
 
         for rust_err in f["rust_warning_reasons"]:
-            if rust_err in rust_reason:
-                rust_reason[rust_err]["num"] += 1
+            if rust_err in s.rust_reason:
+                s.rust_reason[rust_err]["num"] += 1
             else:
-                rust_reason[rust_err] = {
+                s.rust_reason[rust_err] = {
                     "num": 1,
                     "i.e.": report[:-5]
                 }
 
         for err in f["verification_failed_reason"]:
-            if err in failed_reason:
-                failed_reason[err]["num"] += 1
+            if err in s.failed_reason:
+                s.failed_reason[err]["num"] += 1
             else:
-                failed_reason[err] = {
+                s.failed_reason[err] = {
                     "num": 1,
                     "i.e.": report[:-5]
                 }
 
-unsupported = sorted_dict = dict(sorted(unsupported.items(),  key=lambda x: x[1]['num'], reverse=True))
-unsupported_detailed = sorted_dict = dict(sorted(unsupported_detailed.items(), key=lambda x: x[1]['num'], reverse=True))
-rust_reason = sorted_dict = dict(sorted(rust_reason.items(),  key=lambda x: x[1]['num'], reverse=True))
-failed_reason = sorted_dict = dict(sorted(failed_reason.items(), key=lambda x: x[1]['num'], reverse=True))
-stats = {
-    "number_of_crates": num_reports,
-    "panicked_total": panicked,
-    "verification_failed_total": failed_total,
-    "verification_failed_distinct_num": len(failed_reason),
-    "verification_failed_reason": failed_reason,
-    "unsupported_features_total": unsupported_total,
-    "unsupported_feature_grouped_num": len(unsupported),
-    "unsupported_feature_summary": unsupported,
-    "unsupported_feature_distinct_num": len(unsupported_detailed),
-    "unsupported_feature_detailed": unsupported_detailed,
-    "rust_warning_total": rust_warning,
-    "rust_warning_distinct_num": len(rust_reason),
-    "rust_warning_summary": rust_reason,
-    "internal_errors_total": internal_error,
-}
+def main():
+    if "-s" in sys.argv:
+        if not len(sys.argv) == 3:
+            print("invalid number of args")
+            return
+        if not sys.argv[2].startswith("log"):
+            print("invalid relative path")
+            return
+        
+    s = Stat()
 
-json_stats = json.dumps(stats, indent= 8)
-with open(os.path.join(stat_report_dir, "summary-" + str(datetime.datetime.now()) + ".json"), "w") as outfile:
-    print("writing to summary")
-    outfile.write(json_stats)
+    for report in err_reports:
+        if "-s" in sys.argv:
+            report_name = report[:-5]
+            if sync(report_name):
+                eval(report, s)
+        else:
+            eval(report, s)
+                
+    s.unsupported = sorted_dict = dict(sorted(s.unsupported.items(),  key=lambda x: x[1]['num'], reverse=True))
+    s.unsupported_detailed = sorted_dict = dict(sorted(s.unsupported_detailed.items(), key=lambda x: x[1]['num'], reverse=True))
+    s.rust_reason = sorted_dict = dict(sorted(s.rust_reason.items(),  key=lambda x: x[1]['num'], reverse=True))
+    s.failed_reason = sorted_dict = dict(sorted(s.failed_reason.items(), key=lambda x: x[1]['num'], reverse=True))
+    stats = {
+        "number_of_crates": s.i,
+        "panicked_total": s.panicked,
+        "verification_failed_total": s.failed_total,
+        "verification_failed_distinct_num": len(s.failed_reason),
+        "verification_failed_reason": s.failed_reason,
+        "unsupported_features_total": s.unsupported_total,
+        "unsupported_feature_grouped_num": len(s.unsupported),
+        "unsupported_feature_summary": s.unsupported,
+        "unsupported_feature_distinct_num": len(s.unsupported_detailed),
+        "unsupported_feature_detailed": s.unsupported_detailed,
+        "rust_warning_total": s.rust_warning,
+        "rust_warning_distinct_num": len(s.rust_reason),
+        "rust_warning_summary": s.rust_reason,
+        "internal_errors_total": s.internal_error,
+    }
+
+    json_stats = json.dumps(stats, indent= 8)
+    with open(os.path.join(stat_report_dir, "summary-" + str(datetime.datetime.now()) + ".json"), "w") as outfile:
+        print("writing to summary")
+        outfile.write(json_stats)
+       
 
 
-
+if __name__ == '__main__':
+    main()
 
 
