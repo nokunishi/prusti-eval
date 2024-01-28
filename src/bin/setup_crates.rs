@@ -8,8 +8,9 @@
 #![feature(try_trait_v2)]
 extern crate reqwest; 
 
+use std::borrow::Borrow;
 use std::fmt::format;
-use std::fs;
+use std::fs::{self, create_dir};
 use std::path::{Path, PathBuf};
 use serde_json::*;
 use std::fs::File;
@@ -23,9 +24,7 @@ use crate::tools::RUSTUP_TOOLCHAIN_INSTALL_MASTER;
 
 const CRATELIST_PATH:&str = "./CrateList.json";
 
-async fn read_json() {
-
-
+async fn read_json_cratelist() {
     let path = Path::new(&CRATELIST_PATH);
     let mut file = fs::read_to_string(path)
     .expect("failed to read CrateList");
@@ -61,6 +60,52 @@ async fn read_json() {
     
 }
 
+async fn read_json_err_report() {
+    let cwd = std::env::current_dir().unwrap();
+    let parent_dir = cwd.parent().unwrap();
+    let err_dir = parent_dir.join("log/err_report");
+    let files = fs::read_dir(err_dir.clone()).unwrap();
+
+    for file in files {
+        let file_name = file.unwrap().file_name();
+        let file_str = file_name.to_str().unwrap();
+
+        let names:Vec<&str> = file_str.split("-").collect();
+
+        let mut crate_names: Vec<&str> = Vec::new();
+        let mut version = String::new();
+        let mut alpha = false;
+
+        for name in names.clone() {
+            
+            if !name.ends_with(".json") {
+                crate_names.push(name)
+            } else if !name.starts_with("alpha") && name.ends_with(".json") {
+                version = name.replace(".json", "")
+            } else {
+                let v_ = names.clone()[names.len() - 2];
+                version = v_.to_string();
+                alpha = true;
+            }
+        }
+
+        if alpha {
+            crate_names.remove(crate_names.len() - 1);
+        }
+
+        let mut crate_name = String::new();
+
+        for name in crate_names {
+            if crate_name != "" {
+                crate_name.push_str("-");
+            }
+            crate_name.push_str(name);
+        }
+
+    fetch_and_write(crate_name.as_str(), version.as_str()).await;
+    }
+}
+
 async fn fetch_and_write(name: &str, version:&str) {
     let dirname = format!("/tmp/{name}-{version}");
     let filename = format!("{dirname}.crate");
@@ -79,8 +124,10 @@ async fn fetch_and_write(name: &str, version:&str) {
 
     let args: Vec<String> = env::args().collect();
 
-    if !args.contains(&String::from("reset")) && (txt_path.exists() || err_report_path.exists()) {
-        return
+    if !args.contains(&String::from("reset")) && (txt_path.exists() || err_report_path.exists())
+        && args.contains(&String::from("cratelist")) {
+            println!("an error report already created for {filename}");
+            return
     }
 
     if !PathBuf::from(&filename).exists() { 
@@ -98,10 +145,15 @@ async fn fetch_and_write(name: &str, version:&str) {
         .args(["-xf", &filename, "-C", "/tmp/"])
         .status()
         .unwrap();
-        assert!(status.success());
+        
+        if !status.success() {
+            println!("failed to download {filename}");
+            let _ = fs::remove_file(&filename);
+            println!("removed {filename}");
+        }
         
         println!("Unwrapping: {dirname}");
-    } 
+    }
 
 
    /*  // reset /tmp
@@ -112,15 +164,24 @@ async fn fetch_and_write(name: &str, version:&str) {
 
 
 #[tokio::main]
-async fn main() {
-    let log = Path::new("/tmp/prusti_log");
+async fn main() -> Result<()>{
 
-    if !log.exists() {
-        let _ = fs::create_dir(log)
-                .expect("failed to create /tmp/prusti_log dir");
+    let args: Vec<String> = env::args().collect();
+    if args.len() < 2 {
+        println!("Error: invalid number arguments");
+        return Ok(());
+    }
+    
+    for arg in args {
+        if arg.to_lowercase() == "cratelist" {
+            read_json_cratelist().await;
+        } 
+        if arg.to_lowercase() == "err_report" {
+            read_json_err_report().await;
+        }
     }
 
-    read_json().await;
+    Ok(())
 }
 
 

@@ -1,8 +1,8 @@
 import os
 import sys
 import shutil
-import uuid
 import json
+import datetime
 
 tmp_dir = os.listdir("/private/tmp")
 parent_dir = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
@@ -53,17 +53,17 @@ def rerun():
 def truncate_panic_dir():
     panic_dir = os.listdir(panic_dir_path)
     panic_summary_path = os.path.join(log_dir_path, "panic_summary")
-    uuid_str = str(uuid.uuid4())
+    date_str = str(datetime.datetime.now())
     paniced_crates = []
     sampled = False
     for panic in panic_dir:
         if ".DS" not in panic:
             paniced_crates.append(panic)
         if not sampled:
-            os.rename(os.path.join(panic_dir_path, panic), os.path.join(panic_summary_path, "sample-" + uuid_str + ".txt"))
+            os.rename(os.path.join(panic_dir_path, panic), os.path.join(panic_summary_path, "sample-" + date_str + ".txt"))
             sampled = True
 
-    with open(os.path.join(panic_summary_path, "sample-" + uuid_str + ".json"), "a") as outfile:
+    with open(os.path.join(panic_summary_path, "sample-" + date_str + ".json"), "a") as outfile:
         print("truncating panic_report dir ..")
         obj = {
             "paniced_crates": paniced_crates,
@@ -107,7 +107,7 @@ def main():
 
     if "--z" in sys.argv:
         archived = os.listdir(archive_dir_path)
-        zipped_dist = os.path.join(log_dir_path, "zipped", 'archive_' + str(len(archived)) + "_" + str(uuid.uuid4()))
+        zipped_dist = os.path.join(log_dir_path, "zipped", 'archive_' + str(len(archived)) + "_" + str(datetime.datetime.now()))
         shutil.make_archive(base_name=zipped_dist, format='zip', root_dir=archive_dir_path)
         return
 

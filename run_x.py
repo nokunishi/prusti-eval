@@ -1,8 +1,6 @@
 import os
 import sys
 import shutil
-import asyncio
-import uuid
 
 tmp_dir = os.listdir("/tmp")
 parent_dir = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
@@ -35,7 +33,7 @@ def setup():
         print("incorrect number of args")
         exit()
 
-    os.system("python3 ./x.py run --bin setup_crates" ) 
+    os.system("python3 ./x.py run --bin setup_crates cratelist" ) 
     print("setup complete")
     return err_reports
 
