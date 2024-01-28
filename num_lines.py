@@ -48,7 +48,7 @@ def count_num_fn(name, paths, report):
                     num_fn += 1;
             
                 for fn in fns:
-                    if fn in line:
+                    if fn in line and line.strip().startswith("//"):
                         num_fn_calls[fn] += 1
 
             num_lines += l_no
@@ -95,7 +95,7 @@ def summary():
 
                     total_num_lines += int(row[line_index])
                     total_num_fns += int(row[fn_index])
-                    
+
                     for j in range(fn_index+1, len(row)):
                         fn_calls[j] += int(row[j])
                     i+=1
@@ -136,6 +136,12 @@ def run():
     if not os.path.isfile(summary_csv_path):
         with open(summary_csv_path, "w"):
             print("summary.csv created")
+
+    if "-s" in sys.argv:
+        count_num_fn(sys.argv[2], get_file("/tmp/" + sys.argv[2], []), 
+                            "log/panic_summary/2024-01-28-12:56:14.194899.json")
+        summary()
+        return
 
     crates = os.listdir("/tmp");
     for crate in crates:  
