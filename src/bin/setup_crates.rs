@@ -1,10 +1,3 @@
-// cite 
-// Part of code inspired by https://github.com/viperproject/prusti-dev/blob
-// /2e47a2705a88ba523dc3ad2e0359799943f26e0f/mir-state-analysis/tests/top_crates.rs
-// and 
-// https://github.com/viperproject/prusti-dev/blob/master/test-crates/src/main.rs
-
-
 #![feature(try_trait_v2)]
 extern crate reqwest; 
 
@@ -107,6 +100,11 @@ async fn read_json_err_report() {
     }
 }
 
+/*
+    Cite:  
+    https://github.com/viperproject/prusti-dev/blob/2e47a2705a88ba523dc3ad2e0359799943f26e0f/mir-state-analysis/tests/top_crates.rs
+    https://github.com/viperproject/prusti-dev/blob/master/test-crates/src/main.rs
+*/
 async fn fetch_and_write(name: &str, version:&str) {
     let dirname = format!("/tmp/{name}-{version}");
     let filename = format!("{dirname}.crate");
