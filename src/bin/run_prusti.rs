@@ -83,6 +83,7 @@ fn main() {
     for arg in args {
 
         if arg.contains(".txt") {
+            println!("{:#?}", arg);
             let mut crate_name = arg.replace("crate:", "");
             crate_name = crate_name.replace(".txt", "");
             let names: Vec<&str> = crate_name.split("-").collect();
