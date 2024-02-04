@@ -1,0 +1,55 @@
+// MIR for `<impl at lib.rs:98:1: 98:20>::from_value` after built
+
+fn <impl at lib.rs:98:1: 98:20>::from_value(_1: u32) -> RollingAdler32 {
+    debug adler32 => _1;
+    let mut _0: RollingAdler32;
+    let _2: u32;
+    let mut _3: u32;
+    let mut _5: u32;
+    let mut _6: u32;
+    let mut _7: bool;
+    let mut _8: u32;
+    let mut _9: u32;
+    scope 1 {
+        debug a => _2;
+        let _4: u32;
+        scope 2 {
+            debug b => _4;
+        }
+    }
+
+    bb0: {
+        StorageLive(_2);
+        StorageLive(_3);
+        _3 = _1;
+        _2 = BitAnd(move _3, const 65535_u32);
+        StorageDead(_3);
+        FakeRead(ForLet(None), _2);
+        StorageLive(_4);
+        StorageLive(_5);
+        _5 = _1;
+        _6 = const 16_i32 as u32 (IntToInt);
+        _7 = Lt(move _6, const 32_u32);
+        assert(move _7, "attempt to shift right by `{}`, which would overflow", const 16_i32) -> [success: bb1, unwind: bb2];
+    }
+
+    bb1: {
+        _4 = Shr(move _5, const 16_i32);
+        StorageDead(_5);
+        FakeRead(ForLet(None), _4);
+        StorageLive(_8);
+        _8 = _2;
+        StorageLive(_9);
+        _9 = _4;
+        _0 = RollingAdler32 { a: move _8, b: move _9 };
+        StorageDead(_9);
+        StorageDead(_8);
+        StorageDead(_4);
+        StorageDead(_2);
+        return;
+    }
+
+    bb2 (cleanup): {
+        resume;
+    }
+}

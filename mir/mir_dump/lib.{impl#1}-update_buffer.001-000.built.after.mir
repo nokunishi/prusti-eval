@@ -1,0 +1,921 @@
+// MIR for `<impl at lib.rs:98:1: 98:20>::update_buffer` after built
+
+| User Type Annotations
+| 0: user_ty: Canonical { value: TypeOf(DefId(2:2545 ~ core[13d3]::convert::From::from), UserArgs { args: [u32, ^0], user_self_ty: None }), max_universe: U0, variables: [CanonicalVarInfo { kind: Ty(General(U0)) }] }, span: lib.rs:152:27: 152:36, inferred_ty: fn(u8) -> u32 {<u32 as std::convert::From<u8>>::from}
+| 1: user_ty: Canonical { value: TypeOf(DefId(2:2545 ~ core[13d3]::convert::From::from), UserArgs { args: [u32, ^0], user_self_ty: None }), max_universe: U0, variables: [CanonicalVarInfo { kind: Ty(General(U0)) }] }, span: lib.rs:183:27: 183:36, inferred_ty: fn(u8) -> u32 {<u32 as std::convert::From<u8>>::from}
+|
+fn <impl at lib.rs:98:1: 98:20>::update_buffer(_1: &mut RollingAdler32, _2: &[u8]) -> () {
+    debug self => _1;
+    debug buffer => _2;
+    let mut _0: ();
+    let _3: usize;
+    let mut _4: &[u8];
+    let _5: ();
+    let mut _6: bool;
+    let mut _7: usize;
+    let mut _8: !;
+    let _9: ();
+    let mut _10: &mut RollingAdler32;
+    let mut _11: u8;
+    let _12: usize;
+    let mut _13: usize;
+    let mut _14: bool;
+    let _15: ();
+    let mut _16: bool;
+    let mut _17: usize;
+    let mut _18: !;
+    let _19: ();
+    let mut _20: std::iter::Take<std::slice::Iter<'_, u8>>;
+    let mut _21: std::iter::Take<std::slice::Iter<'_, u8>>;
+    let mut _22: std::slice::Iter<'_, u8>;
+    let mut _23: &[u8];
+    let mut _24: usize;
+    let mut _26: ();
+    let _27: ();
+    let mut _28: std::option::Option<&u8>;
+    let mut _29: &mut std::iter::Take<std::slice::Iter<'_, u8>>;
+    let mut _30: &mut std::iter::Take<std::slice::Iter<'_, u8>>;
+    let mut _31: isize;
+    let mut _32: !;
+    let mut _34: u32;
+    let mut _35: u8;
+    let mut _36: (u32, bool);
+    let mut _37: u32;
+    let mut _38: (u32, bool);
+    let _39: ();
+    let mut _40: bool;
+    let mut _41: u32;
+    let mut _42: (u32, bool);
+    let mut _43: bool;
+    let _45: ();
+    let mut _46: bool;
+    let mut _47: usize;
+    let mut _48: usize;
+    let mut _49: (usize, bool);
+    let mut _50: usize;
+    let mut _52: usize;
+    let mut _53: (usize, bool);
+    let _54: ();
+    let mut _55: bool;
+    let mut _56: usize;
+    let mut _57: usize;
+    let _58: ();
+    let mut _59: &mut u32;
+    let mut _60: &mut u32;
+    let mut _61: &mut u32;
+    let mut _62: &mut u32;
+    let mut _63: &[u8];
+    let _64: &[u8];
+    let _65: &[u8];
+    let mut _66: &[u8];
+    let mut _67: std::ops::Range<usize>;
+    let mut _68: usize;
+    let mut _69: usize;
+    let mut _70: usize;
+    let mut _71: (usize, bool);
+    let mut _72: (usize, bool);
+    let mut _73: !;
+    let _74: ();
+    let mut _75: !;
+    let mut _76: bool;
+    let mut _77: bool;
+    let mut _78: !;
+    let _79: ();
+    let mut _80: !;
+    let mut _81: bool;
+    let mut _82: usize;
+    let mut _83: usize;
+    let _84: ();
+    let mut _85: bool;
+    let mut _86: usize;
+    let mut _87: usize;
+    let mut _88: usize;
+    let mut _89: (usize, bool);
+    let _90: ();
+    let mut _91: &mut u32;
+    let mut _92: &mut u32;
+    let mut _93: &mut u32;
+    let mut _94: &mut u32;
+    let mut _95: &[u8];
+    let _96: &[u8];
+    let _97: &[u8];
+    let mut _98: &[u8];
+    let mut _99: std::ops::Range<usize>;
+    let mut _100: usize;
+    let mut _101: usize;
+    let mut _102: usize;
+    let mut _103: (usize, bool);
+    let mut _104: (usize, bool);
+    let mut _105: !;
+    let _106: ();
+    let mut _107: !;
+    let _108: ();
+    let mut _109: bool;
+    let mut _110: usize;
+    let mut _111: usize;
+    let mut _112: usize;
+    let mut _113: (usize, bool);
+    let mut _114: u32;
+    let mut _115: u8;
+    let _116: usize;
+    let mut _117: usize;
+    let mut _118: bool;
+    let mut _119: (u32, bool);
+    let mut _120: u32;
+    let mut _121: (u32, bool);
+    let mut _122: (usize, bool);
+    let mut _123: !;
+    let _124: ();
+    let mut _125: !;
+    let mut _126: bool;
+    let mut _127: bool;
+    scope 1 {
+        debug len => _3;
+        let mut _25: std::iter::Take<std::slice::Iter<'_, u8>>;
+        let mut _44: usize;
+        scope 2 {
+            debug iter => _25;
+            let _33: &u8;
+            scope 3 {
+                debug byte => _33;
+            }
+        }
+        scope 4 {
+            debug pos => _44;
+            let _51: usize;
+            scope 5 {
+                debug end => _51;
+            }
+        }
+    }
+
+    bb0: {
+        StorageLive(_3);
+        StorageLive(_4);
+        _4 = &(*_2);
+        _3 = core::slice::<impl [u8]>::len(move _4) -> [return: bb1, unwind: bb109];
+    }
+
+    bb1: {
+        StorageDead(_4);
+        FakeRead(ForLet(None), _3);
+        StorageLive(_5);
+        StorageLive(_6);
+        StorageLive(_7);
+        _7 = _3;
+        _6 = Eq(move _7, const 1_usize);
+        switchInt(move _6) -> [0: bb3, otherwise: bb2];
+    }
+
+    bb2: {
+        StorageDead(_7);
+        StorageLive(_9);
+        StorageLive(_10);
+        _10 = &mut (*_1);
+        StorageLive(_11);
+        StorageLive(_12);
+        _12 = const 0_usize;
+        _13 = Len((*_2));
+        _14 = Lt(_12, _13);
+        assert(move _14, "index out of bounds: the length is {} but the index is {}", move _13, _12) -> [success: bb4, unwind: bb109];
+    }
+
+    bb3: {
+        goto -> bb8;
+    }
+
+    bb4: {
+        _11 = (*_2)[_12];
+        _9 = RollingAdler32::update(move _10, move _11) -> [return: bb5, unwind: bb109];
+    }
+
+    bb5: {
+        StorageDead(_11);
+        StorageDead(_10);
+        StorageDead(_12);
+        StorageDead(_9);
+        _0 = const ();
+        goto -> bb106;
+    }
+
+    bb6: {
+        unreachable;
+    }
+
+    bb7: {
+        goto -> bb9;
+    }
+
+    bb8: {
+        StorageDead(_7);
+        _5 = const ();
+        goto -> bb9;
+    }
+
+    bb9: {
+        StorageDead(_6);
+        StorageDead(_5);
+        StorageLive(_15);
+        StorageLive(_16);
+        StorageLive(_17);
+        _17 = _3;
+        _16 = Lt(move _17, const 16_usize);
+        switchInt(move _16) -> [0: bb11, otherwise: bb10];
+    }
+
+    bb10: {
+        StorageDead(_17);
+        StorageLive(_19);
+        StorageLive(_20);
+        StorageLive(_21);
+        StorageLive(_22);
+        StorageLive(_23);
+        _23 = &(*_2);
+        _22 = core::slice::<impl [u8]>::iter(move _23) -> [return: bb12, unwind: bb109];
+    }
+
+    bb11: {
+        goto -> bb38;
+    }
+
+    bb12: {
+        StorageDead(_23);
+        StorageLive(_24);
+        _24 = _3;
+        _21 = <std::slice::Iter<'_, u8> as Iterator>::take(move _22, move _24) -> [return: bb13, unwind: bb109];
+    }
+
+    bb13: {
+        StorageDead(_24);
+        StorageDead(_22);
+        _20 = <std::iter::Take<std::slice::Iter<'_, u8>> as IntoIterator>::into_iter(move _21) -> [return: bb14, unwind: bb109];
+    }
+
+    bb14: {
+        StorageDead(_21);
+        FakeRead(ForMatchedPlace(None), _20);
+        StorageLive(_25);
+        _25 = move _20;
+        goto -> bb15;
+    }
+
+    bb15: {
+        falseUnwind -> [real: bb16, unwind: bb109];
+    }
+
+    bb16: {
+        StorageLive(_27);
+        StorageLive(_28);
+        StorageLive(_29);
+        StorageLive(_30);
+        _30 = &mut _25;
+        _29 = &mut (*_30);
+        _28 = <std::iter::Take<std::slice::Iter<'_, u8>> as Iterator>::next(move _29) -> [return: bb17, unwind: bb109];
+    }
+
+    bb17: {
+        StorageDead(_29);
+        FakeRead(ForMatchedPlace(None), _28);
+        _31 = discriminant(_28);
+        switchInt(move _31) -> [0: bb18, 1: bb19, otherwise: bb20];
+    }
+
+    bb18: {
+        falseEdge -> [real: bb21, imaginary: bb19];
+    }
+
+    bb19: {
+        StorageLive(_33);
+        _33 = ((_28 as Some).0: &u8);
+        StorageLive(_34);
+        StorageLive(_35);
+        _35 = (*_33);
+        _34 = <u32 as From<u8>>::from(move _35) -> [return: bb24, unwind: bb109];
+    }
+
+    bb20: {
+        unreachable;
+    }
+
+    bb21: {
+        _19 = const ();
+        goto -> bb28;
+    }
+
+    bb22: {
+        unreachable;
+    }
+
+    bb23: {
+        goto -> bb27;
+    }
+
+    bb24: {
+        StorageDead(_35);
+        _36 = CheckedAdd(((*_1).0: u32), _34);
+        assert(!move (_36.1: bool), "attempt to compute `{} + {}`, which would overflow", ((*_1).0: u32), move _34) -> [success: bb25, unwind: bb109];
+    }
+
+    bb25: {
+        ((*_1).0: u32) = move (_36.0: u32);
+        StorageDead(_34);
+        StorageLive(_37);
+        _37 = ((*_1).0: u32);
+        _38 = CheckedAdd(((*_1).1: u32), _37);
+        assert(!move (_38.1: bool), "attempt to compute `{} + {}`, which would overflow", ((*_1).1: u32), move _37) -> [success: bb26, unwind: bb109];
+    }
+
+    bb26: {
+        ((*_1).1: u32) = move (_38.0: u32);
+        StorageDead(_37);
+        _27 = const ();
+        StorageDead(_33);
+        goto -> bb27;
+    }
+
+    bb27: {
+        StorageDead(_30);
+        StorageDead(_28);
+        StorageDead(_27);
+        _26 = const ();
+        goto -> bb15;
+    }
+
+    bb28: {
+        StorageDead(_30);
+        StorageDead(_28);
+        StorageDead(_27);
+        StorageDead(_25);
+        goto -> bb29;
+    }
+
+    bb29: {
+        StorageDead(_20);
+        StorageDead(_19);
+        StorageLive(_39);
+        StorageLive(_40);
+        StorageLive(_41);
+        _41 = ((*_1).0: u32);
+        _40 = Ge(move _41, const _);
+        switchInt(move _40) -> [0: bb31, otherwise: bb30];
+    }
+
+    bb30: {
+        StorageDead(_41);
+        _42 = CheckedSub(((*_1).0: u32), const _);
+        assert(!move (_42.1: bool), "attempt to compute `{} - {}`, which would overflow", ((*_1).0: u32), const _) -> [success: bb32, unwind: bb109];
+    }
+
+    bb31: {
+        goto -> bb33;
+    }
+
+    bb32: {
+        ((*_1).0: u32) = move (_42.0: u32);
+        _39 = const ();
+        goto -> bb34;
+    }
+
+    bb33: {
+        StorageDead(_41);
+        _39 = const ();
+        goto -> bb34;
+    }
+
+    bb34: {
+        StorageDead(_40);
+        StorageDead(_39);
+        _43 = Eq(const _, const 0_u32);
+        assert(!move _43, "attempt to calculate the remainder of `{}` with a divisor of zero", ((*_1).1: u32)) -> [success: bb35, unwind: bb109];
+    }
+
+    bb35: {
+        ((*_1).1: u32) = Rem(((*_1).1: u32), const _);
+        _0 = const ();
+        goto -> bb105;
+    }
+
+    bb36: {
+        unreachable;
+    }
+
+    bb37: {
+        goto -> bb39;
+    }
+
+    bb38: {
+        StorageDead(_17);
+        _15 = const ();
+        goto -> bb39;
+    }
+
+    bb39: {
+        StorageDead(_16);
+        StorageDead(_15);
+        StorageLive(_44);
+        _44 = const 0_usize;
+        FakeRead(ForLet(None), _44);
+        StorageLive(_45);
+        goto -> bb40;
+    }
+
+    bb40: {
+        falseUnwind -> [real: bb41, unwind: bb109];
+    }
+
+    bb41: {
+        StorageLive(_46);
+        StorageLive(_47);
+        StorageLive(_48);
+        _48 = _44;
+        _49 = CheckedAdd(_48, const _);
+        assert(!move (_49.1: bool), "attempt to compute `{} + {}`, which would overflow", move _48, const _) -> [success: bb42, unwind: bb109];
+    }
+
+    bb42: {
+        _47 = move (_49.0: usize);
+        StorageDead(_48);
+        StorageLive(_50);
+        _50 = _3;
+        _46 = Le(move _47, move _50);
+        switchInt(move _46) -> [0: bb44, otherwise: bb43];
+    }
+
+    bb43: {
+        StorageDead(_50);
+        StorageDead(_47);
+        StorageLive(_51);
+        StorageLive(_52);
+        _52 = _44;
+        _53 = CheckedAdd(_52, const _);
+        assert(!move (_53.1: bool), "attempt to compute `{} + {}`, which would overflow", move _52, const _) -> [success: bb45, unwind: bb109];
+    }
+
+    bb44: {
+        goto -> bb62;
+    }
+
+    bb45: {
+        _51 = move (_53.0: usize);
+        StorageDead(_52);
+        FakeRead(ForLet(None), _51);
+        StorageLive(_54);
+        goto -> bb46;
+    }
+
+    bb46: {
+        falseUnwind -> [real: bb47, unwind: bb109];
+    }
+
+    bb47: {
+        StorageLive(_55);
+        StorageLive(_56);
+        _56 = _44;
+        StorageLive(_57);
+        _57 = _51;
+        _55 = Lt(move _56, move _57);
+        switchInt(move _55) -> [0: bb49, otherwise: bb48];
+    }
+
+    bb48: {
+        StorageDead(_57);
+        StorageDead(_56);
+        StorageLive(_58);
+        StorageLive(_59);
+        StorageLive(_60);
+        _60 = &mut ((*_1).0: u32);
+        _59 = &mut (*_60);
+        StorageLive(_61);
+        StorageLive(_62);
+        _62 = &mut ((*_1).1: u32);
+        _61 = &mut (*_62);
+        StorageLive(_63);
+        StorageLive(_64);
+        StorageLive(_65);
+        StorageLive(_66);
+        _66 = &(*_2);
+        StorageLive(_67);
+        StorageLive(_68);
+        _68 = _44;
+        StorageLive(_69);
+        StorageLive(_70);
+        _70 = _44;
+        _71 = CheckedAdd(_70, const 16_usize);
+        assert(!move (_71.1: bool), "attempt to compute `{} + {}`, which would overflow", move _70, const 16_usize) -> [success: bb50, unwind: bb109];
+    }
+
+    bb49: {
+        goto -> bb54;
+    }
+
+    bb50: {
+        _69 = move (_71.0: usize);
+        StorageDead(_70);
+        _67 = std::ops::Range::<usize> { start: move _68, end: move _69 };
+        StorageDead(_69);
+        StorageDead(_68);
+        _65 = <[u8] as Index<std::ops::Range<usize>>>::index(move _66, move _67) -> [return: bb51, unwind: bb109];
+    }
+
+    bb51: {
+        StorageDead(_67);
+        StorageDead(_66);
+        _64 = &(*_65);
+        _63 = &(*_64);
+        _58 = do16(move _59, move _61, move _63) -> [return: bb52, unwind: bb109];
+    }
+
+    bb52: {
+        StorageDead(_63);
+        StorageDead(_61);
+        StorageDead(_59);
+        StorageDead(_65);
+        StorageDead(_64);
+        StorageDead(_62);
+        StorageDead(_60);
+        StorageDead(_58);
+        _72 = CheckedAdd(_44, const 16_usize);
+        assert(!move (_72.1: bool), "attempt to compute `{} + {}`, which would overflow", _44, const 16_usize) -> [success: bb53, unwind: bb109];
+    }
+
+    bb53: {
+        _44 = move (_72.0: usize);
+        _26 = const ();
+        goto -> bb58;
+    }
+
+    bb54: {
+        StorageDead(_57);
+        StorageDead(_56);
+        StorageLive(_74);
+        _54 = const ();
+        goto -> bb59;
+    }
+
+    bb55: {
+        unreachable;
+    }
+
+    bb56: {
+        StorageDead(_74);
+        unreachable;
+    }
+
+    bb57: {
+        goto -> bb58;
+    }
+
+    bb58: {
+        StorageDead(_55);
+        goto -> bb46;
+    }
+
+    bb59: {
+        StorageDead(_74);
+        StorageDead(_55);
+        StorageDead(_54);
+        _76 = Eq(const _, const 0_u32);
+        assert(!move _76, "attempt to calculate the remainder of `{}` with a divisor of zero", ((*_1).0: u32)) -> [success: bb60, unwind: bb109];
+    }
+
+    bb60: {
+        ((*_1).0: u32) = Rem(((*_1).0: u32), const _);
+        _77 = Eq(const _, const 0_u32);
+        assert(!move _77, "attempt to calculate the remainder of `{}` with a divisor of zero", ((*_1).1: u32)) -> [success: bb61, unwind: bb109];
+    }
+
+    bb61: {
+        ((*_1).1: u32) = Rem(((*_1).1: u32), const _);
+        _26 = const ();
+        StorageDead(_51);
+        goto -> bb66;
+    }
+
+    bb62: {
+        StorageDead(_50);
+        StorageDead(_47);
+        StorageLive(_79);
+        _45 = const ();
+        goto -> bb67;
+    }
+
+    bb63: {
+        unreachable;
+    }
+
+    bb64: {
+        StorageDead(_79);
+        unreachable;
+    }
+
+    bb65: {
+        goto -> bb66;
+    }
+
+    bb66: {
+        StorageDead(_46);
+        goto -> bb40;
+    }
+
+    bb67: {
+        StorageDead(_79);
+        StorageDead(_46);
+        StorageDead(_45);
+        StorageLive(_81);
+        StorageLive(_82);
+        _82 = _44;
+        StorageLive(_83);
+        _83 = _3;
+        _81 = Lt(move _82, move _83);
+        switchInt(move _81) -> [0: bb69, otherwise: bb68];
+    }
+
+    bb68: {
+        StorageDead(_83);
+        StorageDead(_82);
+        StorageLive(_84);
+        goto -> bb70;
+    }
+
+    bb69: {
+        goto -> bb103;
+    }
+
+    bb70: {
+        falseUnwind -> [real: bb71, unwind: bb109];
+    }
+
+    bb71: {
+        StorageLive(_85);
+        StorageLive(_86);
+        StorageLive(_87);
+        _87 = _3;
+        StorageLive(_88);
+        _88 = _44;
+        _89 = CheckedSub(_87, _88);
+        assert(!move (_89.1: bool), "attempt to compute `{} - {}`, which would overflow", move _87, move _88) -> [success: bb72, unwind: bb109];
+    }
+
+    bb72: {
+        _86 = move (_89.0: usize);
+        StorageDead(_88);
+        StorageDead(_87);
+        _85 = Ge(move _86, const 16_usize);
+        switchInt(move _85) -> [0: bb74, otherwise: bb73];
+    }
+
+    bb73: {
+        StorageDead(_86);
+        StorageLive(_90);
+        StorageLive(_91);
+        StorageLive(_92);
+        _92 = &mut ((*_1).0: u32);
+        _91 = &mut (*_92);
+        StorageLive(_93);
+        StorageLive(_94);
+        _94 = &mut ((*_1).1: u32);
+        _93 = &mut (*_94);
+        StorageLive(_95);
+        StorageLive(_96);
+        StorageLive(_97);
+        StorageLive(_98);
+        _98 = &(*_2);
+        StorageLive(_99);
+        StorageLive(_100);
+        _100 = _44;
+        StorageLive(_101);
+        StorageLive(_102);
+        _102 = _44;
+        _103 = CheckedAdd(_102, const 16_usize);
+        assert(!move (_103.1: bool), "attempt to compute `{} + {}`, which would overflow", move _102, const 16_usize) -> [success: bb75, unwind: bb109];
+    }
+
+    bb74: {
+        goto -> bb79;
+    }
+
+    bb75: {
+        _101 = move (_103.0: usize);
+        StorageDead(_102);
+        _99 = std::ops::Range::<usize> { start: move _100, end: move _101 };
+        StorageDead(_101);
+        StorageDead(_100);
+        _97 = <[u8] as Index<std::ops::Range<usize>>>::index(move _98, move _99) -> [return: bb76, unwind: bb109];
+    }
+
+    bb76: {
+        StorageDead(_99);
+        StorageDead(_98);
+        _96 = &(*_97);
+        _95 = &(*_96);
+        _90 = do16(move _91, move _93, move _95) -> [return: bb77, unwind: bb109];
+    }
+
+    bb77: {
+        StorageDead(_95);
+        StorageDead(_93);
+        StorageDead(_91);
+        StorageDead(_97);
+        StorageDead(_96);
+        StorageDead(_94);
+        StorageDead(_92);
+        StorageDead(_90);
+        _104 = CheckedAdd(_44, const 16_usize);
+        assert(!move (_104.1: bool), "attempt to compute `{} + {}`, which would overflow", _44, const 16_usize) -> [success: bb78, unwind: bb109];
+    }
+
+    bb78: {
+        _44 = move (_104.0: usize);
+        _26 = const ();
+        goto -> bb83;
+    }
+
+    bb79: {
+        StorageDead(_86);
+        StorageLive(_106);
+        _84 = const ();
+        goto -> bb84;
+    }
+
+    bb80: {
+        unreachable;
+    }
+
+    bb81: {
+        StorageDead(_106);
+        unreachable;
+    }
+
+    bb82: {
+        goto -> bb83;
+    }
+
+    bb83: {
+        StorageDead(_85);
+        goto -> bb70;
+    }
+
+    bb84: {
+        StorageDead(_106);
+        StorageDead(_85);
+        StorageDead(_84);
+        StorageLive(_108);
+        goto -> bb85;
+    }
+
+    bb85: {
+        falseUnwind -> [real: bb86, unwind: bb109];
+    }
+
+    bb86: {
+        StorageLive(_109);
+        StorageLive(_110);
+        StorageLive(_111);
+        _111 = _3;
+        StorageLive(_112);
+        _112 = _44;
+        _113 = CheckedSub(_111, _112);
+        assert(!move (_113.1: bool), "attempt to compute `{} - {}`, which would overflow", move _111, move _112) -> [success: bb87, unwind: bb109];
+    }
+
+    bb87: {
+        _110 = move (_113.0: usize);
+        StorageDead(_112);
+        StorageDead(_111);
+        _109 = Gt(move _110, const 0_usize);
+        switchInt(move _109) -> [0: bb89, otherwise: bb88];
+    }
+
+    bb88: {
+        StorageDead(_110);
+        StorageLive(_114);
+        StorageLive(_115);
+        StorageLive(_116);
+        _116 = _44;
+        _117 = Len((*_2));
+        _118 = Lt(_116, _117);
+        assert(move _118, "index out of bounds: the length is {} but the index is {}", move _117, _116) -> [success: bb90, unwind: bb109];
+    }
+
+    bb89: {
+        goto -> bb95;
+    }
+
+    bb90: {
+        _115 = (*_2)[_116];
+        _114 = <u32 as From<u8>>::from(move _115) -> [return: bb91, unwind: bb109];
+    }
+
+    bb91: {
+        StorageDead(_115);
+        _119 = CheckedAdd(((*_1).0: u32), _114);
+        assert(!move (_119.1: bool), "attempt to compute `{} + {}`, which would overflow", ((*_1).0: u32), move _114) -> [success: bb92, unwind: bb109];
+    }
+
+    bb92: {
+        ((*_1).0: u32) = move (_119.0: u32);
+        StorageDead(_114);
+        StorageDead(_116);
+        StorageLive(_120);
+        _120 = ((*_1).0: u32);
+        _121 = CheckedAdd(((*_1).1: u32), _120);
+        assert(!move (_121.1: bool), "attempt to compute `{} + {}`, which would overflow", ((*_1).1: u32), move _120) -> [success: bb93, unwind: bb109];
+    }
+
+    bb93: {
+        ((*_1).1: u32) = move (_121.0: u32);
+        StorageDead(_120);
+        _122 = CheckedAdd(_44, const 1_usize);
+        assert(!move (_122.1: bool), "attempt to compute `{} + {}`, which would overflow", _44, const 1_usize) -> [success: bb94, unwind: bb109];
+    }
+
+    bb94: {
+        _44 = move (_122.0: usize);
+        _26 = const ();
+        goto -> bb99;
+    }
+
+    bb95: {
+        StorageDead(_110);
+        StorageLive(_124);
+        _108 = const ();
+        goto -> bb100;
+    }
+
+    bb96: {
+        unreachable;
+    }
+
+    bb97: {
+        StorageDead(_124);
+        unreachable;
+    }
+
+    bb98: {
+        goto -> bb99;
+    }
+
+    bb99: {
+        StorageDead(_109);
+        goto -> bb85;
+    }
+
+    bb100: {
+        StorageDead(_124);
+        StorageDead(_109);
+        StorageDead(_108);
+        _126 = Eq(const _, const 0_u32);
+        assert(!move _126, "attempt to calculate the remainder of `{}` with a divisor of zero", ((*_1).0: u32)) -> [success: bb101, unwind: bb109];
+    }
+
+    bb101: {
+        ((*_1).0: u32) = Rem(((*_1).0: u32), const _);
+        _127 = Eq(const _, const 0_u32);
+        assert(!move _127, "attempt to calculate the remainder of `{}` with a divisor of zero", ((*_1).1: u32)) -> [success: bb102, unwind: bb109];
+    }
+
+    bb102: {
+        ((*_1).1: u32) = Rem(((*_1).1: u32), const _);
+        _0 = const ();
+        goto -> bb104;
+    }
+
+    bb103: {
+        StorageDead(_83);
+        StorageDead(_82);
+        _0 = const ();
+        goto -> bb104;
+    }
+
+    bb104: {
+        StorageDead(_81);
+        StorageDead(_44);
+        StorageDead(_3);
+        goto -> bb108;
+    }
+
+    bb105: {
+        StorageDead(_16);
+        StorageDead(_15);
+        goto -> bb107;
+    }
+
+    bb106: {
+        StorageDead(_6);
+        StorageDead(_5);
+        goto -> bb107;
+    }
+
+    bb107: {
+        StorageDead(_3);
+        goto -> bb108;
+    }
+
+    bb108: {
+        return;
+    }
+
+    bb109 (cleanup): {
+        resume;
+    }
+}
