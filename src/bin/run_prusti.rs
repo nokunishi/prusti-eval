@@ -2,10 +2,11 @@ use std::env;
 use std::fs;
 use std::path::{Path, PathBuf};
 
-
-
-// cite https://github.com/viperproject/prusti-dev/blob/2e47a2705a88ba523dc3ad2e0359799943f26e0f/mir-state-analysis/tests/top_crates.rs
-// https://github.com/viperproject/prusti-dev/blob/master/test-crates/src/main.rs
+/*
+    Cite:  
+    https://github.com/viperproject/prusti-dev/blob/2e47a2705a88ba523dc3ad2e0359799943f26e0f/mir-state-analysis/tests/top_crates.rs
+    https://github.com/viperproject/prusti-dev/blob/master/test-crates/src/main.rs
+*/
 fn setup_prusti(name: &str, version:&str) {
     let dirname = format!("/tmp/{name}-{version}");
 
@@ -57,6 +58,11 @@ fn setup_prusti(name: &str, version:&str) {
         // assert!(cmd.success());
 }
 
+/*
+    Cite:  
+    https://github.com/viperproject/prusti-dev/blob/2e47a2705a88ba523dc3ad2e0359799943f26e0f/mir-state-analysis/tests/top_crates.rs
+    https://github.com/viperproject/prusti-dev/blob/master/test-crates/src/main.rs
+*/
 /// Find the Java home directory
 pub fn find_java_home() -> Option<PathBuf> {
     std::process::Command::new("java")
