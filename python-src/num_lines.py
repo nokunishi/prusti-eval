@@ -4,6 +4,7 @@ import csv
 import datetime
 import sys
 import json
+from workspace import Wksp as w
 
 
 header = "Crate-Version,Number of Lines,Number of Functions";
@@ -12,12 +13,8 @@ fn_index = 2;
 
 date_ = str(datetime.datetime.now()).split(" ")
 date = date_[0] + "-" + date_[1]
-parent_dir = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
-parent_dir = os.path.abspath(os.path.join(parent_dir, os.pardir))
-log_dir = os.path.join(parent_dir, "./log")
-err_report_dir = os.path.join(log_dir, "./err_report")
-summary_csv_path = log_dir + "/lines_summary" + "/summary-" + date + ".csv"
-panic_dir = os.path.join(log_dir, "./panic_summary")
+
+summary_csv_path = w.dir + "/line_summary" + "/summary-" + date + ".csv"
 
 def get_file(path, file_lists):
     dir_list = os.listdir(path)
@@ -128,7 +125,7 @@ def summary():
 def panicky_fns(report):
     panicked_fns = [];
 
-    with open(os.path.join(parent_dir, report), "r") as f:
+    with open(os.path.join(w.p_eval, report), "r") as f:
         f = json.load(f)
 
         for key in f["panicky_fns"]:
@@ -142,29 +139,30 @@ def panicky_fns(report):
     return panicked_fns
     
 def run():
+    if len(sys.argv) < 2:
+        print("invalid number of args")
+        return
+
     os.system("python3 ./x.py run --bin setup_crates err_report") 
 
     if not os.path.isfile(summary_csv_path):
         with open(summary_csv_path, "w"):
             print("summary.csv created")
 
-    if "-s" in sys.argv:
+    if "-a" in sys.argv:
+        crates = os.listdir("/tmp");
+        for crate in crates:  
+            if ".crate" not in crate:
+                crate_ = crate + ".crate"
+
+                if crate_ in crates: 
+                    count_num_fn(crate, get_file("/tmp/" + crate, []), 
+                            "log/panic_summary/2024-01-28-12:56:14.194899.json")
+    else:
         count_num_fn(sys.argv[2], get_file("/tmp/" + sys.argv[2], []), 
-                            "log/panic_summary/2024-01-28-12:56:14.194899.json")
-        summary()
-        return
-
-    crates = os.listdir("/tmp");
-    for crate in crates:  
-        if ".crate" not in crate:
-            crate_ = crate + ".crate"
-
-            if crate_ in crates: 
-                count_num_fn(crate, get_file("/tmp/" + crate, []), 
-                            "log/panic_summary/2024-01-28-12:56:14.194899.json")
-            
+                            "workspace/panic_summary/2024-01-28-12:56:14.194899.json")
+        
     summary()
-
-
+        
 run()
 

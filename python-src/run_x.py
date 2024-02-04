@@ -1,34 +1,44 @@
 import os
 import sys
 import shutil
-
-tmp_dir = os.listdir("/tmp")
-parent_dir = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
-parent_dir = os.path.abspath(os.path.join(parent_dir, os.pardir))
-log_dir = os.path.join(parent_dir, "log")
-log = os.listdir(log_dir)
-archive_dir = os.path.join(log_dir, "archive")
-archive = os.listdir(archive_dir)
-
-""" python3 run_x.py num rerun"""
+from workspace import Wksp as w
 
 def zip():
+    archive = os.listdir(w.a)   
+
     if (len(archive) > 100) :   
-        zipped_dist = os.path.join(log_dir, "zipped", 'archive_' + str(len(archive)))
-        shutil.make_archive(base_name=zipped_dist, format='zip', root_dir=os.path.join(log_dir, "archive"))
+        zipped_dist = os.path.join(w.dir, "zipped", 'archive_' + str(len(archive)))
+        shutil.make_archive(base_name=zipped_dist, format='zip', root_dir=os.path.join(w.dir, "archive"))
 
         if os.path.exists(zipped_dist + ".zip"):
-            shutil.rmtree(archive_dir)
-            os.mkdir(archive_dir)
+            shutil.rmtree(w.a)
+            os.mkdir(w.a)
 
 
 def setup():
-    err_dir = ""
-    err_reports = []  
+    log_dir = os.listdir(w.dir)
 
-    if "err_report" in log:
-        err_dir = os.path.join(log_dir, "err_report")
-        err_reports = os.listdir(err_dir)
+    if "err_report" not in log_dir:
+        os.mkdir(w.err)
+
+    if "panic_report" not in log_dir:
+        os.mkdir(w.p_report)
+
+    if "eval_summary" not in log_dir:
+        os.mkdir(w.eval)
+    
+    if "line_summary" not in log_dir:
+        os.mkdir(w.l)
+    
+    if "panic_summary" not in log_dir:
+        os.mkdir(w.p_summary)
+
+    if "rerun_archive" not in log_dir:
+        os.mkdir(w.r)
+
+    if "zipped" not in log_dir:
+        os.mkdir(w.z)
+
 
     if len(sys.argv) < 2:
         print("incorrect number of args")
@@ -36,9 +46,10 @@ def setup():
 
     os.system("python3 ./x.py run --bin setup_crates cratelist" ) 
     print("setup complete")
-    return err_reports
 
 def reset_tmp():
+    tmp_dir = os.listdir(w.tmp)
+
     for tmp in tmp_dir:
         if ".crate" in tmp:
             os.remove('/tmp/' + tmp)
@@ -46,34 +57,43 @@ def reset_tmp():
                 shutil.rmtree('/tmp/' + tmp[:-6])
 
 def main():
+
+    if len(sys.argv) < 2:
+        print("invalid number of args")
+        return
     
-    if "reset" in sys.argv: 
+    if "--r" in sys.argv: 
         reset_tmp()
         return 
 
-    zip()
-    err_reports = setup()
+    if "--z" in sys.argv: 
+        zip()
+        return 
     
     i = 0
     num = int(sys.argv[1])
 
-    while i < num and i < len(tmp_dir): 
-        crate_name = tmp_dir[i][:-6] + ".txt" 
-        report_name = tmp_dir[i][:-6] + ".json"
+    tmp = os.listdir(w.tmp)
+    archive = os.listdir(w.a)
+    err_reports = os.listdir(w.err)
 
-        if crate_name in archive or report_name in err_reports:
-            print("Prusti already ran on crate:" + tmp_dir[i])
-            os.remove('/tmp/' + tmp_dir[i])
-            shutil.rmtree('/tmp/' + tmp_dir[i][:-6])
+    while i < num and i < len(tmp): 
+        crate = tmp[i][:-6] + ".txt" 
+        report_name = tmp[i][:-6] + ".json"
+
+        if crate in archive or report_name in err_reports:
+            print("Prusti already ran on crate:" + tmp[i])
+            os.remove('/tmp/' + tmp[i])
+            shutil.rmtree('/tmp/' + tmp[i][:-6])
             num += 1
     
         else:
-            if ".crate" in tmp_dir[i]:
-                print("running on: " + tmp_dir[i])
+            if ".crate" in tmp[i]:
+                print("running on: " + tmp[i])
                 try: 
-                    os.system("python3 ./x.py run --bin run_prusti clippy &> " + archive_dir + "/" + crate_name + " " + crate_name)
+                    os.system("python3 ./x.py run --bin run_prusti clippy &> " + w.a + "/" + crate + " " + crate)
                 except:
-                    print("failed to run Prusti on " + crate_name)
+                    print("failed to run Prusti on " + crate)
             else:
                 num += 1
         i += 1

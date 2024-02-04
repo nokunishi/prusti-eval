@@ -3,116 +3,110 @@ import sys
 import shutil
 import json
 import datetime
+from workspace import Wksp as w
 
-tmp_dir = os.listdir("/private/tmp")
-parent_dir = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
-parent_dir = os.path.abspath(os.path.join(parent_dir, os.pardir))
-log_dir_path = os.path.join(parent_dir, "log")
-archive_dir_path = os.path.join(log_dir_path, "archive")
-rerun_dir_path = os.path.join(log_dir_path, "rerun_archive")
-panic_dir_path = os.path.join(log_dir_path, "panic_report")
-err_dir_path = os.path.join(log_dir_path, "err_report")
+def rerun_all():
+    tmp = os.listdir(w.tmp)
+    crates = [];
 
-def rerun():
-    if len(sys.argv) < 2:
-        print("incorrect number of args")
-        return
+    p_reports = os.listdir(w.p_report)
+    reran_crates = os.listdir(w.r)
 
-    rerun_crates = [];
-
-    panic_dir = os.listdir(panic_dir_path)
-    reran_archive = os.listdir(rerun_dir_path)
-    archived = os.listdir(archive_dir_path)
-
-    for paniced in panic_dir:
+    for paniced in p_reports:
         paniced_ = paniced[:-3] + "crate"
-        if paniced_ not in tmp_dir and ".DS" not in paniced_:
+        if paniced_ not in tmp and ".DS" not in paniced_:
             print(paniced_ + " not in /tmp file")
         else:
-            if paniced not in reran_archive:
-                rerun_crates.append(paniced)
-    
-    """rerun on a specific crate"""
-    done = False
-    for arg in sys.argv:
-        if ".txt" in arg:  
-            print("rerunning on: " +  arg)
-            os.system("python3 ./x.py run --bin run_prusti  -- --Z dump-mir=with_ordinal clippy &> " + rerun_dir_path + "/" + arg + " " + arg)
-            done = True
-
-    if done:
-        return
+            if paniced not in reran_crates:
+                crates.append(paniced)
 
     i = 0
     num = int(sys.argv[1])
 
-    while i < num and i < len(rerun_crates):
-        print("rerunning on: " +  rerun_crates[i])
-        os.system("python3 ./x.py run --bin run_prusti clippy &> " + rerun_dir_path + "/" + rerun_crates[i] + " " + rerun_crates[i])
+    while i < num and i < len(crates):
+        print("rerunning on: " +  crates[i])
+        os.system("python3 ./x.py run --bin run_prusti clippy &> " + w.r + "/" + crates[i] + " " + crates[i])
         i += 1
 
-def truncate_panic_dir():
-    panic_dir = os.listdir(panic_dir_path)
-    panic_summary_path = os.path.join(log_dir_path, "panic_summary")
-    date_str = str(datetime.datetime.now())
-    paniced_crates = []
+def rerun():
+    for arg in sys.argv:
+        if ".txt" in arg:  
+            print("rerunning on: " +  arg)
+            os.system("python3 ./x.py run --bin run_prusti  -- --Z dump-mir=with_ordinal clippy &> " + 
+                      w.r + "/" + arg + " " + arg)
+
+
+def truncate_p():
+    p_reports = os.listdir(w.p_report)
+    date = str(datetime.datetime.now())
+    panicked = []
     sampled = False
-    for panic in panic_dir:
-        if ".DS" not in panic:
-            paniced_crates.append(panic)
+
+    for p in p_reports:
+        if ".DS" not in p:
+            panicked.append(p)
         if not sampled:
-            os.rename(os.path.join(panic_dir_path, panic), os.path.join(panic_summary_path, "sample-" + date_str + ".txt"))
+            os.rename(os.path.join(w.p_report, p), os.path.join(w.p_summary, "sample-" + date + ".txt"))
             sampled = True
 
-    with open(os.path.join(panic_summary_path, "sample-" + date_str + ".json"), "a") as outfile:
+    with open(os.path.join(w.p_summary, "sample-" + date + ".json"), "a") as outfile:
         print("truncating panic_report dir ..")
         obj = {
-            "paniced_crates": paniced_crates,
-            "num_crates": len(paniced_crates)
+            "paniced_crates": panicked,
+            "num_crates": len(panicked)
         }
         outfile.write(json.dumps(obj))
 
-def replace_err_report():
-    archived = os.listdir(archive_dir_path)
-    reran_crates = os.listdir(rerun_dir_path)
+def replace_err():
+    archived = os.listdir(w.a)
+    reran_crates = os.listdir(w.r)
 
     for crate in reran_crates:
         if crate in archived:
             print("replacing old error report for " + crate[:-3] + " with new")
-            os.rename(os.path.join(rerun_dir_path, crate), os.path.join(archive_dir_path, crate))
+            os.rename(os.path.join(w.r, crate), os.path.join(w.a, crate))
 
 def main():
+    if len(sys.argv) < 2:
+        print("incorrect number of args")
+        return
+    
     if "--d" in sys.argv:
-       shutil.rmtree(panic_dir_path)
-       os.mkdir(panic_dir_path)
+       shutil.rmtree(w.p_report)
+       os.mkdir(w.p_report)
        return
     if "--t" in sys.argv:
-        truncate_panic_dir()
+        truncate_p()
         return
     if "--rp" in sys.argv:
-        if len(sys.argv) <= 2:
-            print("incorrect number of arg for --rp")
-            return
-        if "-y" in sys.argv:
-            truncate_panic_dir()
-            replace_err_report()
-        if "-n" in sys.argv:
-            replace_err_report()
+        response = input("Truncate panic_report dir? (y or n) :")
+
+        if "y" == response:
+            truncate_p()
+            replace_err()
+        if "n" == response:
+            replace_err()
         return
 
-    if "--quick" in sys.argv:
-        panic_dir = os.listdir(panic_dir_path)
-        reran_crates = os.listdir(rerun_dir_path)
+    if "--report" in sys.argv:
+        panic_dir = os.listdir(w.p_report)
+        reran_crates = os.listdir(w.r)
         print(str(len(panic_dir) - len(reran_crates)) + " more crates to rerun")
         return
 
     if "--z" in sys.argv:
-        archived = os.listdir(archive_dir_path)
-        zipped_dist = os.path.join(log_dir_path, "zipped", 'archive_' + str(len(archived)) + "_" + str(datetime.datetime.now()))
-        shutil.make_archive(base_name=zipped_dist, format='zip', root_dir=archive_dir_path)
+        archived = os.listdir(w.a)
+        zipped_dist = os.path.join(w.z, 'archive_' + str(len(archived)) + "_" + str(datetime.datetime.now()))
+        shutil.make_archive(base_name=zipped_dist, format='zip', root_dir= w.a)
         return
 
-    rerun()
+    if "--s" in sys.argv:
+        rerun()
+        return
+
+    if "--a" in sys.argv:
+        rerun_all()
+        return
   
 if __name__ == '__main__':
     main()

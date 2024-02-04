@@ -3,15 +3,9 @@ import json
 import datetime
 import sys
 import csv
+from workspace import Wksp as w
 
-
-parent_dir = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
-parent_dir = os.path.abspath(os.path.join(parent_dir, os.pardir))
-err_report_dir = os.path.join(parent_dir, "log", "err_report")
-err_reports = os.listdir(err_report_dir)
-stat_report_dir =  os.path.join(parent_dir, "log", "eval_summary")
-lines_report_dir =  os.path.join(parent_dir, "log", "lines_summary")
-
+err_reports = os.listdir(w.err)
 
 class Stat:
     unsupported_total = 0
@@ -34,7 +28,7 @@ class Stat:
 def sync(crate, s):
         report_path = sys.argv[2]
 
-        with open(os.path.join(parent_dir, report_path), "r") as f:
+        with open(os.path.join(w.p_eval, report_path), "r") as f:
             reader = csv.reader(f, delimiter="\t")
             for l_no, line in enumerate(reader):
                 rows_csv = line[0].split(",")[0]
@@ -48,7 +42,7 @@ def sync(crate, s):
 
 def eval(report, s):
     s.i += 1;
-    with open(os.path.join(err_report_dir, report), "r") as f:
+    with open(os.path.join(w.err, report), "r") as f:
         f = json.load(f)
     
         s.unsupported_total += f["unsupported_feature_total_num"]
@@ -99,15 +93,7 @@ def eval(report, s):
                     "i.e.": report[:-5]
                 }
 
-def main():
-    if "-s" in sys.argv:
-        if not len(sys.argv) == 3:
-            print("invalid number of args")
-            return
-        if not sys.argv[2].startswith("log"):
-            print("invalid relative path")
-            return
-        
+def run():
     s = Stat()
 
     for report in err_reports:
@@ -121,7 +107,7 @@ def main():
     if "-s" in sys.argv:
         report_path = sys.argv[2]
 
-        with open(os.path.join(parent_dir, report_path), "r") as f:
+        with open(os.path.join(w.p_eval, report_path), "r") as f:
             lines = f.read().splitlines()
             lastline = lines[-1]
             if not int(lastline.split(",")[0]) == s.i:
@@ -157,13 +143,13 @@ def main():
     json_stats = json.dumps(stats, indent= 8)
     date_ = str(datetime.datetime.now()).split(" ")
     date = date_[0] + "-" + date_[1]
-    with open(os.path.join(stat_report_dir, "summary-" + date + ".json"), "w") as outfile:
+    with open(os.path.join(w.eval, "summary-" + date + ".json"), "w") as outfile:
         print("writing to summary")
         outfile.write(json_stats)
        
 
 
 if __name__ == '__main__':
-    main()
+    run()
 
 

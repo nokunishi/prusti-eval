@@ -2,6 +2,7 @@ import os
 import json
 import sys
 from pathlib import Path
+from workspace import Workspace as w
 
 run_prusti_file = '(bin "run_prusti")'
 unsupported_feature = "[Prusti: unsupported feature]"
@@ -11,38 +12,13 @@ non_rust_warnings = ["warning", "warnings", "prusti", "Prusti", "generated", "(l
                      run_prusti_file, "`name`", "`ver`", '`cmd`']
 verification_error = "error: [Prusti: verification error]"
 
-parent_dir = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
-parent_dir = os.path.abspath(os.path.join(parent_dir, os.pardir))
-log_dir = os.path.join(parent_dir, "log")
-archive_dir = os.path.join(log_dir, "archive")
-archivedir_list = os.listdir(os.path.join(log_dir, "archive"))
-
-rerun_dir = os.path.join(log_dir, "rerun_archive")
-
-def setup():
-    logdir_list = os.listdir(log_dir)
-
-    if "err_report" in logdir_list:
-        logdir_list.remove("err_report")
-    else:
-        os.mkdir(os.path.join(logdir_list, "err_report"))
-
-    panic_reports = []
-    if "panic_report" in logdir_list:
-        logdir_list.remove("panic_report")
-    else:
-        os.mkdir(os.path.join(logdir_list, "panic_report"))
-
-    if not "archive" in logdir_list:
-        print("No file to extract error report from")        
-
 
 def parse(log):
     if ".txt" in log:
         err_file = log[:-4]
     else:
         err_file =  log + ".json"
-    err_file_path = os.path.join(log_dir, "err_report",  err_file)
+    err_file_path = os.path.join(w.err,  err_file)
 
     if "--reset" not in sys.argv:
         if os.path.exists(err_file_path):
@@ -50,9 +26,9 @@ def parse(log):
             return
 
     if "--reset" in sys.argv:
-        path = os.path.join(rerun_dir, log)
+        path = os.path.join(w.r, log)
     else:
-        path = os.path.join(archive_dir, log)
+        path = os.path.join(w.a, log)
 
     with open(path, "r") as f:
         lines = f.readlines()
@@ -216,7 +192,7 @@ def parse(log):
             if "thread 'rustc' panicked at" in line:
                 panic_report = True
             if panic_report:
-                filename = os.path.join(log_dir, "panic_report", log)
+                filename = os.path.join(w.dir, "panic_report", log)
                 with open(filename, "a") as crash_report:
                     crash_report.write(line)
             if verification_error in line:
@@ -261,26 +237,30 @@ def parse(log):
 
     json_trace = json.dumps(trace, indent= 4)
 
-    with open(os.path.join(log_dir, "err_report", err_file)  , "w") as outfile:
+    with open(os.path.join(w.err, err_file)  , "w") as outfile:
         print("writing to json: " + log)
         outfile.write(json_trace)
 
-    filename = os.path.join(log_dir, "panic_report", log)
+    filename = os.path.join(w.p_report, log)
     if panic_report and os.path.getsize(filename) == 0:
         os.remove(filename)
     
 
 
 def main():
-    setup()
+    results = os.listdir(w.a);
 
     if len(sys.argv) < 2:
         print("invalid number of args")
         return
-    if "--reset" not in sys.argv and "-a" in sys.argv:
-        for log in archivedir_list:
-            parse(log)  
-    if "-s" in sys.argv and "--reset" in sys.argv:
+    if "-a" in sys.argv:
+        if len(results) == 0:
+            print("no txt file to extract data from")
+            return
+        for r in results:
+            parse(r)  
+        return
+    else:
         parse(sys.argv[3])
 
 

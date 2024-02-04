@@ -1,17 +1,14 @@
 import os 
 import datetime
 import json
+from workspace import Wksp as w
 
-parent_dir = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
-parent_dir = os.path.abspath(os.path.join(parent_dir, os.pardir))
-panic_report_dir = os.path.join(parent_dir, "log", "panic_report")
-panic_reports = os.listdir(panic_report_dir)
-
+p_reports = os.listdir(w.p_report)
 date_ = str(datetime.datetime.now()).split(" ")
 date = date_[0] + "-" + date_[1]
-panic_summary_dir = os.path.join(parent_dir, "log", "panic_summary")
-print(panic_summary_dir )
-panic_summary_path = panic_summary_dir + "/" + date + ".json"
+summaries = os.listdir(w.p_summary)
+summary_path = summaries + "/" + date + ".json"
+
 
 class Stats:
     reason = {}
@@ -21,8 +18,8 @@ class Stats:
 def eval():
     s = Stats()
 
-    for panic in panic_reports:
-        with open(os.path.join(panic_report_dir, panic), "r") as f: 
+    for panic in p_reports:
+        with open(os.path.join(w.p_report, panic), "r") as f: 
             lines = f.readlines()
             i = 0
 
@@ -65,14 +62,14 @@ def eval():
                 i += 1
 
     stats = {
-        "total_num_crates_paniced": len(panic_reports),
+        "total_num_crates_paniced": len(p_reports),
         "reason_num": len(s.reason),
         "reason": s.reason,
         "panicky_fns": s.fn
     }
 
     json_stats = json.dumps(stats, indent= 8)
-    with open(panic_summary_path, "w") as f:
+    with open(summary_path, "w") as f:
         print("writing to summary")
         f.write(json_stats)
 
