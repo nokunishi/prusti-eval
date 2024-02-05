@@ -1,12 +1,10 @@
-import os 
-import datetime
-import json
+import os, json, datetime
 from workspace import Wksp as w
 
-p_reports = os.listdir(w.p_report)
+c_reports = os.listdir(w.c_report)
 date_ = str(datetime.datetime.now()).split(" ")
 date = date_[0] + "-" + date_[1]
-summaries = os.listdir(w.p_summary)
+summaries = os.listdir(w.c_summary)
 summary_path = summaries + "/" + date + ".json"
 
 
@@ -18,8 +16,8 @@ class Stats:
 def eval():
     s = Stats()
 
-    for panic in p_reports:
-        with open(os.path.join(w.p_report, panic), "r") as f: 
+    for c in c_reports:
+        with open(os.path.join(w.c_report, c), "r") as f: 
             lines = f.readlines()
             i = 0
 
@@ -33,12 +31,12 @@ def eval():
                     if lines[i+1] not in s.reason:
                         s.reason[lines[i+1]] = {
                             "num": 1,
-                            "crates": [panic[:-4]]
+                            "crates": [c[:-4]]
                         }
                     else:
-                        if panic[:-4] not in s.reason[lines[i+1]]["crates"]:
+                        if c[:-4] not in s.reason[lines[i+1]]["crates"]:
                             s.reason[lines[i+1]]["num"] += 1
-                            s.reason[lines[i+1]]["crates"].append(panic[:-4])
+                            s.reason[lines[i+1]]["crates"].append(c[:-4])
 
                 if "called" in line:
                     words = line.split(" ");
@@ -62,7 +60,7 @@ def eval():
                 i += 1
 
     stats = {
-        "total_num_crates_paniced": len(p_reports),
+        "total_num_crates_paniced": len(c_reports),
         "reason_num": len(s.reason),
         "reason": s.reason,
         "panicky_fns": s.fn

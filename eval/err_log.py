@@ -1,8 +1,6 @@
-import os
-import json
-import sys
+import os, json, sys
 from pathlib import Path
-from workspace import Workspace as w
+from workspace import Wksp as w
 
 run_prusti_file = '(bin "run_prusti")'
 unsupported_feature = "[Prusti: unsupported feature]"
@@ -241,7 +239,7 @@ def parse(log):
         print("writing to json: " + log)
         outfile.write(json_trace)
 
-    filename = os.path.join(w.p_report, log)
+    filename = os.path.join(w.c_report, log)
     if panic_report and os.path.getsize(filename) == 0:
         os.remove(filename)
     

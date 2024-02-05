@@ -34,7 +34,7 @@ fn setup_prusti(name: &str, version:&str) {
         .map(|s| s.into())
         .or_else(find_java_home)
         .expect("Please set JAVA_HOME");
- env::set_var("java_home",  host_java_home);
+    env::set_var("java_home",  host_java_home);
 
 
     let pwd_path = env::current_dir().unwrap();

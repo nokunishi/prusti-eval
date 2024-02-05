@@ -1,9 +1,6 @@
-import os
+import os, sys, json
 import pandas as pd
-import csv
-import datetime
-import sys
-import json
+import csv, datetime
 from workspace import Wksp as w
 
 

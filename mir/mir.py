@@ -1,4 +1,4 @@
-import os, sys, json, datetime
+import os, sys, json, datetime, shutil
 from pathlib import Path
 import threading
 
@@ -53,14 +53,14 @@ def setup(crate, file):
 
     if not os.getcwd() == path:
         os.chdir(path)
-        os.system("cargo clean")
     return Path(file).parent.absolute(), file_
 
 
 def get_fns(file):
+    lock.acquire()
     fns = []
 
-    with open(file, "r+") as f, open("new",'a') as f_:
+    with open(file, "r") as f, open("new", "w") as f_:
         for line in f:
             if "fn" in line:
                 names = line.split(" ")
@@ -72,30 +72,36 @@ def get_fns(file):
                     
                         index = len(name) - i
                         name = name[:-index] 
-                        print(name)
+
                         if name not in fns:
                             fns.append(name)
-            f_.write(line)
-            if "mod" in line and "{" in line:
-               f_.write("fn main(){} \n")
+                        
+            if "try!" in line and "r#try!" not in line:
+                words = line.split(" ")
+
+                if 
+            else:
+                f_.write()
 
         if "main" not in fns:
             f_.write("fn main(){} \n")
             fns.append("main")
         f.close()
         f_.close()
-    os.rename("new", file)
+    shutil.move(file, "new")
+    lock.release()
     return fns
 
 def extract(file):
     fns = get_fns(file)
-    
+    lock.acquire()
     for fn in fns:
-        lock.acquire()
-        os.system("cargo clean")
         print("extracting mir on " + file + " for " + fn)
-        os.system('rustc --edition 2021 -Z dump-mir="' + fn + ' & built" ' + file)
-        lock.release()   
+        os.system('rustc --edition 2021 -Z dump-mir="' + fn + ' & built" ' + file) 
+
+        mir_dump = os.path.join(os.getcwd(), "mir_dump")
+        shutil.move(mir_dump, os.path.join(cwd, "mir_dump"))
+    lock.release()
 
 def read(crate, path):
     mir_dump = os.path.join(path, "mir_dump")
@@ -145,7 +151,7 @@ def read(crate, path):
         f["results"] = results
     
     f = json.dumps(f)
-    with open(os.path.join(mir_dir, date + ".json")  , "w") as f_:
+    with open(os.path.join(mir_dir, date + ".json")  , "a") as f_:
         print("writing to jsons...")
         f_.write(f)
         return
@@ -153,6 +159,14 @@ def read(crate, path):
 
 def run(crate):
     crate_path= os.path.join("/tmp/" + crate)
+    os.system("cargo clean")
+    os.chdir(Path(crate_path))
+
+    lock.acquire()
+    os.system("cargo build")
+    lock.release()
+    os.chdir(cwd)
+
     files = get_file(crate_path, [])
 
     for f_ in files:
@@ -160,8 +174,7 @@ def run(crate):
         
         if p == "" or f == "":
             continue
-
-        if "--w" in sys.argv:
+        if "--r" not in sys.argv:
             extract(f)
         read(crate, p)  
 
@@ -184,7 +197,6 @@ def main():
     
     if n != 0:
         tmps = os.listdir("/tmp")
-        sys.argv.append("--w")
 
         for i in range(0, n):
             if ".crate" in tmps[i]:

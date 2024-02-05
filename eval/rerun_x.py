@@ -1,18 +1,14 @@
-import os
-import sys
-import shutil
-import json
-import datetime
+import os, sys, shutil, json, datetime
 from workspace import Wksp as w
 
 def rerun_all():
     tmp = os.listdir(w.tmp)
     crates = [];
 
-    p_reports = os.listdir(w.p_report)
+    c_reports = os.listdir(w.c_report)
     reran_crates = os.listdir(w.r)
 
-    for paniced in p_reports:
+    for paniced in c_reports:
         paniced_ = paniced[:-3] + "crate"
         if paniced_ not in tmp and ".DS" not in paniced_:
             print(paniced_ + " not in /tmp file")
@@ -37,19 +33,19 @@ def rerun():
 
 
 def truncate_p():
-    p_reports = os.listdir(w.p_report)
+    c_reports = os.listdir(w.c_report)
     date = str(datetime.datetime.now())
     panicked = []
     sampled = False
 
-    for p in p_reports:
+    for p in c_reports:
         if ".DS" not in p:
             panicked.append(p)
         if not sampled:
-            os.rename(os.path.join(w.p_report, p), os.path.join(w.p_summary, "sample-" + date + ".txt"))
+            os.rename(os.path.join(w.c_report, p), os.path.join(w.c_summary, "sample-" + date + ".txt"))
             sampled = True
 
-    with open(os.path.join(w.p_summary, "sample-" + date + ".json"), "a") as outfile:
+    with open(os.path.join(w.c_summary, "sample-" + date + ".json"), "a") as outfile:
         print("truncating panic_report dir ..")
         obj = {
             "paniced_crates": panicked,
@@ -72,8 +68,8 @@ def main():
         return
     
     if "--d" in sys.argv:
-       shutil.rmtree(w.p_report)
-       os.mkdir(w.p_report)
+       shutil.rmtree(w.c_report)
+       os.mkdir(w.c_report)
        return
     if "--t" in sys.argv:
         truncate_p()
@@ -89,7 +85,7 @@ def main():
         return
 
     if "--report" in sys.argv:
-        panic_dir = os.listdir(w.p_report)
+        panic_dir = os.listdir(w.c_report)
         reran_crates = os.listdir(w.r)
         print(str(len(panic_dir) - len(reran_crates)) + " more crates to rerun")
         return
