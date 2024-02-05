@@ -1,6 +1,20 @@
-import os, shutil, sys
+import os, sys, json, datetime
+from pathlib import Path
+import threading
 
+p_eval = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
+eval_dir = os.path.join(p_eval, "eval")
 cwd = os.getcwd()
+
+wk = os.path.abspath(os.path.join(p_eval, os.pardir))
+wk_dir = os.path.join(wk, "workspace")
+mir_dir = os.path.join(wk_dir, "mir")
+
+
+date_ = str(datetime.datetime.now()).split(" ")
+date = date_[0] + "-" + date_[1]
+
+lock = threading.Lock()
 
 
 def get_file(path, file_lists):
@@ -10,85 +24,146 @@ def get_file(path, file_lists):
         dir_path = os.path.join(path, dir)
 
         if os.path.isdir(dir_path):
-            get_file(dir_path, file_lists)
+            file_lists = get_file(dir_path, file_lists)
         if ".rs" in dir and dir_path not in file_lists:
             file_lists.append(dir_path)
 
     return file_lists
 
-def run(crate):
+def setup_tmp():
+    lock.acquire()
+    os.chdir(eval_dir)
+    os.system("python3 run_x.py --e",)
+    lock.release()
+
+def setup(crate, file):
     crate_path= os.path.join("/tmp/" + crate)
+    paths = file.split("/")
 
+    for i in range(0, len(paths)):
+        if ".rs" in paths[i]:
+            file_ = paths[i]
+            break
+
+    path = crate_path + "/" +  paths[i-1]
+    if not Path(path).exists():
+        print(path)
+        print("path does not exists")
+        return "", ""
+
+    if not os.getcwd() == path:
+        os.chdir(path)
+        os.system("cargo clean")
+    return Path(file).parent.absolute(), file_
+
+
+def get_fns(file):
     fns = []
-    main = False
 
-    files = get_file(crate_path, [])
-
-    for file in files:
-        paths = file.split("/")
-
-        for i in range(0, len(paths)):
-            if ".rs" in paths[i]:
-                file_ = paths[i]
-                break
-        
-        path = crate_path + "/" +  paths[i-1]
-        if not os.getcwd() == path:
-            os.chdir(path)
-            os.system("cargo clean")
-
-        print(os.getcwd())
-        with open(file_, "r") as f:
-            for l_no, line in enumerate(f):
-                if "fn" in line:
-                    names = line.split(" ")
-                    for name in names:
-                        if "(" in name in name:
-                            for i in range(0, len(name)):
-                                if name[i] == "(":
-                                    break
+    with open(file, "r+") as f, open("new",'a') as f_:
+        for line in f:
+            if "fn" in line:
+                names = line.split(" ")
+                for name in names:
+                    if "(" in name in name:
+                        for i in range(0, len(name)):
+                            if name[i] == "(":
+                                break
                     
-                            index = len(name) - i
-                            name = name[:-index] 
-                    
-                            if name not in fns:
-                                fns.append(name)
-                            if "main" in name:
-                                main = True
+                        index = len(name) - i
+                        name = name[:-index] 
+                        print(name)
+                        if name not in fns:
+                            fns.append(name)
+            f_.write(line)
+            if "mod" in line and "{" in line:
+               f_.write("fn main(){} \n")
 
-        if not main:
-            with open(file_, "a") as f: 
-                f.write("fn main(){}")
+        if "main" not in fns:
+            f_.write("fn main(){} \n")
+            fns.append("main")
+        f.close()
+        f_.close()
+    os.rename("new", file)
+    return fns
 
-        for fn in fns:
-            os.system("cargo clean")
-            os.system('rustc -Z dump-mir="' + fn + ' & built" ' + file_)
+def extract(file):
+    fns = get_fns(file)
+    
+    for fn in fns:
+        lock.acquire()
+        os.system("cargo clean")
+        print("extracting mir on " + file + " for " + fn)
+        os.system('rustc --edition 2021 -Z dump-mir="' + fn + ' & built" ' + file)
+        lock.release()   
 
-def read_mir(crate):
-    mir_dump = path + "/mir_dump"
-
+def read(crate, path):
+    mir_dump = os.path.join(path, "mir_dump")
     panic = []
-    panic_reason = []
+    reasons = []
 
-    mir_files = get_file(mir_dump, [])
+    if not Path(mir_dump).exists():
+        print("mir_dump does not exist")
+        return
+
+    mir_files = os.listdir(mir_dump)
+
+    if len(mir_files) == 0:
+        print("no mir files produced")
+        return
 
     for m in mir_files:
-        with open(mir_dump, "r") as f:
+        m = os.path.join(mir_dump,  m)
+        with open(m, "r") as f:
             for l_no, line in enumerate(f):
-                if "assert!(" in line:
+                if "assert(!" in line:
                     panic.append(line)
-
-                    reasons = line.split('"')
-                    print(reasons[1])
+                    
+                    w = line.split('"')[1]
+                    if not w in reasons:
+                        reasons.append(w)
 
     obj = {
-        "name": crate,
-        "num_lines": len(crate),
-        "panic": panic,
+        "num_total": len(panic),
+        "num_reasons": len(reasons),
+        "reasons": reasons
     }
-    return
-    with open(cwd + "/mir_dump", "w") as f:
-        print("hi")
+
+    m_fs = os.listdir(mir_dir)
+    m_f = os.path.join(mir_dir, date + ".json")
+    if m_f in m_fs:
+        with open(os.path.join(mir_dir, date + ".json")  , "r") as f:
+            f = json.load(f)
+            if crate in f["results"]:
+                f["results"] = obj
+            else:
+                f["results"][crate] = obj
+    else:
+        f = {}
+        results = {}
+        results[crate] = obj
+        f["results"] = results
+    
+    f = json.dumps(f)
+    with open(os.path.join(mir_dir, date + ".json")  , "w") as f_:
+        print("writing to jsons...")
+        f_.write(f)
+        return
+    
+
+def run(crate):
+    crate_path= os.path.join("/tmp/" + crate)
+    files = get_file(crate_path, [])
+
+    for f_ in files:
+        p, f = setup(crate, f_)
+        
+        if p == "" or f == "":
+            continue
+
+        if "--w" in sys.argv:
+            extract(f)
+        read(crate, p)  
 
 
 def main():
@@ -96,10 +171,46 @@ def main():
         print("invalid number of args")
         return
     
-    if "-a" in sys.argv:
-        print("hi")
-    else: 
-        run(sys.argv[1])
+    if "mir" not in os.listdir(wk_dir):
+        os.mkdir(os.path.join(wk_dir, "mir"))
+
+    setup_tmp()
+    os.chdir(cwd)
+
+    try:
+        n = int(sys.argv[1])
+    except:
+        n = 0
+    
+    if n != 0:
+        tmps = os.listdir("/tmp")
+        sys.argv.append("--w")
+
+        for i in range(0, n):
+            if ".crate" in tmps[i]:
+                crate = tmps[i][:-6]
+                print("Running on :" + crate)
+                run(crate)
+        return
+    if "--a" in sys.argv:
+        tmps = os.listdir("/tmp")
+        for tmp in tmps:
+            if ".crate" in tmp:
+                crate = tmp[:-6]
+                print("Running on :" + crate)
+                run(crate)
+        return
+    else:
+        for arg in sys.argv:
+            if not arg == "mir.py" and not "--" in arg:
+                crate = arg
+        run(crate)
+        return
+    
+
+            
+
+    
 
 
 if __name__ == "__main__":
