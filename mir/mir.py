@@ -1,5 +1,6 @@
 import os, sys, json, datetime, shutil
 from pathlib import Path
+import pandas as pd, csv
 import threading
 
 p_eval = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
@@ -16,6 +17,10 @@ date = date_[0] + "-" + date_[1]
 
 lock = threading.Lock()
 
+class Stat:
+    file_names = {}
+
+
 
 def get_file(path, file_lists):
     dir_list = os.listdir(path)
@@ -23,9 +28,9 @@ def get_file(path, file_lists):
     for dir in dir_list:
         dir_path = os.path.join(path, dir)
 
-        if os.path.isdir(dir_path):
+        if not os.path.isfile(dir_path):
             file_lists = get_file(dir_path, file_lists)
-        if ".rs" in dir and dir_path not in file_lists:
+        elif ".rs" in dir_path and dir_path not in file_lists:
             file_lists.append(dir_path)
 
     return file_lists
@@ -43,68 +48,79 @@ def setup(crate, file):
     for i in range(0, len(paths)):
         if ".rs" in paths[i]:
             file_ = paths[i]
-            break
 
-    path = crate_path + "/" +  paths[i-1]
-    if not Path(path).exists():
-        print(path)
-        print("path does not exists")
-        return "", ""
+    parent = Path(file).parent.absolute()
 
-    if not os.getcwd() == path:
-        os.chdir(path)
-    return Path(file).parent.absolute(), file_
+    if not os.getcwd() == parent:
+        os.chdir(parent)
+    return parent, file_
 
+def format(line):
+    if "use" in line:
+        if "crate::Builder" in line:
+            line = line.replace("crate::Builder", "std::thread::Builder")
+        if "crate::error" in line:
+            line = line.replace("crate::error", "core::error")
+    if "try" in line:
+        line = line.replace("try!", "#rtry!")
+
+    return line
 
 def get_fns(file):
-    lock.acquire()
     fns = []
 
     with open(file, "r") as f, open("new", "w") as f_:
-        for line in f:
+        for l_no, line in enumerate(f):
+            if l_no == 0 and "#![feature(rustc_private)]" not in line:
+                f_.write("#![feature(rustc_private)]\n")
+
+            if "//" in line or "/*" in line or "*/" in line:
+                continue
             if "fn" in line:
                 names = line.split(" ")
-                for name in names:
-                    if "(" in name in name:
-                        for i in range(0, len(name)):
-                            if name[i] == "(":
-                                break
-                    
-                        index = len(name) - i
-                        name = name[:-index] 
 
-                        if name not in fns:
-                            fns.append(name)
-                        
-            if "try!" in line and "r#try!" not in line:
-                words = line.split(" ")
+                for i in range(0, len(names)):
+                    if "fn" == names[i]:
+                        break        
+                name = names[i+1]
 
-                if 
-            else:
-                f_.write()
-
-        if "main" not in fns:
+                if "<" in name:
+                    name = name.split("<")[0]
+                    if not name in fns:
+                        fns.append(name)
+                elif "(" in name:
+                    name = name.split("(")[0]
+                    if not name in fns:
+                        fns.append(name)
+            line = format(line)
+            f_.write(line + "\n")
+        if not "main" in fns:
             f_.write("fn main(){} \n")
             fns.append("main")
         f.close()
         f_.close()
-    shutil.move(file, "new")
-    lock.release()
+    shutil.move("new", file)
     return fns
 
 def extract(file):
+    failed = []
     fns = get_fns(file)
-    lock.acquire()
     for fn in fns:
         print("extracting mir on " + file + " for " + fn)
-        os.system('rustc --edition 2021 -Z dump-mir="' + fn + ' & built" ' + file) 
+        try:
+            os.system('rustc --edition 2021 -Z dump-mir="' + fn + ' & built" ' + file) 
+        except:
+            print("failed to build " + file)
+            failed.push(file)
 
+        """
         mir_dump = os.path.join(os.getcwd(), "mir_dump")
         shutil.move(mir_dump, os.path.join(cwd, "mir_dump"))
-    lock.release()
+        """
+    return failed
 
-def read(crate, path):
-    mir_dump = os.path.join(path, "mir_dump")
+def read(crate, root_path, s):
+    mir_dump = os.path.join(root_path, "mir_dump")
     panic = []
     reasons = []
 
@@ -118,6 +134,8 @@ def read(crate, path):
         print("no mir files produced")
         return
 
+    i = 0
+
     for m in mir_files:
         m = os.path.join(mir_dump,  m)
         with open(m, "r") as f:
@@ -129,54 +147,67 @@ def read(crate, path):
                     if not w in reasons:
                         reasons.append(w)
 
-    obj = {
-        "num_total": len(panic),
-        "num_reasons": len(reasons),
-        "reasons": reasons
-    }
+        m_ = m.split("/")
+        for c in m_:
+            if ".mir" in c:
+                c = c.split(".")
+                file_name = c[0]
+                fn_name = c[1]
 
-    m_fs = os.listdir(mir_dir)
-    m_f = os.path.join(mir_dir, date + ".json")
-    if m_f in m_fs:
-        with open(os.path.join(mir_dir, date + ".json")  , "r") as f:
-            f = json.load(f)
-            if crate in f["results"]:
-                f["results"] = obj
-            else:
-                f["results"][crate] = obj
-    else:
-        f = {}
-        results = {}
-        results[crate] = obj
-        f["results"] = results
-    
-    f = json.dumps(f)
-    with open(os.path.join(mir_dir, date + ".json")  , "a") as f_:
-        print("writing to jsons...")
-        f_.write(f)
-        return
+        obj = {
+            "fn_name": fn_name,
+            "num_total": len(panic),
+            "num_reasons": len(reasons),
+            "reasons": reasons
+        }
+
+        p = os.path.join(mir_dir, crate + ".json")
+
+        if os.path.exists(p):
+            with open(p, "r") as f:
+                f = json.load(f)
+                if file_name in f["results"]:
+                   if obj not in f["results"][file_name]:
+                       f["results"][file_name].append(obj)
+                else:
+                    f["results"] = {
+                        file_name: [obj]
+                    }
+        else:
+            f = {
+                "results": {
+                    file_name: [obj]
+                }
+            }
+        with open(p, "w") as f_:
+            json.dump(f, f_)
+
+
     
 
 def run(crate):
     crate_path= os.path.join("/tmp/" + crate)
     os.system("cargo clean")
     os.chdir(Path(crate_path))
-
+  
     lock.acquire()
-    os.system("cargo build")
+    os.system("cargo build &> error.txt")  #this might be slowing the program down?
     lock.release()
     os.chdir(cwd)
 
     files = get_file(crate_path, [])
+    s = Stat()
 
     for f_ in files:
         p, f = setup(crate, f_)
         
-        if p == "" or f == "":
+        """TODO: test dir have complex import statements"""
+        if p == "" or f == "" or p == "test" or p == "tests":
             continue
         if "--r" not in sys.argv:
             extract(f)
-        read(crate, p)  
+        read(crate, p, s)
+
 
 
 def main():
@@ -187,7 +218,8 @@ def main():
     if "mir" not in os.listdir(wk_dir):
         os.mkdir(os.path.join(wk_dir, "mir"))
 
-    setup_tmp()
+    if "--b" in sys.argv:
+        setup_tmp()
     os.chdir(cwd)
 
     try:
@@ -197,12 +229,14 @@ def main():
     
     if n != 0:
         tmps = os.listdir("/tmp")
+        failed = []
 
         for i in range(0, n):
             if ".crate" in tmps[i]:
                 crate = tmps[i][:-6]
                 print("Running on :" + crate)
                 run(crate)
+
         return
     if "--a" in sys.argv:
         tmps = os.listdir("/tmp")
