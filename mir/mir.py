@@ -3,13 +3,12 @@ from pathlib import Path
 import pandas as pd, csv
 import threading
 
-p_eval = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
-eval_dir = os.path.join(p_eval, "eval")
-cwd = os.getcwd()
+from dotenv import load_dotenv
+load_dotenv()
+sys.path.insert(1, os.getenv('ROOT'))
+from workspace import Wksp as w
 
-wk = os.path.abspath(os.path.join(p_eval, os.pardir))
-wk_dir = os.path.join(wk, "workspace")
-mir_dir = os.path.join(wk_dir, "mir")
+cwd = os.getcwd()
 
 
 date_ = str(datetime.datetime.now()).split(" ")
@@ -37,7 +36,7 @@ def get_file(path, file_lists):
 
 def setup_tmp():
     lock.acquire()
-    os.chdir(eval_dir)
+    os.chdir(w.p_eval)
     os.system("python3 run_x.py --e",)
     lock.release()
 
@@ -76,13 +75,17 @@ def get_fns(file):
 
             if "//" in line or "/*" in line or "*/" in line:
                 continue
-            if "fn" in line:
+            if "fn " in line:
                 names = line.split(" ")
 
                 for i in range(0, len(names)):
                     if "fn" == names[i]:
-                        break        
-                name = names[i+1]
+                        break
+
+                try:
+                    name = names[i+1]
+                except:
+                    raise Exception(names[i+1] + " out of bounds at: " + (name, file))
 
                 if "<" in name:
                     name = name.split("<")[0]
@@ -161,7 +164,7 @@ def read(crate, root_path, s):
             "reasons": reasons
         }
 
-        p = os.path.join(mir_dir, crate + ".json")
+        p = os.path.join(w.m, crate + ".json")
 
         if os.path.exists(p):
             with open(p, "r") as f:
@@ -205,12 +208,21 @@ def run(crate):
         if p == "" or f == "" or p == "test" or p == "tests":
             continue
         if "--r" not in sys.argv:
-            extract(f)
+            try: 
+                extract(f)
+            except Exception as str:
+                print(str)
+                p = os.path.join(w.m, crate + ".json")
+                if os.path.exists(p):
+                    os.remove(p)
         read(crate, p, s)
 
 
 
 def main():
+    tmps = os.listdir("/tmp")
+    mirs = os.listdir(w.m)
+
     if len(sys.argv) < 2:
         print("invalid number of args")
         return
@@ -220,31 +232,30 @@ def main():
 
     if "--b" in sys.argv:
         setup_tmp()
-    os.chdir(cwd)
+        os.chdir(cwd)
 
     try:
         n = int(sys.argv[1])
     except:
         n = 0
     
-    if n != 0:
-        tmps = os.listdir("/tmp")
-        failed = []
-
-        for i in range(0, n):
+    if "--a" in sys.argv:
+        n = len(tmps)
+    
+    if n > 0:
+        i = 0
+        while i < n:
             if ".crate" in tmps[i]:
                 crate = tmps[i][:-6]
-                print("Running on :" + crate)
-                run(crate)
-
-        return
-    if "--a" in sys.argv:
-        tmps = os.listdir("/tmp")
-        for tmp in tmps:
-            if ".crate" in tmp:
-                crate = tmp[:-6]
-                print("Running on :" + crate)
-                run(crate)
+                if  crate + ".json" in mirs:
+                    print("mir file for " + crate + " already exists")
+                    n += 1
+                else:
+                    print("Running on :" + crate)
+                    run(crate)
+            else:
+                n += 1
+            i += 1
         return
     else:
         for arg in sys.argv:
