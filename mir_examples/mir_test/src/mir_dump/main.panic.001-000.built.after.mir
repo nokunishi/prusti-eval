@@ -1,0 +1,20 @@
+// MIR for `panic` after built
+
+fn panic() -> () {
+    let mut _0: ();
+    let mut _1: !;
+
+    bb0: {
+        StorageLive(_1);
+        _1 = begin_panic::<&str>(const "explicit panic") -> bb2;
+    }
+
+    bb1: {
+        StorageDead(_1);
+        return;
+    }
+
+    bb2 (cleanup): {
+        resume;
+    }
+}
