@@ -1,8 +1,8 @@
-import os
-import json
-import datetime
-import sys
-import csv
+import os, json, datetime, sys, csv
+
+from dotenv import load_dotenv
+load_dotenv()
+sys.path.insert(1, os.getenv('ROOT'))
 from workspace import Wksp as w
 
 err_reports = os.listdir(w.err)

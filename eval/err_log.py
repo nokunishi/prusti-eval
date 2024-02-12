@@ -1,5 +1,9 @@
 import os, json, sys
 from pathlib import Path
+
+from dotenv import load_dotenv
+load_dotenv()
+sys.path.insert(1, os.getenv('ROOT'))
 from workspace import Wksp as w
 
 run_prusti_file = '(bin "run_prusti")'

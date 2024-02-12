@@ -10,4 +10,7 @@ tmp_toml
 
 /log
 
-/mir/mir_dump
+/mir/script/mir_brute.py
+/mir/examples/target
+/mir/mir-rust/target
+./test.rs

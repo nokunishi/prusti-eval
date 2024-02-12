@@ -1,6 +1,8 @@
 import os, sys, shutil
-from workspace import Wksp as w
 from dotenv import load_dotenv
+load_dotenv()
+sys.path.insert(1, os.getenv('ROOT'))
+from workspace import Wksp as w
 
 def zip():
     archive = os.listdir(w.a)   

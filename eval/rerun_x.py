@@ -1,4 +1,8 @@
 import os, sys, shutil, json, datetime
+
+from dotenv import load_dotenv
+load_dotenv()
+sys.path.insert(1, os.getenv('ROOT'))
 from workspace import Wksp as w
 
 def rerun_all():

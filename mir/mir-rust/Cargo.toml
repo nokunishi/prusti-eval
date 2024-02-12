@@ -1,0 +1,25 @@
+[package]
+name = "flowistry"
+version = "0.5.41"
+edition = "2021"
+authors = ["Will Crichton <wcrichto@cs.stanford.edu>"]
+description = "Modular information flow analysis"
+repository = "https://github.com/willcrichton/flowistry"
+license = "MIT"
+
+[package.metadata.rust-analyzer]
+rustc_private = true
+
+[features]
+test = ["rustc_utils/test"]
+
+[dependencies]
+rustc_plugin = "=0.8.0-nightly-2024-01-06"
+rustc_utils = {version = "=0.8.0-nightly-2024-01-06", features = ["indexical"]}
+indexical = {version = "0.3.1", default-features = false, features = ["rustc"]}
+anyhow = "1"
+log = "0.4"
+fluid-let = "1.0"
+cfg-if = "1.0"
+serde = {version = "1", features = ["derive"]}
+

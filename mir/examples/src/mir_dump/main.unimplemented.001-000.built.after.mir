@@ -1,0 +1,20 @@
+// MIR for `unimplemented` after built
+
+fn unimplemented() -> () {
+    let mut _0: ();
+    let mut _1: !;
+
+    bb0: {
+        StorageLive(_1);
+        _1 = core::panicking::panic(const "not implemented") -> bb2;
+    }
+
+    bb1: {
+        StorageDead(_1);
+        return;
+    }
+
+    bb2 (cleanup): {
+        resume;
+    }
+}

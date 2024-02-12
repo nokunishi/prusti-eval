@@ -1,6 +1,10 @@
 import os, sys, json
 import pandas as pd
 import csv, datetime
+
+from dotenv import load_dotenv
+load_dotenv()
+sys.path.insert(1, os.getenv('ROOT'))
 from workspace import Wksp as w
 
 
