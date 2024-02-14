@@ -1,14 +1,17 @@
 import os, sys, json
+from pathlib import Path
 
-from dotenv import load_dotenv
-load_dotenv()
-sys.path.insert(1, os.getenv('ROOT'))
-from workspace import Wksp as w
+
+def wksp():
+    from dotenv import load_dotenv
+    load_dotenv()
+    sys.path.insert(1, os.getenv('ROOT'))
+    from workspace import Wksp as w
+    return w
 
 cwd = os.getcwd()
 
-
-# TODO: import this in the mir.py file
+# TODO: count number of lines / fns
 def summary():
     mirs = os.listdir(w.m)
     
@@ -30,8 +33,49 @@ def summary():
                     reasons = fn["reasons"]
 
 
+def extract_summary(crate, file):
+    total = 0
+    reasons = []
+    w = wksp()
 
+    mir = file.replace(".rs", ".txt")
+    try:
+        with open(mir, "r") as f:
+            for l in f:
+                if "assert(!" in l:
+                    total += 1
+                    if not l.split('"')[1] in reasons:
+                        reasons.append(l.split('"')[1])
+    except:
+        raise Exception("mir file missing (likely failed to build file)")
 
+    file_name = mir.split("/")[-1]
+    obj = {
+        "num_total": total,
+        "num_reasons": len(reasons),
+        "reasons": reasons
+    }
 
-if __name__ == "__main__":
-    main()
+    p = os.path.join(w.m, crate + ".json")
+
+    if os.path.exists(p):
+        with open(p, "r") as f:
+            f = json.load(f)
+            if file_name in f["results"]:
+                if obj not in f["results"][file_name]:
+                    f["results"][file_name].append(obj)
+            else:
+                f["results"] = {
+                    file_name: [obj]
+                }
+    else:
+        f = {
+            "results": {
+                file_name: [obj]
+            }
+        }
+    with open(p, "w") as f_:
+        json.dump(f, f_)
+    return
+
+  
