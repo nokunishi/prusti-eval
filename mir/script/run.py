@@ -1,6 +1,6 @@
-import os, sys, threading, json
+import os, sys, threading, shutil
 from pathlib import Path
-import  eval
+import eval, format as fm
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -33,22 +33,46 @@ def setup_tmp():
     os.system("python3 run_x.py --e",)
     lock.release()
 
-def run_mir(file):
+def run_mir(crate, file):
     try:
         os.chdir(mir_rust);
         lock.acquire()
         os.system("cargo build")
+        fm.format(file)
         lock.release()
 
         print("extracting mir on " + file)
         os.system("cargo run " + file)
-    except:
-        print("his")
-        fm.format(file)
-        raise Exception("debug")
+    except Exception as str:
+        print("Error: resetting crate in /tmp")
+        shutil.rmtree("/tmp/" + crate);
+        os.remove("/tmp/" + crate + ".crate");
+        os.chdir(w.p)
+        os.system("python3 run_x.py --e")
+        print("Error: failed extract mir on: " + crate)
+        
+        os.chdir(w.m)
+        
+        if os.path.exists(crate + ".json"):
+            os.remove(crate + ".json")
+        raise Exception("run_mir")
 
 def read_mir(crate, file):
-    eval.extract_summary(crate, file)
+    try:
+        eval.extract_summary(crate, file)
+    except:
+        print("Error: resetting crate in /tmp")
+        shutil.rmtree("/tmp/" + crate);
+        os.remove("/tmp/" + crate + ".crate");
+        os.chdir(w.p)
+        os.system("python3 run_x.py --e")
+        print("Error: failed extract mir on: " + crate)
+        
+        os.chdir(w.m)
+        
+        if os.path.exists(crate + ".json"):
+            os.remove(crate + ".json")
+        raise Exception("read_mir")
 
 def run(crate):
     crate_path= os.path.join("/tmp/" + crate)
@@ -59,12 +83,8 @@ def run(crate):
     files = get_file(crate_path, [])
 
     for f in files:
-        try: 
-            run_mir(f)
-            read_mir(crate, f)
-        except Exception as str:
-            print(str)
-            return
+        run_mir(crate, f)
+        read_mir(crate, f)
 
     os.chdir(cwd)
 
