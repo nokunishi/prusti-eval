@@ -3,6 +3,8 @@ from pathlib import Path
 import run 
 
 
+cwd = os.getcwd()
+
 def wksp():
     from dotenv import load_dotenv
     load_dotenv()
@@ -10,9 +12,26 @@ def wksp():
     from workspace import Wksp as w
     return w
 
-cwd = os.getcwd()
+def get_paths(path, mirs):
+    dir_list = os.listdir(path)
 
-def get_summary(m, list):
+    for dir in dir_list:
+        dir_path = os.path.join(path, dir)
+
+        if not os.path.isfile(dir_path):
+            mirs = get_paths(dir_path, mirs)
+        elif ".txt" in dir_path and dir_path not in mirs:
+            mirs.append(dir_path)
+    return mirs
+
+def reset(m):
+    w = wksp()
+    print("removing mir for " + m)
+    os.remove(os.path.join(w.m, m))
+    if os.path.exists(os.path.join(w.m_summary, m)):
+        os.remove(os.path.join(w.m_summary, m))
+
+def summary(m):
     w = wksp()
     with open(os.path.join(w.m, m), "r") as f:
         crate = m.replace(".json", "")
@@ -41,7 +60,6 @@ def get_summary(m, list):
                             error.append(name)
             
         obj = {
-            crate: {
                 "fn_total": fn_total,
                 "p_total": p_total,
                 "p_fn_num": len(p_fns),
@@ -50,31 +68,26 @@ def get_summary(m, list):
                 "panicked_rn": p_reason,
                 "num_error": len(error),
                 "fn_error": error
-            }
         }
-        list.append(obj)
-        return list
 
+        with open(os.path.join(w.m_summary, m), "w") as f_:
+            f = json.dumps(obj)
+            f_.write(f)    
 
-
-
-def write_summary():
+def write_all():
     w = wksp()
+   
     mir_dir = os.listdir(w.m)
-    list = []
     
     for m in mir_dir:
-        list = get_summary(m, list)    
+        if os.path.exists(os.path.join(w.m_summary, m)):
+            print("mir summary for " + m + " already exists")
+            continue
+        else:
+            print("writing mir summary for " + m + "...")
+            summary(m)    
 
-    with open(os.path.join(w.m_summary, m), "a") as f_:
-        f = {"summary": []}
-        for obj in list:
-            f["summary"].append(obj)
-        f = json.dumps(f)
-        f_.write(f)        
-
-
-def extract_summary(mir, list):
+def extract(mir, list):
     total = 0
     reasons = []
     w = wksp()
@@ -86,6 +99,7 @@ def extract_summary(mir, list):
                 if "fn " in l and "(" in l and ")" in l and \
                     "->" in l and "{" in l:
                     fn = l.split(" ")[1].split("(")[0]
+                    print(fn)
                 if l.strip().startswith("bb") and l.strip().endswith("{"):
                     j = l.strip().split(" ")[0].replace("bb", "").replace(":", "")
                 if "assert(!" in l:
@@ -117,7 +131,43 @@ def extract_summary(mir, list):
     list.append(obj_)
     return list
 
+def read(crate, mirs):
+    w = wksp()
+    list = []
+    for mir in mirs:
+        list = extract(mir, list)
+
+    if os.path.exists(os.path.join(w.m, crate + ".json")):
+        print("mir for this file exists already")
+        if input("Do you want to overwrite it?: (y or n)") == "n":
+            return
+    with open(os.path.join(w.m, crate + ".json"), "w") as f_:
+        f = {"result": []}
+        for obj in list:
+            f["result"].append(obj)
+        f = json.dumps(f)
+        f_.write(f)
+
+def main():
+    args = []
+    for arg in sys.argv:
+        if "--" not in arg:
+            args.append(arg)
+
+    if "--rs" in sys.argv:
+        reset(args[1] + ".json")
+        return
+    if "--wr" in sys.argv and "--a" in sys.argv:
+        write_all()
+        return
+    if "--r" in sys.argv:
+        mirs = get_paths("/tmp/" + args[1], [])
+        read(args[1], mirs)
+    else:
+        mirs = get_paths("/tmp/" + args[1], [])
+        read(args[1], mirs)
+        summary(args[1] + ".json")
 
 if __name__ == "__main__":
-    write_summary()
+    main()
   

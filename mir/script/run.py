@@ -1,6 +1,6 @@
 import os, sys, threading, shutil, json
 from pathlib import Path
-import eval, format as fm
+import mir, format as fm
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -25,18 +25,6 @@ def get_file(path, file_lists):
 
     return file_lists
 
-def get_mirs(path, mirs):
-    dir_list = os.listdir(path)
-
-    for dir in dir_list:
-        dir_path = os.path.join(path, dir)
-
-        if not os.path.isfile(dir_path):
-            mirs = get_mirs(dir_path, mirs)
-        elif ".txt" in dir_path and dir_path not in mirs:
-            mirs.append(dir_path)
-    return mirs
-
 def setup_tmp():
     lock.acquire()
     os.chdir(w.p_eval)
@@ -54,23 +42,12 @@ def run_mir(crate, file):
     os.system("cargo run " + file)
 
 
-def read_mir(crate, mirs):
-    list = []
-    for mir in mirs:
-        list = eval.extract_summary(mir, list)
-    with open(os.path.join(w.m, crate + ".json"), "a") as f_:
-        f = {"result": []}
-        for obj in list:
-            f["result"].append(obj)
-        f = json.dumps(f)
-        f_.write(f)
-    os.chdir(cwd)
 
 def run(crate):
     if "--d" not in sys.argv:
         crate_path= os.path.join("/tmp/" + crate)
         files = get_file(crate_path, [])
-        mirs = get_mirs(crate_path, [])
+        mirs = mir.get_paths(crate_path, [])
     else:
         files = [crate]
         mirs = []
@@ -80,32 +57,33 @@ def run(crate):
     os.system("cargo build")
 
     for f in files:
-        try:
-            if "--r" not in sys.argv:
-                run_mir(crate, f)
-        except Exception as str:
-            print(str)
-    read_mir(crate, mirs)
+        run_mir(crate, f)
+    mir.read(crate, mirs)
+    mir.summary(crate + ".json")
     
    
 
 def main():
     tmps = os.listdir(w.tmp)
-    mirs = os.listdir(w.m)
 
     if len(sys.argv) < 2:
         print("invalid number of args")
         return
     
-    if "mir" not in os.listdir(w.dir):
+    if "mir" not in os.listdir(w.tmp):
         os.mkdir(w.m)
+    mirs = os.listdir(w.m)
 
     if "--tmp" in sys.argv:
         setup_tmp()
         os.chdir(cwd)
 
     try:
-        n = int(sys.argv[1])
+        args = []
+        for arg in sys.argv:
+            if "--" not in arg:
+                args.append(arg)
+        n = int(args[1])
     except:
         n = 0
     
