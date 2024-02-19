@@ -1,4 +1,4 @@
-import os, sys, threading, shutil
+import os, sys, threading, shutil, json
 from pathlib import Path
 import eval, format as fm
 
@@ -11,8 +11,6 @@ cwd = os.getcwd()
 root = os.path.abspath(os.path.join(cwd, os.pardir))
 mir_rust = os.path.join(root, "mir-rust")
 lock = threading.Lock()
-
-
 
 def get_file(path, file_lists):
     dir_list = os.listdir(path)
@@ -27,6 +25,18 @@ def get_file(path, file_lists):
 
     return file_lists
 
+def get_mirs(path, mirs):
+    dir_list = os.listdir(path)
+
+    for dir in dir_list:
+        dir_path = os.path.join(path, dir)
+
+        if not os.path.isfile(dir_path):
+            mirs = get_mirs(dir_path, mirs)
+        elif ".txt" in dir_path and dir_path not in mirs:
+            mirs.append(dir_path)
+    return mirs
+
 def setup_tmp():
     lock.acquire()
     os.chdir(w.p_eval)
@@ -34,67 +44,49 @@ def setup_tmp():
     lock.release()
 
 def run_mir(crate, file):
-    try:
-        os.chdir(mir_rust);
-        lock.acquire()
-        os.system("cargo build")
-        fm.format(file)
-        lock.release()
+    os.chdir(mir_rust);
+    lock.acquire()
+    os.system("cargo build")
+    fm.format(crate, file)
+    lock.release()
 
-        print("extracting mir on " + file)
-        os.system("cargo run " + file)
-    except Exception as str:
-        print("Error: resetting crate in /tmp")
-        shutil.rmtree("/tmp/" + crate);
-        os.remove("/tmp/" + crate + ".crate");
-        os.chdir(w.p)
-        os.system("python3 run_x.py --e")
-        print("Error: failed extract mir on: " + crate)
-        
-        os.chdir(w.m)
-        
-        if os.path.exists(crate + ".json"):
-            os.remove(crate + ".json")
-        raise Exception("run_mir")
+    print("extracting mir on " + file)
+    os.system("cargo run " + file)
 
-def read_mir(crate, file):
-    try:
-        eval.extract_summary(crate, file)
-    except:
-        print("Error: resetting crate in /tmp")
-        shutil.rmtree("/tmp/" + crate);
-        os.remove("/tmp/" + crate + ".crate");
-        os.chdir(w.p)
-        os.system("python3 run_x.py --e")
-        print("Error: failed extract mir on: " + crate)
-        
-        os.chdir(w.m)
-        
-        if os.path.exists(crate + ".json"):
-            os.remove(crate + ".json")
-        raise Exception("read_mir")
+def read_mir(crate, mirs):
+    list = []
+    for mir in mirs:
+        list = eval.extract_summary(mir, list)
+    with open(os.path.join(w.m, crate + ".json"), "a") as f_:
+        f = {"result": []}
+        for obj in list:
+            f["result"].append(obj)
+        f = json.dumps(f)
+        f_.write(f)
+    os.chdir(cwd)
 
 def run(crate):
-    crate_path= os.path.join("/tmp/" + crate)
+    if "--d" not in sys.argv:
+        crate_path= os.path.join("/tmp/" + crate)
+        files = get_file(crate_path, [])
+        mirs = get_mirs(crate_path, [])
+    else:
+        files = [crate]
+        mirs = []
+
     os.system("cargo clean")
     os.chdir(Path(crate_path))
     os.system("cargo build")
 
-    files = get_file(crate_path, [])
-
     for f in files:
-        run_mir(crate, f)
-        read_mir(crate, f)
-
-    os.chdir(cwd)
-
-def debug(f):
-    try: 
-        run_mir(f)
-        read_mir("debug", f)
-    except Exception as str:
-        print(str)
-        return
+        try:
+            if "--r" not in sys.argv:
+                run_mir(crate, f)
+        except Exception as str:
+            print(str)
+    read_mir(crate, mirs)
+    
+   
 
 def main():
     tmps = os.listdir(w.tmp)
@@ -118,7 +110,6 @@ def main():
     
     if "--a" in sys.argv:
         n = len(tmps)
-
     if n > 0:
         i = 0
         while i < n:
@@ -133,7 +124,7 @@ def main():
             else:
                 n += 1
             i += 1
-        return
+        return 
     else:
         for arg in sys.argv:
             if not arg == "mir.py" and not "--" in arg:
@@ -141,8 +132,9 @@ def main():
         if "--d" not in sys.argv:
             run(crate)
         else:
-            debug(crate)
-        return
+            json = os.path.join(w.m, "debug.json")
+            os.remove(json)
+        return 
     
 
 if __name__ == "__main__":

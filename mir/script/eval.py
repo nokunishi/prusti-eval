@@ -1,5 +1,6 @@
 import os, sys, json
 from pathlib import Path
+import run 
 
 
 def wksp():
@@ -11,8 +12,8 @@ def wksp():
 
 cwd = os.getcwd()
 
-# TODO: count number of lines / fns
 def summary():
+    w = wksp()
     mirs = os.listdir(w.m)
     
     for m in mirs:
@@ -33,15 +34,20 @@ def summary():
                     reasons = fn["reasons"]
 
 
-def extract_summary(crate, file):
+def extract_summary(mir, list):
     total = 0
     reasons = []
     w = wksp()
 
-    mir = file.replace(".rs", ".txt")
     try:
         with open(mir, "r") as f:
+            j = 0
             for l in f:
+                if "fn " in l and "(" in l and ")" in l and \
+                    "->" in l and "{" in l:
+                    fn = l.split(" ")[1].split("(")[0]
+                if l.strip().startswith("bb") and l.strip().endswith("{"):
+                    j = l.strip().split(" ")[0].replace("bb", "").replace(":", "")
                 if "assert(!" in l:
                     total += 1
                     if not l.split('"')[1] in reasons:
@@ -49,33 +55,27 @@ def extract_summary(crate, file):
     except:
         raise Exception("mir file missing (likely failed to build file)")
 
-    file_name = mir.split("/")[-1]
-    obj = {
+    file_name = mir.split("/")[-1].split("-")[0]
+    obj = {  
         "num_total": total,
         "num_reasons": len(reasons),
-        "reasons": reasons
+        "reasons": reasons,
+        "num_blocks": j
     }
 
-    p = os.path.join(w.m, crate + ".json")
-
-    if os.path.exists(p):
-        with open(p, "r") as f:
-            f = json.load(f)
-            if file_name in f["results"]:
-                if obj not in f["results"][file_name]:
-                    f["results"][file_name].append(obj)
-            else:
-                f["results"] = {
-                    file_name: [obj]
-                }
-    else:
-        f = {
-            "results": {
-                file_name: [obj]
-            }
+    for obj_ in list:
+        if file_name in obj_:
+            obj_[file_name].append({
+                fn: obj
+            })
+            list.append(obj_)
+            return list
+    obj_ = {
+            file_name: [{
+                fn: obj
+            }]
         }
-    with open(p, "w") as f_:
-        json.dump(f, f_)
-    return
+    list.append(obj_)
+    return list
 
   
