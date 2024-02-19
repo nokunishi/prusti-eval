@@ -53,6 +53,7 @@ def run_mir(crate, file):
     print("extracting mir on " + file)
     os.system("cargo run " + file)
 
+
 def read_mir(crate, mirs):
     list = []
     for mir in mirs:

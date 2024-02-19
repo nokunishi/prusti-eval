@@ -12,26 +12,66 @@ def wksp():
 
 cwd = os.getcwd()
 
-def summary():
+def get_summary(m, list):
     w = wksp()
-    mirs = os.listdir(w.m)
-    
-    for m in mirs:
-        with open(os.path.join(w.m, m), "r") as f:
-            f = json.load(f)
-            t_fn = 0
-            t_panic = 0
-            t_rn = 0
-            t_rns = [] 
+    with open(os.path.join(w.m, m), "r") as f:
+        crate = m.replace(".json", "")
+        f = json.load(f)
+        fn_total = 0
+        p_total = 0
+        p_fns = []
+        p_reason = []
+        error = []
             
-            for f_name in f["results"].keys():
-                fns = f["results"][f_name]
-                
-                for fn in fns:
-                    name = fn["fn_name"]
-                    num_total = fn["num_total"]
-                    num_reasons = fn["num_reasons"]
-                    reasons = fn["reasons"]
+            
+        for file_list in f["result"]:
+            for file_name in file_list.keys():
+                for fn_lists in file_list[file_name]:
+                    for fn in fn_lists.keys():
+                        name = file_name + "/" + fn
+                        fn_total += 1
+                            
+                        p_total += fn_lists[fn]["num_total"]
+                        if fn_lists[fn]["num_total"] != 0:
+                            p_fns.append(name)
+                        for r in fn_lists[fn]["reasons"]:
+                            if r not in p_reason:
+                                p_reason.append(r)
+                        if fn_lists[fn]["num_blocks"] == "0":
+                            error.append(name)
+            
+        obj = {
+            crate: {
+                "fn_total": fn_total,
+                "p_total": p_total,
+                "p_fn_num": len(p_fns),
+                "p_fn": p_fns,
+                "panicked_rn_num": len(p_reason),
+                "panicked_rn": p_reason,
+                "num_error": len(error),
+                "fn_error": error
+            }
+        }
+        list.append(obj)
+        return list
+
+
+
+
+def write_summary():
+    w = wksp()
+    mir_dir = os.listdir(w.m)
+    list = []
+    
+    for m in mir_dir:
+        list = get_summary(m, list)    
+
+    with open(os.path.join(w.m_summary, m), "a") as f_:
+        f = {"summary": []}
+        for obj in list:
+            f["summary"].append(obj)
+        f = json.dumps(f)
+        f_.write(f)        
 
 
 def extract_summary(mir, list):
@@ -68,14 +108,16 @@ def extract_summary(mir, list):
             obj_[file_name].append({
                 fn: obj
             })
-            list.append(obj_)
             return list
     obj_ = {
-            file_name: [{
-                fn: obj
-            }]
-        }
+        file_name: [{
+            fn: obj
+        }]
+    }
     list.append(obj_)
     return list
 
+
+if __name__ == "__main__":
+    write_summary()
   
