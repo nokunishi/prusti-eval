@@ -146,8 +146,6 @@ def run():
     with open(os.path.join(w.eval, "summary-" + date + ".json"), "w") as outfile:
         print("writing to summary")
         outfile.write(json_stats)
-       
-
 
 if __name__ == '__main__':
     run()

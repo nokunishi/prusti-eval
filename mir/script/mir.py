@@ -31,19 +31,21 @@ def reset(m):
     if os.path.exists(os.path.join(w.m_summary, m)):
         os.remove(os.path.join(w.m_summary, m))
 
-def summary(m):
+def summary_wksp(m):
     w = wksp()
     with open(os.path.join(w.m, m), "r") as f:
         crate = m.replace(".json", "")
-        f = json.load(f)
+        f_ = json.load(f)
         fn_total = 0
         p_total = 0
         p_fns = []
         p_reason = []
         error = []
+
+        compile_e = []
             
             
-        for file_list in f["result"]:
+        for file_list in f_["result"]:
             for file_name in file_list.keys():
                 for fn_lists in file_list[file_name]:
                     for fn in fn_lists.keys():
@@ -58,6 +60,10 @@ def summary(m):
                                 p_reason.append(r)
                         if fn_lists[fn]["num_blocks"] == "0":
                             error.append(name)
+
+        for lines in f_["error"]:
+            if lines not in compile_e:
+                compile_e.append(lines)
             
         obj = {
                 "fn_total": fn_total,
@@ -66,13 +72,17 @@ def summary(m):
                 "p_fn": p_fns,
                 "panicked_rn_num": len(p_reason),
                 "panicked_rn": p_reason,
-                "num_error": len(error),
-                "fn_error": error
+                "num_err": len(error),
+                "fn_er": error,
+                "compile_err_num": len(compile_e),
+                "compile_err": compile_e
         }
 
+        f.close()
+
         with open(os.path.join(w.m_summary, m), "w") as f_:
-            f = json.dumps(obj)
-            f_.write(f)    
+            o = json.dumps(obj)
+            f_.write(o)    
 
 def write_all():
     w = wksp()
@@ -85,7 +95,8 @@ def write_all():
             continue
         else:
             print("writing mir summary for " + m + "...")
-            summary(m)    
+            summary_wksp(m)    
+
 
 def extract(mir, list):
     total = 0
@@ -105,6 +116,7 @@ def extract(mir, list):
                     total += 1
                     if not l.split('"')[1] in reasons:
                         reasons.append(l.split('"')[1])
+            f.close()
     except:
         raise Exception("mir file missing (likely failed to build file)")
 
@@ -130,22 +142,90 @@ def extract(mir, list):
     list.append(obj_)
     return list
 
-def read(crate, mirs):
+
+def error_extract(mir, error):
+    with open(mir, "r") as f:
+        f_ = f.readlines()
+        i = 0
+
+        while i < len(f_):
+            if f_[i].strip().startswith("error"):
+                where = ""
+                note = []
+                help = []
+
+                j = 1
+                e = ""
+                while j < len(f_[i].split(":")):
+                    e += f_[i].split(":")[j].strip() + ", "
+                    j+= 1
+                e = e.strip()[:(len(e) - 2)].replace(", , ", "::")
+
+                j = i + 1
+
+                if i +1 < len(f_) and "-->" in f_[i+1]:
+                    where = f_[i+1].replace("-->", "").strip();
+                    j += 1
+                
+                while j < len(f_):
+                    if f_[j].strip().startswith("|") or f_[j][0].isdigit():
+                        j += 1
+                    else:
+                        break
+                if "note" in f_[j]:
+                    note.append(f_[j].replace("= note:", "").replace("note:", "").strip())
+                if j + 1 < len(f_) and "note" in f_[j + 1]:
+                    note.append(f_[j + 1].replace("= note:", "").replace("note:", "").strip())
+
+                if "help" in f_[j]:
+                    if "help: consider importing this" in f_[j] and j + 2 < len(f_):
+                        word = "consider importing: " + f_[j+2].split("+")[1].strip()
+                    else:
+                        word = f_[j + 1].replace("= help:", "").strip()
+                    help.append(word)
+
+                if j + 1 < len(f_) and "help" in f_[j + 1]:
+                    if "help: consider importing this " in f_[j+1] and j + 3 < len(f_):
+                        word = "consider importing: " + f_[j+3].split("+")[1].strip()
+                    else:
+                        word = f_[j + 2].replace("= help:", "").strip()
+                    help.append(word)
+
+                if e not in error and "aborting due to " not in e:
+                    obj = {
+                        e: {
+                        "where": where,
+                        "note": note,
+                        "help": help
+                    }
+                    }   
+                    error.append(obj)
+            i += 1
+        f.close()
+    return error
+
+def summary_tmp(crate, mirs):
     w = wksp()
     list = []
-    for mir in mirs:
-        list = extract(mir, list)
-
     if os.path.exists(os.path.join(w.m, crate + ".json")):
         print("mir for this file exists already")
-        if input("Do you want to overwrite it?: (y or n)") == "n":
+        if input("Do you want to overwrite it?: (y or n) ") == "n":
             return
+    
+    error = []
+    for mir in mirs:
+        if "-e" not in mir:
+            list = extract(mir, list)
+        else:
+            error = error_extract(mir, error)
+
     with open(os.path.join(w.m, crate + ".json"), "w") as f_:
-        f = {"result": []}
+        f = {"result": [], "error": error}
         for obj in list:
             f["result"].append(obj)
         f = json.dumps(f)
         f_.write(f)
+        f_.close()
 
 def main():
     args = []
@@ -161,11 +241,11 @@ def main():
         return
     if "--r" in sys.argv:
         mirs = get_paths("/tmp/" + args[1], [])
-        read(args[1], mirs)
+        summary_tmp(args[1], mirs)
     else:
         mirs = get_paths("/tmp/" + args[1], [])
-        read(args[1], mirs)
-        summary(args[1] + ".json")
+        summary_tmp(args[1], mirs)
+        summary_wksp(args[1] + ".json")
 
 if __name__ == "__main__":
     main()

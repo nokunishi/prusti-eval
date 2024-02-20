@@ -25,6 +25,7 @@ use std::path::{Path, PathBuf};
 use std::io::prelude::*;
 
 
+// avoid panicking
 fn raise_exception(file: String) {
   let cwd = env::current_dir().expect("failed to fetch cwd");
   let mut path = PathBuf::new();
@@ -48,6 +49,7 @@ fn raise_exception(file: String) {
 For most codes below, modifications were made to:
 Crichton, W(2021) flowistry(v0.5.41)[https://github.com/willcrichton/flowistry/tree/master?tab=License-1-ov-file]
 ---
+Modified so that it will extract mir for every function, not just for the first
 */
 
 fn compute_dependencies<'tcx>(
@@ -69,7 +71,6 @@ impl rustc_driver::Callbacks for Callbacks {
     config.override_queries = Some(borrowck_facts::override_queries);
   }
 
-  // modify so that it will extract mir for every function, not just for the first
   fn after_crate_root_parsing<'tcx>(
     &mut self,
     _compiler: &rustc_interface::interface::Compiler,
@@ -136,7 +137,7 @@ fn main() {
   rustc_driver::catch_fatal_errors(|| {
     rustc_driver::RunCompiler::new(&args, &mut callbacks)
       .run()
-      .unwrap_or_else(|_| {raise_exception(file.clone())})
+      .unwrap_or_else(|_| {})
   })
-  .unwrap_or_else(|_| {raise_exception(file.clone())});
+  .unwrap_or_else(|_| {});
 }

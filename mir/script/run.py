@@ -39,15 +39,14 @@ def run_mir(crate, file):
     lock.release()
 
     print("extracting mir on " + file)
-    os.system("cargo run " + file)
-
+    e_file = file.replace(".rs", "-e.txt")
+    os.system("cargo run " + file + " &> " + e_file)
 
 
 def run(crate):
     if "--d" not in sys.argv:
         crate_path= os.path.join("/tmp/" + crate)
         files = get_file(crate_path, [])
-        mirs = mir.get_paths(crate_path, [])
 
         os.system("cargo clean")
         os.chdir(Path(crate_path))
@@ -58,8 +57,12 @@ def run(crate):
 
     for f in files:
         run_mir(crate, f)
-    mir.read(crate, mirs)
-    mir.summary(crate + ".json")
+
+    if "--d" not in sys.argv:
+        mirs = mir.get_paths(crate_path, [])
+
+    mir.summary_tmp(crate, mirs)
+    mir.summary_wksp(crate + ".json")
     
    
 

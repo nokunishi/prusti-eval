@@ -10,7 +10,7 @@ tmp_toml
 
 /log
 
-/script/__pycache__
+/mir/script/__pycache__
 /prusti/__pycache__
 
 /mir/mir-rust/test.rs
@@ -18,6 +18,7 @@ tmp_toml
 /mir/examples/target
 /mir/mir-rust/target
 ./test.rs
+/scripts/__pycache__
 
 /mir/test
 
