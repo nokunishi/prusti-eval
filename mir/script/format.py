@@ -14,9 +14,6 @@ def get_dirs(path, dirs):
 
     return dirs
 
-def parse_help_mgs(file, i):
-    help: a trait with a similar name exists
-
 def comment(line):
     line = line.strip()
     return line.startswith("//") or line.startswith("/*") or line.endswith("*/")
@@ -47,14 +44,17 @@ def format(crate, file):
                     imports.append(i1)
                     imports.append(i2)
                 else:
-                    imports.append(line)
+                    imports.append(line.strip() + "\n")
             if line.strip().startswith("use") and not comment(line):
-                crate = line.split(" ")[1].split("::")[0]
-                l_ = "extern crate " + crate + ";\n"
-                if l_ not in imports and "std" not in crate and "core" not in crate \
-                    and "crate" != crate and crate != "":
-                    imports.append(l_)
-                    new.write(l_)
+                if "::" not in line:
+                    continue
+                else:
+                    crate = line.split(" ")[1].split("::")[0]
+                    l_ = "extern crate " + crate + ";\n"
+                    if l_ not in imports and "std" not in crate and "core" not in crate \
+                        and "crate" != crate and crate != "" and crate :
+                        imports.append(l_)
+                        new.write(l_)
             if '#![cfg(feature = "std")]' in line:
                 continue     
             if "use std;" == line.strip():
@@ -65,7 +65,7 @@ def format(crate, file):
                 if l_ != "":
                     new.write(l_)
                     continue
-            if line.strip() != ";":
+            if not line.strip().startswith(";"):
                 new.write(line)
         f.close()
         new.close()

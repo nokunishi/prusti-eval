@@ -143,6 +143,19 @@ def extract(mir, list):
     return list
 
 
+def parse_help_mgs(f_, j, help):
+    try:
+        if "help: consider importing this" in f_[j] and j + 2 < len(f_):
+            word = "consider importing: " + f_[j+2].split("+")[1].strip()
+        elif "help: a trait with a similar name exists" in f_[j] and j + 6 < len(f_):
+            word = "consider importing: " + f_[j+6].split("+")[1].strip()
+        else:
+            word = f_[j + 1].replace("= help:", "").strip()
+    except:
+        word = f_[j + 1].replace("= help:", "").strip()
+    help.append(word)
+    return help
+
 def error_extract(mir, error):
     with open(mir, "r") as f:
         f_ = f.readlines()
@@ -178,18 +191,10 @@ def error_extract(mir, error):
                     note.append(f_[j + 1].replace("= note:", "").replace("note:", "").strip())
 
                 if "help" in f_[j]:
-                    if "help: consider importing this" in f_[j] and j + 2 < len(f_):
-                        word = "consider importing: " + f_[j+2].split("+")[1].strip()
-                    else:
-                        word = f_[j + 1].replace("= help:", "").strip()
-                    help.append(word)
+                    help = parse_help_mgs(f_, j, help)
 
                 if j + 1 < len(f_) and "help" in f_[j + 1]:
-                    if "help: consider importing this " in f_[j+1] and j + 3 < len(f_):
-                        word = "consider importing: " + f_[j+3].split("+")[1].strip()
-                    else:
-                        word = f_[j + 2].replace("= help:", "").strip()
-                    help.append(word)
+                    help = parse_help_mgs(f_, j+1, help)
 
                 if e not in error and "aborting due to " not in e:
                     obj = {
