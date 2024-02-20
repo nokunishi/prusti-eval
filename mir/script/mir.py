@@ -99,7 +99,6 @@ def extract(mir, list):
                 if "fn " in l and "(" in l and ")" in l and \
                     "->" in l and "{" in l:
                     fn = l.split(" ")[1].split("(")[0]
-                    print(fn)
                 if l.strip().startswith("bb") and l.strip().endswith("{"):
                     j = l.strip().split(" ")[0].replace("bb", "").replace(":", "")
                 if "assert(!" in l:

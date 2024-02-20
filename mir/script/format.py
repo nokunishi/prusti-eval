@@ -35,9 +35,16 @@ def format(crate, file):
         for i, line in enumerate(f):
             if i == 0 and "#![feature(rustc_private)]" not in line:
                 new.write("#![feature(rustc_private)] \n")
+            if line.strip().startswith("extern crate"):
+                if "as" in line:
+                    i1 = line.split(" as ")[0].strip() + "\n"
+                    i2 = "extern crate " + line.split(" as ")[1].strip() + "\n"
+                    print(i2)
+                    imports.append(i1)
+                    imports.append(i2)
             if line.strip().startswith("use") and not comment(line):
                 crate = line.split(" ")[1].split("::")[0]
-                l_ = "extern crate " + crate + "; \n"
+                l_ = "extern crate " + crate + ";\n"
                 if l_ not in imports and "std" not in crate and "core" not in crate \
                     and "crate" != crate and l_ != "":
                     imports.append(l_)

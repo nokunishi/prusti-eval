@@ -48,13 +48,13 @@ def run(crate):
         crate_path= os.path.join("/tmp/" + crate)
         files = get_file(crate_path, [])
         mirs = mir.get_paths(crate_path, [])
+
+        os.system("cargo clean")
+        os.chdir(Path(crate_path))
+        os.system("cargo build")
     else:
         files = [crate]
         mirs = []
-
-    os.system("cargo clean")
-    os.chdir(Path(crate_path))
-    os.system("cargo build")
 
     for f in files:
         run_mir(crate, f)
@@ -108,11 +108,7 @@ def main():
         for arg in sys.argv:
             if not arg == "mir.py" and not "--" in arg:
                 crate = arg
-        if "--d" not in sys.argv:
-            run(crate)
-        else:
-            json = os.path.join(w.m, "debug.json")
-            os.remove(json)
+        run(crate)
         return 
     
 
