@@ -3,6 +3,13 @@ from pathlib import Path
 
 cwd = os.getcwd()
 
+def wksp():
+    from dotenv import load_dotenv
+    load_dotenv()
+    sys.path.insert(1, os.getenv('ROOT'))
+    from workspace import Wksp as w
+    return w
+
 def get_dirs(path, dirs):
     root_dir = os.listdir(path)
 
@@ -18,17 +25,34 @@ def comment(line):
     line = line.strip()
     return line.startswith("//") or line.startswith("/*") or line.endswith("*/")
 
-def handle_mod(file, mod):
-    line = ""
-    parent =  Path(file).parent.absolute()
 
-    dirs = get_dirs(parent, [])
+def fix_c_err1(crate, imports):
+    w = wksp()
 
-    for dir in dirs:
-        if mod in dir:
-            return "use super::" + mod + ";\n"
-    return ""
-
+    for i in imports:
+        file = [*i][0]
+        deps = []
+        with open(file, "r") as f:
+            j = 0
+            for l_no, line in enumerate(f):
+                if "extern crate " in line:
+                    j = l_no
+                if "use " in line and not comment(line):
+                    deps.append(line.strip())
+            j+= 1
+            f.close()
+        with open(file, "r") as f, open("new.rs", "w") as new:
+            for l_no, line in enumerate(f):
+                if j == l_no:
+                    for i_ in i[file]:
+                        if i_ not in deps:
+                            new.write(i_ + "\n")
+                            deps.append(i_)
+                
+                new.write(line)
+            f.close()
+            new.close()
+        os.rename("new.rs", file)
 
 def format(crate, file):
     with open(file, "r") as f, open("new.rs", "w") as new:
@@ -59,12 +83,6 @@ def format(crate, file):
                 continue     
             if "use std;" == line.strip():
                 continue
-            if line.strip().startswith("mod") and "{" not in line:
-                mod = line.split(" ")[1].replace(";", "").strip()
-                l_ = handle_mod(file, mod)
-                if l_ != "":
-                    new.write(l_)
-                    continue
             if not line.strip().startswith(";"):
                 new.write(line)
         f.close()

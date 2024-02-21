@@ -35,7 +35,7 @@ def run_mir(crate, file):
     os.chdir(mir_rust);
     lock.acquire()
     os.system("cargo build")
-    fm.format(crate, file)
+    # fm.format(crate, file)
     lock.release()
 
     print("extracting mir on " + file)
