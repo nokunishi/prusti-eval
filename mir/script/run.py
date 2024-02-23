@@ -1,6 +1,6 @@
 import os, sys, threading, shutil, json
 from pathlib import Path
-import mir, format as fm
+import mir, format as fm, rerun as rr
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -12,6 +12,32 @@ root = os.path.abspath(os.path.join(cwd, os.pardir))
 mir_rust = os.path.join(root, "mir-rust")
 lock = threading.Lock()
 
+def wksp():
+    from dotenv import load_dotenv
+    load_dotenv()
+    sys.path.insert(1, os.getenv('ROOT'))
+    from workspace import Wksp as w
+    return w
+
+def reset_all():
+    w = wksp()
+    shutil.rmtree(w.m_summary)
+    shutil.rmtree(w.m_rerun)
+    os.chdir(w.p)
+    os.system("python3 run_x.py --rs")
+    print("reset complete")
+
+def reset(m):
+    w = wksp()
+    print("removing mir for " + m)
+    os.remove(os.path.join(w.m, m + ".json"))
+    if os.path.exists(os.path.join(w.m_summary, m + ".json")):
+        os.remove(os.path.join(w.m_summary, m + ".json"))
+    shutil.rmtree(os.path.join(w.tmp, m))
+    os.remove(os.path.join(w.tmp, m + ".crate"))
+    os.chdir(w.p)
+    os.system("python3 run_x.py --e")
+
 def get_file(path, file_lists):
     dir_list = os.listdir(path)
 
@@ -21,13 +47,16 @@ def get_file(path, file_lists):
         if not os.path.isfile(dir_path):
             file_lists = get_file(dir_path, file_lists)
         elif ".rs" in dir_path and dir_path not in file_lists:
-            file_lists.append(dir_path)
+            if "lib.rs" in dir_path or "mod.rs" in dir_path:
+                file_lists.insert(0, dir_path)
+            else:
+                file_lists.append(dir_path)
 
     return file_lists
 
 def setup_tmp():
     lock.acquire()
-    os.chdir(w.p_eval)
+    os.chdir(w.p)
     os.system("python3 run_x.py --e",)
     lock.release()
 
@@ -35,7 +64,7 @@ def run_mir(crate, file):
     os.chdir(mir_rust);
     lock.acquire()
     os.system("cargo build")
-    # fm.format(crate, file)
+    fm.format(crate, file)
     lock.release()
 
     print("extracting mir on " + file)
@@ -67,19 +96,40 @@ def run(crate):
    
 
 def main():
+    if "mir" not in os.listdir(w.tmp):
+        os.mkdir(w.m)
+    if not os.path.exists(w.m_summary):
+        os.mkdir(w.m_summary)
+    if not os.path.exists(w.m_rerun):
+        os.mkdir(w.m_rerun)
+
     tmps = os.listdir(w.tmp)
+    mirs = os.listdir(w.m)
 
     if len(sys.argv) < 2:
         print("invalid number of args")
         return
     
-    if "mir" not in os.listdir(w.tmp):
-        os.mkdir(w.m)
-    mirs = os.listdir(w.m)
+    if "--rs" in sys.argv:
+        if "--a" in sys.argv:
+            reset_all()
+            return
+        if "--" not in sys.argv[1]:
+            crate = sys.argv[1]
+        else:
+            crate = sys.argv[2]
+        reset(crate)
+        return
 
-    if "--tmp" in sys.argv:
+    setup = True
+    for tmp in tmps:
+        if ".crate" in tmp:
+            setup = False
+
+    if setup:
         setup_tmp()
         os.chdir(cwd)
+        tmps = os.listdir(w.tmp)
 
     try:
         args = []
@@ -89,7 +139,6 @@ def main():
         n = int(args[1])
     except:
         n = 0
-    
     if "--a" in sys.argv:
         n = len(tmps)
     if n > 0:
@@ -103,15 +152,29 @@ def main():
                 else:
                     print("Running on :" + crate)
                     run(crate)
+                    if "--run" not in sys.argv and rr.rerun(crate):
+                        sys.argv.append("--rerun")
+                        run(crate)
+                    else:
+                        print("no need to rerun")
             else:
                 n += 1
+            if "--rerun" in sys.argv:
+                sys.argv.remove("--rerun")
             i += 1
         return 
     else:
         for arg in sys.argv:
-            if not arg == "mir.py" and not "--" in arg:
-                crate = arg
-        run(crate)
+            if ".py" not in arg and not "--" in arg:
+                print("Running on :" + arg)
+                run(arg)
+                if "--run" not in sys.argv and rr.rerun(arg):
+                        sys.argv.append("--rerun")
+                        run(arg)
+                else:
+                    print("no need to rerun")
+            if "--rerun" in sys.argv:
+                sys.argv.remove("--rerun")
         return 
     
 

@@ -1,5 +1,6 @@
 import os, sys, shutil, shutil
 from pathlib import Path
+import run as rn
 
 cwd = os.getcwd()
 
@@ -26,7 +27,10 @@ def comment(line):
     return line.startswith("//") or line.startswith("/*") or line.endswith("*/")
 
 
-def fix_c_err1(crate, imports):
+def fix_c_err(imports):
+    if len(imports) == 0:
+        return
+
     w = wksp()
 
     for i in imports:
@@ -49,10 +53,43 @@ def fix_c_err1(crate, imports):
                             new.write(i_ + "\n")
                             deps.append(i_)
                 
-                new.write(line)
+                if not line.strip().startswith(";"):
+                    new.write(line) 
             f.close()
             new.close()
         os.rename("new.rs", file)
+
+
+def set_var(path, vars):
+    if len(vars) == 0:
+        return 
+
+    dir = os.path.abspath(os.path.join(path, os.pardir))
+    files =  rn.get_file(dir, [])
+
+    for p in files:
+        if path == p:
+            continue
+        
+        const = []
+        set = False
+        with open(p, "r") as f:
+            for l_no, line in enumerate(f):
+                line = line.strip()
+                if line.startswith("const"):
+                    const.append(line) 
+        with open(p, "r") as f, open("new.rs", "w") as new:
+            for l_no, line in enumerate(f):
+                if not line.strip().startswith("#!") and not line.strip().startswith("use") \
+                    and not line.strip().startswith("extern crate") and not set:
+                    for v in vars:
+                        if v not in const:
+                            new.write(v + "\n")
+                    set = True
+                new.write(line)
+            f.close()
+            new.close()
+        os.rename("new.rs", p)         
 
 def format(crate, file):
     with open(file, "r") as f, open("new.rs", "w") as new:
@@ -60,31 +97,8 @@ def format(crate, file):
         for i, line in enumerate(f):
             if i == 0 and "#![feature(rustc_private)]" not in line:
                 new.write("#![feature(rustc_private)] \n")
-            if line.strip().startswith("extern crate"):
-                if "as" in line:
-                    i1 = line.split(" as ")[0].strip() + "\n"
-                    i2 = "extern crate " + line.split(" as ")[1].strip() + "\n"
-                    print(i2)
-                    imports.append(i1)
-                    imports.append(i2)
-                else:
-                    imports.append(line.strip() + "\n")
-            if line.strip().startswith("use") and not comment(line):
-                if "::" not in line:
-                    continue
-                else:
-                    crate = line.split(" ")[1].split("::")[0]
-                    l_ = "extern crate " + crate + ";\n"
-                    if l_ not in imports and "std" not in crate and "core" not in crate \
-                        and "crate" != crate and crate != "" and crate :
-                        imports.append(l_)
-                        new.write(l_)
-            if '#![cfg(feature = "std")]' in line:
-                continue     
-            if "use std;" == line.strip():
-                continue
             if not line.strip().startswith(";"):
-                new.write(line)
+                new.write(line) 
         f.close()
         new.close()
     os.rename("new.rs", file)

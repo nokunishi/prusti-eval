@@ -1,4 +1,4 @@
-import os, sys, json
+import os, sys, json, shutil
 from pathlib import Path
 
 cwd = os.getcwd()
@@ -22,98 +22,36 @@ def get_paths(path, mirs):
             mirs.append(dir_path)
     return mirs
 
-def reset(m):
-    w = wksp()
-    print("removing mir for " + m)
-    os.remove(os.path.join(w.m, m))
-    if os.path.exists(os.path.join(w.m_summary, m)):
-        os.remove(os.path.join(w.m_summary, m))
-
-def summary_wksp(m):
-    w = wksp()
-    with open(os.path.join(w.m, m), "r") as f:
-        crate = m.replace(".json", "")
-        f_ = json.load(f)
-        fn_total = 0
-        p_total = 0
-        p_fns = []
-        p_reason = []
-        error = []
-
-        compile_e = []
-            
-            
-        for file_list in f_["result"]:
-            for file_name in file_list.keys():
-                for fn_lists in file_list[file_name]:
-                    for fn in fn_lists.keys():
-                        name = file_name + "/" + fn
-                        fn_total += 1
-                            
-                        p_total += fn_lists[fn]["num_total"]
-                        if fn_lists[fn]["num_total"] != 0:
-                            p_fns.append(name)
-                        for r in fn_lists[fn]["reasons"]:
-                            if r not in p_reason:
-                                p_reason.append(r)
-                        if fn_lists[fn]["num_blocks"] == "0":
-                            error.append(name)
-
-        for lines in f_["error"]:
-            if lines not in compile_e:
-                compile_e.append(lines)
-            
-        obj = {
-                "fn_total": fn_total,
-                "p_total": p_total,
-                "p_fn_num": len(p_fns),
-                "p_fn": p_fns,
-                "panicked_rn_num": len(p_reason),
-                "panicked_rn": p_reason,
-                "num_err": len(error),
-                "fn_er": error,
-                "compile_err_num": len(compile_e),
-                "compile_err": compile_e
-        }
-
-        f.close()
-
-        with open(os.path.join(w.m_summary, m), "w") as f_:
-            o = json.dumps(obj)
-            f_.write(o)    
-
-def write_all():
-    w = wksp()
-   
-    mir_dir = os.listdir(w.m)
-    
-    for m in mir_dir:
-        if os.path.exists(os.path.join(w.m_summary, m)):
-            print("mir summary for " + m + " already exists")
-            continue
-        else:
-            print("writing mir summary for " + m + "...")
-            summary_wksp(m)    
-
 
 def extract(mir, list):
     total = 0
     reasons = []
+    r_tmp = []
     w = wksp()
+    unreachable = 0
+    try:
+        fn = mir.split("/")[-1].split("-")[1]
+    except:
+        return list
 
     try:
         with open(mir, "r") as f:
             j = 0
             for l in f:
-                if "fn " in l and "(" in l and ")" in l and \
-                    "->" in l and "{" in l:
-                    fn = l.split(" ")[1].split("(")[0]
                 if l.strip().startswith("bb") and l.strip().endswith("{"):
                     j = l.strip().split(" ")[0].replace("bb", "").replace(":", "")
                 if "assert(!" in l:
                     total += 1
-                    if not l.split('"')[1] in reasons:
-                        reasons.append(l.split('"')[1])
+                    if l.split('"')[1] in r_tmp:
+                        for reason in reasons:
+                            if [*reason.keys()][0] == l.split('"')[1]:
+                                reason[l.split('"')[1]] += 1
+                    else:
+                        reasons.append({l.split('"')[1]: 1})
+                        r_tmp.append(l.split('"')[1])
+                if "unreachable;" in l:
+                    unreachable += 1
+
             f.close()
     except:
         raise Exception("mir file missing (likely failed to build file)")
@@ -123,7 +61,8 @@ def extract(mir, list):
         "num_total": total,
         "num_reasons": len(reasons),
         "reasons": reasons,
-        "num_blocks": j
+        "num_blocks": j,
+        "unreachable": unreachable
     }
 
     for obj_ in list:
@@ -207,10 +146,11 @@ def error_extract(mir, error):
         f.close()
     return error
 
+
 def summary_tmp(crate, mirs):
     w = wksp()
     list = []
-    if os.path.exists(os.path.join(w.m, crate + ".json")):
+    if os.path.exists(os.path.join(w.m, crate + ".json")) and "--rerun" not in sys.argv:
         print("mir for this file exists already")
         if input("Do you want to overwrite it?: (y or n) ") == "n":
             return
@@ -230,15 +170,122 @@ def summary_tmp(crate, mirs):
         f_.write(f)
         f_.close()
 
+def summary_wksp(m):
+    w = wksp()
+    with open(os.path.join(w.m, m), "r") as f:
+        crate = m.replace(".json", "")
+        f_ = json.load(f)
+        fn_total = 0
+        p_total = 0
+        p_reason = []
+        error = []
+        p_fn = 0
+
+        compile_e = []
+        compile_e_rr = []
+        unreachable = []
+        u_total = 0
+            
+            
+        for file_list in f_["result"]:
+            for file_name in file_list.keys():
+                for fn_lists in file_list[file_name]:
+                    for fn in fn_lists.keys():
+                        name = file_name + "/" + fn
+                        fn_total += 1
+                            
+                        p_total += fn_lists[fn]["num_total"]
+                        if  fn_lists[fn]["num_total"] != 0:
+                            p_fn += 1
+                        for r_obj in fn_lists[fn]["reasons"]:
+                            r = [*r_obj.keys()][0]
+                            inlist = False
+                            for p_obj in p_reason:
+                                if r == [*p_obj.keys()][0]:
+                                    p_obj[r].append({
+                                        name : r_obj[r]
+                                    })
+                                    inlist = True
+                            if not inlist:
+                                p_reason.append({
+                                    r : [{
+                                        name : r_obj[r]
+                                    }]
+                                })
+                        if fn_lists[fn]["num_blocks"] == "0":
+                            error.append(name)
+                        if not fn_lists[fn]["num_blocks"] == "0" and fn_lists[fn]["unreachable"]:
+                            unreachable.append({name: fn_lists[fn]["unreachable"]})
+                            u_total += fn_lists[fn]["unreachable"]
+        for e in f_["error"]:
+            r = [*e.keys()][0]
+            if r not in compile_e_rr:
+                compile_e_rr.append(r)
+            if e not in compile_e:
+                compile_e.append(e)
+            
+        obj = {
+                "fn_total": fn_total,
+                "p_total": p_total,
+                "p_fn_num": p_fn,
+                "panicked_rn_num": len(p_reason),
+                "panicked_rn": p_reason,
+                "num_b0": len(error),
+                "fn_b0": error,
+                "unreachable_bn_total": u_total,
+                "unreachable_bn": unreachable,
+                "compile_err_num": len(compile_e),
+                "compile_err": compile_e
+        }
+
+        obj_rr = {
+                "fn_total": fn_total,
+                "p_total": p_total,
+                "p_fn_num": p_fn,
+                "panicked_rn_num": len(p_reason),
+                "panicked_rn": p_reason,
+                "num_b0": len(error),
+                "fn_b0": error,
+                "unreachable_bn_total": u_total,
+                "unreachable_bn": unreachable,
+                "compile_err_num": len(compile_e),
+                "compile_err": compile_e_rr
+        }
+
+        f.close()
+
+        if "--rerun" in sys.argv:
+            p = os.path.join(w.m_rerun, m)
+            o = obj_rr
+        else:
+            p = os.path.join(w.m_summary, m)
+            o = obj
+        with open(p, "w") as f_:
+            print("writing summary for " + m[:-5] + " to " + p.split("/")[-2])
+            o = json.dumps(o)
+            f_.write(o)    
+
+
+def write_all():
+    w = wksp()
+   
+    mir_dir = os.listdir(w.m)
+    
+    for m in mir_dir:
+        if os.path.exists(os.path.join(w.m_summary, m)):
+            print("mir summary for " + m + " already exists")
+            continue
+        else:
+            print("writing mir summary for " + m + "...")
+            summary_wksp(m)    
+
+
 def main():
     args = []
     for arg in sys.argv:
         if "--" not in arg:
             args.append(arg)
 
-    if "--rs" in sys.argv:
-        reset(args[1] + ".json")
-        return
     if "--wr" in sys.argv and "--a" in sys.argv:
         write_all()
         return
