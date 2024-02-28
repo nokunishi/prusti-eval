@@ -54,8 +54,10 @@ def collect_imports(mir):
                 for help in err[e]["help"]:
                     if  "consider importing" in help:
                         where = err[e]["where"].split(":")[0]
-                        help = help.split("importing:")[1].strip()
-                            
+                        try:
+                            help = help.split("importing:")[1].strip()
+                        except:
+                            continue
                         if where in files:
                             i = 0
                             while i < len(imports):
@@ -83,7 +85,7 @@ def rerun(crate):
         k = [*var.keys()][0]
         fm.set_var(k, var[k])   
 
-    imports = collect_imports(os.path.join(w.m_summary, crate))
+    imports = collect_imports(os.path.join(w.m_report, crate))
     fm.fix_c_err(imports)
 
     if len(imports) == 0 and len(vars) == 0:
@@ -93,7 +95,7 @@ def rerun(crate):
 
 def main():
     w = wksp()
-    mirs = os.listdir(w.m_summary)
+    mirs = os.listdir(w.m_report)
 
     try:
         args = []

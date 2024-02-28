@@ -1,4 +1,4 @@
-import os, sys, shutil, shutil
+import os, sys, json, shutil
 from pathlib import Path
 import run as rn
 
@@ -91,21 +91,51 @@ def set_var(path, vars):
             new.close()
         os.rename("new.rs", p)         
 
-def format(crate, file):
+def format(file):
+    fn_total = 0
     with open(file, "r") as f, open("new.rs", "w") as new:
-        imports = []
         for i, line in enumerate(f):
             if i == 0 and "#![feature(rustc_private)]" not in line:
                 new.write("#![feature(rustc_private)] \n")
             if not line.strip().startswith(";"):
                 new.write(line) 
+            if line.strip().startswith("fn") or line.strip().startswith("pub fn") \
+                or line.strip().startswith("unsafe fn"):
+                if "(" in line:
+                    fn_total += 1
         f.close()
         new.close()
     os.rename("new.rs", file)
-    return imports
+    return fn_total
+
+def count_total_fns():
+    w = wksp()
+    crates = os.listdir(w.m_report)
+
+    for crate in crates:
+        crate = crate.replace(".json", "")
+        tmp = os.path.join(w.tmp, crate)
+
+        fn_total = 0
+        for file in rn.get_file(tmp, []):
+            fn_total += format(file)
+        
+        with open(os.path.join(w.m_report, crate + ".json"), "r") as f_, open("new.rs", "w") as new:
+            f = json.load(f_)
+            f["fn_total"] = fn_total
+
+            f = json.dumps(f)
+            new.write(f)
+            f_.close()
+            new.close()
+        os.rename("new.rs", os.path.join(w.m_report, crate + ".json"))
+
+    
+    for crate in os.listdir(w.m_rerun):
+        os.remove(os.path.join(w.m_report, crate))
 
 if __name__ == "__main__":
-    format(sys.argv[1])
+    count_total_fns()
             
 
     

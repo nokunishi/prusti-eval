@@ -21,7 +21,7 @@ def wksp():
 
 def reset_all():
     w = wksp()
-    shutil.rmtree(w.m_summary)
+    shutil.rmtree(w.m_report)
     shutil.rmtree(w.m_rerun)
     os.chdir(w.p)
     os.system("python3 run_x.py --rs")
@@ -31,8 +31,8 @@ def reset(m):
     w = wksp()
     print("removing mir for " + m)
     os.remove(os.path.join(w.m, m + ".json"))
-    if os.path.exists(os.path.join(w.m_summary, m + ".json")):
-        os.remove(os.path.join(w.m_summary, m + ".json"))
+    if os.path.exists(os.path.join(w.m_report, m + ".json")):
+        os.remove(os.path.join(w.m_report, m + ".json"))
     shutil.rmtree(os.path.join(w.tmp, m))
     os.remove(os.path.join(w.tmp, m + ".crate"))
     os.chdir(w.p)
@@ -64,12 +64,14 @@ def run_mir(crate, file):
     os.chdir(mir_rust);
     lock.acquire()
     os.system("cargo build")
-    fm.format(crate, file)
+    fn_num = fm.format(file)
     lock.release()
 
     print("extracting mir on " + file)
     e_file = file.replace(".rs", "-e.txt")
     os.system("cargo run " + file + " &> " + e_file)
+
+    return fn_num
 
 
 def run(crate):
@@ -84,22 +86,23 @@ def run(crate):
         files = [crate]
         mirs = []
 
+    fn_total = 0
     for f in files:
-        run_mir(crate, f)
+        fn_total += run_mir(crate, f)
 
     if "--d" not in sys.argv:
         mirs = mir.get_paths(crate_path, [])
 
     mir.summary_tmp(crate, mirs)
-    mir.summary_wksp(crate + ".json")
+    mir.summary_wksp(crate + ".json", fn_total)
     
    
 
 def main():
     if "mir" not in os.listdir(w.tmp):
         os.mkdir(w.m)
-    if not os.path.exists(w.m_summary):
-        os.mkdir(w.m_summary)
+    if not os.path.exists(w.m_report):
+        os.mkdir(w.m_report)
     if not os.path.exists(w.m_rerun):
         os.mkdir(w.m_rerun)
 

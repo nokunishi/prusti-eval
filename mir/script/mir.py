@@ -170,12 +170,12 @@ def summary_tmp(crate, mirs):
         f_.write(f)
         f_.close()
 
-def summary_wksp(m):
+def summary_wksp(m, fn_total):
     w = wksp()
     with open(os.path.join(w.m, m), "r") as f:
         crate = m.replace(".json", "")
         f_ = json.load(f)
-        fn_total = 0
+        fn_mir = 0
         p_total = 0
         p_reason = []
         error = []
@@ -192,7 +192,7 @@ def summary_wksp(m):
                 for fn_lists in file_list[file_name]:
                     for fn in fn_lists.keys():
                         name = file_name + "/" + fn
-                        fn_total += 1
+                        fn_mir += 1
                             
                         p_total += fn_lists[fn]["num_total"]
                         if  fn_lists[fn]["num_total"] != 0:
@@ -226,6 +226,7 @@ def summary_wksp(m):
             
         obj = {
                 "fn_total": fn_total,
+                "fn_mir": fn_mir,
                 "p_total": p_total,
                 "p_fn_num": p_fn,
                 "panicked_rn_num": len(p_reason),
@@ -240,6 +241,7 @@ def summary_wksp(m):
 
         obj_rr = {
                 "fn_total": fn_total,
+                "fn_mir": fn_mir,
                 "p_total": p_total,
                 "p_fn_num": p_fn,
                 "panicked_rn_num": len(p_reason),
@@ -258,7 +260,7 @@ def summary_wksp(m):
             p = os.path.join(w.m_rerun, m)
             o = obj_rr
         else:
-            p = os.path.join(w.m_summary, m)
+            p = os.path.join(w.m_report, m)
             o = obj
         with open(p, "w") as f_:
             print("writing summary for " + m[:-5] + " to " + p.split("/")[-2])
@@ -272,11 +274,11 @@ def write_all():
     mir_dir = os.listdir(w.m)
     
     for m in mir_dir:
-        if os.path.exists(os.path.join(w.m_summary, m)):
-            print("mir summary for " + m + " already exists")
+        if os.path.exists(os.path.join(w.m_report, m)):
+            print("mir report for " + m + " already exists")
             continue
         else:
-            print("writing mir summary for " + m + "...")
+            print("writing mir report for " + m + "...")
             summary_wksp(m)    
 
 
