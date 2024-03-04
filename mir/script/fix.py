@@ -24,7 +24,7 @@ def get_fn_submod(f):
     return root
 
 
-def recreate(arr, key, obj):
+def paniced_rn(arr, key, obj):
     for a in arr:
         if key in a:
             a[key].append(obj)
@@ -52,36 +52,62 @@ def remove_duplicate(f):
                 if len(p_) > 1:
                     p_ = p_[0] + "/" + p_[1]
                     if {[*r.keys()][0]: p_} not in fns_submod:
-                        r_ = recreate(r_, [*r.keys()][0], obj)
+                        r_ =  paniced_rn(r_, [*r.keys()][0], obj)
                         fns.append(p)
                     else:
                         f["p_total"] -= obj[p]
                 else:
-                    r_ = recreate(r_, [*r.keys()][0], obj)
+                    r_ =  paniced_rn(r_, [*r.keys()][0], obj)
                     fns.append(p)
             else:
-                r_ = recreate(r_, [*r.keys()][0], obj)
+                r_ = paniced_rn(r_, [*r.keys()][0], obj)
                 fns.append(p)
 
     fns = list(dict.fromkeys(fns))
     f["fn_mir"] -=  f["p_fn_num"] -len(fns)
     f["p_fn_num"] = len(fns)
 
-    for r in r_:
-        pass
-        #print(f["p_total"])
-        #print(r, sep= "\n")
+    o = {
+        "fn_total": f["fn_total"],
+        "fn_mir": f["fn_mir"],
+        "p_total": f["p_total"],
+        "p_fn_num": f["p_fn_num"],
+        "panicked_rn_num": f["panicked_rn_num"],
+        "panicked_rn": r_,
+        "num_b0": f["num_b0"],
+        "fn_b0": f["fn_b0"],
+         "unreachable_bn_total": f["unreachable_bn_total"],
+         "unreachable_bn": f["unreachable_bn"],
+         "compile_err_num": f["compile_err_num"],
+         "compile_err": f["compile_err"]
+    }
+
+    return o
 
 def main():
     w = wksp()
     mirs = os.listdir(w.m_report)
     m_rerun = os.listdir(w.m_rerun)
 
-    for mir in mirs:
-        if mir == "tokio-timer-0.3.0-alpha.6.json":
-        #if mir == "ucd-util-0.1.7.json":
-            with open(os.path.join(w.m_report, mir)) as f_:
-                f = json.load(f_)
-                remove_duplicate(f)
+    for mir in mirs:  
+        with open(os.path.join(w.m_report, mir)) as f_:
+            f = json.load(f_)
+            obj = remove_duplicate(f)
+            obj = json.dumps(obj)
+            f_.close()
+
+        with open(os.path.join(w.m_report, mir), "w") as f:
+            f.write(obj)
+
+    for mir in m_rerun:
+        with open(os.path.join(w.m_rerun, mir)) as f_:
+            f = json.load(f_)
+            obj = remove_duplicate(f)
+            obj = json.dumps(obj)
+            f_.close()
+
+        with open(os.path.join(w.m_rerun, mir), "w") as f:
+            f.write(obj)
+
                 
 main()

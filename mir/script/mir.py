@@ -23,7 +23,7 @@ def get_paths(path, mirs):
     return mirs
 
 
-def extract(mir, list):
+def extract(mir, crate, list):
     total = 0
     reasons = []
     r_tmp = []
@@ -49,6 +49,15 @@ def extract(mir, list):
                     else:
                         reasons.append({l.split('"')[1]: 1})
                         r_tmp.append(l.split('"')[1])
+                if "core::panicking::panic" in l:
+                    if l.split('(')[1] in r_tmp:
+                        for reason in reasons:
+                            if [*reason.keys()][0] == l.split('"')[1]:
+                                reason[l.split('"')[1]] += 1
+                    else:
+                        reasons.append({l.split('"')[1]: 1})
+                        r_tmp.append(l.split('"')[1])
+
                 if "unreachable;" in l:
                     unreachable += 1
 
@@ -57,7 +66,9 @@ def extract(mir, list):
         raise Exception("mir file missing (likely failed to build file)")
 
     file_name = mir.split("/")[-1].split("-")[0]
+    mir = mir.replace("/tmp/" + crate + "/", "")
     obj = {  
+        "path": mir,
         "num_total": total,
         "num_reasons": len(reasons),
         "reasons": reasons,
@@ -122,12 +133,12 @@ def error_extract(mir, error):
                         j += 1
                     else:
                         break
-                if "note" in f_[j]:
+                if  j < len(f_) and "note" in f_[j]:
                     note.append(f_[j].replace("= note:", "").replace("note:", "").strip())
                 if j + 1 < len(f_) and "note" in f_[j + 1]:
                     note.append(f_[j + 1].replace("= note:", "").replace("note:", "").strip())
 
-                if "help" in f_[j]:
+                if  j < len(f_) and "help" in f_[j]:
                     help = parse_help_mgs(f_, j, help)
 
                 if j + 1 < len(f_) and "help" in f_[j + 1]:
@@ -158,7 +169,7 @@ def summary_tmp(crate, mirs):
     error = []
     for mir in mirs:
         if "-e" not in mir:
-            list = extract(mir, list)
+            list = extract(mir, crate, list)
         else:
             error = error_extract(mir, error)
 
@@ -191,7 +202,7 @@ def summary_wksp(m, fn_total):
             for file_name in file_list.keys():
                 for fn_lists in file_list[file_name]:
                     for fn in fn_lists.keys():
-                        name = file_name + "/" + fn
+                        name = fn_lists[fn]["path"]
                         fn_mir += 1
                             
                         p_total += fn_lists[fn]["num_total"]
@@ -297,7 +308,7 @@ def main():
     else:
         mirs = get_paths("/tmp/" + args[1], [])
         summary_tmp(args[1], mirs)
-        summary_wksp(args[1] + ".json")
+        summary_wksp(args[1] + ".json", -1)
 
 if __name__ == "__main__":
     main()
