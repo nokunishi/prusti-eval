@@ -3,6 +3,8 @@ from pathlib import Path
 
 cwd = os.getcwd()
 
+# TODO ignore test assertions failures!
+
 class Stats:
     crate = 0
     fn_total = 0

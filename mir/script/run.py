@@ -1,6 +1,7 @@
 import os, sys, threading, shutil, json
 from pathlib import Path
-import mir, format as fm, rerun as rr
+import mir_tmp as mt, mir_wksp as mw
+import format as fm, rerun as rr
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -91,10 +92,10 @@ def run(crate):
         fn_total += run_mir(crate, f)
 
     if "--d" not in sys.argv:
-        mirs = mir.get_paths(crate_path, [])
+        mirs = mt.get_paths(crate_path, [])
 
-    mir.summary_tmp(crate, mirs)
-    mir.summary_wksp(crate + ".json", fn_total)
+    mt.summary_tmp(crate, mirs)
+    mw.summary_wksp(crate + ".json", fn_total)
     
    
 
