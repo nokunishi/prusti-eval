@@ -6,8 +6,26 @@ cwd = os.getcwd()
 w = wksp()
 lock = threading.Lock()
 
-unreachable = 'const "internal error: entered unreachable code")'
-
+def equal(r, r_p):
+    if "add" in r_p and "+" in r:
+        return True
+    if "subtract" in r_p and "-" in r:
+        return True
+    if "multiply" in r_p and "*" in r:
+        return True
+    if "divide" in r_p and "/" in r:
+        return True
+    if "remainder" in r_p and "remainder" in r:
+        return True
+    if "unreachable!(..)" in r_p and \
+         'const "internal error: entered unreachable code"' in r:
+        return True
+    if "panic!(..)" in r_p and 'const "explicit panic"' in r:
+        return True
+    if "index" in r_p and "index" in r:
+        return True
+    else:
+        return False
 
 def get_lns(crate, fn):
     if "::" in fn:
@@ -31,26 +49,6 @@ def get_lns(crate, fn):
         f_.close()
     return start, end
 
-def equal(r, r_p):
-    if "add" in r_p and "+" in r:
-        return True
-    if "subtract" in r_p and "-" in r:
-        return True
-    if "multiply" in r_p and "*" in r:
-        return True
-    if "divide" in r_p and "/" in r:
-        return True
-    if "remainder" in r_p and "remainder" in r:
-        return True
-    if "unreachable!(..)" in r_p and unreachable in r:
-        return True
-    if "panic!(..)" in r_p and 'const "explicit panic"' in r:
-        return True
-    if "index" in r_p and "index" in r:
-        return True
-    else:
-        return False
-
 
 def prusti_err(err):
     p_lines = []
@@ -66,10 +64,24 @@ def prusti_err(err):
         e.close()
     return p_lines
 
+def crate(k):
+    crates = []
+    for e in os.listdir(w.m_eval):
+        with open(os.path.join(w.m_eval, e), "r") as f_:
+            f = json.load(f_)
+            if len(f[k]) > 0:
+                crates.append(e)
+
+            f_.close()
+    
+    for c in crates:
+        print(c, sep="\n")
+
 
 def compare(mir, p_lines):
     eq = []
     ne = []
+    mir_only = []
 
     with open(mir, "r") as m:
         mir_panics = json.load(m)["panicked_rn"]
@@ -87,12 +99,14 @@ def compare(mir, p_lines):
                     tmp = os.path.join(w.tmp, mir.split("/")[-1].replace(".json", ""), file)
                     start, end = get_lns(tmp, fn)
 
+                inPrusti = False
                 for p in p_lines:
                     file_p = [*p.keys()][0].split(":")[0]
-                    line = int([*p.keys()][0].split(":")[1])
+                    ln_p = int([*p.keys()][0].split(":")[1])
                     r_p = p[[*p.keys()][0]]
 
-                    if start <= line and line <= end and file_p == file:
+                    if start <= ln_p and ln_p <= end and file_p == file:
+                        inPrusti = True
                         if equal(r, r_p):
                             inlist = False
                             for obj in eq:
@@ -106,13 +120,24 @@ def compare(mir, p_lines):
                         else:
                             ne.append({"fn": fn, "path": l["path"], "mir":r, "prusti": r_p})
 
+
+                if not inPrusti:
+                    inlist = False
+                    for obj in mir_only:
+                        if [*obj.keys()][0] == r:
+                            obj[r].append({"fn": fn, "path": l["path"]})
+                            inlist = True
+
+                    if not inlist:
+                        mir_only.append({r: [{"fn": fn, "path": l["path"]}] })
                                               
 
         m.close()
     with open(os.path.join(w.m_eval, mir.split("/")[-1].strip()), "w") as f:
         obj = {
             "match": eq,
-            "mismatch": ne
+            "mismatch": ne,
+            "mir_only": mir_only 
         }
         obj = json.dumps(obj)
         f.write(obj)
@@ -145,6 +170,14 @@ def main():
 
     if not os.path.exists(w.m_eval):
         os.mkdir(w.m_eval)
+    
+    if "--mm" in sys.argv:
+        crate("mismatch")
+        return
+    if "--mo" in sys.argv:
+        crate("mir_only")
+        return
+    
     run()
 
 
