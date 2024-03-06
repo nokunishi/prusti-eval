@@ -158,7 +158,7 @@ def summary_wksp(m, fn_total):
             p = os.path.join(w.m_rerun, m)
             o = obj_rr
         else:
-            p = os.path.join(w.m_report, m)
+            p = os.path.join(w.m_rprt, m)
             o = obj
         with open(p, "w") as f_:
             print("writing summary for " + m[:-5] + " to " + p.split("/")[-2])

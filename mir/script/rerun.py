@@ -77,7 +77,7 @@ def rerun(crate):
         k = [*var.keys()][0]
         fm.set_var(k, var[k])   
 
-    imports = collect_imports(os.path.join(w.m_report, crate))
+    imports = collect_imports(os.path.join(w.m_rprt, crate))
     fm.fix_c_err(imports)
 
     if len(imports) == 0 and len(vars) == 0:

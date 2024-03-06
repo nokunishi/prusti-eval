@@ -1,27 +1,24 @@
 import os, sys, threading, json
 from run import prusti_panicked
+from w import wksp
 
 cwd = os.getcwd()
+w = wksp()
 lock = threading.Lock()
 
 unreachable = 'const "internal error: entered unreachable code")'
 
-def wksp():
-    from dotenv import load_dotenv
-    load_dotenv()
-    sys.path.insert(1, os.getenv('ROOT'))
-    from workspace import Wksp as w
-    return w
-
 
 def get_lns(crate, fn):
+    if "::" in fn:
+        fn = fn.split("::")[1]
 
     with open(crate, "r") as f_:
         f = f_.readlines()
         i = 0
 
         while i < len(f):
-            if "fn " + fn + "(" in f[i] or "fn " + fn + "<" in f[i] :
+            if "fn " + fn + "(" in f[i] or "fn " + fn + "<" in f[i]:
                  start, j = i, i
 
                  while j < len(f):
@@ -71,7 +68,6 @@ def prusti_err(err):
 
 
 def compare(mir, p_lines):
-    w = wksp()
     eq = []
     ne = []
 
@@ -113,13 +109,16 @@ def compare(mir, p_lines):
                                               
 
         m.close()
-   # with open(os.path.join(w.m_eval, w.date()), "w") as f:
-        
-
+    with open(os.path.join(w.m_eval, mir.split("/")[-1].strip()), "w") as f:
+        obj = {
+            "match": eq,
+            "mismatch": ne
+        }
+        obj = json.dumps(obj)
+        f.write(obj)
                 
 
 def run():
-    w = wksp()
     mirs = os.listdir(w.m_rprt)
     m_rerun = os.listdir(w.m_rerun)
     panicked = prusti_panicked()
@@ -138,9 +137,9 @@ def run():
                 os.system("python3 run_x.py " + mir.replace(".json", ""))
                 lock.release()
             
-            if 'adler32-1.0.4.json' in mir:
-                p_lines = prusti_err(err)
-                compare(m, p_lines)
+            p_lines = prusti_err(err)
+            compare(m, p_lines)
+
 def main():
     w = wksp()
 
