@@ -4,7 +4,6 @@ from run import prusti_panicked
 cwd = os.getcwd()
 lock = threading.Lock()
 
-
 unreachable = 'const "internal error: entered unreachable code")'
 
 def wksp():
