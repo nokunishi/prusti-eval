@@ -1,15 +1,9 @@
 import os, sys, json, shutil
-from pathlib import Path
+from w import wksp
 import run as rn
 
 cwd = os.getcwd()
 
-def wksp():
-    from dotenv import load_dotenv
-    load_dotenv()
-    sys.path.insert(1, os.getenv('ROOT'))
-    from workspace import Wksp as w
-    return w
 
 def get_dirs(path, dirs):
     root_dir = os.listdir(path)
@@ -28,10 +22,10 @@ def comment(line):
 
 
 def fix_c_err(imports):
+    w = wksp()
+    
     if len(imports) == 0:
         return
-
-    w = wksp()
 
     for i in imports:
         file = [*i][0]
@@ -94,15 +88,27 @@ def set_var(path, vars):
 def format(file):
     fn_total = 0
     with open(file, "r") as f, open("new.rs", "w") as new:
-        for i, line in enumerate(f):
+        f_ = f.readlines()
+        i = 0
+        while i < len(f_):
+            line = f_[i]
             if i == 0 and "#![feature(rustc_private)]" not in line:
                 new.write("#![feature(rustc_private)] \n")
-            if not line.strip().startswith(";"):
+            
+            skip = False
+            if line.strip().startswith("#[cfg(") and not "#[cfg(test)]" in line:
+                if i + 1 < len(f_):
+                    if f_[i+1].strip().startswith("impl") or \
+                        f_[i+1].strip().startswith("fn") or f_[i+1].strip().startswith("pub fn"):
+                        skip = True
+            if not line.strip().startswith(";") and not skip:
                 new.write(line) 
             if line.strip().startswith("fn") or line.strip().startswith("pub fn") \
                 or line.strip().startswith("unsafe fn"):
                 if "(" in line:
                     fn_total += 1
+
+            i += 1
         f.close()
         new.close()
     os.rename("new.rs", file)

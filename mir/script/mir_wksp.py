@@ -1,11 +1,5 @@
 import sys, json, os
-
-def wksp():
-    from dotenv import load_dotenv
-    load_dotenv()
-    sys.path.insert(1, os.getenv('ROOT'))
-    from workspace import Wksp as w
-    return w
+from w import wksp
 
 def get_fn_submod(p_rn):
     root = []
@@ -39,8 +33,7 @@ def remove_duplicate(p_rn, fn_mir, p_total,  p_fn_num):
 
     for r in p_rn:
         for obj in r[[*r.keys()][0]]:
-            p = [*obj.keys()][0]
-
+            p = obj["fn"]
             if (p.startswith("mod") or p.startswith("lib")):
                 p_ = p.split("/")[1].split("::")
                 
@@ -83,12 +76,11 @@ def summary_wksp(m, fn_total):
         unreachable = []
         u_total = 0
             
-            
         for file_list in f_["result"]:
             for file_name in file_list.keys():
                 for fn_lists in file_list[file_name]:
                     for fn in fn_lists.keys():
-                        name = fn_lists[fn]["path"]
+                        name = fn_lists[fn]["fn_name"]
                         fn_mir += 1
                             
                         p_total += fn_lists[fn]["num_total"]
@@ -99,20 +91,18 @@ def summary_wksp(m, fn_total):
                             inlist = False
                             for p_obj in p_reason:
                                 if r == [*p_obj.keys()][0]:
-                                    inlistf = False
-                                    for p in p_obj[r]:
-                                        if name == [*p.keys()][0]:
-                                            p[name] += r_obj[r]
-                                            inlistf = True
-                                    if not inlistf:
-                                        p_obj[r].append({
-                                            name : r_obj[r]
-                                        })
+                                    p_obj[r].append({
+                                        "fn": name,
+                                        "path": fn_lists[fn]["path"], 
+                                        "count": r_obj[r]
+                                    })
                                     inlist = True
                             if not inlist:
                                 p_reason.append({
                                     r : [{
-                                        name : r_obj[r]
+                                        "fn": name,
+                                        "path": fn_lists[fn]["path"], 
+                                        "count": r_obj[r]
                                     }]
                                 })
                         if fn_lists[fn]["num_blocks"] == "0":

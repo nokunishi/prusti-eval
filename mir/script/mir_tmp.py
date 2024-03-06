@@ -1,13 +1,9 @@
-import os, sys, json, shutil
+import os, sys, json
+from w import wksp
 
 cwd = os.getcwd()
 
-def wksp():
-    from dotenv import load_dotenv
-    load_dotenv()
-    sys.path.insert(1, os.getenv('ROOT'))
-    from workspace import Wksp as w
-    return w
+
 
 def get_paths(path, mirs):
     dir_list = os.listdir(path)
@@ -91,7 +87,7 @@ def extract(mir, crate, list):
     total = 0
     reasons = []
     r_tmp = []
-    w = wksp()
+    path = ""
     unreachable = 0
     try:
         fn = mir.split("/")[-1].split("-")[1]
@@ -100,11 +96,14 @@ def extract(mir, crate, list):
 
     try:
         with open(mir, "r") as f:
+
             j = 0
             for l in f:
+                if l.strip().startswith("path:"):
+                    path = l.strip().replace("/tmp/" + crate + "/", "").split("path:")[1].strip()
                 if l.strip().startswith("bb") and l.strip().endswith("{"):
                     j = l.strip().split(" ")[0].replace("bb", "").replace(":", "")
-                if "assert(!" in l:
+                if "assert(" in l:
                     total += 1
                     if l.split('"')[1] in r_tmp:
                         for reason in reasons:
@@ -130,9 +129,10 @@ def extract(mir, crate, list):
         raise Exception("mir file missing (likely failed to build file)")
 
     file_name = mir.split("/")[-1].split("-")[0]
-    mir = mir.replace("/tmp/" + crate + "/", "")
+    fn_name = mir.replace("/tmp/" + crate + "/", "").replace(".txt", "")
     obj = {  
-        "path": mir,
+        "fn_name": fn_name,
+        "path": path,
         "num_total": total,
         "num_reasons": len(reasons),
         "reasons": reasons,

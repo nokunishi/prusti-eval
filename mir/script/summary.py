@@ -1,5 +1,5 @@
 import os, sys, json, datetime
-from pathlib import Path
+from w import wksp
 
 cwd = os.getcwd()
 
@@ -34,14 +34,6 @@ class Obj:
 
     def inc(self, val):
         self.count += val
-
-
-def wksp():
-    from dotenv import load_dotenv
-    load_dotenv()
-    sys.path.insert(1, os.getenv('ROOT'))
-    from workspace import Wksp as w
-    return w
 
 
 def panic_rn(s, list, rerun):
@@ -112,8 +104,8 @@ def read(file, s, rerun):
 
 
 def main():
-    w = wksp()
     s = Stats()
+    w = wksp()
 
     mir = os.listdir(w.m_report)
     mir_re = os.listdir(w.m_rerun)

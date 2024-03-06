@@ -1,17 +1,9 @@
 import os, sys, json
 from pathlib import Path
-import format as fm
-import run as rn
+import format as fm, run as rn
+from w import wksp
 
 cwd = os.getcwd()
-
-def wksp():
-    from dotenv import load_dotenv
-    load_dotenv()
-    sys.path.insert(1, os.getenv('ROOT'))
-    from workspace import Wksp as w
-    return w
-
 
 def collect_global_var(crate):
     p = os.path.join("/tmp", crate.replace(".json", ""))

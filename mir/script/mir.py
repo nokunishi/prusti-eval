@@ -1,12 +1,6 @@
-import os, sys, json, shutil
+import os, sys
 import mir_tmp as mt, mir_wksp as mw
-
-def wksp():
-    from dotenv import load_dotenv
-    load_dotenv()
-    sys.path.insert(1, os.getenv('ROOT'))
-    from workspace import Wksp as w
-    return w
+from w import wksp
 
 def write_all():
     w = wksp()
@@ -14,7 +8,7 @@ def write_all():
     mir_dir = os.listdir(w.m)
     
     for m in mir_dir:
-        if os.path.exists(os.path.join(w.m_report, m)):
+        if os.path.exists(os.path.join(w.m_rprt, m)):
             print("mir report for " + m + " already exists")
             continue
         else:
