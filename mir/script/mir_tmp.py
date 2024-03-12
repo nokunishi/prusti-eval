@@ -3,8 +3,6 @@ from w import wksp
 
 cwd = os.getcwd()
 
-
-
 def get_paths(path, mirs):
     dir_list = os.listdir(path)
 
@@ -177,3 +175,6 @@ def summary_tmp(crate, mirs):
         f_.write(f)
         f_.close()
 
+
+if __name__ == "__main__":
+    summary_tmp(crate, mirs)

@@ -1,10 +1,5 @@
 import os, json, sys
-from pathlib import Path
-
-from dotenv import load_dotenv
-load_dotenv()
-sys.path.insert(1, os.getenv('ROOT'))
-from workspace import Wksp as w
+from w import wksp
 
 run_prusti_file = '(bin "run_prusti")'
 unsupported_feature = "[Prusti: unsupported feature]"
@@ -14,6 +9,7 @@ non_rust_warnings = ["warning", "warnings", "prusti", "Prusti", "generated", "(l
                      run_prusti_file, "`name`", "`ver`", '`cmd`']
 verification_error = "error: [Prusti: verification error]"
 
+w = wksp()
 
 def parse(log):
     if ".txt" in log:

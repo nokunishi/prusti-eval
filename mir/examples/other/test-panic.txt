@@ -1,0 +1,14 @@
+fn panic(_1: &i32) -> () {
+    debug y => _1;
+    let mut _0: ();
+    let mut _2: !;
+
+    bb0: {
+        _2 = std::rt::begin_panic::<&str>(const "explicit panic") -> bb1;
+    }
+
+    bb1 (cleanup): {
+        resume;
+    }
+}
+path: ./test/test.rs:15:12: 15:13 (#0)

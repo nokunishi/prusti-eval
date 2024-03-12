@@ -13,12 +13,15 @@ tmp_toml
 /mir/script/__pycache__
 /prusti/__pycache__
 
+
 /mir/mir-rust/test.rs
 /mir/mir-rust/test
 /mir/examples/target
 /mir/mir-rust/target
 ./test.rs
 /scripts/__pycache__
+/mir/script/test.rs
+/mir/script/mir.rs
 
 /mir/test
 

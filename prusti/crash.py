@@ -1,16 +1,5 @@
-import os, json, datetime, sys
-
-from dotenv import load_dotenv
-load_dotenv()
-sys.path.insert(1, os.getenv('ROOT'))
-from workspace import Wksp as w
-
-c_reports = os.listdir(w.c_report)
-date_ = str(datetime.datetime.now()).split(" ")
-date = date_[0] + "-" + date_[1]
-summaries = os.listdir(w.c_summary)
-summary_path = summaries + "/" + date + ".json"
-
+import os, json, sys
+from w import wksp
 
 class Stats:
     reason = {}
@@ -19,6 +8,8 @@ class Stats:
 
 def eval():
     s = Stats()
+    w = wksp()
+    c_reports = os.listdir(w.c_report)
 
     for c in c_reports:
         with open(os.path.join(w.c_report, c), "r") as f: 
@@ -38,9 +29,9 @@ def eval():
                             "crates": [c[:-4]]
                         }
                     else:
-                        if c[:-4] not in s.reason[lines[i+1]]["crates"]:
+                        if c.replace(".txt", "") not in s.reason[lines[i+1]]["crates"]:
                             s.reason[lines[i+1]]["num"] += 1
-                            s.reason[lines[i+1]]["crates"].append(c[:-4])
+                            s.reason[lines[i+1]]["crates"].append(c.replace(".txt", ""))
 
                 if "called" in line:
                     words = line.split(" ");
@@ -71,8 +62,8 @@ def eval():
     }
 
     json_stats = json.dumps(stats, indent= 8)
-    with open(summary_path, "w") as f:
-        print("writing to summary")
+    with open(os.path.join(w.c_summary, w.date() + ".json"), "w") as f:
+        print("writing summary")
         f.write(json_stats)
 
 if __name__ == '__main__':

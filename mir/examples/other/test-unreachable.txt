@@ -1,0 +1,14 @@
+fn unreachable(_1: &i32) -> () {
+    debug y => _1;
+    let mut _0: ();
+    let mut _2: !;
+
+    bb0: {
+        _2 = core::panicking::panic(const "internal error: entered unreachable code") -> bb1;
+    }
+
+    bb1 (cleanup): {
+        resume;
+    }
+}
+path: ./test/test.rs:19:18: 19:19 (#0)

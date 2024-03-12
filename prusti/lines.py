@@ -1,21 +1,14 @@
 import os, sys, json
 import pandas as pd
-import csv, datetime
+import csv
+from w import wksp
 
-from dotenv import load_dotenv
-load_dotenv()
-sys.path.insert(1, os.getenv('ROOT'))
-from workspace import Wksp as w
-
+w =wksp()
+summary_csv_path = w.dir + "/line_summary" + "/summary-" + w.date() + ".csv"
 
 header = "Crate-Version,Number of Lines,Number of Functions";
 line_index = 1;
 fn_index = 2;
-
-date_ = str(datetime.datetime.now()).split(" ")
-date = date_[0] + "-" + date_[1]
-
-summary_csv_path = w.dir + "/line_summary" + "/summary-" + date + ".csv"
 
 def get_file(path, file_lists):
     dir_list = os.listdir(path)
@@ -35,7 +28,7 @@ def get_file(path, file_lists):
 def count_num_fn(name, paths, report):
     num_fn = 0;
     num_lines = 0;
-    fns = panicky_fns(report)
+    fns = crashed_fns(report)
     num_fn_calls = {}
     for fn in fns:
         num_fn_calls[fn] = 0;
@@ -123,7 +116,8 @@ def summary():
     df.to_csv(summary_csv_path, mode = "a", index=False, header = True)
     
 
-def panicky_fns(report):
+def crashed_fns(report):
+    w = wksp()
     panicked_fns = [];
 
     with open(os.path.join(w.p_eval, report), "r") as f:
@@ -143,12 +137,10 @@ def run():
     if len(sys.argv) < 2:
         print("invalid number of args")
         return
-
-    os.system("python3 ./x.py run --bin setup_crates err_report") 
-
-    if not os.path.isfile(summary_csv_path):
-        with open(summary_csv_path, "w"):
-            print("summary.csv created")
+    
+    for arg in sys.argv:
+        if ".json" in arg:
+            p = arg
 
     if "-a" in sys.argv:
         crates = os.listdir("/tmp");
@@ -158,10 +150,10 @@ def run():
 
                 if crate_ in crates: 
                     count_num_fn(crate, get_file("/tmp/" + crate, []), 
-                            "log/panic_summary/2024-01-28-12:56:14.194899.json")
+                                os.path.join(w.c_summary, p))
     else:
         count_num_fn(sys.argv[2], get_file("/tmp/" + sys.argv[2], []), 
-                            "workspace/panic_summary/2024-01-28-12:56:14.194899.json")
+                                os.path.join(w.c_summary, p))
         
     summary()
         

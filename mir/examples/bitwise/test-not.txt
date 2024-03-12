@@ -1,0 +1,24 @@
+fn not(_1: &u32) -> () {
+    debug x => _1;
+    let mut _0: ();
+    let mut _2: u32;
+    let mut _3: &u32;
+    scope 1 {
+    }
+
+    bb0: {
+        _3 = _1;
+        _2 = <&u32 as std::ops::Not>::not(move _3) -> [return: bb1, unwind: bb2];
+    }
+
+    bb1: {
+        PlaceMention(_2);
+        _0 = const ();
+        return;
+    }
+
+    bb2 (cleanup): {
+        resume;
+    }
+}
+path: ./test/test.rs:21:11: 21:12 (#0)
