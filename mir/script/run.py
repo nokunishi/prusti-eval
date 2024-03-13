@@ -1,8 +1,9 @@
 import os, sys, threading, shutil, json
 from pathlib import Path
 import mir_tmp as mt, mir_wksp as mw
-import format as fm, rerun as rr
+import format as fm,  collect as c
 from w import wksp
+
 
 cwd = os.getcwd()
 w = wksp()
@@ -28,72 +29,78 @@ def reset(m):
     os.chdir(w.p)
     os.system("python3 run_x.py --e")
 
-def prusti_panicked():
-    list = []
-    for file in os.listdir(w.p_err):
-         with open(os.path.join(w.p_err, file), "r") as f_:
-            f = json.load(f_)
-
-            if f["verification_failed_num_total"] > 0 and file not in list:
-                for r in f["verification_failed_reason"]:
-                    if "assertion might fail" in r or "might be reachable" in r or \
-                        "bounds" in r or "range" in r:
-                        list.append(file)
-    return list
-
-def get_file(path, file_lists):
-    dir_list = os.listdir(path)
-
-    for dir in dir_list:
-        dir_path = os.path.join(path, dir)
-
-        if not os.path.isfile(dir_path):
-            file_lists = get_file(dir_path, file_lists)
-        elif ".rs" in dir_path and dir_path not in file_lists:
-            if "lib.rs" in dir_path or "mod.rs" in dir_path:
-                file_lists.insert(0, dir_path)
-            else:
-                file_lists.append(dir_path)
-
-    return file_lists
-
 def setup_tmp():
     lock.acquire()
     os.chdir(w.p)
     os.system("python3 run_x.py --e",)
     lock.release()
 
-def run_mir(crate, file):
+
+def setup():
+    if not os.path.exists(w.m_dir):
+        os.mkdir(w.m_dir)
+    if not os.path.exists(w.m_s):
+        os.mkdir(w.m_s)
+    if not os.path.exists(w.m_rprt):
+        os.mkdir(w.m_rprt)
+    if not os.path.exists(w.m_rerun):
+        os.mkdir(w.m_rerun)
+    if not os.path.exists(w.m_eval):
+        os.mkdir(w.m_eval)
+
+def get_mir(crate, file):
     os.chdir(mir_rust);
     lock.acquire()
     os.system("cargo build")
-    fn_num = fm.format(file)
+    fn, line = fm.format(file)
     lock.release()
 
     print("extracting mir on " + file)
     e_file = file.replace(".rs", "-e.txt")
     os.system("cargo run " + file + " &> " + e_file)
 
-    return fn_num
+    return fn, line
 
-
-def get_mir(crate):
+def mir(crate):
     crate_path= os.path.join("/tmp/" + crate)
-    files = get_file(crate_path, [])
+    files = c.get_file(crate_path, [])
 
     os.system("cargo clean")
     os.chdir(Path(crate_path))
     os.system("cargo build")
 
     fn_total = 0
+    ln_total = 0
+
     for f in files:
-        fn_total += run_mir(crate, f)
+        fn, ln = get_mir(crate, f)
+        fn_total += fn
+        ln_total += ln
 
     mirs = mt.get_paths(crate_path, [])
 
     mt.summary_tmp(crate, mirs)
-    mw.summary_wksp(crate + ".json", fn_total)
+    mw.summary_wksp(crate + ".json", fn_total, ln_total)
+
+  
+def rerun(crate):
+    w = wksp()
+    if not crate.strip().endswith(".json"):
+        crate += ".json"
+
+    vars = c.global_var(crate)
     
+    for var in vars:
+        k = [*var.keys()][0]
+        fm.set_var(k, var[k])   
+
+    imports = c.imports(os.path.join(w.m_rprt, crate))
+    fm.fix_c_err(imports)
+
+    if len(imports) == 0 and len(vars) == 0:
+        return False
+    else:
+        return True
    
 def run(n, list): 
     mirs = os.listdir(w.m)
@@ -102,6 +109,7 @@ def run(n, list):
         i = 0
         while i < n:
             run = False
+
             if "--pr" in sys.argv:
                 crate = list[i].replace(".json", "")
                 run = True
@@ -114,10 +122,10 @@ def run(n, list):
                     n += 1
                 else:
                     print("Running on :" + crate)
-                    get_mir(crate)
-                    if "--run" not in sys.argv and rr.rerun(crate):
+                    mir(crate)
+                    if "--run" not in sys.argv and rerun(crate):
                         sys.argv.append("--rerun")
-                        get_mir(crate)
+                        mir(crate)
                     else:
                         print("no need to rerun")
             else:
@@ -130,10 +138,10 @@ def run(n, list):
         for arg in sys.argv:
             if ".py" not in arg and not "--" in arg:
                 print("Running on :" + arg)
-                get_mir(arg)
-                if "--run" not in sys.argv and rr.rerun(arg):
+                mir(arg)
+                if "--run" not in sys.argv and rerun(arg):
                         sys.argv.append("--rerun")
-                        get_mir(arg)
+                        mir(arg)
                 else:
                     print("no need to rerun")
             if "--rerun" in sys.argv:
@@ -141,18 +149,12 @@ def run(n, list):
         return 
 
 def main():
-    if "mir" not in os.listdir(w.tmp):
-        os.mkdir(w.m)
-    if not os.path.exists(w.m_rprt):
-        os.mkdir(w.m_report)
-    if not os.path.exists(w.m_rerun):
-        os.mkdir(w.m_rerun)
-
-    tmps = os.listdir(w.tmp)
-
     if len(sys.argv) < 2:
         print("invalid number of args")
         return
+    
+    setup()
+    tmps = os.listdir(w.tmp)
     
     if "--rs" in sys.argv:
         if "--a" in sys.argv:
@@ -165,12 +167,12 @@ def main():
         reset(crate)
         return
 
-    setup = True
+    setup_tmp = True
     for tmp in tmps:
         if ".crate" in tmp:
-            setup = False
+            setup_tmp = False
 
-    if setup:
+    if setup_tmp:
         setup_tmp()
         os.chdir(cwd)
         tmps = os.listdir(w.tmp)
@@ -186,10 +188,10 @@ def main():
 
     if "--pr" in sys.argv:
         if n == 0:
-            run(len(prusti_panicked()), prusti_panicked())
+            run(len(c.prusti_err()), c.prusti_err())
             return
         else:
-            run(n, prusti_panicked())
+            run(n, c.prusti_err())
             return
 
     if "--a" in sys.argv:

@@ -1,67 +1,10 @@
 import sys, json, os
+import collect as c
 from w import wksp
 
-def get_fn_submod(p_rn):
-    root = []
-    for r in p_rn:
-        for obj in r[[*r.keys()][0]]:
-            p = [*obj.keys()][0]
+w = wksp()
 
-            if not p.startswith("mod") and not p.startswith("lib"):
-                root.append({[*r.keys()][0]: p})
-
-    return root
-
-
-def paniced_rn(arr, key, obj):
-    for a in arr:
-        if key in a:
-            a[key].append(obj)
-            return arr
-        
-    o_ = {
-        key: [obj]
-    }
-    arr.append(o_)
-    return arr
-
-def remove_duplicate(p_rn, fn_mir, p_total,  p_fn_num):
-    fns_submod = get_fn_submod(p_rn)
-
-    r_ = []
-    fns = []
-
-    for r in p_rn:
-        for obj in r[[*r.keys()][0]]:
-            p = obj["fn"]
-            if (p.startswith("mod") or p.startswith("lib")):
-                p_ = p.split("/")[1].split("::")
-                
-                if len(p_) > 1:
-                    p_ = p_[0] + "/" + p_[1]
-                    if {[*r.keys()][0]: p_} not in fns_submod:
-                        r_ =  paniced_rn(r_, [*r.keys()][0], obj)
-                        fns.append(p)
-                    else:
-                        p_total -= obj[p]
-                else:
-                    r_ =  paniced_rn(r_, [*r.keys()][0], obj)
-                    fns.append(p)
-            else:
-                r_ = paniced_rn(r_, [*r.keys()][0], obj)
-                fns.append(p)
-
-    fns = list(dict.fromkeys(fns))
-    fn_mir -=  p_fn_num -len(fns)
-    p_fn_num = len(fns)
-
-    return r_, fn_mir, p_total, p_fn_num
-
-
-
-
-def summary_wksp(m, fn_total):
-    w = wksp()
+def summary_wksp(m, fn_total, line_total):
     with open(os.path.join(w.m, m), "r") as f:
         crate = m.replace(".json", "")
         f_ = json.load(f)
@@ -76,14 +19,14 @@ def summary_wksp(m, fn_total):
         unreachable = []
         u_total = 0
             
-        for file_list in f_["result"]:
-            for file_name in file_list.keys():
-                for fn_lists in file_list[file_name]:
+        for f_list in f_["result"]:
+            for f_name in f_list.keys():
+                for fn_lists in f_list[f_name]:
                     for fn in fn_lists.keys():
                         name = fn_lists[fn]["fn_name"]
                         fn_mir += 1
-                            
                         p_total += fn_lists[fn]["num_total"]
+
                         if  fn_lists[fn]["num_total"] != 0:
                             p_fn += 1
                         for r_obj in fn_lists[fn]["reasons"]:
@@ -110,11 +53,6 @@ def summary_wksp(m, fn_total):
                         if not fn_lists[fn]["num_blocks"] == "0" and fn_lists[fn]["unreachable"]:
                             unreachable.append({name: fn_lists[fn]["unreachable"]})
                             u_total += fn_lists[fn]["unreachable"]
-
-
-        p_reason, fn_mir, p_total, p_fn = remove_duplicate(p_reason, fn_mir, p_total, p_fn);
-
-                
         for e in f_["error"]:
             r = [*e.keys()][0]
             if r not in compile_e_rr:
@@ -124,6 +62,7 @@ def summary_wksp(m, fn_total):
             
         obj = {
                 "fn_total": fn_total,
+                "line_total": line_total,
                 "fn_mir": fn_mir,
                 "p_total": p_total,
                 "p_fn_num": p_fn,
@@ -139,6 +78,7 @@ def summary_wksp(m, fn_total):
 
         obj_rr = {
                 "fn_total": fn_total,
+                "line_total": line_total,
                 "fn_mir": fn_mir,
                 "p_total": p_total,
                 "p_fn_num": p_fn,
@@ -164,3 +104,15 @@ def summary_wksp(m, fn_total):
             print("writing summary for " + m[:-5] + " to " + p.split("/")[-2])
             o = json.dumps(o)
             f_.write(o)    
+
+
+
+def fix(crate):
+    with open(os.path.join(w.m_rprt, crate)) as f_:
+        f = json.load(f_)
+        summary_wksp(crate, f["fn_total"], f["line_total"])
+
+
+if __name__ == "__main__":
+    for m in os.listdir(w.m_rprt):
+        fix(m)

@@ -28,7 +28,7 @@ def parse_help_mgs(f_, j, help):
     help.append(word)
     return help
 
-def error_extract(mir, error):
+def e_extract(mir, error):
     with open(mir, "r") as f:
         f_ = f.readlines()
         i = 0
@@ -81,7 +81,7 @@ def error_extract(mir, error):
         f.close()
     return error
 
-def extract(mir, crate, list):
+def m_extract(mir, crate, list):
     total = 0
     reasons = []
     r_tmp = []
@@ -101,7 +101,7 @@ def extract(mir, crate, list):
                     path = l.strip().replace("/tmp/" + crate + "/", "").split("path:")[1].strip()
                 if l.strip().startswith("bb") and l.strip().endswith("{"):
                     j = l.strip().split(" ")[0].replace("bb", "").replace(":", "")
-                if "assert(" in l:
+                if '"attempt to' in l or '"assertion failed:' in l:
                     total += 1
                     if l.split('"')[1] in r_tmp:
                         for reason in reasons:
@@ -111,6 +111,7 @@ def extract(mir, crate, list):
                         reasons.append({l.split('"')[1]: 1})
                         r_tmp.append(l.split('"')[1])
                 if "core::panicking::panic" in l:
+                    total += 1
                     if l.split('(')[1] in r_tmp:
                         for reason in reasons:
                             if [*reason.keys()][0] == l.split('"')[1]:
@@ -155,18 +156,12 @@ def extract(mir, crate, list):
 def summary_tmp(crate, mirs):
     w = wksp()
     list = []
-    if os.path.exists(os.path.join(w.m, crate + ".json")) and "--rerun" not in sys.argv:
-        print("mir for this file exists already")
-        if input("Do you want to overwrite it?: (y or n) ") == "n":
-            return
-    
     error = []
     for mir in mirs:
         if "-e" not in mir:
-            list = extract(mir, crate, list)
+            list = m_extract(mir, crate, list)
         else:
-            error = error_extract(mir, error)
-
+            error = e_extract(mir, error)
     with open(os.path.join(w.m, crate + ".json"), "w") as f_:
         f = {"result": [], "error": error}
         for obj in list:
@@ -175,6 +170,14 @@ def summary_tmp(crate, mirs):
         f_.write(f)
         f_.close()
 
+    
+def fix(crate):
+    w = wksp()
+    p = os.path.join(w.tmp, crate)
+    summary_tmp(crate, get_paths(p,[]))
+
 
 if __name__ == "__main__":
-    summary_tmp(crate, mirs)
+    w = wksp()
+    for m in os.listdir(w.m_rprt):
+        fix(m.replace(".json", ""))

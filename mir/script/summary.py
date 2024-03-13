@@ -8,6 +8,7 @@ cwd = os.getcwd()
 class Stats:
     crate = 0
     fn_total = 0
+    ln_total = 0
     fn_mir = 0
     p_total = 0
     p_fn_num = 0
@@ -41,8 +42,7 @@ def panic_rn(s, list, rerun):
         k = [*p_obj.keys()][0]
         k_total = 0
         for p_ in p_obj[k]:
-            k_ = [*p_.keys()][0]
-            k_total += p_[k_]
+            k_total += p_["count"]
             
         inlist = False
         for obj in s.panicked_rn:
@@ -52,6 +52,71 @@ def panic_rn(s, list, rerun):
             
         if not inlist:
             s.panicked_rn.append(Obj(k, k_total))
+
+def to_list(arr, key, obj):
+    for a in arr:
+        if key in a:
+            a[key].append(obj)
+            return arr
+        
+    o_ = {
+        key: [obj]
+    }
+    arr.append(o_)
+    return arr
+
+
+def rm_duplicate(p_rn, fn_mir):
+    r_new = []
+    p_total_ = 0
+    fns = []
+
+    i = 0
+    j = 0
+
+    for r in p_rn:
+        rsn = [*r.keys()][0]
+        for obj in r[rsn]:
+            fn = obj["fn"]
+            p = obj["path"]
+            c = obj["count"]
+
+            inlist = False
+            for obj_ in r_new:
+                r = [*obj_.keys()][0]
+                if r == rsn:
+                    for o in obj_[r]:
+                        if o["path"] == p:
+                            inlist = True
+                    if not inlist:
+                        obj_[r].append({
+                            "fn": fn,
+                            "path": p,
+                            "count": c
+                        })
+
+                        if fn not in fns:
+                            fns.append(fn)
+                        p_total_ += c
+                    else:
+                        i += 1
+                        j += c
+                    inlist= True
+            if not inlist:
+                r_new.append({
+                    rsn: [{
+                        "fn": fn,
+                        "path": p,
+                        "count": c
+                    }]
+                })
+                if fn not in fns:
+                    fns.append(fn)
+                p_total_ += c
+
+    fn_mir -= i
+    return r_new, fn_mir, p_total_, len(fns)
+
 
 def compile_err(s, list, rerun):
     if len(s.compile_err) == 0:
@@ -88,35 +153,59 @@ def compile_err(s, list, rerun):
             s.compile_err[7].inc(1)
 
 def read(file, s, rerun):
-    with open(file, "r") as f_:
+    with open(file, "r") as f_, open("new.json", "w") as new:
         f = json.load(f_)
+
+        r, fn_m, p, p_fn = rm_duplicate(f["panicked_rn"], f["fn_mir"])
         s.crate += 1
         s.fn_total += f["fn_total"]
-        s.fn_mir += f["fn_mir"]
-        s.p_total += f["p_total"]
-        s.p_fn_num += f["p_fn_num"]
+        s.ln_total += f["line_total"]
+        s.fn_mir += fn_m
+        s.p_total += p
+        s.p_fn_num += p_fn
         s.num_b0 += f["num_b0"]
         s.unreachable_bn += f["unreachable_bn_total"]
         s.compile_err_num += f["compile_err_num"]
 
-        panic_rn(s, f["panicked_rn"], rerun)       
+        panic_rn(s, r, rerun)       
         compile_err(s, f["compile_err"], rerun)
 
+        obj = {
+            "fn_total": f["fn_total"],
+            "line_total": f["line_total"],
+            "fn_mir":  fn_m,
+            "p_total": p,
+            "p_fn_num":  p_fn,
+            "panicked_rn_num": len(r),
+            "panicked_rn": r,
+            "num_b0": f["num_b0"],
+            "fn_b0": f["fn_b0"] ,
+            "unreachable_bn_total": f["unreachable_bn_total"],
+            "unreachable_bn": f["unreachable_bn"],
+            "compile_err_num": f["compile_err_num"],
+            "compile_err": f["compile_err"],
+        }
+
+        obj = json.dumps(obj)
+        new.write(obj)
+
+        f_.close()
+        new.close()
+        os.rename("new.json", file)
 
 def main():
     s = Stats()
     w = wksp()
 
-    mir = os.listdir(w.m_report)
+    mir = os.listdir(w.m_rprt)
     mir_re = os.listdir(w.m_rerun)
     i = 0
 
     for m in mir:
         if m not in mir_re:
-            read(os.path.join(w.m_report, m), s, False)  
+            read(os.path.join(w.m_rprt, m), s, False)  
         else:
             read(os.path.join(w.m_rerun, m), s, True)   
-    
     s.compile_err.sort(key = lambda x: x.count, reverse=True)
     c_err = []
     for e in s.compile_err:
@@ -130,6 +219,7 @@ def main():
     obj = {
         "crate_num": s.crate,
         "fn_total": s.fn_total,
+        "line_total": s.ln_total,
         "fn_mir": s.fn_mir,
         "p_total": s.p_total,
         "p_fn_num": s.p_fn_num,
@@ -144,7 +234,7 @@ def main():
     obj = json.dumps(obj)
     date_ = str(datetime.datetime.now()).split(" ")
     date = date_[0] + "-" + date_[1]
-    with open(os.path.join(w.m_summary, "mir-" + date +  ".json"), "w") as f:
+    with open(os.path.join(w.m_s, "mir-" + date +  ".json"), "w") as f:
         print("writing to mir summary...")
         f.write(obj)
 

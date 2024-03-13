@@ -1,14 +1,41 @@
-import os, sys, json
-from pathlib import Path
-import format as fm, run as rn
+import os, json
 from w import wksp
 
-cwd = os.getcwd()
+w = wksp()
 
-def collect_global_var(crate):
+def get_file(path, file_lists):
+    dir_list = os.listdir(path)
+
+    for dir in dir_list:
+        dir_path = os.path.join(path, dir)
+
+        if not os.path.isfile(dir_path):
+            file_lists = get_file(dir_path, file_lists)
+        elif ".rs" in dir_path and dir_path not in file_lists:
+            if "lib.rs" in dir_path or "mod.rs" in dir_path:
+                file_lists.insert(0, dir_path)
+            else:
+                file_lists.append(dir_path)
+
+    return file_lists
+
+def prusti_err():
+    list = []
+    for file in os.listdir(w.p_err):
+         with open(os.path.join(w.p_err, file), "r") as f_:
+            f = json.load(f_)
+
+            if f["verification_failed_num_total"] > 0 and file not in list:
+                for r in f["verification_failed_reason"]:
+                    if "assertion might fail" in r or "might be reachable" in r or \
+                        "bounds" in r or "range" in r:
+                        list.append(file)
+    return list
+
+def global_var(crate):
     p = os.path.join("/tmp", crate.replace(".json", ""))
     try:
-        list = rn.get_file(p, [])
+        list = c.get_file(p, [])
     except:
         list = [p]
     roots = []
@@ -34,7 +61,7 @@ def collect_global_var(crate):
             vars.remove(v)   
     return vars   
 
-def collect_imports(mir):
+def imports(mir):
     with open(mir, "r") as f_:
         f = json.load(f_)
         imports = []
@@ -64,55 +91,3 @@ def collect_imports(mir):
                 
         f_.close()
         return imports
-
-  
-def rerun(crate):
-    w = wksp()
-    if not crate.strip().endswith(".json"):
-        crate += ".json"
-
-    vars = collect_global_var(crate)
-    
-    for var in vars:
-        k = [*var.keys()][0]
-        fm.set_var(k, var[k])   
-
-    imports = collect_imports(os.path.join(w.m_rprt, crate))
-    fm.fix_c_err(imports)
-
-    if len(imports) == 0 and len(vars) == 0:
-        return False
-    else:
-        return True
-
-def main():
-    w = wksp()
-    mirs = os.listdir(w.m_report)
-
-    try:
-        args = []
-        for arg in sys.argv:
-            if "--" not in arg:
-                args.append(arg)
-        n = int(args[1])
-    except:
-        n = 0
-
-    if "--a" in sys.argv:
-        n = len(mirs)
-    if n > 0:
-        i = 0
-        while i < n:
-            rerun(mirs[i])
-            i += 1
-        return 
-    else:
-        for arg in sys.argv:
-            if ".py" not in arg and not "--" in arg:
-                if not arg.strip().endswith(".json"):
-                    arg += ".json"
-                rerun(arg)
-        return 
-
-if __name__ == "__main__":
-    main()

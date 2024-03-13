@@ -112,36 +112,8 @@ def format(file):
         f.close()
         new.close()
     os.rename("new.rs", file)
-    return fn_total
+    return fn_total, len(f_)
 
-def count_total_fns():
-    w = wksp()
-    crates = os.listdir(w.m_report)
-
-    for crate in crates:
-        crate = crate.replace(".json", "")
-        tmp = os.path.join(w.tmp, crate)
-
-        fn_total = 0
-        for file in rn.get_file(tmp, []):
-            fn_total += format(file)
-        
-        with open(os.path.join(w.m_report, crate + ".json"), "r") as f_, open("new.rs", "w") as new:
-            f = json.load(f_)
-            f["fn_total"] = fn_total
-
-            f = json.dumps(f)
-            new.write(f)
-            f_.close()
-            new.close()
-        os.rename("new.rs", os.path.join(w.m_report, crate + ".json"))
-
-    
-    for crate in os.listdir(w.m_rerun):
-        os.remove(os.path.join(w.m_report, crate))
-
-if __name__ == "__main__":
-    count_total_fns()
             
 
     
