@@ -81,6 +81,8 @@ def rm_duplicate(p_rn, fn_mir):
             p = obj["path"]
             c = obj["count"]
 
+            f_name = obj["fn"].split("-")[0] + ".rs"
+
             inlist = False
             for obj_ in r_new:
                 r = [*obj_.keys()][0]
@@ -88,13 +90,13 @@ def rm_duplicate(p_rn, fn_mir):
                     for o in obj_[r]:
                         if o["path"] == p:
                             inlist = True
-                    if not inlist:
+                    
+                    if not inlist and f_name in obj["path"]:
                         obj_[r].append({
                             "fn": fn,
                             "path": p,
                             "count": c
                         })
-
                         if fn not in fns:
                             fns.append(fn)
                         p_total_ += c
@@ -102,7 +104,7 @@ def rm_duplicate(p_rn, fn_mir):
                         i += 1
                         j += c
                     inlist= True
-            if not inlist:
+            if not inlist and f_name in obj["path"]:
                 r_new.append({
                     rsn: [{
                         "fn": fn,

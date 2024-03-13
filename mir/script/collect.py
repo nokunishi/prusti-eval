@@ -35,7 +35,7 @@ def prusti_err():
 def global_var(crate):
     p = os.path.join("/tmp", crate.replace(".json", ""))
     try:
-        list = c.get_file(p, [])
+        list = get_file(p, [])
     except:
         list = [p]
     roots = []

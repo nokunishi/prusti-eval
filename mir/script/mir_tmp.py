@@ -129,6 +129,8 @@ def m_extract(mir, crate, list):
 
     file_name = mir.split("/")[-1].split("-")[0]
     fn_name = mir.replace("/tmp/" + crate + "/", "").replace(".txt", "")
+    if "=" in fn_name:
+        fn_name = fn_name.split("=")[0]
     obj = {  
         "fn_name": fn_name,
         "path": path,
