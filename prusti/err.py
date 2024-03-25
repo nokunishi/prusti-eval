@@ -165,10 +165,6 @@ def parse(crate, fn_n):
                 warning(s, line, detail, l_no)
             elif "[Prusti: internal error]" in line:
                 s.internal += 1
-            elif "thread 'rustc' panicked at" in line:
-                with open(os.path.join(w.c_r, crate + ".txt"), "w") as crash_report:
-                    crash_report.write(line)
-                crashed = True
             elif "error: [Prusti: verification error]" in line:
                 w_type = line.replace("error: [Prusti: verification error]", "").replace("\"", "").strip()
                 s.ve += 1;
@@ -181,8 +177,17 @@ def parse(crate, fn_n):
                     s.ve_reasons[w_type].append({
                         l_no: detail
                     }) 
+            elif "thread 'rustc' panicked at" in line and not crashed:
+                with open(os.path.join(w.c_r, crate + ".txt"), "a") as c_rprt:
+                    j = i
+                    while j < len(lines):
+                        c_rprt.write(lines[j])
+                        j += 1
+                    c_rprt.close()
+                crashed = True
         
             i += 1
+        f.close()
     if crashed:
         print("writing to panic_report for " + crate)
         
@@ -204,12 +209,14 @@ def parse(crate, fn_n):
 
     json_trace = json.dumps(trace, indent= 4)
 
-    with open(os.path.join(w.p_err, crate + ".json")  , "w") as outfile:
+    with open(os.path.join(w.p_err, crate + ".json")  , "w") as f:
         print("writing to json: " + crate)
-        outfile.write(json_trace)
+        f.write(json_trace)
+        f.close()
 
     p = os.path.join(w.t_l, crate)
     if os.path.exists(p):
+        print("deleting viper log files for " + crate)
         shutil.rmtree(p)
 
 def run(crate):
