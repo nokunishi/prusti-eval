@@ -2,7 +2,7 @@ import os, json, datetime, sys, csv
 from w import wksp
 
 w = wksp()
-err_reports = os.listdir(w.err)
+err_reports = os.listdir(w.p_err)
 
 class Stat:
     unsupported_total = 0
@@ -21,25 +21,9 @@ class Stat:
     crates_ommitted = [];
         
 
-
-def sync(crate, s):
-    report_path = sys.argv[2]
-
-     with open(os.path.join(w.p_eval, report_path), "r") as f:
-        reader = csv.reader(f, delimiter="\t")
-        for l_no, line in enumerate(reader):
-            rows_csv = line[0].split(",")[0]
-
-            if rows_csv == crate:      
-                return True
-
-        print(crate + " not found in line summary")
-        s.crates_ommitted.append(crate)
-        return False
-
 def eval(report, s):
     s.i += 1;
-    with open(os.path.join(w.err, report), "r") as f:
+    with open(os.path.join(w.p_err, report), "r") as f:
         f = json.load(f)
     
         s.unsupported_total += f["unsupported_feature_total_num"]
@@ -94,24 +78,7 @@ def run():
     s = Stat()
 
     for report in err_reports:
-        if "-s" in sys.argv:
-            report_name = report[:-5]
-            if sync(report_name, s):
-                eval(report, s)
-        else:
-            eval(report, s)
-                
-    if "-s" in sys.argv:
-        report_path = sys.argv[2]
-
-        with open(os.path.join(w.p_eval, report_path), "r") as f:
-            lines = f.read().splitlines()
-            lastline = lines[-1]
-            if not int(lastline.split(",")[0]) == s.i:
-                print("inconsistent number of crates")
-                print("# of crates in line summary: " + lastline.split(",")[0])
-                print("# of crates in error reports: " + s.i)
-                return
+        eval(report, s)
 
     s.unsupported  = dict(sorted(s.unsupported.items(),  key=lambda x: x[1]['num'], reverse=True))
     s.unsupported_detailed = dict(sorted(s.unsupported_detailed.items(), key=lambda x: x[1]['num'], reverse=True))

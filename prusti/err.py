@@ -1,265 +1,245 @@
-import os, json, sys
+import os, json, sys, shutil
 from w import wksp
 
-run_prusti_file = '(bin "run_prusti")'
-unsupported_feature = "[Prusti: unsupported feature]"
-internal_errors = "[Prusti: internal error]"
-warning = "warning:"
 non_rust_warnings = ["warning", "warnings", "prusti", "Prusti", "generated", "(lib)", "`" + os.getcwd() + "`", 
-                     run_prusti_file, "`name`", "`ver`", '`cmd`']
-verification_error = "error: [Prusti: verification error]"
+                     '(bin "run_prusti")', "`name`", "`ver`", '`cmd`']
 
 w = wksp()
 
-def parse(log):
-    if ".txt" in log:
-        err_file = log[:-4]
-    else:
-        err_file =  log + ".json"
-    err_file_path = os.path.join(w.err,  err_file)
+class Stats:
+    us_detailed = {}
+    us = 0;
+    us_summary = {}
+    internal = 0;
+    rw_reasons = {}
+    rw = 0;
+    crashed =False
+    ve_reasons = {}
+    ve = 0;
 
-    if "--reset" not in sys.argv:
-        if os.path.exists(err_file_path):
-            print("err report for " + log + " exists already")
-            return
+def num_fn(crate):
+    p = os.path.join(w.t_l, crate)
+    try:
+        for d in os.listdir(p):
+            if d != "vir_program_before_foldunfold":
+                shutil.rmtree(os.path.join(p, d))
+        f = os.path.join(p, "vir_program_before_foldunfold")
+        fns = 0
+        for rust_f in os.listdir(f):
+            with open(os.path.join(f, rust_f), "r") as f_:
+                for l in f_:
+                    if l.strip().startswith("method ") and "(...)" in l:
+                        fns += 1
+    except:
+        return 0
+    
+    return fns
 
-    if "--reset" in sys.argv:
-        path = os.path.join(w.r, log)
-    else:
-        path = os.path.join(w.a, log)
 
-    with open(path, "r") as f:
+def parse_us(s, l):
+    s.us += 1
+    type = ""
+    l = l.split(" ")[1:]
+
+    for w in l:
+        if "?" in w or " " in w or "Val(" in w:
+            continue
+        if "{impl#" in w:
+            w = w.replace("{impl#", "")
+            for c in w:
+                if c.isnumeric():
+                    w = w.replace(c, "")
+            w = w.replace("}::", "")
+        if "'" in w:
+            w = w.replace("'", "")
+        type += w + " "
+    return type.strip()
+
+
+def parse_us_d(words):
+    w_len = len(words);
+    i = 0
+    while i < len(words):
+        w = words[i].strip()
+        if "~" in w:
+            if "::" in words[i + 1]:
+                crate = words[i + 1].split("::")[0]
+                if "[" in crate:
+                    crate = crate[:crate.index("[")]
+                words = words[:i]
+                words.append(crate)
+            else:
+                words = words[:i]
+        if "{" in w: 
+            words = words[:i]
+        if "(" in w:
+            w = w[:w.index("(")]
+            words = words[:i]
+            words.append(w)
+        if ";" in w:
+            w = w[:w.index(";")]
+            words = words[:i]
+            words.append(w)
+        if "std::" in w:
+            if "(" in w:
+                w = w[:w.index("(")]
+            else : 
+                err_word_ = w.split("::")
+                w = err_word_[0] + "::" + err_word_[1]
+            words = words[:i]
+            words.append(w)
+        i += 1
+    return words
+
+def unsupported(s, l, detail, l_no):
+    if l in s.us_detailed:
+        s.us_detailed[l].append({l_no: detail})
+    else: 
+        s.us_detailed[l] = [{l_no: detail}]
+    
+    words = parse_us_d(l.split(" "))
+
+    rsn_distinct = ""    
+    for w in words:
+        w = w.strip()
+        if "[" in w:
+            w = w.replace("[", "")
+        if "]" in w:
+            w = w.replace("]", "")
+        rsn_distinct += w + " "
+                
+    rsn_distinct = rsn_distinct.strip()
+
+    if not rsn_distinct in s.us_summary and len(rsn_distinct) > 0:
+        if not rsn_distinct == "unsupported constant type" and not rsn_distinct =="unsupported constant value":
+            s.us_summary[rsn_distinct] = [{l_no: detail}]
+        else: 
+            obj = {l_no: detail}
+            s.us_summary[rsn_distinct].append(obj) 
+
+def warning(s, line, detail, l_no):
+    for warn in non_rust_warnings:
+        if warn in line:
+            line = ""
+            break
+    w_line = line.split(" ")
+    w_type = ""
+    for err in w_line:
+        w_type += err + " "
+    w_type = w_type.strip()
+
+    if "src/bin/run_prusti.rs" not in l_no and len(w_type) > 0:
+        if not w_type in s.rw_reasons:
+            s.rw_reasons[w_type] = [{
+                l_no: detail
+                }]
+        else: 
+            s.rw_reasons[w_type].append({
+                l_no: detail
+            })
+        s.rw += 1;
+
+def parse(crate, fn_n):
+    with open(os.path.join(w.d_a, crate  + ".txt"), "r") as f:
         lines = f.readlines()
-
-        us_detailed = {}
-        us = 0;
-        us_summary = {}
-        internal = 0;
-        rw_reasons = {}
-        rw = 0;
-        panic_report =False
-        ve_reasons = {}
-        ve = 0;
-        
         i = 0 
+        crashed = False
         
-        
+        s = Stats()
         while i < len(lines) - 3:
             line = lines[i]
-            if unsupported_feature in line:
-                us += 1
-                err_line = line.replace("warning:", "").replace(unsupported_feature, "").split(" ")
-                err_type = ""
+            l_no = lines[i+1].replace(" ", "").replace("-", "").replace(">", "").strip();
+            detail = lines[i + 3]
 
-                for word in err_line: 
-                    index = err_line.index(word)
-                    err_word = ""
-                    if len(word) == 0:
-                        continue
-                    if word not in err_line:
-                        break
-                    if "?" in word or " " in word:
-                        word = ""
-                    if "{impl#" in word:
-                        word = word.replace("{impl#", "")
-                        for c in word:
-                            if c.isnumeric():
-                                word = word.replace(c, "")
-                        word = word.replace("}::", "")
-                    if ":" in word and not "::" in word:
-                        if not word.endswith(":"):
-                            word = ""
-                        else: 
-                            word = word[:-1]
-                    if "Val(" in word:
-                        word = ""
-                    if "'" in word:
-                        word = word.replace("'", "")
-                    err_line[index] = word
-                    err_type += word + " "
+            while detail[0].isdigit() or detail[0] == "/":
+                detail = detail[1:]
+            detail = detail[2:].strip()
+            
+            if "[Prusti: unsupported feature]" in line:
+                e_line = line.replace("[Prusti: unsupported feature]", "")
+                us = parse_us(s, e_line)
+                unsupported(s, us, detail, l_no)
 
-                err_type = err_type.strip()
-                err_l_no = lines[i + 1].replace(" ", "").replace("-", "").replace(">", "").strip()
-                err_l_detailed = lines[i + 3]
-
-                while err_l_detailed[0].isdigit() or err_l_detailed[0] == "/":
-                    err_l_detailed = err_l_detailed[1:]
-                err_l_detailed = err_l_detailed[2:].strip()
-
-                if not err_type in us_detailed:
-                    us_detailed[err_type] = [{
-                        err_l_no: err_l_detailed
-                    }]
-                else: 
-                    us_detailed[err_type].append({
-                        err_l_no: err_l_detailed
-                    })
-                
-                err_line_summary = err_line
-
-                for err_word in err_line_summary:
-                    if err_word in err_line_summary:
-                        index =err_line_summary.index(err_word)
-                        err_word = err_word.strip()
-                        if "~" in err_word:
-                            if "::" in err_line_summary[index + 1]:
-                                crate = err_line_summary[index + 1].split("::")[0]
-                                if "[" in crate:
-                                    crate = crate[:crate.index("[")]
-                                err_line_summary = err_line_summary[:index]
-                                err_line_summary.append(crate)
-                            else:
-                                err_line_summary = err_line_summary[:index]
-                        if "{" in err_word: 
-                            err_line_summary = err_line_summary[:index]
-                        if "(" in err_word:
-                            err_word = err_word[:err_word.index("(")]
-                            err_line_summary = err_line_summary[:index]
-                            err_line_summary.append(err_word)
-                        if ";" in err_word:
-                            err_word = err_word[:err_word.index(";")]
-                            err_line_summary = err_line_summary[:index]
-                            err_line_summary.append(err_word)
-                        if "std::" in err_word:
-                            if "(" in err_word:
-                                err_word = err_word[:err_word.index("(")]
-                            else : 
-                                err_word_ = err_word.split("::")
-                                err_word = err_word_[0] + "::" + err_word_[1]
-                            err_line_summary = err_line_summary[:index]
-                            err_line_summary.append(err_word)
-
-                err_type_distinct = ""    
-                for err_word in err_line_summary:
-                    err_word = err_word.strip()
-                    if "[" in err_word:
-                        err_word = err_word.replace("[", "")
-                    if "]" in err_word:
-                        err_word = err_word.replace("]", "")
-                    if not err_word == '':
-                        err_type_distinct += err_word + " "
-                
-                err_type_distinct = err_type_distinct.strip()
-                err_l_no_distinct = lines[i + 1].replace(" ", "").replace("-", "").replace(">", "").strip()
-                err_l_detailed_distinct = lines[i + 3]
-
-                while err_l_detailed_distinct[0].isdigit() or  err_l_detailed_distinct[0] == "/":
-                    err_l_detailed_distinct = err_l_detailed_distinct[1:]
-                err_l_detailed_distinct = err_l_detailed_distinct[2:].strip()
-
-                if not err_type_distinct in us_summary:
-                    if not err_type_distinct == "unsupported constant type" and not err_type_distinct =="unsupported constant value":
-                        us_summary[err_type_distinct] = [{
-                            err_l_no_distinct: err_l_detailed_distinct
-                        }]
-                else: 
-                    obj = {
-                        err_l_no_distinct: err_l_detailed_distinct
-                    }
-                    us_summary[err_type_distinct].append(obj) 
-
-            if warning in line and not unsupported_feature in line:
+            elif "warning:" in line:
                 line = line.replace("warning:", "").replace("\n", "")
-                for warn in non_rust_warnings:
-                    if warn in line:
-                        line = ""
-                        break
-                if len(line) > 0:
-                    err_line = line.split(" ")
-                    err_type = ""
-                    for err in err_line:
-                        err_type += err + " "
-                    err_type = err_type.strip()
-                    err_l_no = lines[i + 1].replace(" ", "").replace("-", "").replace(">", "").strip()
-                    err_l_detailed = lines[i + 3]
-
-                    while err_l_detailed[0].isdigit() or  err_l_detailed[0] == "/":
-                        err_l_detailed = err_l_detailed[1:]
-                    err_l_detailed = err_l_detailed[2:].strip()
-                    if not err_type in rw_reasons:
-                        rw_reasons[err_type] = [{
-                            err_l_no: err_l_detailed
-                        }]
-                    else: 
-                        rw_reasons[err_type].append({
-                            err_l_no: err_l_detailed
-                        })
-                    rw += 1;
-            if internal_errors in line:
-                internal += 1
-            if "thread 'rustc' panicked at" in line:
-                panic_report = True
-            if panic_report:
-                filename = os.path.join(w.dir, "panic_report", log)
-                with open(filename, "a") as crash_report:
+                warning(s, line, detail, l_no)
+            elif "[Prusti: internal error]" in line:
+                s.internal += 1
+            elif "thread 'rustc' panicked at" in line:
+                with open(os.path.join(w.c_r, crate + ".txt"), "w") as crash_report:
                     crash_report.write(line)
-            if verification_error in line:
-                err_type = line.replace(verification_error, "").replace("\"", "").strip()
-                ve += 1;
+                crashed = True
+            elif "error: [Prusti: verification error]" in line:
+                w_type = line.replace("error: [Prusti: verification error]", "").replace("\"", "").strip()
+                s.ve += 1;
                 
-                err_l_no = lines[i + 1].replace(" ", "").replace("-", "").replace(">", "").strip()
-                err_l_detailed = lines[i + 3]
-
-                while err_l_detailed[0].isdigit() or  err_l_detailed[0] == "/":
-                    err_l_detailed = err_l_detailed[1:]
-                err_l_detailed = err_l_detailed[2:].strip()
-
-                if  err_type not in ve_reasons:
-                    ve_reasons[err_type] = [{
-                            err_l_no: err_l_detailed
+                if  w_type not in s.ve_reasons and len(w_type) > 0:
+                    s.ve_reasons[w_type] = [{
+                            l_no: detail
                     }]
                 else: 
-                    ve_reasons[err_type].append({
-                        err_l_no: err_l_detailed
+                    s.ve_reasons[w_type].append({
+                        l_no: detail
                     }) 
         
             i += 1
-    if panic_report:
-        print("writing to panic_report: " + log)
+    if crashed:
+        print("writing to panic_report for " + crate)
         
     trace = {
-        "verification_failed_num_total": ve,
-        "verification_failed_num_distinct": len(ve_reasons),
-        "verification_failed_reason": ve_reasons,
-        "unsupported_feature_total_num": us,
-        "unsupported_summary_num": len(us_summary),
-        "unsupported_summary": us_summary,
-        "unsupported_detailed_num": len(us_detailed),
-        "unsupported_detailed": us_detailed,
-        "rust_warning_total_num":  rw,
-        "rust_warning_num": len(rw_reasons),
-        "rust_warning_reasons": rw_reasons,
-        "internal_err_total_num": internal,
-        "has_panic_reports": panic_report
+        "fn_total": fn_n, 
+        "verification_failed_num_total": s.ve,
+        "verification_failed_num_distinct": len(s.ve_reasons),
+        "verification_failed_reason": s.ve_reasons,
+        "unsupported_feature_total_num": s.us,
+        "unsupported_summary_num": len(s.us_summary),
+        "unsupported_summary": s.us_summary,
+        "unsupported_detailed_num": len(s.us_detailed),
+        "unsupported_detailed": s.us_detailed,
+        "rust_warning_total_num":  s.rw,
+        "rust_warning_num": len(s.rw_reasons),
+        "rust_warning_reasons": s.rw_reasons,
+        "internal_err_total_num": s.internal,
     }
 
     json_trace = json.dumps(trace, indent= 4)
 
-    with open(os.path.join(w.err, err_file)  , "w") as outfile:
-        print("writing to json: " + log)
+    with open(os.path.join(w.p_err, crate + ".json")  , "w") as outfile:
+        print("writing to json: " + crate)
         outfile.write(json_trace)
 
-    filename = os.path.join(w.c_report, log)
-    if panic_report and os.path.getsize(filename) == 0:
-        os.remove(filename)
-    
+    p = os.path.join(w.t_l, crate)
+    if os.path.exists(p):
+        shutil.rmtree(p)
+
+def run(crate):
+    e_rprt = os.path.join(w.p_err, crate + ".json")
+
+    if "--reset" not in sys.argv:
+        if os.path.exists(e_rprt):
+            print("err report for " + crate + " exists already")
+            return
+
+    parse(crate, num_fn(crate))
 
 
 def main():
-    results = os.listdir(w.a);
+    results = os.listdir(w.d_a);
 
     if len(sys.argv) < 2:
         print("invalid number of args")
         return
-    if "-a" in sys.argv:
+    if "--a" in sys.argv:
         if len(results) == 0:
             print("no txt file to extract data from")
             return
         for r in results:
-            parse(r)  
+            crate = r.replace(".txt", "")
+            if crate + ".json" not in os.listdir(w.p_err):
+                parse(crate, num_fn(crate))
         return
     else:
-        parse(sys.argv[3])
+        parse(sys.argv[1], num_fn(sys.argv[1]))
 
 
 if __name__ == '__main__':
