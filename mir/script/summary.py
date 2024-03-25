@@ -81,6 +81,9 @@ def rm_duplicate(p_rn, fn_mir):
             p = obj["path"]
             c = obj["count"]
 
+
+            if "=" in obj["fn"]:
+                f_name = f_name.split("=")[0]
             f_name = obj["fn"].split("-")[0] + ".rs"
 
             inlist = False

@@ -21,22 +21,22 @@ def summary_wksp(m, fn_total, line_total):
             
         for f_list in f_["result"]:
             for f_name in f_list.keys():
-                for fn_lists in f_list[f_name]:
-                    for fn in fn_lists.keys():
-                        name = fn_lists[fn]["fn_name"]
+                for txts in f_list[f_name]:
+                    for txt_name in txts.keys():
+                        name = txts[txt_name]["fn_name"]
                         fn_mir += 1
-                        p_total += fn_lists[fn]["num_total"]
+                        p_total += txts[txt_name]["num_total"]
 
-                        if  fn_lists[fn]["num_total"] != 0:
+                        if  txts[txt_name]["num_total"] != 0:
                             p_fn += 1
-                        for r_obj in fn_lists[fn]["reasons"]:
+                        for r_obj in txts[txt_name]["reasons"]:
                             r = [*r_obj.keys()][0]
                             inlist = False
                             for p_obj in p_reason:
                                 if r == [*p_obj.keys()][0]:
                                     p_obj[r].append({
                                         "fn": name,
-                                        "path": fn_lists[fn]["path"], 
+                                        "path": txts[txt_name]["path"], 
                                         "count": r_obj[r]
                                     })
                                     inlist = True
@@ -44,15 +44,16 @@ def summary_wksp(m, fn_total, line_total):
                                 p_reason.append({
                                     r : [{
                                         "fn": name,
-                                        "path": fn_lists[fn]["path"], 
+                                        "path": txts[txt_name]["path"], 
                                         "count": r_obj[r]
                                     }]
                                 })
-                        if fn_lists[fn]["num_blocks"] == "0":
+                        if txts[txt_name]["num_blocks"] == "0":
+                            fn_mir -= 1
                             error.append(name)
-                        if not fn_lists[fn]["num_blocks"] == "0" and fn_lists[fn]["unreachable"]:
-                            unreachable.append({name: fn_lists[fn]["unreachable"]})
-                            u_total += fn_lists[fn]["unreachable"]
+                        if not txts[txt_name]["num_blocks"] == "0" and txts[txt_name]["unreachable"]:
+                            unreachable.append({name: txts[txt_name]["unreachable"]})
+                            u_total += txts[txt_name]["unreachable"]
         for e in f_["error"]:
             r = [*e.keys()][0]
             if r not in compile_e_rr:
@@ -115,4 +116,5 @@ def fix(crate):
 
 if __name__ == "__main__":
     for m in os.listdir(w.m_rprt):
-        fix(m)
+        if not os.path.exists(os.path.join(w.r_e, m)):
+            fix(m)

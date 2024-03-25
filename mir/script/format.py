@@ -1,6 +1,6 @@
 import os, sys, json, shutil
 from w import wksp
-import run as rn
+import collect as c
 
 cwd = os.getcwd()
 
@@ -59,7 +59,7 @@ def set_var(path, vars):
         return 
 
     dir = os.path.abspath(os.path.join(path, os.pardir))
-    files =  rn.get_file(dir, [])
+    files =  c.get_file(dir, [])
 
     for p in files:
         if path == p:

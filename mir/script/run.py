@@ -7,8 +7,6 @@ from w import wksp
 
 cwd = os.getcwd()
 w = wksp()
-root = os.path.abspath(os.path.join(cwd, os.pardir))
-mir_rust = os.path.join(root, "mir-rust")
 lock = threading.Lock()
 
 
@@ -35,8 +33,9 @@ def setup_tmp():
     os.system("python3 run_x.py --e",)
     lock.release()
 
-
 def setup():
+    if not os.path.exists(w.m):
+        os.mkdir(w.m)
     if not os.path.exists(w.m_dir):
         os.mkdir(w.m_dir)
     if not os.path.exists(w.m_s):
@@ -49,7 +48,8 @@ def setup():
         os.mkdir(w.m_eval)
 
 def get_mir(crate, file):
-    os.chdir(mir_rust);
+    p = os.path.abspath(os.path.join(cwd, os.pardir))
+    os.chdir(os.path.join(p, "mir-rust"))
     lock.acquire()
     os.system("cargo build")
     fn, line = fm.format(file)
@@ -167,12 +167,12 @@ def main():
         reset(crate)
         return
 
-    setup_tmp = True
+    setup_ = True
     for tmp in tmps:
         if ".crate" in tmp:
-            setup_tmp = False
+            setup_ = False
 
-    if setup_tmp:
+    if setup_:
         setup_tmp()
         os.chdir(cwd)
         tmps = os.listdir(w.tmp)
