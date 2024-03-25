@@ -84,9 +84,38 @@ impl rustc_driver::Callbacks for Callbacks {
       let hir = tcx.hir();
       let mut i = 0;
 
+      hir.items().for_each(|id| 
+        {
+          // {println!("{:#?}", hir.item(id).kind);
+          
+          match hir.item(id).kind {
+            ItemKind::Fn(_, x, body) => {
+              println!("{:#?}", x);
+              let def_id = hir.body_owner_def_id(body);
+              let body_with_facts = borrowck_facts::get_body_with_borrowck_facts(tcx, def_id);
+    
+              compute_dependencies(tcx, body_with_facts,  x.where_clause_span);
+            },
+             _ => (),
+          }
+
+          match hir.item(id).kind {
+            ItemKind::Impl(body) => {
+              for item in body.items {
+                let def_id =  item.id.owner_id.def_id;
+                let body_with_facts = borrowck_facts::get_body_with_borrowck_facts(tcx, def_id);
+                compute_dependencies(tcx, body_with_facts, item.span);
+              }
+            }
+               _ => (),
+          }
+        }
+      );
+        
+
       // NOTE: hir.items()... has to be called everytime 
       // for the mir to be proudced correctly
-      while hir.items().filter_map(|id| match hir.item(id).kind {
+     /*  while hir.items().filter_map(|id| match hir.item(id).kind {
             ItemKind::Fn(_, _, body) => Some(body),
             _ => None,
       }).nth(i).is_some() {
@@ -98,6 +127,7 @@ impl rustc_driver::Callbacks for Callbacks {
         
         let mut seen = false;
         for param in x.params {
+
           if !seen {
             let def_id = hir.body_owner_def_id(body_id);
             let body_with_facts = borrowck_facts::get_body_with_borrowck_facts(tcx, def_id);
@@ -131,8 +161,8 @@ impl rustc_driver::Callbacks for Callbacks {
           }
 
       j += 1;
-      }
-    });
+      }*/
+    }); 
 
     rustc_driver::Compilation::Stop
   }
