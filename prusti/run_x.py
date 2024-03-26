@@ -1,6 +1,6 @@
 import os, sys, shutil, threading
 from w import wksp
-import err
+import crates
 
 w = wksp()
 lock = threading.Lock()
@@ -19,10 +19,10 @@ def setup():
 
     if not os.path.exists(w.p_dir):
         os.mkdir(w.p_dir)
-    if not os.path.exists(w.p_err):
-        os.mkdir(w.p_err)
-    if not os.path.exists(w.p_eval):
-        os.mkdir(w.p_eval)
+    if not os.path.exists(w.p_c):
+        os.mkdir(w.p_c)
+    if not os.path.exists(w.p_s):
+        os.mkdir(w.p_s)
     if not os.path.exists(w.c_dir):
         os.mkdir(w.c_dir)
     if not os.path.exists(w.c_s):
@@ -58,7 +58,6 @@ def reset_tmp_failed_tar():
         if tmp not in os.getenv('TMP_KEY'):
             shutil.rmtree('/tmp/' + tmp)
 
-
 def download():
     if not os.getcwd() == w.root:
         os.chdir(w.root)
@@ -86,12 +85,12 @@ def run(arg):
     if arg > 0:
         tmp = os.listdir(w.tmp)
         archive = os.listdir(w.d_a)
-        e_reports = os.listdir(w.p_err)
+        e_reports = os.listdir(w.p_c)
 
         i = 0
 
         while i < arg and i < len(tmp): 
-            crate =  tmp[i].replace(".crate", "")
+            crate = tmp[i].replace(".crate", "")
             crate_txt = tmp[i].replace(".crate", ".txt")
             e_report = tmp[i].replace(".crate", ".json")
 
@@ -106,7 +105,7 @@ def run(arg):
                     lock.acquire()
                     os.system("python3 ./x.py run --bin run_prusti clippy &> " + w.d_a + "/" + crate_txt + " " + crate)
                     lock.release()
-                    err.run(crate)
+                    crates.run(tmp[i].replace(".crate", ""))
                 else:
                     arg += 1
             i += 1
@@ -115,14 +114,16 @@ def run(arg):
         lock.acquire()
         os.system("python3 ./x.py run --bin run_prusti clippy &> " + w.d_a + "/" + crate + ".txt" + " " + crate)
         lock.release()
-        err.run(crate)
+        crates.run(crate)
 
         
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         print("invalid number of args")
         raise Exception
-    run(int(sys.argv[1]))
+    download()
+    if sys.argv[1].isdigit():
+        run(int(sys.argv[1]))
 
 
 

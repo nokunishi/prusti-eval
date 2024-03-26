@@ -21,8 +21,8 @@ def get_file(path, file_lists):
 
 def prusti_err():
     list = []
-    for file in os.listdir(w.p_err):
-         with open(os.path.join(w.p_err, file), "r") as f_:
+    for file in os.listdir(w.p_c):
+         with open(os.path.join(w.p_c, file), "r") as f_:
             f = json.load(f_)
 
             if f["verification_failed_num_total"] > 0 and file not in list:

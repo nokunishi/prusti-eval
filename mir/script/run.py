@@ -110,7 +110,7 @@ def run(n, list):
         while i < n:
             run = False
 
-            if "--pr" in sys.argv:
+            if "--pr" in sys.argv or "--cr" in sys.argv:
                 crate = list[i].replace(".json", "")
                 run = True
             elif ".crate" in list[i]:
@@ -150,6 +150,10 @@ def run(n, list):
 
 def main():
     if len(sys.argv) < 2:
+        print("invalid number of args")
+        return
+
+    if len(sys.argv) == 2 and sys.argv[1].isdigit():
         print("invalid number of args")
         return
     
@@ -194,12 +198,23 @@ def main():
             run(n, c.prusti_err())
             return
 
-    if "--a" in sys.argv:
-        run(len(tmps), tmps)
-        return
+    if "--tmp" in sys.argv:
+        if "--a" in sys.argv:
+            run(len(tmps), tmps)
+            return
+        else:
+            run(n, tmps)
+            return
+    if "--cr" in sys.argv:
+        fs = os.listdir(w.p_c)
+        if "--a" in sys.argv:
+            run(len(fs), fs)
+            return
+        else:
+            run(n, fs)
+            return
     else:
-        run(n, tmps)
-        return
+        run(1, [sys.argv[1]])
 
 if __name__ == "__main__":
     main()

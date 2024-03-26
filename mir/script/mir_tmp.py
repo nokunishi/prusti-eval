@@ -110,7 +110,7 @@ def m_extract(mir, crate, list):
                     else:
                         reasons.append({l.split('"')[1]: 1})
                         r_tmp.append(l.split('"')[1])
-                if "core::panicking::panic" in l:
+                if "!core::panicking::panic(const" in l or '(const "explicit panic")' in l:
                     total += 1
                     if l.split('(')[1] in r_tmp:
                         for reason in reasons:

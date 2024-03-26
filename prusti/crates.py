@@ -1,10 +1,11 @@
-import os, json, sys, shutil
+import os, json, sys, shutil, threading
 from w import wksp
 
 non_rust_warnings = ["warning", "warnings", "prusti", "Prusti", "generated", "(lib)", "`" + os.getcwd() + "`", 
                      '(bin "run_prusti")', "`name`", "`ver`", '`cmd`']
 
 w = wksp()
+lock = threading.Lock()
 
 class Stats:
     us_detailed = {}
@@ -209,7 +210,7 @@ def parse(crate, fn_n):
 
     json_trace = json.dumps(trace, indent= 4)
 
-    with open(os.path.join(w.p_err, crate + ".json")  , "w") as f:
+    with open(os.path.join(w.p_c, crate + ".json")  , "w") as f:
         print("writing to json: " + crate)
         f.write(json_trace)
         f.close()
@@ -217,10 +218,12 @@ def parse(crate, fn_n):
     p = os.path.join(w.t_l, crate)
     if os.path.exists(p):
         print("deleting viper log files for " + crate)
+        lock.acquire()
         shutil.rmtree(p)
+        lock.release()
 
 def run(crate):
-    e_rprt = os.path.join(w.p_err, crate + ".json")
+    e_rprt = os.path.join(w.p_c, crate + ".json")
 
     if "--reset" not in sys.argv:
         if os.path.exists(e_rprt):
@@ -234,7 +237,8 @@ def main():
     results = os.listdir(w.d_a);
 
     if len(sys.argv) < 2:
-        print("invalid number of args")
+        print("size of w/data/archive: " + str(len(results)))
+        print("size of w/prusti/crates: " + str(len(os.listdir(w.p_c))))
         return
     if "--a" in sys.argv:
         if len(results) == 0:
@@ -242,7 +246,7 @@ def main():
             return
         for r in results:
             crate = r.replace(".txt", "")
-            if crate + ".json" not in os.listdir(w.p_err):
+            if crate + ".json" not in os.listdir(w.p_c):
                 parse(crate, num_fn(crate))
         return
     else:

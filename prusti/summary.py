@@ -2,13 +2,13 @@ import os, json, datetime, sys, csv
 from w import wksp
 
 w = wksp()
-err_reports = os.listdir(w.p_err)
+err_reports = os.listdir(w.p_s)
 
 class Stat:
+    fn_total = 0
     unsupported_total = 0
     rust_warning = 0;
     internal_error = 0;
-    panicked = 0;
 
     unsupported = {}
     unsupported_detailed = {}
@@ -16,27 +16,22 @@ class Stat:
 
     failed_total = 0;
     failed_reason = {};
+
+    crashed = []
     i = 0
     
-    crates_ommitted = [];
         
 
 def eval(report, s):
     s.i += 1;
-    with open(os.path.join(w.p_err, report), "r") as f:
-        f = json.load(f)
-    
-        s.unsupported_total += f["unsupported_feature_total_num"]
-        try:
-            s.rust_warning += f["rust_warning_total_num"]
-            s.internal_error += f["internal_err_total_num"]
-        except:
-            print(report)
-        s.failed_total += f["verification_failed_num_total"]
-        if f["has_panic_reports"] == True:
-            s.panicked += 1
+    with open(os.path.join(w.p_s, report), "r") as f_:
+        f = json.load(f_)
 
-        unsuppported_errs = f["unsupported_summary"]
+        s.fn_total += f["fn_total"]
+        s.unsupported_total += f["unsupported_feature_total_num"]
+        s.rust_warning += f["rust_warning_total_num"]
+        s.internal_error += f["internal_err_total_num"]
+        s.failed_total += f["verification_failed_num_total"]
 
         for err in f["unsupported_detailed"]:
             if err in s.unsupported_detailed:
@@ -73,6 +68,7 @@ def eval(report, s):
                     "num": 1,
                     "i.e.": report[:-5]
                 }
+        f_.close()
 
 def run():
     s = Stat()
@@ -85,29 +81,32 @@ def run():
     s.rust_reason  = dict(sorted(s.rust_reason.items(),  key=lambda x: x[1]['num'], reverse=True))
     s.failed_reason  = dict(sorted(s.failed_reason.items(), key=lambda x: x[1]['num'], reverse=True))
 
+    for c in os.listdir(w.c_r):
+        s.crashed.append(c.replace(".txt", ""))
+
     stats = {
-        "number_of_crates": s.i,
-        "panicked_total": s.panicked,
-        "verification_failed_total": s.failed_total,
-        "verification_failed_distinct_num": len(s.failed_reason),
-        "verification_failed_reason": s.failed_reason,
-        "unsupported_features_total": s.unsupported_total,
-        "unsupported_feature_grouped_num": len(s.unsupported),
-        "unsupported_feature_summary": s.unsupported,
-        "unsupported_feature_distinct_num": len(s.unsupported_detailed),
-        "unsupported_feature_detailed": s.unsupported_detailed,
-        "rust_warning_total": s.rust_warning,
-        "rust_warning_distinct_num": len(s.rust_reason),
-        "rust_warning_summary": s.rust_reason,
-        "internal_errors_total": s.internal_error,
-        "crates_ommitted_num": len(s.crates_ommitted),
-        "crates_ommitted": s.crates_ommitted
+        "crates_num": s.i,
+        "fn_total": s.fn_total,
+        "ve_total": s.failed_total,
+        "ve_distinct_num": len(s.failed_reason),
+        "ve_rsn": s.failed_reason,
+        "us_total": s.unsupported_total,
+        "us_rsn_num": len(s.unsupported),
+        "us_rsn": s.unsupported,
+        "us_rsn_detailed_num": len(s.unsupported_detailed),
+        "us_rsn_detailed": s.unsupported_detailed,
+        "rw_total": s.rust_warning,
+        "rw_distinct_num": len(s.rust_reason),
+        "rw_rsn": s.rust_reason,
+        "ie_num": s.internal_error,
+        "crashed_num": len(s.crashed),
+        "crahsed_crates": s.crashed
     }
 
     json_stats = json.dumps(stats, indent= 8)
-    with open(os.path.join(w.eval, "summary-" + w.date() + ".json"), "w") as outfile:
+    with open(os.path.join(w.p_s, w.date() + ".json"), "w") as f:
         print("writing to summary")
-        outfile.write(json_stats)
+        f.write(json_stats)
 
 if __name__ == '__main__':
     run()

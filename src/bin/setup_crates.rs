@@ -28,9 +28,6 @@ async fn read_json_cratelist() {
     .expect("CrateList.json not well formatted");
 
     if let Some(crates) = json_file["crates"].as_array() {
-        /* for (i, crate_) in crates.iter().enumerate() {
-            println!("{:#?}", crate_["Package"]); } */
-
         let packages: Vec<Value> = crates.iter()
             .map(|crate_| crate_["Package"].clone())
             .collect();
@@ -56,47 +53,18 @@ async fn read_json_cratelist() {
 async fn read_json_err_report() {
     let cwd = std::env::current_dir().unwrap();
     let parent_dir = cwd.parent().unwrap();
-    let err_dir = parent_dir.join("log/err_report");
+    let err_dir = parent_dir.join("workspace/prusti/crates");
     let files = fs::read_dir(err_dir.clone()).unwrap();
 
     for file in files {
-        let file_name = file.unwrap().file_name();
-        let file_str = file_name.to_str().unwrap();
+        let file_name = file.unwrap().file_name().into_string().unwrap();
+        let mut file_string = file_name.replace(".json", "");
 
-        let names:Vec<&str> = file_str.split("-").collect();
+        let names:Vec<&str> = file_string.split("-").collect();
+        let ver = names[names.len() - 1];
+        let name =  file_string.replace(&("-".to_owned() + ver), "");;
 
-        let mut crate_names: Vec<&str> = Vec::new();
-        let mut version = String::new();
-        let mut alpha = false;
-
-        for name in names.clone() {
-            
-            if !name.ends_with(".json") {
-                crate_names.push(name)
-            } else if !name.starts_with("alpha") && name.ends_with(".json") {
-                version = name.replace(".json", "")
-            } else {
-                let v_ = names.clone()[names.len() - 2];
-                version = v_.to_string();
-                alpha = true;
-            }
-        }
-
-        if alpha {
-            crate_names.remove(crate_names.len() - 1);
-        }
-
-        let mut crate_name = String::new();
-
-        for name in crate_names {
-            if crate_name != "" {
-                crate_name.push_str("-");
-            }
-        }
-
-        crate_name.remove(crate_name.len() -1);
-
-    fetch_and_write(crate_name.as_str(), version.as_str()).await;
+        fetch_and_write(name.as_str(), ver).await;
     }
 }
 
