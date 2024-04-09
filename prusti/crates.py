@@ -1,4 +1,4 @@
-import os, json, sys, shutil, threading
+import os, json, sys, shutil, threading, time
 from w import wksp
 
 non_rust_warnings = ["warning", "warnings", "prusti", "Prusti", "generated", "(lib)", "`" + os.getcwd() + "`", 
@@ -39,9 +39,6 @@ def cr_rerun():
 def num_fn(crate):
     p = os.path.join(w.t_l, crate)
     try:
-        for d in os.listdir(p):
-            if d != "vir_program_before_foldunfold":
-                shutil.rmtree(os.path.join(p, d))
         f = os.path.join(p, "vir_program_before_foldunfold")
         fns = 0
         for rust_f in os.listdir(f):
@@ -233,22 +230,30 @@ def parse(crate, fn_n):
         print("writing to json: " + crate)
         f.write(json_trace)
         f.close()
-
+    
     p = os.path.join(w.t_l, crate)
-    if os.path.exists(p):
-        print("deleting viper log files for " + crate)
-        lock.acquire()
+    print("deleting viper log files for " + crate)
+    lock.acquire()
+    start = time.time()
+    t = time.time()
+
+    while t - start < 30 * 3600:
+        list = os.listdir(p)
+        if len(list) > 0:
+            shutil.rmtree(os.path.join(p, list[0]))
+            t = time.time()
+        else:
+            break
+    try:
         shutil.rmtree(p)
-        lock.release()
+    except:
+        shutil.rmtree(w.t_l)
+        os.mkdir(w.t_l)
+    
+    lock.release()
 
 def run(crate):
     e_rprt = os.path.join(w.p_c, crate + ".json")
-    """
-    if "--reset" not in sys.argv:
-        if os.path.exists(e_rprt):
-            print("err report for " + crate + " exists already")
-            return
-    """
     parse(crate, num_fn(crate))
 
 def main():
@@ -258,6 +263,7 @@ def main():
         print("size of w/data/archive: " + str(len(results)))
         print("size of w/prusti/crates: " + str(len(os.listdir(w.p_c))))
         return
+    
     if "--a" in sys.argv:
         if len(results) == 0:
             print("no txt file to extract data from")
@@ -273,6 +279,8 @@ def main():
         return
     if "--rs" in sys.argv:
         reset()
+    else:
+        parse(sys.argv[1], num_fn(sys.argv[1]))
 
 if __name__ == '__main__':
     main()

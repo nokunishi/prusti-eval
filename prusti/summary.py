@@ -24,6 +24,9 @@ def eval(report, s):
     with open(os.path.join(w.p_c, report), "r") as f_:
         f = json.load(f_)
 
+        if f["fn_total"] == 0:
+            return 1
+
         s.fn_total += f["fn_total"]
         s.unsupported_total += f["unsupported_feature_total_num"]
         s.rust_warning += f["rust_warning_total_num"]
@@ -66,11 +69,13 @@ def eval(report, s):
                     "i.e.": report[:-5]
                 }
         f_.close()
+    return 0
 
 def run():
     s = Stat()
+    omit = 0
     for report in os.listdir(w.p_c):
-        eval(report, s)
+        omit = eval(report, s)
 
     s.unsupported  = dict(sorted(s.unsupported.items(),  key=lambda x: x[1]['num'], reverse=True))
     s.unsupported_detailed = dict(sorted(s.unsupported_detailed.items(), key=lambda x: x[1]['num'], reverse=True))
@@ -96,7 +101,8 @@ def run():
         "rw_rsn": s.rust_reason,
         "ie_num": s.internal_error,
         "crashed_num": len(s.crashed),
-        "crahsed_crates": s.crashed
+        "crahsed_crates": s.crashed,
+        "crates_omitted": omit
     }
 
     json_stats = json.dumps(stats, indent= 8)
