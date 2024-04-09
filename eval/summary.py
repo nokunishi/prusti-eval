@@ -63,13 +63,6 @@ def main():
         print("writing summary")
         f.write(obj)
 
-    
-
-
-
-    
-
-
 
 if __name__ == "__main__":
     main()

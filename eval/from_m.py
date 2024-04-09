@@ -45,7 +45,11 @@ def mir_us(mir, list):
 
     for obj in c.unsupported(mir):
         file_us = [*obj.keys()][0].split(":")[0]
-        ln_us =  int([*obj.keys()][0].split(".rs:")[1].split(":")[0])
+        try:
+            ln_us =  int([*obj.keys()][0].split(".rs:")[1].split(":")[0])
+        except:
+            print(mir)
+            print(obj)
         
         for line in list:
             list_ = line[[*line.keys()][0]]
@@ -146,6 +150,7 @@ def write(mir, eq, ne, us, other):
 def run():
     mirs = os.listdir(w.m_rprt)
     m_rerun = os.listdir(w.m_rerun)
+    evals = os.listdir(w.r_e)
 
     for mir in mirs:
         if mir in m_rerun:
@@ -153,23 +158,18 @@ def run():
         else:
             m = os.path.join(w.m_rprt, mir)
 
-        err = os.path.join(w.p_err, mir)
-        if not os.path.exists(err):
+        if not os.path.exists(os.path.join(w.p_c, mir)):
             lock.acquire()
             os.chdir(w.p)
             os.system("python3 run_x.py " + mir.replace(".json", ""))
             lock.release()
         
-       
         eq, ne, mir_only = mir_ve(m, c.v_err(mir))
         us, other = mir_us(mir, mir_only)
         write(m, eq, ne, us, other)
 
 def main():
     w = wksp()
-
-    if not os.path.exists(w.m_eval):
-        os.mkdir(w.m_eval)
     
     if "--mm" in sys.argv:
         print_crates("mismatch")

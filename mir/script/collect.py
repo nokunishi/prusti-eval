@@ -11,7 +11,7 @@ def get_file(path, file_lists):
 
         if not os.path.isfile(dir_path):
             file_lists = get_file(dir_path, file_lists)
-        elif ".rs" in dir_path and dir_path not in file_lists:
+        elif dir_path.strip().endswith(".rs") and dir_path not in file_lists:
             if "lib.rs" in dir_path or "mod.rs" in dir_path:
                 file_lists.insert(0, dir_path)
             else:

@@ -18,6 +18,24 @@ class Stats:
     ve_reasons = {}
     ve = 0;
 
+def reset():
+    rerun = cr_rerun()
+
+    for r in rerun:
+        os.remove(os.path.join(w.d_a, r.replace(".json", ".txt")))
+        os.remove(os.path.join(w.p_c, r))
+
+def cr_rerun():
+    rprts = os.listdir(w.p_c)
+    rerun = []
+    for r in rprts:
+        with open(os.path.join(w.p_c, r), "r") as f_:
+            f = json.load(f_)
+            if f["fn_total"] == 0:
+                rerun.append(r)
+
+    return rerun
+
 def num_fn(crate):
     p = os.path.join(w.t_l, crate)
     try:
@@ -140,6 +158,30 @@ def warning(s, line, detail, l_no):
             })
         s.rw += 1;
 
+def parse_msg(s, line, detail, l_no):
+    while detail[0].isdigit() or detail[0] == "/":
+        detail = detail[1:]
+    detail = detail[2:].strip()
+
+    if "[Prusti: unsupported feature]" in line:
+        e_line = line.replace("[Prusti: unsupported feature]", "")
+        us = parse_us(s, e_line)
+        unsupported(s, us, detail, l_no)
+    elif "warning:" in line:
+        line = line.replace("warning:", "").replace("\n", "")
+        warning(s, line, detail, l_no)
+    elif "[Prusti: internal error]" in line:
+        s.internal += 1
+    elif "error: [Prusti: verification error]" in line:
+        w_type = line.replace("error: [Prusti: verification error]", "").replace("\"", "").strip()
+        s.ve += 1;
+                
+        if  w_type not in s.ve_reasons and len(w_type) > 0:
+            s.ve_reasons[w_type] = [{l_no: detail}]
+        else: 
+            s.ve_reasons[w_type].append({l_no: detail}) 
+
+
 def parse(crate, fn_n):
     with open(os.path.join(w.d_a, crate  + ".txt"), "r") as f:
         lines = f.readlines()
@@ -152,33 +194,10 @@ def parse(crate, fn_n):
             l_no = lines[i+1].replace(" ", "").replace("-", "").replace(">", "").strip();
             detail = lines[i + 3]
 
-            while detail[0].isdigit() or detail[0] == "/":
-                detail = detail[1:]
-            detail = detail[2:].strip()
-            
-            if "[Prusti: unsupported feature]" in line:
-                e_line = line.replace("[Prusti: unsupported feature]", "")
-                us = parse_us(s, e_line)
-                unsupported(s, us, detail, l_no)
+            if not len(l_no) == 0:
+                parse_msg(s, line, detail, l_no)
 
-            elif "warning:" in line:
-                line = line.replace("warning:", "").replace("\n", "")
-                warning(s, line, detail, l_no)
-            elif "[Prusti: internal error]" in line:
-                s.internal += 1
-            elif "error: [Prusti: verification error]" in line:
-                w_type = line.replace("error: [Prusti: verification error]", "").replace("\"", "").strip()
-                s.ve += 1;
-                
-                if  w_type not in s.ve_reasons and len(w_type) > 0:
-                    s.ve_reasons[w_type] = [{
-                            l_no: detail
-                    }]
-                else: 
-                    s.ve_reasons[w_type].append({
-                        l_no: detail
-                    }) 
-            elif "thread 'rustc' panicked at" in line and not crashed:
+            if "thread 'rustc' panicked at" in line and not crashed:
                 with open(os.path.join(w.c_r, crate + ".txt"), "a") as c_rprt:
                     j = i
                     while j < len(lines):
@@ -224,14 +243,13 @@ def parse(crate, fn_n):
 
 def run(crate):
     e_rprt = os.path.join(w.p_c, crate + ".json")
-
+    """
     if "--reset" not in sys.argv:
         if os.path.exists(e_rprt):
             print("err report for " + crate + " exists already")
             return
-
+    """
     parse(crate, num_fn(crate))
-
 
 def main():
     results = os.listdir(w.d_a);
@@ -246,12 +264,15 @@ def main():
             return
         for r in results:
             crate = r.replace(".txt", "")
+
+            # DO NOT REMOVE THIS!!
+            # num_fn(crate) only produces correct results if the 
+            # viper dump is still in /tmp dir
             if crate + ".json" not in os.listdir(w.p_c):
                 parse(crate, num_fn(crate))
         return
-    else:
-        parse(sys.argv[1], num_fn(sys.argv[1]))
-
+    if "--rs" in sys.argv:
+        reset()
 
 if __name__ == '__main__':
     main()

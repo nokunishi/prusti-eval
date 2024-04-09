@@ -85,20 +85,17 @@ def run(arg):
     if arg > 0:
         tmp = os.listdir(w.tmp)
         archive = os.listdir(w.d_a)
-        e_reports = os.listdir(w.p_c)
 
         i = 0
 
         while i < arg and i < len(tmp): 
             crate = tmp[i].replace(".crate", "")
             crate_txt = tmp[i].replace(".crate", ".txt")
-            e_report = tmp[i].replace(".crate", ".json")
 
-            if (crate_txt in archive or e_report in e_reports) \
-                and "--redo" not in sys.argv:
-                print("Prusti already ran on crate:" + tmp[i])
+            # add "or e_report in prusti/crates" for optimization
+            if crate_txt in archive:
+                print("Prusti already ran on :" + tmp[i])
                 arg += 1
-    
             else:
                 if ".crate" in tmp[i]:
                     print("running on: " + tmp[i])
@@ -114,7 +111,7 @@ def run(arg):
         lock.acquire()
         os.system("python3 ./x.py run --bin run_prusti clippy &> " + w.d_a + "/" + crate + ".txt" + " " + crate)
         lock.release()
-        crates.run(crate)
+        crates.parse(crate)
 
         
 if __name__ == '__main__':

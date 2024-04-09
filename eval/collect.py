@@ -4,7 +4,7 @@ from w import wksp
 w = wksp()
 
 def v_err(crate):
-    with open(os.path.join(w.p_err, crate), "r") as f_:
+    with open(os.path.join(w.p_c, crate), "r") as f_:
         f = json.load(f_)
         v_err = f["verification_failed_reason"]
         v_e_new = []
@@ -16,7 +16,7 @@ def v_err(crate):
         return v_e_new
 
 def unsupported(crate):
-    with open(os.path.join(w.p_err, crate), "r") as f_:
+    with open(os.path.join(w.p_c, crate), "r") as f_:
         f = json.load(f_)
         us = f["unsupported_detailed"]
         us_ = []
@@ -24,6 +24,8 @@ def unsupported(crate):
         for k in us.keys():
             for rsn in us[k]:
                 l =[*rsn.keys()][0]
+                if l == "":
+                    print(rsn)
                 if l not in us_:
                     us_.append({l: k})
 

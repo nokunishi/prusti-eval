@@ -1,8 +1,7 @@
-import os, json, datetime, sys, csv
+import os, json
 from w import wksp
 
 w = wksp()
-err_reports = os.listdir(w.p_s)
 
 class Stat:
     fn_total = 0
@@ -20,11 +19,9 @@ class Stat:
     crashed = []
     i = 0
     
-        
-
 def eval(report, s):
     s.i += 1;
-    with open(os.path.join(w.p_s, report), "r") as f_:
+    with open(os.path.join(w.p_c, report), "r") as f_:
         f = json.load(f_)
 
         s.fn_total += f["fn_total"]
@@ -72,8 +69,7 @@ def eval(report, s):
 
 def run():
     s = Stat()
-
-    for report in err_reports:
+    for report in os.listdir(w.p_c):
         eval(report, s)
 
     s.unsupported  = dict(sorted(s.unsupported.items(),  key=lambda x: x[1]['num'], reverse=True))
