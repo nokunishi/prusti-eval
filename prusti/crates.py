@@ -127,11 +127,20 @@ def unsupported(s, l, detail, l_no):
     rsn_distinct = rsn_distinct.strip()
 
     if not rsn_distinct in s.us_summary and len(rsn_distinct) > 0:
-        if not rsn_distinct == "unsupported constant type" and not rsn_distinct =="unsupported constant value":
+        is_msg_ct = (rsn_distinct == "unsupported constant type")
+        is_msg_cv = (rsn_distinct == "unsupported constant value")
+
+        if not is_msg_ct and not is_msg_cv:
             s.us_summary[rsn_distinct] = [{l_no: detail}]
         else: 
             obj = {l_no: detail}
-            s.us_summary[rsn_distinct].append(obj) 
+            if (is_msg_ct and "unsupported constant type" in s.us_summary) or \
+                    (is_msg_cv and "unsupported constant value" in s.us_summary):
+                s.us_summary[rsn_distinct].append(obj) 
+            else:
+                s.us_summary = {
+                    rsn_distinct: obj
+                }
 
 def warning(s, line, detail, l_no):
     for warn in non_rust_warnings:
@@ -238,17 +247,21 @@ def parse(crate, fn_n):
     t = time.time()
 
     while t - start < 30 * 3600:
+        # if p fails to exists, most likely Prusti 
+        # was not found 
         list = os.listdir(p)
         if len(list) > 0:
             shutil.rmtree(os.path.join(p, list[0]))
             t = time.time()
         else:
             break
-    try:
-        shutil.rmtree(p)
-    except:
-        shutil.rmtree(w.t_l)
-        os.mkdir(w.t_l)
+
+    if os.path.exists(p):
+        try:
+            shutil.rmtree(p)
+        except:
+            shutil.rmtree(w.t_l)
+            os.mkdir(w.t_l)
     
     lock.release()
 

@@ -1,19 +1,18 @@
-fn mul_overflow(_1: &i32) -> () {
-    debug x => _1;
+fn mul_overflow() -> () {
     let mut _0: ();
-    let mut _2: i32;
-    let mut _3: (i32, bool);
+    let mut _1: i32;
+    let mut _2: (i32, bool);
     scope 1 {
     }
 
     bb0: {
-        _3 = CheckedMul(const 100_i32, const _);
-        assert(!move (_3.1: bool), "attempt to compute `{} * {}`, which would overflow", const 100_i32, const _) -> [success: bb1, unwind: bb2];
+        _2 = CheckedMul(const 100_i32, const _);
+        assert(!move (_2.1: bool), "attempt to compute `{} * {}`, which would overflow", const 100_i32, const _) -> [success: bb1, unwind: bb2];
     }
 
     bb1: {
-        _2 = move (_3.0: i32);
-        PlaceMention(_2);
+        _1 = move (_2.0: i32);
+        PlaceMention(_1);
         _0 = const ();
         return;
     }
@@ -22,4 +21,4 @@ fn mul_overflow(_1: &i32) -> () {
         resume;
     }
 }
-path: ./test/test.rs:24:19: 24:20 (#0)
+path: ./test/test.rs:24:18: 24:18 (#0)

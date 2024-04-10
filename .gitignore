@@ -1,5 +1,6 @@
 /Cargo.lock
 .env
+.DS_Store
 
 /target
 /mir/examples/target
@@ -13,18 +14,19 @@
 /mir/script/__pycache__
 /prusti/__pycache__
 /eval/__pycache__
+/scripts/__pycache__
 
 /mir/.DS_Store
-
-
 /mir/mir-rust/test.rs
 /mir/mir-rust/test
 
-./test.rs
-/scripts/__pycache__
 /mir/script/test.rs
 /mir/script/mir.rs
 /mir/test
+/mir/mir-rust/.DS_Store 
+
+
+./test.rs
 
 
 

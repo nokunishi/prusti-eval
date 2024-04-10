@@ -1,26 +1,25 @@
-fn mod_overflow(_1: &u8) -> () {
-    debug out => _1;
+fn mod_overflow() -> () {
     let mut _0: ();
-    let _2: i32;
+    let _1: i32;
+    let mut _2: bool;
     let mut _3: bool;
     let mut _4: bool;
     let mut _5: bool;
-    let mut _6: bool;
 
     bb0: {
-        _3 = Eq(const -1_i32, const 0_i32);
-        assert(!move _3, "attempt to calculate the remainder of `{}` with a divisor of zero", const _) -> [success: bb1, unwind: bb3];
+        _2 = Eq(const -1_i32, const 0_i32);
+        assert(!move _2, "attempt to calculate the remainder of `{}` with a divisor of zero", const _) -> [success: bb1, unwind: bb3];
     }
 
     bb1: {
-        _4 = Eq(const -1_i32, const -1_i32);
-        _5 = Eq(const _, const i32::MIN);
-        _6 = BitAnd(move _4, move _5);
-        assert(!move _6, "attempt to compute the remainder of `{} % {}`, which would overflow", const _, const -1_i32) -> [success: bb2, unwind: bb3];
+        _3 = Eq(const -1_i32, const -1_i32);
+        _4 = Eq(const _, const i32::MIN);
+        _5 = BitAnd(move _3, move _4);
+        assert(!move _5, "attempt to compute the remainder of `{} % {}`, which would overflow", const _, const -1_i32) -> [success: bb2, unwind: bb3];
     }
 
     bb2: {
-        _2 = Rem(const _, const -1_i32);
+        _1 = Rem(const _, const -1_i32);
         _0 = const ();
         return;
     }
@@ -29,4 +28,4 @@ fn mod_overflow(_1: &u8) -> () {
         resume;
     }
 }
-path: ./test/test.rs:13:26: 13:27 (#0)
+path: ./test/test.rs:13:22: 13:22 (#0)

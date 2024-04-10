@@ -14,7 +14,7 @@ fn out_of_bounds(_1: &i32) -> () {
     bb0: {
         _2 = [const 2_i32, const 3_i32, const 4_i32];
         FakeRead(ForLet(None), _2);
-        _3 = const 1_usize;
+        _3 = const 9_usize;
         _4 = Len(_2);
         _5 = Lt(_3, _4);
         assert(move _5, "index out of bounds: the length is {} but the index is {}", move _4, _3) -> [success: bb1, unwind: bb2];
@@ -30,4 +30,4 @@ fn out_of_bounds(_1: &i32) -> () {
         resume;
     }
 }
-path: ./test/test.rs:6:21: 6:22 (#0)
+path: ./test/test.rs:1:26: 1:26 (#0)

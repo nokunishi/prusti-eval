@@ -9,11 +9,14 @@ def no_prusti():
     delete = []
 
     for a in os.listdir(w.d_a):
+        if a == ".DS_Store":
+            continue
+        
         with open(os.path.join(w.d_a, a), "r") as f:
-            for line in f:
+            for line in f.readlines():
                 if "assertion failed: prusti.exists()" in line and a not in delete:
                     delete.append(a)
-
+            f.close()
     return delete
 
 if __name__ == "__main__":

@@ -90,7 +90,6 @@ impl rustc_driver::Callbacks for Callbacks {
           
           match hir.item(id).kind {
             ItemKind::Fn(_, x, body) => {
-              println!("{:#?}", x);
               let def_id = hir.body_owner_def_id(body);
               let body_with_facts = borrowck_facts::get_body_with_borrowck_facts(tcx, def_id);
     

@@ -1,30 +1,24 @@
-pub fn div_zero(out: &u8){
+pub fn div_zero(){
     9 / 0;
 }
 
-pub fn div_overflow(out: &u8){
+pub fn div_overflow(){
     i32::MIN / -1;
 }
 
-pub fn div(out: &u8){
+pub fn div(){
     9 / 10;
 }
 
-pub fn mod_overflow(out: &u8) {
+pub fn mod_overflow() {
     i32::MIN % -1;
 }
 
 
-pub fn mod_zero(out: &u8) {
+pub fn mod_zero() {
     8 % 0;
 }
 
-pub fn mod(out: &u8) {
+pub fn modulus() {
     8 % 9;
 }
-
-pub fn no_ref_arg(out: u8) {
-    8 % 9;
-}
-
-fn main() {}
