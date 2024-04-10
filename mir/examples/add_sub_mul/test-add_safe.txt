@@ -1,4 +1,4 @@
-fn add_overflow() -> () {
+fn add_safe() -> () {
     let mut _0: ();
     let mut _1: i32;
     let mut _2: (i32, bool);
@@ -6,8 +6,8 @@ fn add_overflow() -> () {
     }
 
     bb0: {
-        _2 = CheckedAdd(const 1_i32, const _);
-        assert(!move (_2.1: bool), "attempt to compute `{} + {}`, which would overflow", const 1_i32, const _) -> [success: bb1, unwind: bb2];
+        _2 = CheckedAdd(const 10_i32, const 20_i32);
+        assert(!move (_2.1: bool), "attempt to compute `{} + {}`, which would overflow", const 10_i32, const 20_i32) -> [success: bb1, unwind: bb2];
     }
 
     bb1: {
@@ -21,4 +21,4 @@ fn add_overflow() -> () {
         resume;
     }
 }
-path: ./test/test.rs:11:18: 11:18 (#0)
+path: ./test/test.rs:7:14: 7:14 (#0)

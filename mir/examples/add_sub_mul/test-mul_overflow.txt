@@ -21,4 +21,4 @@ fn mul_overflow() -> () {
         resume;
     }
 }
-path: ./test/test.rs:24:18: 24:18 (#0)
+path: ./test/test.rs:35:18: 35:18 (#0)

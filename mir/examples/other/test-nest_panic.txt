@@ -1,0 +1,27 @@
+fn nest_panic() -> () {
+    let mut _0: ();
+    let _1: std::option::Option<u32> as UserTypeProjection { base: UserType(0), projs: [] };
+    let _2: u32;
+    let mut _3: std::option::Option<u32>;
+    scope 1 {
+        debug x => _1;
+    }
+
+    bb0: {
+        _1 = std::option::Option::<u32>::None;
+        FakeRead(ForLet(None), _1);
+        AscribeUserType(_1, o, UserTypeProjection { base: UserType(1), projs: [] });
+        _3 = _1;
+        _2 = std::option::Option::<u32>::unwrap(move _3) -> [return: bb1, unwind: bb2];
+    }
+
+    bb1: {
+        _0 = const ();
+        return;
+    }
+
+    bb2 (cleanup): {
+        resume;
+    }
+}
+path: ./test/test.rs:9:16: 9:16 (#0)

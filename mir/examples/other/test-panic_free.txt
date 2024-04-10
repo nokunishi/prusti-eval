@@ -1,0 +1,26 @@
+fn panic_free() -> () {
+    let mut _0: ();
+    let _1: std::option::Option<i32>;
+    let _2: i32;
+    let mut _3: std::option::Option<i32>;
+    scope 1 {
+        debug x => _1;
+    }
+
+    bb0: {
+        _1 = std::option::Option::<i32>::Some(const 10_i32);
+        FakeRead(ForLet(None), _1);
+        _3 = _1;
+        _2 = std::option::Option::<i32>::unwrap(move _3) -> [return: bb1, unwind: bb2];
+    }
+
+    bb1: {
+        _0 = const ();
+        return;
+    }
+
+    bb2 (cleanup): {
+        resume;
+    }
+}
+path: ./test/test.rs:3:16: 3:16 (#0)

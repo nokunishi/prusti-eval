@@ -28,4 +28,4 @@ fn mod_overflow() -> () {
         resume;
     }
 }
-path: ./test/test.rs:13:22: 13:22 (#0)
+path: ./test/test.rs:26:22: 26:22 (#0)

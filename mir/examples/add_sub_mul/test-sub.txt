@@ -27,4 +27,4 @@ fn sub(_1: i32, _2: i32) -> () {
         resume;
     }
 }
-path: ./test/test.rs:12:21: 12:21 (#0)
+path: ./test/test.rs:15:21: 15:21 (#0)

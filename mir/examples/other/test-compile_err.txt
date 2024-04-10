@@ -15,4 +15,4 @@ fn compile_err(_1: &i32) -> () {
         return;
     }
 }
-path: ./test/test.rs:28:24: 28:24 (#0)
+path: ./test/test.rs:15:24: 15:24 (#0)

@@ -27,4 +27,4 @@ fn mul(_1: i32, _2: i32) -> () {
         resume;
     }
 }
-path: ./test/test.rs:20:21: 20:21 (#0)
+path: ./test/test.rs:27:21: 27:21 (#0)

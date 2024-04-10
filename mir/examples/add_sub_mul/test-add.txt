@@ -27,4 +27,4 @@ fn add(_1: i32, _2: i32) -> () {
         resume;
     }
 }
-path: ./test/test.rs:4:21: 4:21 (#0)
+path: ./test/test.rs:3:21: 3:21 (#0)

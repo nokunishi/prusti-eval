@@ -1,30 +1,17 @@
-fn out_of_bounds(y: &i32) {
-    let x = [2, 3, 4];
-    let _ = x[9];
+use std::option::Option;
+
+fn panic_free() {
+    let x = Option::Some(10);
+    x.unwrap();
 }
 
-fn within_bound(y: &i32) {
-    let x = [2, 3, 4];
-    let _ = x[1];
+// panics
+fn nest_panic() {
+   let x: Option<u32> = Option::None;
+   x.unwrap();
 }
 
-fn panic(){
-    panic!()
-}
-
-fn unreachable(){
-    unreachable!()
-}
-
-fn unimplemented(){
-    unimplemented!()
-}
-
-fn nested() {
-    unreachable();
-}
-
-// this is erroneous
+// this gives compilation error
 fn compile_err(x: &i32){
     x = &42i32;
 }
