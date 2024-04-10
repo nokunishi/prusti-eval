@@ -1,6 +1,5 @@
 use std::{f32::INFINITY, u32::MAX};
 
-// arg needs to be ref, not x:i32, to produce mir
 fn add(x:i32, y:i32) {
    let _ = x + y;
 }
