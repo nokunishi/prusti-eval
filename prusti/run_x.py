@@ -21,8 +21,22 @@ def setup():
         os.mkdir(w.p_dir)
     if not os.path.exists(w.p_c):
         os.mkdir(w.p_c)
-    if not os.path.exists(w.p_s):
-        os.mkdir(w.p_s)
+
+    if not os.path.exists(w.r_dir):
+        os.mkdir(w.r_dir)
+    if not os.path.exists(w.r_r):
+        os.mkdir(w.r_r)
+    if not os.path.exists(w.r_e):
+        os.mkdir(w.r_e)
+
+
+    if not os.path.exists(w.r_u_dir):
+        os.mkdir(w.u_dir)
+    if not os.path.exists(w.u_d):
+        os.mkdir(w.u_d)
+    if not os.path.exists(w.u_s):
+        os.mkdir(w.u_s)
+
     if not os.path.exists(w.c_dir):
         os.mkdir(w.c_dir)
     if not os.path.exists(w.c_s):

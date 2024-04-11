@@ -18,24 +18,6 @@ class Stats:
     ve_reasons = {}
     ve = 0;
 
-def reset():
-    rerun = cr_rerun()
-
-    for r in rerun:
-        os.remove(os.path.join(w.d_a, r.replace(".json", ".txt")))
-        os.remove(os.path.join(w.p_c, r))
-
-def cr_rerun():
-    rprts = os.listdir(w.p_c)
-    rerun = []
-    for r in rprts:
-        with open(os.path.join(w.p_c, r), "r") as f_:
-            f = json.load(f_)
-            if f["fn_total"] == 0:
-                rerun.append(r)
-
-    return rerun
-
 def num_fn(crate):
     p = os.path.join(w.t_l, crate)
     try:
@@ -273,8 +255,7 @@ def main():
     results = os.listdir(w.d_a);
 
     if len(sys.argv) < 2:
-        print("size of w/data/archive: " + str(len(results)))
-        print("size of w/prusti/crates: " + str(len(os.listdir(w.p_c))))
+        print("specify command")
         return
     
     if "--a" in sys.argv:
@@ -290,8 +271,6 @@ def main():
             if crate + ".json" not in os.listdir(w.p_c):
                 parse(crate, num_fn(crate))
         return
-    if "--rs" in sys.argv:
-        reset()
     else:
         parse(sys.argv[1], num_fn(sys.argv[1]))
 
