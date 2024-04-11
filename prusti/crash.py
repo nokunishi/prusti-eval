@@ -56,6 +56,9 @@ def summarize():
                             inList = True
                     if not inList:
                         s.fn.append({fn: s.reason[r]["num"]})
+
+    s.reason = dict(sorted(s.reason.items(),  key=lambda x: x[1]["num"], reverse=True))
+    s.fn.sort(key=lambda x: x.items(), reverse=True)
     stats = {
         "total_num_crates_paniced": len(c_reports),
         "reason_num": len(s.reason),

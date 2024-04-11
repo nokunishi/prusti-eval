@@ -30,7 +30,7 @@ def setup():
         os.mkdir(w.r_e)
 
 
-    if not os.path.exists(w.r_u_dir):
+    if not os.path.exists(w.u_dir):
         os.mkdir(w.u_dir)
     if not os.path.exists(w.u_d):
         os.mkdir(w.u_d)
@@ -127,15 +127,18 @@ def run(arg):
         lock.release()
         crates.parse(crate)
 
-        
-if __name__ == '__main__':
+
+def main():
     if len(sys.argv) < 2:
         print("invalid number of args")
-        raise Exception
+        return
     download()
     if sys.argv[1].isdigit():
         run(int(sys.argv[1]))
 
+
+if __name__ == '__main__':
+    main()
 
 
           
