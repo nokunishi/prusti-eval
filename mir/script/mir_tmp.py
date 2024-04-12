@@ -101,7 +101,7 @@ def m_extract(mir, crate, list):
                     path = l.strip().replace("/tmp/" + crate + "/", "").split("path:")[1].strip()
                 if l.strip().startswith("bb") and l.strip().endswith("{"):
                     j = l.strip().split(" ")[0].replace("bb", "").replace(":", "")
-                if '"attempt to' in l or '"assertion failed:' in l:
+                if 'assert(move' in l or 'assert(!move' in l:
                     total += 1
                     if l.split('"')[1] in r_tmp:
                         for reason in reasons:

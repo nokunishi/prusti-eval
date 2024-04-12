@@ -76,10 +76,11 @@ def download():
     if not os.getcwd() == w.root:
         os.chdir(w.root)
     
-    if "--e" in sys.argv: 
-        os.system("python3 ./x.py run --bin setup_crates err_report")
     if "--cl" in sys.argv:
         os.system("python3 ./x.py run --bin setup_crates cratelist" )  
+    # TODO: there might be bug with --e option
+    if "--e" in sys.argv: 
+        os.system("python3 ./x.py run --bin setup_crates err_report")
 
 def run(arg):
     setup()
@@ -106,7 +107,6 @@ def run(arg):
             crate = tmp[i].replace(".crate", "")
             crate_txt = tmp[i].replace(".crate", ".txt")
 
-            # add "or e_report in prusti/crates" for optimization
             if crate_txt in archive:
                 print("Prusti already ran on :" + tmp[i])
                 arg += 1

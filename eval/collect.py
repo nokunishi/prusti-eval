@@ -23,10 +23,8 @@ def unsupported(crate):
 
         for k in us.keys():
             for rsn in us[k]:
-                l =[*rsn.keys()][0]
-                if l == "":
-                    print(rsn)
-                if l not in us_:
+                l =[*rsn.keys()][0]      
+                if l != "" and l not in us_:
                     us_.append({l: k})
 
         f_.close()

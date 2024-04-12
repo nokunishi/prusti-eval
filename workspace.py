@@ -18,24 +18,34 @@ class Wksp:
     d_z = os.path.join(d_dir, "zipped")
 
 
+
     p_dir = os.path.join(dir, "prusti")
     p_c = os.path.join(p_dir, "crates")
-    p_s = os.path.join(p_dir, "summary")
+    p_csv = os.path.join(p_dir, "csv")
 
     c_dir = os.path.join(p_dir, "crash")
     c_s = os.path.join(c_dir, "summary")
     c_r = os.path.join(c_dir, "report")
+
+    r_dir = os.path.join(p_dir, "result")
+    r_r =  os.path.join(r_dir, "rust")
+    r_e = os.path.join(r_dir, "eval")
+
+    u_dir =  os.path.join(r_dir, "unsupported")
+    u_d =  os.path.join(u_dir, "dump")
+    u_s =  os.path.join(u_dir, "summary")
+
 
 
     m_dir = os.path.join(dir, "mir")
     m_s = os.path.join(m_dir, "summary")
     m_rprt = os.path.join(m_dir, "report")
     m_rerun = os.path.join(m_dir, "rerun")
-    m_eval = os.path.join(m_dir, "eval")
 
-    r_dir = os.path.join(dir, "result")
-    r_e = os.path.join(r_dir, "eval")
-    r_s = os.path.join(r_dir, "summary")
+
+    e_dir =  os.path.join(dir, "eval")
+    e_c =  os.path.join(e_dir, "crates")
+    e_s =  os.path.join(e_dir, "summary")
 
 
     def date():

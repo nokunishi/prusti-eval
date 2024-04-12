@@ -20,13 +20,11 @@ def setup():
         os.mkdir(w.m_rprt)
     if not os.path.exists(w.m_rerun):
         os.mkdir(w.m_rerun)
-    if not os.path.exists(w.m_eval):
-        os.mkdir(w.m_eval)
 
 def setup_tmp():
     lock.acquire()
     os.chdir(w.p)
-    os.system("python3 run_x.py --e",)
+    os.system("python3 run_x.py --cr",)
     lock.release()
 
 def reset_all():
@@ -106,30 +104,34 @@ def run(n, list):
     if n > 0:
         i = 0
         while i < n:
-            run = False
-
             if "--pr" in sys.argv or "--cr" in sys.argv:
                 crate = list[i].replace(".json", "")
                 run = True
+                rerun = False
             elif ".crate" in list[i]:
                 crate = list[i].replace(".crate", "")
                 run = True
+                rerun = False
+            else:
+                crate = list[i]
+                run = True
+                rerun = True
             if run:
-                if  crate + ".json" in mirs:
+                if  crate + ".json" in mirs and not rerun:
                     print("mir file for " + crate + " already exists")
                     n += 1
                 else:
                     print("Running on :" + crate)
                     mir(crate)
-                    if "--run" not in sys.argv and rerun(crate):
-                        sys.argv.append("--rerun")
-                        mir(crate)
-                    else:
-                        print("no need to rerun")
+                    #if "--run" not in sys.argv and rerun(crate):
+                    #    sys.argv.append("--rerun")
+                    #    mir(crate)
+                    #else:
+                    #    print("no need to rerun")
             else:
                 n += 1
-            if "--rerun" in sys.argv:
-                sys.argv.remove("--rerun")
+            #if "--rerun" in sys.argv:
+            #    sys.argv.remove("--rerun")
             i += 1
         return 
     else:
@@ -137,22 +139,19 @@ def run(n, list):
             if ".py" not in arg and not "--" in arg:
                 print("Running on :" + arg)
                 mir(arg)
-                if "--run" not in sys.argv and rerun(arg):
-                    sys.argv.append("--rerun")
-                    mir(arg)
-                else:
-                    print("no need to rerun")
-            if "--rerun" in sys.argv:
-                sys.argv.remove("--rerun")
+                #if "--run" not in sys.argv and rerun(arg):
+                #    sys.argv.append("--rerun")
+                #    mir(arg)
+                #else:
+                #    print("no need to rerun")
+            #if "--rerun" in sys.argv:
+            #    sys.argv.remove("--rerun")
         return 
 
 def main():
     if len(sys.argv) < 2:
-        print("invalid number of args")
-        return
-
-    if len(sys.argv) == 2 and sys.argv[1].isdigit():
-        print("invalid number of args")
+        print("num of mir " + str(len(os.listdir(w.m_rprt))))
+        print("num of prusti " + str(len(os.listdir(w.p_c))))
         return
     
     setup()
@@ -169,17 +168,10 @@ def main():
         reset(crate)
         return
 
-    setup_ = True
-    for tmp in tmps:
-        if ".crate" in tmp:
-            setup_ = False
-
-    if setup_:
+    if "--cl":
         setup_tmp()
-        os.chdir(cwd)
-        tmps = os.listdir(w.tmp)
-    j = 0
 
+    j = 0
     while j < len(sys.argv):
         try:
             n = int(sys.argv[j])

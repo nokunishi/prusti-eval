@@ -82,9 +82,10 @@ def rm_duplicate(p_rn, fn_mir):
             c = obj["count"]
 
 
-            if "=" in obj["fn"]:
-                f_name = f_name.split("=")[0]
-            f_name = obj["fn"].split("-")[0] + ".rs"
+            fn_ = fn
+            if "=" in fn_:
+                fn_ = fn_.split("=")[0]
+            fn_ = fn_.split("-")[0] + ".rs"
 
             inlist = False
             for obj_ in r_new:
@@ -94,7 +95,7 @@ def rm_duplicate(p_rn, fn_mir):
                         if o["path"] == p:
                             inlist = True
                     
-                    if not inlist and f_name in obj["path"]:
+                    if not inlist and fn_ in obj["path"]:
                         obj_[r].append({
                             "fn": fn,
                             "path": p,
@@ -107,7 +108,7 @@ def rm_duplicate(p_rn, fn_mir):
                         i += 1
                         j += c
                     inlist= True
-            if not inlist and f_name in obj["path"]:
+            if not inlist and fn_ in obj["path"]:
                 r_new.append({
                     rsn: [{
                         "fn": fn,
