@@ -149,7 +149,7 @@ def run(n, list):
         return 
 
 def main():
-    if len(sys.argv) < 2:
+    if len(sys.argv) < 2 or sys.argv[1].isdigit():
         print("num of mir " + str(len(os.listdir(w.m_rprt))))
         print("num of prusti " + str(len(os.listdir(w.p_c))))
         return
