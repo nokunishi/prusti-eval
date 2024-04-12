@@ -273,6 +273,3 @@ def main():
         return
     else:
         parse(sys.argv[1], num_fn(sys.argv[1]))
-
-if __name__ == '__main__':
-    main()

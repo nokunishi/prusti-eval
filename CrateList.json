@@ -1395,6 +1395,12 @@
         "name": "tokio",
         "version": "0.2.9"
       }
+    },
+    {
+      "Package": {
+        "name": "matches",
+        "version": "0.1.8"
+      }
     }
   ]
 }

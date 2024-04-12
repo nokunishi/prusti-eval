@@ -205,9 +205,12 @@ def main():
 
     mir = os.listdir(w.m_rprt)
     mir_re = os.listdir(w.m_rerun)
+    crashed = os.listdir(w.c_r)
     i = 0
 
     for m in mir:
+        if m.replace(".json", ".txt") in crashed:
+            continue
         if m not in mir_re:
             read(os.path.join(w.m_rprt, m), s, False)  
         else:

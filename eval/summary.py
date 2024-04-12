@@ -33,14 +33,16 @@ def count(acc, t, crate, list):
 
 def run():
     s = Stat()
+    crashed = os.listdir(w.c_r)
 
     for r in os.listdir(w.e_c):
-        with open(os.path.join(w.e_c, r), "r") as f_:
-            f = json.load(f_)
-            s.match_l, s.match_t = count(s.match_l, s.match_t, r.replace(".json", ""), f["match"])
-            s.mir_l, s.mir_t = count(s.mir_l, s.mir_t, r.replace(".json", ""), f["mir_only"])
-            s.us_l, s.us_t =  count(s.us_l, s.us_t, r.replace(".json", ""), f["unsupported"])
-            s.mmatch_t += len(f["mismatch"])
+        if not r.replace(".json", ".txt") in crashed:
+            with open(os.path.join(w.e_c, r), "r") as f_:
+                f = json.load(f_)
+                s.match_l, s.match_t = count(s.match_l, s.match_t, r.replace(".json", ""), f["match"])
+                s.mir_l, s.mir_t = count(s.mir_l, s.mir_t, r.replace(".json", ""), f["mir_only"])
+                s.us_l, s.us_t =  count(s.us_l, s.us_t, r.replace(".json", ""), f["unsupported"])
+                s.mmatch_t += len(f["unevaluated"])
 
     
     s.match_l =  dict(sorted(s.match_l.items(),  key=lambda x: x[1]["count"], reverse=True))
@@ -48,7 +50,7 @@ def run():
     s.us_l = dict(sorted(s.us_l.items(),  key=lambda x: x[1]["count"], reverse=True))
 
     obj = {
-        "crate": len(os.listdir(w.e_c)),
+        "crate": len(os.listdir(w.e_c)) - len(crashed),
         "match_total": s.match_t,
         "match": s.match_l,
         "us_total": s.us_t,

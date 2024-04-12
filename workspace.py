@@ -29,7 +29,7 @@ class Wksp:
 
     r_dir = os.path.join(p_dir, "result")
     r_r =  os.path.join(r_dir, "rust")
-    r_e = os.path.join(r_dir, "eval")
+    r_s = os.path.join(r_dir, "summary")
 
     u_dir =  os.path.join(r_dir, "unsupported")
     u_d =  os.path.join(u_dir, "dump")

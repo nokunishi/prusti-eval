@@ -115,7 +115,11 @@ def eval(report, s):
 
 
 def extract(s):
+    crashed = os.listdir(w.c_r)
+
     for report in os.listdir(w.p_c):
+         if report.replace(".json", ".txt") in crashed:
+             continue
          (o, c)= eval(report, s)
          s.omit += o
          if c != "":
@@ -153,7 +157,7 @@ def run():
         "omitted": s.omit_c
     }
 
-    with open(os.path.join(w.r_e, w.date() + ".json"), "w") as f:
+    with open(os.path.join(w.r_s, w.date() + ".json"), "w") as f:
         print("writing eval")
         f.write(json.dumps(stats, indent= 8))
         f.close()
