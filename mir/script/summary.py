@@ -227,7 +227,7 @@ def main():
 
     obj = {
         "crate_num": s.crate,
-        "fn_total": s.fn_total,
+        "fn_total":  s.fn_mir + s.num_b0,
         "line_total": s.ln_total,
         "fn_mir": s.fn_mir,
         "p_total": s.p_total,
