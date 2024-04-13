@@ -1,0 +1,563 @@
+{
+  "crates": 175,
+  "us_total": 5881,
+  "us_rsn_num": 139,
+  "rsn": {
+    "access to reference-typed fields is not supported": {
+      "num": 118,
+      "i.e.": "failure-0.1.6"
+    },
+    "iterators are not fully supported yet": {
+      "num": 118,
+      "i.e.": "failure-0.1.6"
+    },
+    "cast statements that create loans are not supported": {
+      "num": 118,
+      "i.e.": "failure-0.1.6"
+    },
+    "unsupported constant type str": {
+      "num": 112,
+      "i.e.": "failure-0.1.6"
+    },
+    "determining the region of a dereferentiation is not supported": {
+      "num": 95,
+      "i.e.": "failure-0.1.6"
+    },
+    "unsupported constant type Adt": {
+      "num": 94,
+      "i.e.": "failure-0.1.6"
+    },
+    "unsupported constant value: FnDef": {
+      "num": 85,
+      "i.e.": "failure-0.1.6"
+    },
+    "raw pointers are not supported": {
+      "num": 80,
+      "i.e.": "iovec-0.1.4"
+    },
+    "higher-ranked lifetimes and types are not supported": {
+      "num": 69,
+      "i.e.": "serde_derive-1.0.104"
+    },
+    "mutably slicing is not fully supported yet": {
+      "num": 68,
+      "i.e.": "iovec-0.1.4"
+    },
+    "support for operation Shr is experimental and disabled by default": {
+      "num": 62,
+      "i.e.": "iovec-0.1.4"
+    },
+    "support for operation Shl is experimental and disabled by default": {
+      "num": 61,
+      "i.e.": "failure-0.1.6"
+    },
+    "bitwise operations on non-boolean types are experimental and disabled by default": {
+      "num": 60,
+      "i.e.": "native-tls-0.2.3"
+    },
+    "Non-slice LHS type str not supported yet": {
+      "num": 59,
+      "i.e.": "failure-0.1.6"
+    },
+    "raw addresses of expressions and casts from references to raw pointers are not supported": {
+      "num": 59,
+      "i.e.": "failure-0.1.6"
+    },
+    "unsupported constant value: Unevaluated": {
+      "num": 55,
+      "i.e.": "iovec-0.1.4"
+    },
+    "unsupported constant type u8": {
+      "num": 52,
+      "i.e.": "ucd-util-0.1.7"
+    },
+    "unsupported creation of shallow borrows": {
+      "num": 49,
+      "i.e.": "iovec-0.1.4"
+    },
+    "unsupported type Binder": {
+      "num": 42,
+      "i.e.": "serde_derive-1.0.104"
+    },
+    "unsizing a std::boxed": {
+      "num": 39,
+      "i.e.": "failure-0.1.6"
+    },
+    "unsupported statement kind: Intrinsic": {
+      "num": 36,
+      "i.e.": "rand_chacha-0.2.1"
+    },
+    "casts PtrToPtr are not supported": {
+      "num": 34,
+      "i.e.": "failure-0.1.6"
+    },
+    "Non-slice LHS type Adt": {
+      "num": 34,
+      "i.e.": "serde_derive-1.0.104"
+    },
+    "references to thread-local storage are not supported": {
+      "num": 32,
+      "i.e.": "native-tls-0.2.3"
+    },
+    "unsupported constant type usize": {
+      "num": 24,
+      "i.e.": "rand_chacha-0.2.1"
+    },
+    "Slicing is only supported for arrays/slices currently, not Adt": {
+      "num": 23,
+      "i.e.": "serde_derive-1.0.104"
+    },
+    "unsupported type Alias": {
+      "num": 23,
+      "i.e.": "native-tls-0.2.3"
+    },
+    "unions are not supported": {
+      "num": 20,
+      "i.e.": "iovec-0.1.4"
+    },
+    "unsupported type to extract lifetimes: Generator": {
+      "num": 18,
+      "i.e.": "native-tls-0.2.3"
+    },
+    "unsupported cast from type bool to type usize": {
+      "num": 15,
+      "i.e.": "iovec-0.1.4"
+    },
+    "unsupported constant type u32": {
+      "num": 15,
+      "i.e.": "atty-0.2.14"
+    },
+    "unsupported constant type i32": {
+      "num": 14,
+      "i.e.": "iovec-0.1.4"
+    },
+    "the encoding of pledges does not supporte this kind of reborrowing": {
+      "num": 13,
+      "i.e.": "serde_derive-1.0.104"
+    },
+    "casts IntToFloat are not supported": {
+      "num": 12,
+      "i.e.": "quickcheck-0.9.2"
+    },
+    "unsupported constant value:": {
+      "num": 11,
+      "i.e.": "gcc-0.3.55"
+    },
+    "Non-slice LHS type u8 not supported yet": {
+      "num": 11,
+      "i.e.": "try-lock-0.2.2"
+    },
+    "unsupported constant type u16": {
+      "num": 10,
+      "i.e.": "atty-0.2.14"
+    },
+    "unsupported constant type bool": {
+      "num": 9,
+      "i.e.": "httparse-1.3.4"
+    },
+    "unsupported cast from type *const u8 to type usize": {
+      "num": 9,
+      "i.e.": "unicode-xid-0.2.0"
+    },
+    "Non-slice LHS type char not supported yet": {
+      "num": 8,
+      "i.e.": "iovec-0.1.4"
+    },
+    "please use a local variable as argument for function scanner::Scanner::<T>::lookahead, not a constant, when calling the function from a loop": {
+      "num": 8,
+      "i.e.": "iovec-0.1.4"
+    },
+    "Non-slice LHS type u32 not supported yet": {
+      "num": 8,
+      "i.e.": "iovec-0.1.4"
+    },
+    "copy operation for an unsupported type Binder": {
+      "num": 8,
+      "i.e.": "serde_derive-1.0.104"
+    },
+    "unsizing a std::sync": {
+      "num": 8,
+      "i.e.": "native-tls-0.2.3"
+    },
+    "only calls to closures are supported. The term is a dyn Binder": {
+      "num": 8,
+      "i.e.": "num-complex-0.2.4"
+    },
+    "unsupported cast from type usize to type *mut Adt": {
+      "num": 7,
+      "i.e.": "iovec-0.1.4"
+    },
+    "the creation of loans in this loop is not supported": {
+      "num": 7,
+      "i.e.": "native-tls-0.2.3"
+    },
+    "variadic functions are not supported": {
+      "num": 7,
+      "i.e.": "rand_chacha-0.2.1"
+    },
+    "only calls to closures are supported. The term is a Adt": {
+      "num": 7,
+      "i.e.": "env_logger-0.7.1"
+    },
+    "unsizing a std::pin": {
+      "num": 7,
+      "i.e.": "num-complex-0.2.4"
+    },
+    "unsupported cast from type usize to type *const Adt": {
+      "num": 7,
+      "i.e.": "num-complex-0.2.4"
+    },
+    "array indexing is not supported in arbitrary operand positions. Try refactoring your code to have only an array access on the right-hand side of assignments using temporary variables": {
+      "num": 7,
+      "i.e.": "unicode-xid-0.2.0"
+    },
+    "unsupported constant type u64": {
+      "num": 7,
+      "i.e.": "slab-0.4.2"
+    },
+    "only calls to closures are supported. The term is a F/#0, not a closure.": {
+      "num": 6,
+      "i.e.": "failure-0.1.6"
+    },
+    "unsupported cast from type bool to type i32": {
+      "num": 6,
+      "i.e.": "rand_chacha-0.2.1"
+    },
+    "two-phase borrows are not supported": {
+      "num": 6,
+      "i.e.": "uuid-0.8.1"
+    },
+    "unsupported constant type str))": {
+      "num": 6,
+      "i.e.": "unicode-xid-0.2.0"
+    },
+    "unsupported constant type strAdt": {
+      "num": 5,
+      "i.e.": "serde_derive-1.0.104"
+    },
+    "please use a local variable as argument for function core::slice::<impl T>::split_at_mut, not a constant, when calling the function from a loop": {
+      "num": 5,
+      "i.e.": "rand_pcg-0.2.1"
+    },
+    "error iterators are not fully supported yet": {
+      "num": 5,
+      "i.e.": "cc-1.0.50"
+    },
+    "Non-slice LHS type usize not supported yet": {
+      "num": 5,
+      "i.e.": "try-lock-0.2.2"
+    },
+    "*struct$m_task$$Task<, > type is not supported": {
+      "num": 5,
+      "i.e.": "num-complex-0.2.4"
+    },
+    "please use a local variable as argument for function futures_core::core_reexport::num::<impl usize>::wrapping_add, not a constant, when calling the function from a loop": {
+      "num": 5,
+      "i.e.": "num-complex-0.2.4"
+    },
+    "please use a local variable as argument for function in_inclusive_range8, not a constant, when calling the function from a loop": {
+      "num": 5,
+      "i.e.": "atty-0.2.14"
+    },
+    "please use a local variable as argument for function core::num::<impl u16>::wrapping_sub, not a constant, when calling the function from a loop": {
+      "num": 5,
+      "i.e.": "atty-0.2.14"
+    },
+    "*T$0 type is not supported": {
+      "num": 5,
+      "i.e.": "tokio-0.2.9"
+    },
+    "unsupported cast from type *mut Adt": {
+      "num": 5,
+      "i.e.": "tokio-0.2.9"
+    },
+    "copy operation for an unsupported type Alias": {
+      "num": 4,
+      "i.e.": "iovec-0.1.4"
+    },
+    "error unsupported constant type str": {
+      "num": 4,
+      "i.e.": "cc-1.0.50"
+    },
+    "error cast statements that create loans are not supported": {
+      "num": 4,
+      "i.e.": "cc-1.0.50"
+    },
+    "*U8 type is not supported": {
+      "num": 4,
+      "i.e.": "rand_chacha-0.2.1"
+    },
+    "please use a local variable as argument for function tokens::Tokenizer::<a>::eatc, not a constant, when calling the function from a loop": {
+      "num": 4,
+      "i.e.": "try-lock-0.2.2"
+    },
+    "please use a local variable as argument for function std::sync": {
+      "num": 4,
+      "i.e.": "openssl-probe-0.1.2"
+    },
+    "Non-slice LHS type": {
+      "num": 4,
+      "i.e.": "unicode-xid-0.2.0"
+    },
+    "please use a local variable as argument for function core::num::<impl u32>::wrapping_mul, not a constant, when calling the function from a loop": {
+      "num": 4,
+      "i.e.": "slab-0.4.2"
+    },
+    "unsupported cast from type bool to type u32": {
+      "num": 4,
+      "i.e.": "libz-sys-1.0.25"
+    },
+    "unsizing a std::rc": {
+      "num": 4,
+      "i.e.": "mime_guess-2.0.1"
+    },
+    "unsupported constant type i64": {
+      "num": 4,
+      "i.e.": "bytes-0.5.3"
+    },
+    "unsizing a into a std::boxed": {
+      "num": 3,
+      "i.e.": "serde_derive-1.0.104"
+    },
+    "error unsupported constant type Adt": {
+      "num": 3,
+      "i.e.": "cc-1.0.50"
+    },
+    "error access to reference-typed fields is not supported": {
+      "num": 3,
+      "i.e.": "cc-1.0.50"
+    },
+    "unsupported cast from type usize to type *mut i8": {
+      "num": 3,
+      "i.e.": "rand_chacha-0.2.1"
+    },
+    "unsupported cast from type isize to type *mut Adt": {
+      "num": 3,
+      "i.e.": "rand_chacha-0.2.1"
+    },
+    "*U32 type is not supported": {
+      "num": 3,
+      "i.e.": "rand_chacha-0.2.1"
+    },
+    "*struct$m_libc$$ifaddrs<, > type is not supported": {
+      "num": 3,
+      "i.e.": "rand_chacha-0.2.1"
+    },
+    "casts FloatToInt are not supported": {
+      "num": 3,
+      "i.e.": "quickcheck-0.9.2"
+    },
+    "please use a local variable as argument for function memchr::memchr, not a constant, when calling the function from a loop": {
+      "num": 3,
+      "i.e.": "unicode-xid-0.2.0"
+    },
+    "please use a local variable as argument for function std::option": {
+      "num": 3,
+      "i.e.": "parking_lot-0.10.0"
+    },
+    "unsupported cast from type bool to type u8": {
+      "num": 3,
+      "i.e.": "parking_lot-0.10.0"
+    },
+    "unsupported cast from type bool to type u64": {
+      "num": 3,
+      "i.e.": "libz-sys-1.0.25"
+    },
+    "*struct$m_timer$$entry$$Entry<, > type is not supported": {
+      "num": 2,
+      "i.e.": "native-tls-0.2.3"
+    },
+    "error Non-slice LHS type str not supported yet": {
+      "num": 2,
+      "i.e.": "cc-1.0.50"
+    },
+    "please use a local variable as argument for function futures_core::core_reexport::num::<impl usize>::saturating_add, not a constant, when calling the function from a loop": {
+      "num": 2,
+      "i.e.": "crc32fast-1.2.0"
+    },
+    "please use a local variable as argument for function v0::Parser::<s>::eat, not a constant, when calling the function from a loop": {
+      "num": 2,
+      "i.e.": "rustc-demangle-0.1.16"
+    },
+    "please use a local variable as argument for function core::num::<impl usize>::checked_mul, not a constant, when calling the function from a loop": {
+      "num": 2,
+      "i.e.": "rustc-demangle-0.1.16"
+    },
+    "please use a local variable as argument for function v0::Printer::<a, b, s>::eat, not a constant, when calling the function from a loop": {
+      "num": 2,
+      "i.e.": "rustc-demangle-0.1.16"
+    },
+    "please use a local variable as argument for function find_byte::find_byte, not a constant, when calling the function from a loop": {
+      "num": 2,
+      "i.e.": "parking_lot-0.10.0"
+    },
+    "please use a local variable as argument for function core::num::<impl usize>::saturating_sub, not a constant, when calling the function from a loop": {
+      "num": 2,
+      "i.e.": "parking_lot-0.10.0"
+    },
+    "unsupported constant type mut Adt": {
+      "num": 2,
+      "i.e.": "parking_lot-0.10.0"
+    },
+    "unsupported constant type char": {
+      "num": 2,
+      "i.e.": "parking_lot-0.10.0"
+    },
+    "*struct$m_Node<K$0, V$1, > type is not supported": {
+      "num": 2,
+      "i.e.": "tokio-executor-0.2.0-alpha.6"
+    },
+    "unsupported cast from type bool to type u16": {
+      "num": 2,
+      "i.e.": "libz-sys-1.0.25"
+    },
+    "unsupported constant type i8": {
+      "num": 2,
+      "i.e.": "bytes-0.5.3"
+    },
+    "unsupported constant type i16": {
+      "num": 2,
+      "i.e.": "bytes-0.5.3"
+    },
+    "unsupported constant type isize": {
+      "num": 2,
+      "i.e.": "bytes-0.5.3"
+    },
+    "**enum$m_symbolize$$libbacktrace$$bt$$backtrace_state<, > type is not supported": {
+      "num": 2,
+      "i.e.": "dirs-2.0.2"
+    },
+    "*Array": {
+      "num": 2,
+      "i.e.": "dirs-2.0.2"
+    },
+    "*enum$m_libc$$c_void<, > type is not supported": {
+      "num": 2,
+      "i.e.": "dirs-2.0.2"
+    },
+    "**struct$m_std$$sync$$Mutex<": {
+      "num": 2,
+      "i.e.": "dirs-2.0.2"
+    },
+    "error higher-ranked lifetimes and types are not supported": {
+      "num": 1,
+      "i.e.": "cc-1.0.50"
+    },
+    "error unsupported constant value": {
+      "num": 1,
+      "i.e.": "cc-1.0.50"
+    },
+    "error unsupported constant value core": {
+      "num": 1,
+      "i.e.": "cc-1.0.50"
+    },
+    "error unsupported type Binder": {
+      "num": 1,
+      "i.e.": "cc-1.0.50"
+    },
+    "error support for operation Shr is experimental and disabled by default": {
+      "num": 1,
+      "i.e.": "phf_shared-0.8.0"
+    },
+    "please use a local variable as argument for function rand::Rng::gen_range, not a constant, when calling the function from a loop": {
+      "num": 1,
+      "i.e.": "quickcheck-0.9.2"
+    },
+    "please use a local variable as argument for function core::num::<impl isize>::wrapping_add, not a constant, when calling the function from a loop": {
+      "num": 1,
+      "i.e.": "crossbeam-deque-0.7.2"
+    },
+    "*struct$m_Block<T$0, > type is not supported": {
+      "num": 1,
+      "i.e.": "crossbeam-deque-0.7.2"
+    },
+    "error unsupported constant value rustc_version": {
+      "num": 1,
+      "i.e.": "rustc_version-0.2.3"
+    },
+    "please use a local variable as argument for function std::time": {
+      "num": 1,
+      "i.e.": "tokio-executor-0.2.0-alpha.6"
+    },
+    "casts FloatToFloat are not supported": {
+      "num": 1,
+      "i.e.": "libz-sys-1.0.25"
+    },
+    "unsupported cast from type bool to type u128": {
+      "num": 1,
+      "i.e.": "libz-sys-1.0.25"
+    },
+    "unsupported cast from type bool to type i8": {
+      "num": 1,
+      "i.e.": "libz-sys-1.0.25"
+    },
+    "unsupported cast from type bool to type i16": {
+      "num": 1,
+      "i.e.": "libz-sys-1.0.25"
+    },
+    "unsupported cast from type bool to type i64": {
+      "num": 1,
+      "i.e.": "libz-sys-1.0.25"
+    },
+    "unsupported cast from type bool to type isize": {
+      "num": 1,
+      "i.e.": "libz-sys-1.0.25"
+    },
+    "unsupported cast from type bool to type i128": {
+      "num": 1,
+      "i.e.": "libz-sys-1.0.25"
+    },
+    "*T$1 type is not supported": {
+      "num": 1,
+      "i.e.": "crossbeam-epoch-0.8.0"
+    },
+    "error determining the region of a dereferentiation is not supported": {
+      "num": 1,
+      "i.e.": "tempfile-3.1.0"
+    },
+    "please use a local variable as argument for function std::char": {
+      "num": 1,
+      "i.e.": "rand_jitter-0.2.0"
+    },
+    "*struct$m_registration$$Node<, > type is not supported": {
+      "num": 1,
+      "i.e.": "tokio-reactor-0.2.0-alpha.1"
+    },
+    "error unsupported constant type u32": {
+      "num": 1,
+      "i.e.": "idna-0.2.0"
+    },
+    "error unsupported constant type char": {
+      "num": 1,
+      "i.e.": "idna-0.2.0"
+    },
+    "error support for operation Shl is experimental and disabled by default": {
+      "num": 1,
+      "i.e.": "idna-0.2.0"
+    },
+    "error unsupported constant type u16": {
+      "num": 1,
+      "i.e.": "idna-0.2.0"
+    },
+    "Non-slice LHS type Alias": {
+      "num": 1,
+      "i.e.": "owning_ref-0.4.0"
+    },
+    "*enum$m_std$$ffi$$c_void<, > type is not supported": {
+      "num": 1,
+      "i.e.": "libloading-0.5.2"
+    },
+    "Non-slice LHS type S/#0 not supported yet": {
+      "num": 1,
+      "i.e.": "syn-1.0.13"
+    },
+    "unsizing a T>> into a std::boxed": {
+      "num": 1,
+      "i.e.": "syn-1.0.13"
+    },
+    "unsizing a mut T>> into a std::boxed": {
+      "num": 1,
+      "i.e.": "syn-1.0.13"
+    }
+  }
+}

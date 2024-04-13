@@ -34,9 +34,11 @@ def count(acc, t, crate, list):
 def run():
     s = Stat()
     crashed = os.listdir(w.c_r)
+    i = 0
 
     for r in os.listdir(w.e_c):
         if not r.replace(".json", ".txt") in crashed:
+            i += 1
             with open(os.path.join(w.e_c, r), "r") as f_:
                 f = json.load(f_)
                 s.match_l, s.match_t = count(s.match_l, s.match_t, r.replace(".json", ""), f["match"])
@@ -50,7 +52,7 @@ def run():
     s.us_l = dict(sorted(s.us_l.items(),  key=lambda x: x[1]["count"], reverse=True))
 
     obj = {
-        "crate": len(os.listdir(w.e_c)) - len(crashed),
+        "crate": i,
         "match_total": s.match_t,
         "match": s.match_l,
         "us_total": s.us_t,
