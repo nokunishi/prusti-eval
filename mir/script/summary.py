@@ -1,15 +1,12 @@
-import os, sys, json, datetime
+import os, json
 from w import wksp
-
-cwd = os.getcwd()
-
-# TODO ignore test assertions failures!
 
 class Stats:
     crate = 0
     fn_total = 0
     ln_total = 0
     fn_mir = 0
+    fn_multiple_p = 0
     p_total = 0
     p_fn_num = 0
     panicked_rn_num = 0
@@ -37,21 +34,41 @@ class Obj:
         self.count += val
 
 
-def panic_rn(s, list, rerun):
-    for p_obj in list:
-        k = [*p_obj.keys()][0]
-        k_total = 0
-        for p_ in p_obj[k]:
-            k_total += p_["count"]
-            
-        inlist = False
-        for obj in s.panicked_rn:
-            if obj.getKey() == k:
-                obj.inc(k_total)
-                inlist = True
-            
-        if not inlist:
-            s.panicked_rn.append(Obj(k, k_total))
+def compile_err(s, list, rerun):
+    if len(s.compile_err) == 0:
+            s.compile_err.append(Obj("import/dependencies", 0))
+            s.compile_err.append(Obj("module", 0)) 
+            s.compile_err.append(Obj("scope", 0))  
+            s.compile_err.append(Obj("associated_type", 0))  
+            s.compile_err.append(Obj("attribute", 0))  
+            s.compile_err.append(Obj("rule", 0)) 
+            s.compile_err.append(Obj("syntax", 0))  
+            s.compile_err.append(Obj("rust", 0))
+
+    for e in list:
+        if not rerun:
+            k = [*e.keys()][0]
+        else:
+            k = e
+                
+        if "failed to resolve" in k or "import" in k or "dependency" in k:
+            s.compile_err[0].inc(1)
+        elif "scope" in k:
+            s.compile_err[2].inc(1)
+        elif "cannot find" in k and "in" in k:
+            s.compile_err[1].inc(1)
+        elif "associated type" in k:
+            s.compile_err[3].inc(1)
+        elif "attribute" in k:
+            s.compile_err[4].inc(1)
+        elif "bound" in k or "lifetime" in k or "size" in k:
+            s.compile_err[5].inc(1)
+        elif "expected" in k or "type annotations needed" in k:
+            s.compile_err[6].inc(1)
+        elif "Rust" in k or "experimental" in k:
+            s.compile_err[7].inc(1)
+
+
 
 def to_list(arr, key, obj):
     for a in arr:
@@ -64,6 +81,38 @@ def to_list(arr, key, obj):
     }
     arr.append(o_)
     return arr
+
+
+def panic_rn(s, list):
+    fns = {}
+    j = 0
+
+    for p_obj in list:
+        k = [*p_obj.keys()][0]
+        k_total = 0
+        for p_ in p_obj[k]:
+            k_total += p_["count"]
+
+            p = p_["path"]
+            if p in fns:
+                fns[p] += p_["count"]
+            else:
+                fns[p] = p_["count"]
+
+        inlist = False
+        for obj in s.panicked_rn:
+            if obj.getKey() == k:
+                obj.inc(k_total)
+                inlist = True
+            
+        if not inlist:
+            s.panicked_rn.append(Obj(k, k_total))
+
+    for fn in fns:
+        if fns[fn] > 1:
+            j += 1
+
+    return j
 
 
 def rm_duplicate(p_rn, fn_mir):
@@ -123,42 +172,7 @@ def rm_duplicate(p_rn, fn_mir):
     fn_mir -= i
     return r_new, fn_mir, p_total_, len(fns)
 
-
-def compile_err(s, list, rerun):
-    if len(s.compile_err) == 0:
-            s.compile_err.append(Obj("import/dependencies", 0))
-            s.compile_err.append(Obj("module", 0)) 
-            s.compile_err.append(Obj("scope", 0))  
-            s.compile_err.append(Obj("associated_type", 0))  
-            s.compile_err.append(Obj("attribute", 0))  
-            s.compile_err.append(Obj("rule", 0)) 
-            s.compile_err.append(Obj("syntax", 0))  
-            s.compile_err.append(Obj("rust", 0))
-
-    for e in list:
-        if not rerun:
-            k = [*e.keys()][0]
-        else:
-            k = e
-                
-        if "failed to resolve" in k or "import" in k or "dependency" in k:
-            s.compile_err[0].inc(1)
-        elif "scope" in k:
-            s.compile_err[2].inc(1)
-        elif "cannot find" in k and "in" in k:
-            s.compile_err[1].inc(1)
-        elif "associated type" in k:
-            s.compile_err[3].inc(1)
-        elif "attribute" in k:
-            s.compile_err[4].inc(1)
-        elif "bound" in k or "lifetime" in k or "size" in k:
-            s.compile_err[5].inc(1)
-        elif "expected" in k or "type annotations needed" in k:
-            s.compile_err[6].inc(1)
-        elif "Rust" in k or "experimental" in k:
-            s.compile_err[7].inc(1)
-
-def read(file, s, rerun):
+def read_fix(file, s, rerun):
     with open(file, "r") as f_, open("new.json", "w") as new:
         f = json.load(f_)
 
@@ -173,13 +187,15 @@ def read(file, s, rerun):
         s.unreachable_bn += f["unreachable_bn_total"]
         s.compile_err_num += f["compile_err_num"]
 
-        panic_rn(s, r, rerun)       
+        mul_p = panic_rn(s, r)  
+        s.fn_multiple_p += mul_p  
         compile_err(s, f["compile_err"], rerun)
 
         obj = {
             "fn_total": f["fn_total"],
             "line_total": f["line_total"],
             "fn_mir":  fn_m,
+            "fn_multiple_p": mul_p,
             "p_total": p,
             "p_fn_num":  p_fn,
             "panicked_rn_num": len(r),
@@ -199,7 +215,7 @@ def read(file, s, rerun):
         new.close()
         os.rename("new.json", file)
 
-def main():
+def write_summary():
     s = Stats()
     w = wksp()
 
@@ -212,9 +228,9 @@ def main():
         if m.replace(".json", ".txt") in crashed:
             continue
         if m not in mir_re:
-            read(os.path.join(w.m_rprt, m), s, False)  
+            read_fix(os.path.join(w.m_rprt, m), s, False)  
         else:
-            read(os.path.join(w.m_rerun, m), s, True)   
+            read_fix(os.path.join(w.m_rerun, m), s, True)   
     s.compile_err.sort(key = lambda x: x.count, reverse=True)
     c_err = []
     for e in s.compile_err:
@@ -231,7 +247,8 @@ def main():
         "line_total": s.ln_total,
         "fn_mir": s.fn_mir,
         "p_total": s.p_total,
-        "p_fn_num": s.p_fn_num,
+        "p_fn": s.p_fn_num,
+        "multiple_p_fn": s.fn_multiple_p,
         "panicked_rn_num": len(p_rn),
         "panicked_rn": p_rn,
         "num_b0": s.num_b0,
@@ -241,12 +258,10 @@ def main():
     }
     
     obj = json.dumps(obj)
-    date_ = str(datetime.datetime.now()).split(" ")
-    date = date_[0] + "-" + date_[1]
-    with open(os.path.join(w.m_s, "mir-" + date +  ".json"), "w") as f:
+    with open(os.path.join(w.m_s, w.date() +  ".json"), "w") as f:
         print("writing to mir summary...")
         f.write(obj)
 
 if __name__ == "__main__":
-    main()
+    write_summary()
   
