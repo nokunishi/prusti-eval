@@ -1,6 +1,6 @@
 {
   "crate_num": 175,
-  "fn_total": 43204,
+  "fn_total": 13935,
   "line_total": 812555,
   "fn_mir": 3953,
   "p_total": 1591,
@@ -29,7 +29,7 @@
   "compile_err_num": 70785,
   "compile_err": [
     { "scope": 50730 },
-    { "import_crates": 15979 },
+    { "import/dependencies": 15996 },
     { "rust": 662 },
     { "module": 386 },
     { "syntax": 321 },

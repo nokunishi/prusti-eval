@@ -126,7 +126,7 @@ def rm_duplicate(p_rn, fn_mir):
 
 def compile_err(s, list, rerun):
     if len(s.compile_err) == 0:
-            s.compile_err.append(Obj("import_crates", 0))
+            s.compile_err.append(Obj("import/dependencies", 0))
             s.compile_err.append(Obj("module", 0)) 
             s.compile_err.append(Obj("scope", 0))  
             s.compile_err.append(Obj("associated_type", 0))  
@@ -141,7 +141,7 @@ def compile_err(s, list, rerun):
         else:
             k = e
                 
-        if "failed to resolve" in k or "import" in k:
+        if "failed to resolve" in k or "import" in k or "dependency" in k:
             s.compile_err[0].inc(1)
         elif "scope" in k:
             s.compile_err[2].inc(1)
