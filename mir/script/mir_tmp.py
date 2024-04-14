@@ -110,15 +110,21 @@ def m_extract(mir, crate, list):
                     else:
                         reasons.append({l.split('"')[1]: 1})
                         r_tmp.append(l.split('"')[1])
-                if "!core::panicking::panic(const" in l or '(const "explicit panic")' in l:
+                if ("core::panicking::" in l and  "(move" in l) \
+                    or '(const "explicit panic")' in l \
+                    or "core::panicking::panic(const " in l:
                     total += 1
+                    if '"' in l:
+                        l_ = l.split('"')[1]
+                    else:
+                        l_ = l.split("::")[2]
                     if l.split('(')[1] in r_tmp:
                         for reason in reasons:
-                            if [*reason.keys()][0] == l.split('"')[1]:
-                                reason[l.split('"')[1]] += 1
+                            if [*reason.keys()][0] == l_:
+                                reason[l_] += 1
                     else:
-                        reasons.append({l.split('"')[1]: 1})
-                        r_tmp.append(l.split('"')[1])
+                        reasons.append({l_: 1})
+                        r_tmp.append(l_)
 
                 if "unreachable;" in l:
                     unreachable += 1

@@ -10,4 +10,4 @@ fn unreachable() -> () {
         resume;
     }
 }
-path: ./test/test.rs:15:17: 15:17 (#0)
+path: ./index_macros/test.rs:15:17: 15:17 (#0)

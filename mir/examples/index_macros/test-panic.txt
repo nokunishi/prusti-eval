@@ -10,4 +10,4 @@ fn panic() -> () {
         resume;
     }
 }
-path: ./test/test.rs:11:11: 11:11 (#0)
+path: ./index_macros/test.rs:11:11: 11:11 (#0)

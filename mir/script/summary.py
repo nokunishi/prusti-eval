@@ -215,6 +215,23 @@ def read_fix(file, s, rerun):
         new.close()
         os.rename("new.json", file)
 
+
+def parse_p_rn(s):
+    p_rn = {}
+    for p in s.panicked_rn:
+        p_ = p.getKey()
+        if "assertion failed:" in p_:
+            p_ = "assert_failed"
+        if "panic_fmt" in p_:
+            p_ = "panic_fmt"
+        if "cell was filled by closure" in p_:
+            p_ = "cell was filled by closure"
+        if p_ not in p_rn:
+            p_rn[p_] = p.getVal()
+        else:
+            p_rn[p_] += p.getVal()
+    return p_rn
+
 def write_summary():
     s = Stats()
     w = wksp()
@@ -236,10 +253,8 @@ def write_summary():
     for e in s.compile_err:
         c_err.append({e.getKey(): e.getVal()})
 
-    s.panicked_rn.sort(key = lambda x: x.count, reverse=True)
-    p_rn = []
-    for p in s.panicked_rn:
-        p_rn.append({p.getKey(): p.getVal()})
+    p_rn = parse_p_rn(s)
+    p_rn = dict(sorted(p_rn.items(), key = lambda x: x[1], reverse=True))
 
     obj = {
         "crate_num": s.crate,

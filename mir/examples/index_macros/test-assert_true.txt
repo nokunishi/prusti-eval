@@ -1,0 +1,24 @@
+fn assert_true() -> () {
+    let mut _0: ();
+    let mut _1: bool;
+    let mut _2: !;
+
+    bb0: {
+        _1 = const true;
+        switchInt(move _1) -> [0: bb1, otherwise: bb2];
+    }
+
+    bb1: {
+        _2 = core::panicking::panic(const "assertion failed: true") -> bb3;
+    }
+
+    bb2: {
+        _0 = const ();
+        return;
+    }
+
+    bb3 (cleanup): {
+        resume;
+    }
+}
+path: ./index_macros/test.rs:23:17: 23:17 (#0)

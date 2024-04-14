@@ -1,0 +1,68 @@
+fn assert_ne_true() -> () {
+    let mut _0: ();
+    let mut _1: (&i32, &i32);
+    let mut _2: &i32;
+    let _3: i32;
+    let mut _4: &i32;
+    let _5: i32;
+    let _6: &i32;
+    let _7: &i32;
+    let mut _8: bool;
+    let mut _9: i32;
+    let mut _10: i32;
+    let mut _11: !;
+    let _13: !;
+    let mut _14: core::panicking::AssertKind;
+    let mut _15: &i32;
+    let _16: &i32;
+    let mut _17: &i32;
+    let _18: &i32;
+    let mut _19: std::option::Option<std::fmt::Arguments<'_>>;
+    let mut _20: &i32;
+    let mut _21: &i32;
+    scope 1 {
+        debug left_val => _6;
+        debug right_val => _7;
+        let _12: core::panicking::AssertKind;
+        scope 2 {
+            debug kind => _12;
+        }
+    }
+
+    bb0: {
+        _21 = const _;
+        _2 = &(*_21);
+        _20 = const _;
+        _4 = &(*_20);
+        _1 = (move _2, move _4);
+        PlaceMention(_1);
+        _6 = (_1.0: &i32);
+        _7 = (_1.1: &i32);
+        _9 = (*_6);
+        _10 = (*_7);
+        _8 = Eq(move _9, move _10);
+        switchInt(move _8) -> [0: bb2, otherwise: bb1];
+    }
+
+    bb1: {
+        _12 = core::panicking::AssertKind::Ne;
+        FakeRead(ForLet(None), _12);
+        _14 = move _12;
+        _16 = &(*_6);
+        _15 = &(*_16);
+        _18 = &(*_7);
+        _17 = &(*_18);
+        _19 = std::option::Option::<std::fmt::Arguments<'_>>::None;
+        _13 = core::panicking::assert_failed::<i32, i32>(move _14, move _15, move _17, move _19) -> bb3;
+    }
+
+    bb2: {
+        _0 = const ();
+        return;
+    }
+
+    bb3 (cleanup): {
+        resume;
+    }
+}
+path: ./index_macros/test.rs:40:20: 40:20 (#0)

@@ -142,7 +142,6 @@ def run():
 
     stats = {
         "crates_total": s.i,
-        "crates_num": s.i - s.omit,
         "fn_total": s.fn_total,
         "ve_total": s.failed_total,
         "ve_distinct_num": len(s.failed_reason),

@@ -30,4 +30,4 @@ fn out_of_bounds(_1: &i32) -> () {
         resume;
     }
 }
-path: ./test/test.rs:1:26: 1:26 (#0)
+path: ./index_macros/test.rs:1:26: 1:26 (#0)
