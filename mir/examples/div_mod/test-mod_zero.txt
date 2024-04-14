@@ -28,4 +28,4 @@ fn mod_zero() -> () {
         resume;
     }
 }
-path: ./test/test.rs:31:18: 31:18 (#0)
+path: ./div_mod/test.rs:48:18: 48:18 (#0)

@@ -1,8 +1,8 @@
-fn ls(_1: u32) -> () {
+fn ls(_1: i32) -> () {
     debug x => _1;
     let mut _0: ();
-    let mut _2: u32;
-    let mut _3: u32;
+    let mut _2: i32;
+    let mut _3: i32;
     let mut _4: u32;
     let mut _5: bool;
     scope 1 {

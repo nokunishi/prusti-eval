@@ -1,0 +1,14 @@
+fn not_overflow() -> () {
+    let mut _0: ();
+    let mut _1: i32;
+    scope 1 {
+    }
+
+    bb0: {
+        _1 = Not(const _);
+        PlaceMention(_1);
+        _0 = const ();
+        return;
+    }
+}
+path: ./test/test.rs:25:18: 25:18 (#0)

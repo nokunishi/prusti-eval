@@ -1,4 +1,4 @@
-fn div(_1: i32, _2: i32) -> () {
+fn div1(_1: i32, _2: i32) -> () {
     debug x => _1;
     debug y => _2;
     let mut _0: ();
@@ -34,4 +34,4 @@ fn div(_1: i32, _2: i32) -> () {
         resume;
     }
 }
-path: ./test/test.rs:1:26: 1:26 (#0)
+path: ./div_mod/test.rs:1:27: 1:27 (#0)

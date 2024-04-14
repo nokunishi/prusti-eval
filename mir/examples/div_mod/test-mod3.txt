@@ -1,0 +1,24 @@
+fn mod3(_1: u32) -> () {
+    debug x => _1;
+    let mut _0: ();
+    let _2: u32;
+    let mut _3: u32;
+    let mut _4: bool;
+
+    bb0: {
+        _3 = _1;
+        _4 = Eq(const 2_u32, const 0_u32);
+        assert(!move _4, "attempt to calculate the remainder of `{}` with a divisor of zero", _3) -> [success: bb1, unwind: bb2];
+    }
+
+    bb1: {
+        _2 = Rem(move _3, const 2_u32);
+        _0 = const ();
+        return;
+    }
+
+    bb2 (cleanup): {
+        resume;
+    }
+}
+path: ./div_mod/test.rs:33:19: 33:19 (#0)
