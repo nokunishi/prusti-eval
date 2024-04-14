@@ -28,4 +28,4 @@ fn div_safe() -> () {
         resume;
     }
 }
-path: ./div_mod/test.rs:13:18: 13:18 (#0)
+path: ./test/test.rs:26:18: 26:18 (#0)

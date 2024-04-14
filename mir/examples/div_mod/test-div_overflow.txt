@@ -28,4 +28,4 @@ fn div_overflow() -> () {
         resume;
     }
 }
-path: ./div_mod/test.rs:21:22: 21:22 (#0)
+path: ./test/test.rs:34:22: 34:22 (#0)

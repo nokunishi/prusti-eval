@@ -1,0 +1,24 @@
+fn div_u2(_1: u32) -> () {
+    debug x => _1;
+    let mut _0: ();
+    let _2: u32;
+    let mut _3: u32;
+    let mut _4: bool;
+
+    bb0: {
+        _3 = _1;
+        _4 = Eq(const 9_u32, const 0_u32);
+        assert(!move _4, "attempt to divide `{}` by zero", _3) -> [success: bb1, unwind: bb2];
+    }
+
+    bb1: {
+        _2 = Div(move _3, const 9_u32);
+        _0 = const ();
+        return;
+    }
+
+    bb2 (cleanup): {
+        resume;
+    }
+}
+path: ./test/test.rs:5:22: 5:22 (#0)

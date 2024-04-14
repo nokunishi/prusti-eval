@@ -1,4 +1,4 @@
-fn mod3(_1: u32) -> () {
+fn mod_u3(_1: u32) -> () {
     debug x => _1;
     let mut _0: ();
     let _2: u32;
@@ -21,4 +21,4 @@ fn mod3(_1: u32) -> () {
         resume;
     }
 }
-path: ./div_mod/test.rs:33:19: 33:19 (#0)
+path: ./test/test.rs:46:21: 46:21 (#0)

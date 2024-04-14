@@ -28,4 +28,4 @@ fn mod_safe() -> () {
         resume;
     }
 }
-path: ./div_mod/test.rs:38:18: 38:18 (#0)
+path: ./test/test.rs:63:18: 63:18 (#0)
