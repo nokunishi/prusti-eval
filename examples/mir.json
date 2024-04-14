@@ -4,7 +4,8 @@
   "line_total": 812555,
   "fn_mir": 3953,
   "p_total": 1591,
-  "p_fn_num": 349,
+  "p_fn": 349,
+  "multiple_p_fn": 204,
   "panicked_rn_num": 12,
   "panicked_rn": [
     { "attempt to compute `{} + {}`, which would overflow": 441 },
