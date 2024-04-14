@@ -9,9 +9,17 @@ def v_err(crate):
         v_err = f["verification_failed_reason"]
         v_e_new = []
         for rsn in v_err:
+            if  "the asserted expression might not hold" in rsn:
+                for l in v_err[rsn]:
+                    line = [*l.keys()][0]
+                    if "," in l[line]:
+                        a = l[line].split("!")[2].split(",")[0]
+                    else:
+                        a = l[line].split("!")[1].split(";")[0]
+                    v_e_new.append({line: a})
             for l in v_err[rsn]:
-                l = [*l.keys()][0]
-                v_e_new.append({l: rsn})
+                line = [*l.keys()][0]
+                v_e_new.append({line: rsn})
         f_.close()
         return v_e_new
 

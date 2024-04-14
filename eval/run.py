@@ -32,6 +32,8 @@ def equal(r, r_p):
         return True
     if "Shr" in r_p and "shift right" in r:
         return True
+    if "negate" in r_p and "negate" in r:
+        return True
     
     # explicit panic
     if "unreachable!(..)" in r_p and \
@@ -43,6 +45,15 @@ def equal(r, r_p):
         return True
     if "index" in r_p and "index" in r:
         return True
+    if "cell" in r_p and "cell" in r:
+        return True
+    if "panic_fmt" in r_p and "panic_fmt" in r:
+        return True
+    if "lock" in r_p and "lock" in r:
+        return True
+    if "assertion failed:" in r:
+        if r.split(":")[1].strip() in r_p:
+            return True
     else:
         return False
 
@@ -88,9 +99,9 @@ def mir_ve(mir, p_lines):
                         inPrusti = True
                         if equal(r, r_p):
                             if r in eq:
-                                eq[r].append({"fn": fn, "path": l["path"]})
+                                eq[r].append({"fn": fn, "path": l["path"], "mir": r, "prusti": r_p})
                             else:
-                                eq[r] =  [{"fn": l["fn"], "path": l["path"]}] 
+                                eq[r] =  [{"fn": l["fn"], "path": l["path"], "mir": r, "prusti": r_p}] 
                         else:
                             if r in ne:
                                 ne[r].append({"fn": l["fn"], "path": l["path"]})

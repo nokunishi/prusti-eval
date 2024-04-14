@@ -1,6 +1,6 @@
 {
   "crate": 175,
-  "match_total": 30,
+  "match_total": 36,
   "match": {
     "attempt to compute `{} + {}`, which would overflow": {
       "count": 13,
@@ -34,12 +34,44 @@
         "path": "src/lib.rs:131:5: 142:6 (#0)"
       }
     },
+    "internal error: entered unreachable code": {
+      "count": 3,
+      "i.e.": {
+        "crate": "slab-0.4.2",
+        "fn": "src/lib-get_unchecked",
+        "path": "src/lib.rs:540:5: 545:6 (#0)"
+      }
+    },
     "index out of bounds: the length is {} but the index is {}": {
       "count": 3,
       "i.e.": {
         "crate": "getopts-0.2.21",
         "fn": "src/lib-from_str",
         "path": "src/lib.rs:738:5: 744:6 (#0)"
+      }
+    },
+    "assertion failed: data.len() <= CC_LONG::max_value() as usize": {
+      "count": 1,
+      "i.e.": {
+        "crate": "native-tls-0.2.3",
+        "fn": "src/imp/security_framework-hash",
+        "path": "src/imp/security_framework.rs:491:5: 517:6 (#0)"
+      }
+    },
+    "assertion failed: offset(index) == 0": {
+      "count": 1,
+      "i.e.": {
+        "crate": "tokio-sync-0.2.0-alpha.6",
+        "fn": "src/mpsc/block-is_at_index",
+        "path": "src/mpsc/block.rs:96:5: 99:6 (#0)"
+      }
+    },
+    "assertion failed: self.is_language_range()": {
+      "count": 1,
+      "i.e.": {
+        "crate": "language-tags-0.2.2",
+        "fn": "src/lib-matches",
+        "path": "src/lib.rs:287:5: 304:6 (#0)"
       }
     },
     "attempt to compute `{} / {}`, which would overflow": {
@@ -51,10 +83,10 @@
       }
     }
   },
-  "us_total": 139,
+  "us_total": 161,
   "us": {
     "iterators are not fully supported yet": {
-      "count": 21,
+      "count": 22,
       "i.e.": {
         "crate": "ucd-util-0.1.7",
         "fn": "src/name-character_name_normalize_bytes",
@@ -70,11 +102,19 @@
       }
     },
     "access to reference-typed fields is not supported": {
-      "count": 15,
+      "count": 19,
       "i.e.": {
         "crate": "gcc-0.3.55",
         "fn": "src/lib-try_compile",
         "path": "src/lib.rs:709:5: 770:6 (#0)"
+      }
+    },
+    "bitwise operations on non-boolean types are experimental and disabled by default; use `encode_bitvectors` to enable": {
+      "count": 14,
+      "i.e.": {
+        "crate": "tokio-threadpool-0.2.0-alpha.1",
+        "fn": "src/task/blocking_state-notify_blocking",
+        "path": "src/task/blocking_state.rs:62:5: 67:6 (#0)"
       }
     },
     "support for operation Shr is experimental and disabled by default; use `encode_bitvectors` to enable it": {
@@ -85,6 +125,14 @@
         "path": "src/pool/state.rs:42:5: 44:6 (#0)"
       }
     },
+    "determining the region of a dereferentiation is not supported": {
+      "count": 9,
+      "i.e.": {
+        "crate": "tokio-0.2.9",
+        "fn": "src/runtime/builder-core_threads",
+        "path": "src/runtime/builder.rs:170:5: 174:6 (#0)"
+      }
+    },
     "mutably slicing is not fully supported yet": {
       "count": 9,
       "i.e.": {
@@ -93,24 +141,8 @@
         "path": "src/lib.rs:629:5: 645:6 (#0)"
       }
     },
-    "determining the region of a dereferentiation is not supported": {
-      "count": 7,
-      "i.e.": {
-        "crate": "getopts-0.2.21",
-        "fn": "src/lib-parse",
-        "path": "src/lib.rs:341:5: 481:6 (#0)"
-      }
-    },
-    "bitwise operations on non-boolean types are experimental and disabled by default; use `encode_bitvectors` to enable": {
-      "count": 5,
-      "i.e.": {
-        "crate": "crc32fast-1.2.0",
-        "fn": "src/combine-gf2_matrix_times",
-        "path": "src/combine.rs:4:63: 4:63 (#0)"
-      }
-    },
     "raw pointers are not supported": {
-      "count": 5,
+      "count": 6,
       "i.e.": {
         "crate": "crossbeam-deque-0.7.2",
         "fn": "src/lib-resize",
@@ -118,7 +150,7 @@
       }
     },
     "Non-slice LHS type str not supported yet": {
-      "count": 4,
+      "count": 5,
       "i.e.": {
         "crate": "gcc-0.3.55",
         "fn": "src/lib-try_compile",
@@ -147,6 +179,14 @@
         "crate": "ucd-util-0.1.7",
         "fn": "src/name-symbolic_name_normalize_bytes",
         "path": "src/name.rs:100:64: 100:64 (#0)"
+      }
+    },
+    "unsupported statement kind: Intrinsic(Assume(move _6))": {
+      "count": 2,
+      "i.e.": {
+        "crate": "tokio-threadpool-0.2.0-alpha.1",
+        "fn": "src/pool/state-from",
+        "path": "src/pool/state.rs:128:5: 132:6 (#0)"
       }
     },
     "raw addresses of expressions and casts from references to raw pointers are not supported": {
@@ -251,6 +291,30 @@
         "crate": "cookie-0.12.0",
         "fn": "src/parse-indexes_of",
         "path": "src/parse.rs:65:70: 65:70 (#0)"
+      }
+    },
+    "unsupported cast from type *mut Adt(semaphore::WaiterNode, []) to type usize": {
+      "count": 1,
+      "i.e.": {
+        "crate": "tokio-sync-0.2.0-alpha.6",
+        "fn": "src/semaphore-set_waiter",
+        "path": "src/semaphore.rs:1012:5: 1018:6 (#0)"
+      }
+    },
+    "unsizing a std::boxed::Box<(dyn std::borrow::Borrow<[u8]> + into a std::boxed::Box<(dyn std::borrow::Borrow<[u8]> + is not supported": {
+      "count": 1,
+      "i.e.": {
+        "crate": "nix-0.16.1",
+        "fn": "src/sys/aio-boxed_slice",
+        "path": "src/sys/aio.rs:169:5: 182:6 (#0)"
+      }
+    },
+    "unsizing a std::boxed::Box<(dyn std::borrow::BorrowMut<[u8]> + into a std::boxed::Box<(dyn std::borrow::BorrowMut<[u8]> + is not supported": {
+      "count": 1,
+      "i.e.": {
+        "crate": "nix-0.16.1",
+        "fn": "src/sys/aio-boxed_mut_slice",
+        "path": "src/sys/aio.rs:191:5: 204:6 (#0)"
       }
     },
     "casts PtrToPtr are not supported": {
@@ -365,14 +429,6 @@
         "path": "src/frame/stream_id.rs:70:5: 77:6 (#0)"
       }
     },
-    "array indexing is not supported in arbitrary operand positions. Try refactoring your code to have only an array access on the right-hand side of assignments using temporary variables": {
-      "count": 1,
-      "i.e.": {
-        "crate": "pulldown-cmark-0.6.1",
-        "fn": "src/scanners-scan_eol",
-        "path": "src/scanners.rs:398:54: 398:54 (#0)"
-      }
-    },
     "unsupported constant value: FnDef(DefId(0:367 ~ pulldown_cmark[c0ac]::scanners::is_ascii_alphanumeric), []))": {
       "count": 1,
       "i.e.": {
@@ -398,23 +454,15 @@
       }
     }
   },
-  "unevaluated": 57,
-  "mir_only_total": 62,
+  "unevaluated": 66,
+  "mir_only_total": 57,
   "mir_only_l": {
     "attempt to compute `{} + {}`, which would overflow": {
-      "count": 19,
+      "count": 10,
       "i.e.": {
         "crate": "redox_syscall-0.1.56",
         "fn": "src/flag-wifsignaled",
         "path": "src/flag.rs:148:42: 148:42 (#0)"
-      }
-    },
-    "attempt to compute `{} - {}`, which would overflow": {
-      "count": 14,
-      "i.e.": {
-        "crate": "tokio-0.2.9",
-        "fn": "src/util/bit-mask_for",
-        "path": "src/util/bit.rs:77:46: 77:46 (#0)"
       }
     },
     "attempt to shift left by `{}`, which would overflow": {
@@ -449,6 +497,22 @@
         "path": "src/util.rs:17:57: 17:57 (#0)"
       }
     },
+    "assert_failed": {
+      "count": 3,
+      "i.e.": {
+        "crate": "crossbeam-deque-0.7.2",
+        "fn": "src/lib-alloc",
+        "path": "src/lib.rs:133:5: 141:6 (#0)"
+      }
+    },
+    "unreachable_display": {
+      "count": 3,
+      "i.e.": {
+        "crate": "cookie-0.12.0",
+        "fn": "src/parse-as_str",
+        "path": "src/parse.rs:35:5: 44:6 (#0)"
+      }
+    },
     "attempt to shift right by `{}`, which would overflow": {
       "count": 3,
       "i.e.": {
@@ -465,6 +529,22 @@
         "path": "src/sys/time.rs:136:5: 138:6 (#0)"
       }
     },
+    "assertion failed: path2.parent().unwrap().is_dir()": {
+      "count": 2,
+      "i.e.": {
+        "crate": "tempfile-3.1.0",
+        "fn": "tests/tempdir-recursive_mkdir_rel_2",
+        "path": "tests/tempdir.rs:176:27: 176:27 (#0)"
+      }
+    },
+    "assertion failed: mask1 != 0 || mask2 != 0 || mask3 != 0": {
+      "count": 2,
+      "i.e.": {
+        "crate": "memchr-2.3.0",
+        "fn": "src/x86/avx-forward_pos3",
+        "path": "src/x86/avx.rs:655:61: 655:61 (#0)"
+      }
+    },
     "index out of bounds: the length is {} but the index is {}": {
       "count": 2,
       "i.e.": {
@@ -473,12 +553,52 @@
         "path": "src/date.rs:342:5: 381:6 (#0)"
       }
     },
-    "attempt to compute the remainder of `{} % {}`, which would overflow": {
+    "attempt to compute `{} - {}`, which would overflow": {
+      "count": 2,
+      "i.e.": {
+        "crate": "unicode-segmentation-1.6.0",
+        "fn": "src/sentence-fwd::match_sb11",
+        "path": "src/sentence.rs:151:55: 151:55 (#0)"
+      }
+    },
+    "assertion failed: src.len() <= MAX_LENGTH": {
+      "count": 1,
+      "i.e.": {
+        "crate": "iovec-0.1.4",
+        "fn": "src/sys/windows-from",
+        "path": "src/sys/windows.rs:58:5: 68:6 (#0)"
+      }
+    },
+    "panic_fmt(move _102) -> bb43;\n": {
+      "count": 1,
+      "i.e.": {
+        "crate": "safemem-0.3.3",
+        "fn": "src/lib-copy_over",
+        "path": "src/lib.rs:37:88: 37:88 (#0)"
+      }
+    },
+    "assertion failed: self.waiter().is_none()": {
+      "count": 1,
+      "i.e.": {
+        "crate": "tokio-0.2.9",
+        "fn": "src/sync/semaphore_ll-acquire_permits",
+        "path": "src/sync/semaphore_ll.rs:1081:5: 1098:6 (#0)"
+      }
+    },
+    "internal error: entered unreachable code": {
       "count": 1,
       "i.e.": {
         "crate": "typenum-1.11.2",
         "fn": "build/tests-build_tests",
         "path": "build/tests.rs:216:61: 216:61 (#0)"
+      }
+    },
+    "assertion failed: supported_algorithms.iter().all(|a|\\n        { match *a { Algorithm::__ForExtensibility => false, _ => true, } })": {
+      "count": 1,
+      "i.e.": {
+        "crate": "schannel-0.1.16",
+        "fn": "src/schannel_cred-supported_algorithms",
+        "path": "src/schannel_cred.rs:149:5: 161:6 (#0)"
       }
     },
     "explicit panic": {
@@ -487,6 +607,22 @@
         "crate": "scopeguard-1.0.0",
         "fn": "examples/readme-f",
         "path": "examples/readme.rs:7:7: 7:7 (#0)"
+      }
+    },
+    "try_borrow_with: cell was filled by closure": {
+      "count": 1,
+      "i.e.": {
+        "crate": "lazycell-1.2.1",
+        "fn": "src/lib-try_borrow_with",
+        "path": "src/lib.rs:168:5: 179:6 (#0)"
+      }
+    },
+    "assertion failed: opt.unwrap() == &v": {
+      "count": 1,
+      "i.e.": {
+        "crate": "linked-hash-map-0.5.2",
+        "fn": "tests/test-assert_opt_eq",
+        "path": "tests/test.rs:6:54: 6:54 (#0)"
       }
     }
   }

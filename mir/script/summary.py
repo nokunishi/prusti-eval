@@ -229,7 +229,7 @@ def parse_p_rn(s):
         if p_ not in p_rn:
             p_rn[p_] = p.getVal()
         else:
-            p_rn[p_] += p.getVal()
+            p_rn[p_]["num"] += p.getVal()
     return p_rn
 
 def write_summary():
