@@ -35,8 +35,7 @@
   "unreachable_bn": 1512,
   "compile_err_num": 70785,
   "compile_err": [
-    { "scope": 50730 },
-    { "import/dependencies": 16382 },
+    { "import/dependencies": 67112 },
     { "rust": 662 },
     { "syntax": 321 },
     { "rule": 187 },
