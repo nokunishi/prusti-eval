@@ -36,9 +36,8 @@
   "compile_err_num": 70785,
   "compile_err": [
     { "scope": 50730 },
-    { "import/dependencies": 15996 },
+    { "import/dependencies": 16382 },
     { "rust": 662 },
-    { "module": 386 },
     { "syntax": 321 },
     { "rule": 187 },
     { "associated_type": 100 },

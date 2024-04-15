@@ -37,7 +37,6 @@ class Obj:
 def compile_err(s, list, rerun):
     if len(s.compile_err) == 0:
             s.compile_err.append(Obj("import/dependencies", 0))
-            s.compile_err.append(Obj("module", 0)) 
             s.compile_err.append(Obj("scope", 0))  
             s.compile_err.append(Obj("associated_type", 0))  
             s.compile_err.append(Obj("attribute", 0))  
@@ -54,19 +53,19 @@ def compile_err(s, list, rerun):
         if "failed to resolve" in k or "import" in k or "dependency" in k:
             s.compile_err[0].inc(1)
         elif "scope" in k:
-            s.compile_err[2].inc(1)
-        elif "cannot find" in k and "in" in k:
             s.compile_err[1].inc(1)
+        elif "cannot find" in k and "in" in k:
+            s.compile_err[0].inc(1)
         elif "associated type" in k:
-            s.compile_err[3].inc(1)
+            s.compile_err[2].inc(1)
         elif "attribute" in k:
-            s.compile_err[4].inc(1)
+            s.compile_err[3].inc(1)
         elif "bound" in k or "lifetime" in k or "size" in k:
-            s.compile_err[5].inc(1)
+            s.compile_err[4].inc(1)
         elif "expected" in k or "type annotations needed" in k:
-            s.compile_err[6].inc(1)
+            s.compile_err[5].inc(1)
         elif "Rust" in k or "experimental" in k:
-            s.compile_err[7].inc(1)
+            s.compile_err[6].inc(1)
 
 
 
@@ -229,7 +228,7 @@ def parse_p_rn(s):
         if p_ not in p_rn:
             p_rn[p_] = p.getVal()
         else:
-            p_rn[p_]["num"] += p.getVal()
+            p_rn[p_] += p.getVal()
     return p_rn
 
 def write_summary():
