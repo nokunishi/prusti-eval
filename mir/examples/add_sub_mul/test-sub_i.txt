@@ -1,4 +1,4 @@
-fn sub(_1: i32, _2: i32) -> () {
+fn sub_i(_1: i32, _2: i32) -> () {
     debug x => _1;
     debug y => _2;
     let mut _0: ();
@@ -27,4 +27,4 @@ fn sub(_1: i32, _2: i32) -> () {
         resume;
     }
 }
-path: ./test/test.rs:15:21: 15:21 (#0)
+path: ./add_sub_mul/test.rs:19:23: 19:23 (#0)

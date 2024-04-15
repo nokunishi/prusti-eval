@@ -21,4 +21,4 @@ fn sub_safe() -> () {
         resume;
     }
 }
-path: ./test/test.rs:19:14: 19:14 (#0)
+path: ./add_sub_mul/test.rs:27:14: 27:14 (#0)

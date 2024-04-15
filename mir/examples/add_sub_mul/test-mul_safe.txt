@@ -21,4 +21,4 @@ fn mul_safe() -> () {
         resume;
     }
 }
-path: ./test/test.rs:31:14: 31:14 (#0)
+path: ./add_sub_mul/test.rs:43:14: 43:14 (#0)
