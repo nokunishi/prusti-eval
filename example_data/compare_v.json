@@ -1,0 +1,1668 @@
+{
+  "crate": 175,
+  "match_total": 36,
+  "match": {
+    "attempt to compute `{} + {}`, which would overflow": {
+      "count": 13,
+      "i.e.": [
+        {
+          "crate": "tempfile-3.1.0",
+          "fn": "src/spooled-write",
+          "path": "src/spooled.rs:120:5: 135:6 (#0)"
+        },
+        {
+          "crate": "flate2-1.0.13",
+          "fn": "src/bufreader-consume",
+          "path": "src/bufreader.rs:102:5: 104:6 (#0)"
+        },
+        {
+          "crate": "time-0.2.3",
+          "fn": "src/duration-new",
+          "path": "src/duration.rs:270:5: 275:6 (#0)"
+        },
+        {
+          "crate": "time-0.2.3",
+          "fn": "checked_add",
+          "path": "src/duration.rs:652:5: 667:6 (#0)"
+        },
+        {
+          "crate": "time-0.2.3",
+          "fn": "next_day",
+          "path": "src/date.rs:554:5: 563:6 (#0)"
+        },
+        {
+          "crate": "time-0.2.3",
+          "fn": "number_from_sunday",
+          "path": "src/weekday.rs:100:5: 102:6 (#0)"
+        },
+        {
+          "crate": "time-0.2.3",
+          "fn": "number_from_monday",
+          "path": "src/weekday.rs:89:5: 91:6 (#0)"
+        },
+        {
+          "crate": "adler32-1.0.4",
+          "fn": "src/lib-remove",
+          "path": "src/lib.rs:125:5: 131:6 (#0)"
+        },
+        {
+          "crate": "adler32-1.0.4",
+          "fn": "update",
+          "path": "src/lib.rs:134:5: 138:6 (#0)"
+        },
+        {
+          "crate": "h2-0.2.1",
+          "fn": "src/hpack/table-to_raw_capacity",
+          "path": "src/hpack/table.rs:653:38: 653:38 (#0)"
+        },
+        {
+          "crate": "h2-0.2.1",
+          "fn": "update_size",
+          "path": "src/hpack/table.rs:368:5: 371:6 (#0)"
+        },
+        {
+          "crate": "h2-0.2.1",
+          "fn": "inc_num_reset_streams",
+          "path": "src/proto/streams/counts.rs:102:5: 106:6 (#0)"
+        },
+        {
+          "crate": "pulldown-cmark-0.6.1",
+          "fn": "src/scanners-scan_attribute_name",
+          "path": "src/scanners.rs:846:53: 846:53 (#0)"
+        }
+      ]
+    },
+    "attempt to compute `{} - {}`, which would overflow": {
+      "count": 5,
+      "i.e.": [
+        {
+          "crate": "slab-0.4.2",
+          "fn": "src/lib-reserve",
+          "path": "src/lib.rs:274:5: 280:6 (#0)"
+        },
+        {
+          "crate": "slab-0.4.2",
+          "fn": "reserve_exact",
+          "path": "src/lib.rs:308:5: 314:6 (#0)"
+        },
+        {
+          "crate": "rand_jitter-0.2.0",
+          "fn": "src/lib-stuck",
+          "path": "src/lib.rs:155:5: 163:6 (#0)"
+        },
+        {
+          "crate": "time-0.2.3",
+          "fn": "src/date-previous_day",
+          "path": "src/date.rs:574:5: 583:6 (#0)"
+        },
+        {
+          "crate": "pulldown-cmark-0.6.1",
+          "fn": "src/scanners-scan_space_upto",
+          "path": "src/scanners.rs:136:5: 138:6 (#0)"
+        }
+      ]
+    },
+    "attempt to compute `{} * {}`, which would overflow": {
+      "count": 5,
+      "i.e.": [
+        {
+          "crate": "time-0.2.3",
+          "fn": "src/duration-hours",
+          "path": "src/duration.rs:337:5: 339:6 (#0)"
+        },
+        {
+          "crate": "time-0.2.3",
+          "fn": "days",
+          "path": "src/duration.rs:311:5: 313:6 (#0)"
+        },
+        {
+          "crate": "time-0.2.3",
+          "fn": "checked_mul",
+          "path": "src/duration.rs:708:5: 723:6 (#0)"
+        },
+        {
+          "crate": "time-0.2.3",
+          "fn": "minutes",
+          "path": "src/duration.rs:363:5: 365:6 (#0)"
+        },
+        {
+          "crate": "time-0.2.3",
+          "fn": "weeks",
+          "path": "src/duration.rs:285:5: 287:6 (#0)"
+        }
+      ]
+    },
+    "explicit panic": {
+      "count": 3,
+      "i.e.": [
+        {
+          "crate": "pkg-config-0.3.17",
+          "fn": "src/lib-description",
+          "path": "src/lib.rs:131:5: 142:6 (#0)"
+        },
+        {
+          "crate": "tokio-sync-0.2.0-alpha.6",
+          "fn": "src/semaphore-from_usize",
+          "path": "src/semaphore.rs:1096:5: 1107:6 (#0)"
+        },
+        {
+          "crate": "idna-0.2.0",
+          "fn": "src/punycode-value_to_digit",
+          "path": "src/punycode.rs:217:38: 217:38 (#0)"
+        }
+      ]
+    },
+    "internal error: entered unreachable code": {
+      "count": 3,
+      "i.e.": [
+        {
+          "crate": "slab-0.4.2",
+          "fn": "src/lib-get_unchecked",
+          "path": "src/lib.rs:540:5: 545:6 (#0)"
+        },
+        {
+          "crate": "parking_lot-0.10.0",
+          "fn": "src/util-unreachable",
+          "path": "src/util.rs:28:29: 28:29 (#0)"
+        },
+        {
+          "crate": "parking_lot_core-0.7.0",
+          "fn": "src/util-unreachable",
+          "path": "src/util.rs:26:29: 26:29 (#0)"
+        }
+      ]
+    },
+    "index out of bounds: the length is {} but the index is {}": {
+      "count": 3,
+      "i.e.": [
+        {
+          "crate": "getopts-0.2.21",
+          "fn": "src/lib-from_str",
+          "path": "src/lib.rs:738:5: 744:6 (#0)"
+        },
+        {
+          "crate": "adler32-1.0.4",
+          "fn": "src/lib-do1",
+          "path": "src/lib.rs:54:52: 54:52 (#0)"
+        },
+        {
+          "crate": "pulldown-cmark-0.6.1",
+          "fn": "src/scanners-scan_ch",
+          "path": "src/scanners.rs:362:51: 362:51 (#0)"
+        }
+      ]
+    },
+    "assertion failed: data.len() <= CC_LONG::max_value() as usize": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "native-tls-0.2.3",
+          "fn": "src/imp/security_framework-hash",
+          "path": "src/imp/security_framework.rs:491:5: 517:6 (#0)"
+        }
+      ]
+    },
+    "assertion failed: offset(index) == 0": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "tokio-sync-0.2.0-alpha.6",
+          "fn": "src/mpsc/block-is_at_index",
+          "path": "src/mpsc/block.rs:96:5: 99:6 (#0)"
+        }
+      ]
+    },
+    "assertion failed: self.is_language_range()": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "language-tags-0.2.2",
+          "fn": "src/lib-matches",
+          "path": "src/lib.rs:287:5: 304:6 (#0)"
+        }
+      ]
+    },
+    "attempt to compute `{} / {}`, which would overflow": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "time-0.2.3",
+          "fn": "src/duration-checked_div",
+          "path": "src/duration.rs:733:5: 748:6 (#0)"
+        }
+      ]
+    }
+  },
+  "us_total": 161,
+  "us": {
+    "iterators are not fully supported yet": {
+      "count": 22,
+      "i.e.": [
+        {
+          "crate": "ucd-util-0.1.7",
+          "fn": "src/name-character_name_normalize_bytes",
+          "path": "src/name.rs:21:65: 21:65 (#0)"
+        },
+        {
+          "crate": "crc32fast-1.2.0",
+          "fn": "src/combine-gf2_matrix_square",
+          "path": "src/combine.rs:17:72: 17:72 (#0)"
+        },
+        {
+          "crate": "uuid-0.8.1",
+          "fn": "src/parser/mod-len_matches_range",
+          "path": "src/parser/mod.rs:36:65: 36:65 (#0)"
+        },
+        {
+          "crate": "textwrap-0.11.0",
+          "fn": "src/indentation-dedent",
+          "path": "src/indentation.rs:81:33: 81:33 (#0)"
+        },
+        {
+          "crate": "rand_jitter-0.2.0",
+          "fn": "src/lib-lfsr_time::lfsr",
+          "path": "src/lib.rs:331:49: 331:49 (#0)"
+        },
+        {
+          "crate": "rand_jitter-0.2.0",
+          "fn": "src/lib-memaccess",
+          "path": "src/lib.rs:389:5: 406:6 (#0)"
+        },
+        {
+          "crate": "rand_jitter-0.2.0",
+          "fn": "src/lib-stir_pool",
+          "path": "src/lib.rs:461:5: 492:6 (#0)"
+        },
+        {
+          "crate": "flate2-1.0.13",
+          "fn": "src/gz/bufread-copy",
+          "path": "src/gz/bufread.rs:18:64: 18:64 (#0)"
+        },
+        {
+          "crate": "getopts-0.2.21",
+          "fn": "src/lib-parse",
+          "path": "src/lib.rs:341:5: 481:6 (#0)"
+        },
+        {
+          "crate": "vec_map-0.8.1",
+          "fn": "src/lib-hash",
+          "path": "src/lib.rs:98:5: 107:6 (#0)"
+        },
+        {
+          "crate": "vec_map-0.8.1",
+          "fn": "src/lib-retain",
+          "path": "src/lib.rs:622:5: 635:6 (#0)"
+        },
+        {
+          "crate": "itoa-0.4.4",
+          "fn": "src/lib-write_to",
+          "path": "src/lib.rs:185:13: 242:14 (#68)"
+        },
+        {
+          "crate": "language-tags-0.2.2",
+          "fn": "src/lib-parse_language_tag",
+          "path": "src/lib.rs:390:72: 390:72 (#0)"
+        },
+        {
+          "crate": "adler32-1.0.4",
+          "fn": "src/lib-update_buffer",
+          "path": "src/lib.rs:141:5: 191:6 (#0)"
+        },
+        {
+          "crate": "h2-0.2.1",
+          "fn": "src/hpack/table-grow",
+          "path": "src/hpack/table.rs:470:5: 502:6 (#0)"
+        },
+        {
+          "crate": "pulldown-cmark-0.6.1",
+          "fn": "src/scanners-calc_indent",
+          "path": "src/scanners.rs:440:58: 440:58 (#0)"
+        },
+        {
+          "crate": "pulldown-cmark-0.6.1",
+          "fn": "src/scanners-scan_empty_list",
+          "path": "src/scanners.rs:618:51: 618:51 (#0)"
+        },
+        {
+          "crate": "pulldown-cmark-0.6.1",
+          "fn": "src/scanners-scan_refdef_title",
+          "path": "src/scanners.rs:750:69: 750:69 (#0)"
+        },
+        {
+          "crate": "unicode-bidi-0.3.4",
+          "fn": "src/lib-assign_levels_to_removed_chars",
+          "path": "src/lib.rs:484:98: 484:98 (#0)"
+        },
+        {
+          "crate": "base64-0.11.0",
+          "fn": "src/encode-add_padding",
+          "path": "src/encode.rs:314:65: 314:65 (#0)"
+        },
+        {
+          "crate": "syn-1.0.13",
+          "fn": "src/bigint-to_string",
+          "path": "src/bigint.rs:14:5: 30:6 (#0)"
+        },
+        {
+          "crate": "syn-1.0.13",
+          "fn": "src/bigint-mul_assign",
+          "path": "src/bigint.rs:57:5: 66:6 (#0)"
+        }
+      ]
+    },
+    "support for operation Shl is experimental and disabled by default; use `encode_bitvectors` to enable it": {
+      "count": 20,
+      "i.e.": [
+        {
+          "crate": "rand_pcg-0.2.1",
+          "fn": "src/pcg64-new",
+          "path": "src/pcg64.rs:51:5: 55:6 (#0)"
+        },
+        {
+          "crate": "rand_pcg-0.2.1",
+          "fn": "src/pcg128-new",
+          "path": "src/pcg128.rs:50:5: 54:6 (#0)"
+        },
+        {
+          "crate": "tokio-threadpool-0.2.0-alpha.1",
+          "fn": "src/pool/state-dec_num_futures",
+          "path": "src/pool/state.rs:57:5: 70:6 (#0)"
+        },
+        {
+          "crate": "tokio-threadpool-0.2.0-alpha.1",
+          "fn": "src/task/blocking-new",
+          "path": "src/task/blocking.rs:393:5: 395:6 (#0)"
+        },
+        {
+          "crate": "crossbeam-deque-0.7.2",
+          "fn": "src/lib-drop",
+          "path": "src/lib.rs:1776:5: 1807:6 (#0)"
+        },
+        {
+          "crate": "typenum-1.11.2",
+          "fn": "build/main-gen_uint",
+          "path": "build/main.rs:44:36: 44:36 (#0)"
+        },
+        {
+          "crate": "siphasher-0.3.1",
+          "fn": "src/sip128-into",
+          "path": "src/sip128.rs:38:5: 40:6 (#0)"
+        },
+        {
+          "crate": "tokio-sync-0.2.0-alpha.6",
+          "fn": "src/mpsc/block-is_ready",
+          "path": "src/mpsc/block.rs:354:46: 354:46 (#0)"
+        },
+        {
+          "crate": "tokio-sync-0.2.0-alpha.6",
+          "fn": "src/semaphore-acquire_permit",
+          "path": "src/semaphore.rs:956:5: 971:6 (#0)"
+        },
+        {
+          "crate": "tokio-sync-0.2.0-alpha.6",
+          "fn": "src/semaphore-release_permits",
+          "path": "src/semaphore.rs:976:5: 987:6 (#0)"
+        },
+        {
+          "crate": "byteorder-1.3.2",
+          "fn": "src/lib-unextend_sign",
+          "path": "src/lib.rs:109:49: 109:49 (#0)"
+        },
+        {
+          "crate": "byteorder-1.3.2",
+          "fn": "src/lib-pack_size",
+          "path": "src/lib.rs:122:30: 122:30 (#0)"
+        },
+        {
+          "crate": "flate2-1.0.13",
+          "fn": "src/gz/bufread-read_le_u16",
+          "path": "src/gz/bufread.rs:38:54: 38:54 (#0)"
+        },
+        {
+          "crate": "flate2-1.0.13",
+          "fn": "src/gz/bufread-finish",
+          "path": "src/gz/bufread.rs:221:39: 221:39 (#0)"
+        },
+        {
+          "crate": "sha2-0.8.1",
+          "fn": "src/sha512_utils-sha512_schedule_x2::sigma0",
+          "path": "src/sha512_utils.rs:19:29: 19:29 (#0)"
+        },
+        {
+          "crate": "sha2-0.8.1",
+          "fn": "src/sha512_utils-sha512_schedule_x2::sigma1",
+          "path": "src/sha512_utils.rs:24:29: 24:29 (#0)"
+        },
+        {
+          "crate": "adler32-1.0.4",
+          "fn": "src/lib-hash",
+          "path": "src/lib.rs:120:5: 122:6 (#0)"
+        },
+        {
+          "crate": "h2-0.2.1",
+          "fn": "src/hpack/table-reserve_one",
+          "path": "src/hpack/table.rs:454:5: 467:6 (#0)"
+        },
+        {
+          "crate": "parking_lot_core-0.7.0",
+          "fn": "src/parking_lot-gen_u32",
+          "path": "src/parking_lot.rs:120:5: 125:6 (#0)"
+        },
+        {
+          "crate": "parking_lot_core-0.7.0",
+          "fn": "src/spinwait-spin_no_yield",
+          "path": "src/spinwait.rs:68:5: 74:6 (#0)"
+        }
+      ]
+    },
+    "access to reference-typed fields is not supported": {
+      "count": 19,
+      "i.e.": [
+        {
+          "crate": "gcc-0.3.55",
+          "fn": "src/lib-try_compile",
+          "path": "src/lib.rs:709:5: 770:6 (#0)"
+        },
+        {
+          "crate": "tokio-0.2.9",
+          "fn": "src/future/maybe_done-take_output",
+          "path": "src/future/maybe_done.rs:47:5: 60:6 (#0)"
+        },
+        {
+          "crate": "crossbeam-deque-0.7.2",
+          "fn": "src/lib-at",
+          "path": "src/lib.rs:149:5: 152:6 (#0)"
+        },
+        {
+          "crate": "httparse-1.3.4",
+          "fn": "src/iter-bump",
+          "path": "src/iter.rs:29:5: 32:6 (#0)"
+        },
+        {
+          "crate": "httparse-1.3.4",
+          "fn": "src/iter-advance",
+          "path": "src/iter.rs:36:5: 39:6 (#0)"
+        },
+        {
+          "crate": "httparse-1.3.4",
+          "fn": "src/iter-next_8",
+          "path": "src/iter.rs:67:5: 73:6 (#0)"
+        },
+        {
+          "crate": "rand_jitter-0.2.0",
+          "fn": "src/lib-lfsr_time::lfsr",
+          "path": "src/lib.rs:331:49: 331:49 (#0)"
+        },
+        {
+          "crate": "getopts-0.2.21",
+          "fn": "src/lib-parse",
+          "path": "src/lib.rs:341:5: 481:6 (#0)"
+        },
+        {
+          "crate": "itoa-0.4.4",
+          "fn": "src/lib-write_to",
+          "path": "src/lib.rs:185:13: 242:14 (#68)"
+        },
+        {
+          "crate": "block-buffer-0.7.3",
+          "fn": "src/lib-cast",
+          "path": "src/lib.rs:22:73: 22:73 (#0)"
+        },
+        {
+          "crate": "pulldown-cmark-0.6.1",
+          "fn": "src/scanners-scan_setext_heading",
+          "path": "src/scanners.rs:521:71: 521:71 (#0)"
+        },
+        {
+          "crate": "pulldown-cmark-0.6.1",
+          "fn": "src/scanners-scan_code_fence",
+          "path": "src/scanners.rs:588:66: 588:66 (#0)"
+        },
+        {
+          "crate": "pulldown-cmark-0.6.1",
+          "fn": "src/scanners-scan_listitem",
+          "path": "src/scanners.rs:631:79: 631:79 (#0)"
+        },
+        {
+          "crate": "pulldown-cmark-0.6.1",
+          "fn": "src/scanners-scan_attribute",
+          "path": "src/scanners.rs:861:98: 861:98 (#0)"
+        },
+        {
+          "crate": "pulldown-cmark-0.6.1",
+          "fn": "src/scanners-scan_attribute_value",
+          "path": "src/scanners.rs:882:19: 882:19 (#0)"
+        },
+        {
+          "crate": "pulldown-cmark-0.6.1",
+          "fn": "src/scanners-scan_all_space",
+          "path": "src/scanners.rs:166:5: 172:6 (#0)"
+        },
+        {
+          "crate": "tokio-codec-0.2.0-alpha.6",
+          "fn": "src/lines_codec-without_carriage_return",
+          "path": "src/lines_codec.rs:95:46: 95:46 (#0)"
+        },
+        {
+          "crate": "lazycell-1.2.1",
+          "fn": "src/lib-borrow_mut_with",
+          "path": "src/lib.rs:152:5: 161:6 (#0)"
+        },
+        {
+          "crate": "lazycell-1.2.1",
+          "fn": "src/lib-try_borrow_mut_with",
+          "path": "src/lib.rs:186:5: 197:6 (#0)"
+        }
+      ]
+    },
+    "bitwise operations on non-boolean types are experimental and disabled by default; use `encode_bitvectors` to enable": {
+      "count": 14,
+      "i.e.": [
+        {
+          "crate": "tokio-threadpool-0.2.0-alpha.1",
+          "fn": "src/task/blocking_state-notify_blocking",
+          "path": "src/task/blocking_state.rs:62:5: 67:6 (#0)"
+        },
+        {
+          "crate": "crc32fast-1.2.0",
+          "fn": "src/combine-gf2_matrix_times",
+          "path": "src/combine.rs:4:63: 4:63 (#0)"
+        },
+        {
+          "crate": "siphasher-0.3.1",
+          "fn": "src/sip128-finish128",
+          "path": "src/sip128.rs:310:5: 328:6 (#0)"
+        },
+        {
+          "crate": "memchr-2.3.0",
+          "fn": "src/x86/avx-forward_pos2",
+          "path": "src/x86/avx.rs:643:49: 643:49 (#0)"
+        },
+        {
+          "crate": "memchr-2.3.0",
+          "fn": "src/x86/avx-forward_pos3",
+          "path": "src/x86/avx.rs:655:61: 655:61 (#0)"
+        },
+        {
+          "crate": "memchr-2.3.0",
+          "fn": "src/x86/avx-reverse_pos2",
+          "path": "src/x86/avx.rs:681:49: 681:49 (#0)"
+        },
+        {
+          "crate": "memchr-2.3.0",
+          "fn": "src/x86/avx-reverse_pos3",
+          "path": "src/x86/avx.rs:693:61: 693:61 (#0)"
+        },
+        {
+          "crate": "memchr-2.3.0",
+          "fn": "src/x86/sse2-forward_pos2",
+          "path": "src/x86/sse2.rs:733:49: 733:49 (#0)"
+        },
+        {
+          "crate": "memchr-2.3.0",
+          "fn": "src/x86/sse2-forward_pos3",
+          "path": "src/x86/sse2.rs:745:61: 745:61 (#0)"
+        },
+        {
+          "crate": "memchr-2.3.0",
+          "fn": "src/x86/sse2-reverse_pos2",
+          "path": "src/x86/sse2.rs:771:49: 771:49 (#0)"
+        },
+        {
+          "crate": "memchr-2.3.0",
+          "fn": "src/x86/sse2-reverse_pos3",
+          "path": "src/x86/sse2.rs:783:61: 783:61 (#0)"
+        },
+        {
+          "crate": "adler32-1.0.4",
+          "fn": "src/lib-from_value",
+          "path": "src/lib.rs:106:5: 110:6 (#0)"
+        },
+        {
+          "crate": "unicode-bidi-0.3.4",
+          "fn": "src/level-new_explicit_next_ltr",
+          "path": "src/level.rs:166:5: 168:6 (#0)"
+        },
+        {
+          "crate": "unicode-bidi-0.3.4",
+          "fn": "src/level-new_explicit_next_rtl",
+          "path": "src/level.rs:172:5: 174:6 (#0)"
+        }
+      ]
+    },
+    "support for operation Shr is experimental and disabled by default; use `encode_bitvectors` to enable it": {
+      "count": 10,
+      "i.e.": [
+        {
+          "crate": "tokio-threadpool-0.2.0-alpha.1",
+          "fn": "src/pool/state-num_futures",
+          "path": "src/pool/state.rs:42:5: 44:6 (#0)"
+        },
+        {
+          "crate": "tokio-threadpool-0.2.0-alpha.1",
+          "fn": "src/task/blocking-remaining_capacity",
+          "path": "src/task/blocking.rs:397:5: 403:6 (#0)"
+        },
+        {
+          "crate": "tokio-threadpool-0.2.0-alpha.1",
+          "fn": "src/worker/stack-set_head",
+          "path": "src/worker/stack.rs:221:5: 226:6 (#0)"
+        },
+        {
+          "crate": "crossbeam-deque-0.7.2",
+          "fn": "src/lib-push",
+          "path": "src/lib.rs:1272:5: 1330:6 (#0)"
+        },
+        {
+          "crate": "version_check-0.9.1",
+          "fn": "src/version-to_mmp",
+          "path": "src/version.rs:9:5: 14:6 (#0)"
+        },
+        {
+          "crate": "version_check-0.9.1",
+          "fn": "src/date-to_ymd",
+          "path": "src/date.rs:30:5: 35:6 (#0)"
+        },
+        {
+          "crate": "siphasher-0.3.1",
+          "fn": "src/sip128-from",
+          "path": "src/sip128.rs:29:5: 34:6 (#0)"
+        },
+        {
+          "crate": "tokio-sync-0.2.0-alpha.6",
+          "fn": "src/semaphore-available_permits",
+          "path": "src/semaphore.rs:932:5: 938:6 (#0)"
+        },
+        {
+          "crate": "rand_jitter-0.2.0",
+          "fn": "src/lib-next_u32",
+          "path": "src/lib.rs:701:5: 711:6 (#0)"
+        },
+        {
+          "crate": "parking_lot_core-0.7.0",
+          "fn": "src/parking_lot-hash",
+          "path": "src/parking_lot.rs:328:40: 328:40 (#0)"
+        }
+      ]
+    },
+    "determining the region of a dereferentiation is not supported": {
+      "count": 9,
+      "i.e.": [
+        {
+          "crate": "tokio-0.2.9",
+          "fn": "src/runtime/builder-core_threads",
+          "path": "src/runtime/builder.rs:170:5: 174:6 (#0)"
+        },
+        {
+          "crate": "tokio-0.2.9",
+          "fn": "src/runtime/builder-max_threads",
+          "path": "src/runtime/builder.rs:190:5: 194:6 (#0)"
+        },
+        {
+          "crate": "getopts-0.2.21",
+          "fn": "src/lib-parse",
+          "path": "src/lib.rs:341:5: 481:6 (#0)"
+        },
+        {
+          "crate": "vec_map-0.8.1",
+          "fn": "src/lib-split_off",
+          "path": "src/lib.rs:348:5: 387:6 (#0)"
+        },
+        {
+          "crate": "pulldown-cmark-0.6.1",
+          "fn": "src/scanners-scan_list_marker",
+          "path": "src/scanners.rs:208:5: 251:6 (#0)"
+        },
+        {
+          "crate": "pulldown-cmark-0.6.1",
+          "fn": "src/scanners-finish_list_marker",
+          "path": "src/scanners.rs:253:5: 273:6 (#0)"
+        },
+        {
+          "crate": "pulldown-cmark-0.6.1",
+          "fn": "src/scanners-scan_task_list_marker",
+          "path": "src/scanners.rs:277:5: 313:6 (#0)"
+        },
+        {
+          "crate": "unicode-bidi-0.3.4",
+          "fn": "src/lib-visual_runs",
+          "path": "src/lib.rs:359:5: 468:6 (#0)"
+        },
+        {
+          "crate": "backtrace-0.3.42",
+          "fn": "src/print-drop",
+          "path": "src/print.rs:264:5: 266:6 (#0)"
+        }
+      ]
+    },
+    "mutably slicing is not fully supported yet": {
+      "count": 9,
+      "i.e.": [
+        {
+          "crate": "slab-0.4.2",
+          "fn": "src/lib-insert_at",
+          "path": "src/lib.rs:629:5: 645:6 (#0)"
+        },
+        {
+          "crate": "slab-0.4.2",
+          "fn": "src/lib-remove",
+          "path": "src/lib.rs:667:5: 683:6 (#0)"
+        },
+        {
+          "crate": "mime-0.3.16",
+          "fn": "src/lib-subtype",
+          "path": "src/lib.rs:150:5: 158:6 (#0)"
+        },
+        {
+          "crate": "vec_map-0.8.1",
+          "fn": "src/lib-split_off",
+          "path": "src/lib.rs:348:5: 387:6 (#0)"
+        },
+        {
+          "crate": "block-buffer-0.7.3",
+          "fn": "src/lib-input",
+          "path": "src/lib.rs:32:5: 57:6 (#0)"
+        },
+        {
+          "crate": "block-buffer-0.7.3",
+          "fn": "src/lib-input_lazy",
+          "path": "src/lib.rs:101:5: 121:6 (#0)"
+        },
+        {
+          "crate": "block-buffer-0.7.3",
+          "fn": "src/lib-len64_padding",
+          "path": "src/lib.rs:148:5: 157:6 (#0)"
+        },
+        {
+          "crate": "block-buffer-0.7.3",
+          "fn": "src/lib-len128_padding_be",
+          "path": "src/lib.rs:163:5: 173:6 (#0)"
+        },
+        {
+          "crate": "num_cpus-1.12.0",
+          "fn": "src/lib-get_num_physical_cpus_windows",
+          "path": "src/lib.rs:124:52: 124:52 (#0)"
+        }
+      ]
+    },
+    "raw pointers are not supported": {
+      "count": 6,
+      "i.e.": [
+        {
+          "crate": "crossbeam-deque-0.7.2",
+          "fn": "src/lib-resize",
+          "path": "src/lib.rs:376:5: 407:6 (#0)"
+        },
+        {
+          "crate": "byteorder-1.3.2",
+          "fn": "src/lib-write_u16",
+          "path": "src/lib.rs:2211:5: 2213:6 (#0)"
+        },
+        {
+          "crate": "flate2-1.0.13",
+          "fn": "src/mem-compress_vec",
+          "path": "src/mem.rs:306:5: 325:6 (#0)"
+        },
+        {
+          "crate": "flate2-1.0.13",
+          "fn": "src/mem-decompress_vec",
+          "path": "src/mem.rs:417:5: 436:6 (#0)"
+        },
+        {
+          "crate": "memchr-2.3.0",
+          "fn": "src/x86/avx-sub",
+          "path": "src/x86/avx.rs:701:44: 701:44 (#0)"
+        },
+        {
+          "crate": "memchr-2.3.0",
+          "fn": "src/x86/sse2-sub",
+          "path": "src/x86/sse2.rs:791:44: 791:44 (#0)"
+        }
+      ]
+    },
+    "Non-slice LHS type str not supported yet": {
+      "count": 5,
+      "i.e.": [
+        {
+          "crate": "gcc-0.3.55",
+          "fn": "src/lib-try_compile",
+          "path": "src/lib.rs:709:5: 770:6 (#0)"
+        },
+        {
+          "crate": "rustc-demangle-0.1.16",
+          "fn": "src/v0-demangle",
+          "path": "src/v0.rs:16:62: 16:62 (#0)"
+        },
+        {
+          "crate": "openssl-sys-0.9.53",
+          "fn": "build/main-parse_version",
+          "path": "build/main.rs:257:39: 257:39 (#0)"
+        },
+        {
+          "crate": "mime-0.3.16",
+          "fn": "src/lib-params_eq",
+          "path": "src/lib.rs:275:57: 275:57 (#0)"
+        },
+        {
+          "crate": "mime-0.3.16",
+          "fn": "src/lib-subtype",
+          "path": "src/lib.rs:150:5: 158:6 (#0)"
+        }
+      ]
+    },
+    "*struct$m_Block<T$0, > type is not supported": {
+      "count": 3,
+      "i.e.": [
+        {
+          "crate": "crossbeam-deque-0.7.2",
+          "fn": "src/lib-steal",
+          "path": "src/lib.rs:1347:5: 1424:6 (#0)"
+        },
+        {
+          "crate": "crossbeam-deque-0.7.2",
+          "fn": "src/lib-steal_batch",
+          "path": "src/lib.rs:1447:5: 1586:6 (#0)"
+        },
+        {
+          "crate": "crossbeam-deque-0.7.2",
+          "fn": "src/lib-steal_batch_and_pop",
+          "path": "src/lib.rs:1608:5: 1753:6 (#0)"
+        }
+      ]
+    },
+    "copy operation for an unsupported type Binder(fn() -> u64, [])": {
+      "count": 3,
+      "i.e.": [
+        {
+          "crate": "rand_jitter-0.2.0",
+          "fn": "src/lib-random_loop_cnt",
+          "path": "src/lib.rs:299:5: 317:6 (#0)"
+        },
+        {
+          "crate": "rand_jitter-0.2.0",
+          "fn": "src/lib-gen_entropy",
+          "path": "src/lib.rs:494:5: 520:6 (#0)"
+        },
+        {
+          "crate": "rand_jitter-0.2.0",
+          "fn": "src/lib-test_timer",
+          "path": "src/lib.rs:528:5: 663:6 (#0)"
+        }
+      ]
+    },
+    "unsupported constant type [u8; Const { ty: usize, kind: Leaf(0x0000000000000002) }]": {
+      "count": 2,
+      "i.e.": [
+        {
+          "crate": "ucd-util-0.1.7",
+          "fn": "src/name-symbolic_name_normalize_bytes",
+          "path": "src/name.rs:100:64: 100:64 (#0)"
+        },
+        {
+          "crate": "syn-1.0.13",
+          "fn": "src/bigint-reserve_two_digits",
+          "path": "src/bigint.rs:32:5: 37:6 (#0)"
+        }
+      ]
+    },
+    "unsupported statement kind: Intrinsic(Assume(move _6))": {
+      "count": 2,
+      "i.e.": [
+        {
+          "crate": "tokio-threadpool-0.2.0-alpha.1",
+          "fn": "src/pool/state-from",
+          "path": "src/pool/state.rs:128:5: 132:6 (#0)"
+        },
+        {
+          "crate": "tokio-threadpool-0.2.0-alpha.1",
+          "fn": "src/worker/state-from",
+          "path": "src/worker/state.rs:124:5: 128:6 (#0)"
+        }
+      ]
+    },
+    "raw addresses of expressions and casts from references to raw pointers are not supported": {
+      "count": 2,
+      "i.e.": [
+        {
+          "crate": "byteorder-1.3.2",
+          "fn": "src/lib-read_u16_into",
+          "path": "src/lib.rs:2253:5: 2255:6 (#0)"
+        },
+        {
+          "crate": "syn-1.0.13",
+          "fn": "src/buffer-begin",
+          "path": "src/buffer.rs:120:5: 122:6 (#0)"
+        }
+      ]
+    },
+    "unsupported constant type str]": {
+      "count": 2,
+      "i.e.": [
+        {
+          "crate": "term-0.6.1",
+          "fn": "src/terminfo/mod-is_ansi",
+          "path": "src/terminfo/mod.rs:35:31: 35:31 (#0)"
+        },
+        {
+          "crate": "itoa-0.4.4",
+          "fn": "src/lib-write_to",
+          "path": "src/lib.rs:185:13: 242:14 (#68)"
+        }
+      ]
+    },
+    "unsupported constant type Adt(sentence::fwd::StatePart, [])": {
+      "count": 2,
+      "i.e.": [
+        {
+          "crate": "unicode-segmentation-1.6.0",
+          "fn": "src/sentence-fwd::match_sb8a",
+          "path": "src/sentence.rs:134:55: 134:55 (#0)"
+        },
+        {
+          "crate": "unicode-segmentation-1.6.0",
+          "fn": "src/sentence-fwd::match_sb9",
+          "path": "src/sentence.rs:143:54: 143:54 (#0)"
+        }
+      ]
+    },
+    "Non-slice LHS type Adt(std::option::Option, [Adt(hpack::table::Pos, [])]) not supported yet": {
+      "count": 2,
+      "i.e.": [
+        {
+          "crate": "h2-0.2.1",
+          "fn": "src/hpack/table-remove_phase_two",
+          "path": "src/hpack/table.rs:433:5: 452:6 (#0)"
+        },
+        {
+          "crate": "h2-0.2.1",
+          "fn": "src/hpack/table-reinsert_entry_in_order",
+          "path": "src/hpack/table.rs:504:5: 525:6 (#0)"
+        }
+      ]
+    },
+    "unsupported type Binder(fn(&ReLateBound(DebruijnIndex(0), BoundRegion { var: 0, kind: BrNamed(DefId(1:15449 ~ std[92e0]::sys::unix::os::SplitPaths::_), _) }) u8) -> bool, [Region(BrNamed(DefId(1:15449 ~ std[92e0]::sys::unix::os::SplitPaths::_), _))])": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "gcc-0.3.55",
+          "fn": "src/lib-try_compile",
+          "path": "src/lib.rs:709:5: 770:6 (#0)"
+        }
+      ]
+    },
+    "error access to reference-typed fields is not supported": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "cc-1.0.50",
+          "fn": "src/lib-try_compile",
+          "path": "src/lib.rs:895:5: 965:6 (#0)"
+        }
+      ]
+    },
+    "error iterators are not fully supported yet": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "cc-1.0.50",
+          "fn": "src/lib-assemble",
+          "path": "src/lib.rs:1685:5: 1796:6 (#0)"
+        }
+      ]
+    },
+    "error Non-slice LHS type  str not supported yet": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "cc-1.0.50",
+          "fn": "src/lib-try_compile",
+          "path": "src/lib.rs:895:5: 965:6 (#0)"
+        }
+      ]
+    },
+    "error unsupported type Binder(fn(&ReLateBound(DebruijnIndex(0), BoundRegion { var 0, kind  ~ std[92e0]::sys::unix::os::SplitPaths::_), _) }) u8) -> bool,  ~ std[92e0]::sys::unix::os::SplitPaths::_), _))])": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "cc-1.0.50",
+          "fn": "src/lib-try_compile",
+          "path": "src/lib.rs:895:5: 965:6 (#0)"
+        }
+      ]
+    },
+    "unsupported constant type Adt(pool::state::Lifecycle, [])": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "tokio-threadpool-0.2.0-alpha.1",
+          "fn": "src/pool/state-inc_num_futures",
+          "path": "src/pool/state.rs:49:5: 54:6 (#0)"
+        }
+      ]
+    },
+    "casts IntToFloat are not supported": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "typenum-1.11.2",
+          "fn": "build/main-main",
+          "path": "build/main.rs:82:10: 82:10 (#0)"
+        }
+      ]
+    },
+    "Non-slice LHS type u32 not supported yet": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "version_check-0.9.1",
+          "fn": "src/date-parse",
+          "path": "src/date.rs:54:5: 65:6 (#0)"
+        }
+      ]
+    },
+    "unsupported cast from type *const u8 to type usize": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "cookie-0.12.0",
+          "fn": "src/parse-indexes_of",
+          "path": "src/parse.rs:65:70: 65:70 (#0)"
+        }
+      ]
+    },
+    "unsupported cast from type *mut Adt(semaphore::WaiterNode, []) to type usize": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "tokio-sync-0.2.0-alpha.6",
+          "fn": "src/semaphore-set_waiter",
+          "path": "src/semaphore.rs:1012:5: 1018:6 (#0)"
+        }
+      ]
+    },
+    "unsizing a std::boxed::Box<(dyn std::borrow::Borrow<[u8]> + into a std::boxed::Box<(dyn std::borrow::Borrow<[u8]> + is not supported": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "nix-0.16.1",
+          "fn": "src/sys/aio-boxed_slice",
+          "path": "src/sys/aio.rs:169:5: 182:6 (#0)"
+        }
+      ]
+    },
+    "unsizing a std::boxed::Box<(dyn std::borrow::BorrowMut<[u8]> + into a std::boxed::Box<(dyn std::borrow::BorrowMut<[u8]> + is not supported": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "nix-0.16.1",
+          "fn": "src/sys/aio-boxed_mut_slice",
+          "path": "src/sys/aio.rs:191:5: 204:6 (#0)"
+        }
+      ]
+    },
+    "casts PtrToPtr are not supported": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "byteorder-1.3.2",
+          "fn": "src/io-slice_to_u8_mut",
+          "path": "src/io.rs:1601:65: 1601:65 (#0)"
+        }
+      ]
+    },
+    "unsupported constant type [bool; Const { ty: usize, kind: Leaf(0x0000000000000100) }]": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "mime-0.3.16",
+          "fn": "src/parse-is_token",
+          "path": "src/parse.rs:328:27: 328:27 (#0)"
+        }
+      ]
+    },
+    "error unsupported constant type  u32": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "idna-0.2.0",
+          "fn": "src/punycode-adapt",
+          "path": "src/punycode.rs:31:67: 31:67 (#0)"
+        }
+      ]
+    },
+    "error unsupported constant type  char": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "idna-0.2.0",
+          "fn": "src/punycode-decode",
+          "path": "src/punycode.rs:55:48: 55:48 (#0)"
+        }
+      ]
+    },
+    "error support for operation Shl is experimental and disabled by default; use `encode_bitvectors` to enable it": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "idna-0.2.0",
+          "fn": "src/uts46-decode_slice",
+          "path": "src/uts46.rs:33:58: 33:58 (#0)"
+        }
+      ]
+    },
+    "unsupported constant type str; Const { ty: usize, kind: Leaf(0x0000000000000001) }]": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "getopts-0.2.21",
+          "fn": "src/lib-parse",
+          "path": "src/lib.rs:341:5: 481:6 (#0)"
+        }
+      ]
+    },
+    "unsizing a std::boxed::Box<[Opt; 1]> into a std::boxed::Box<[Opt]> is not supported": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "getopts-0.2.21",
+          "fn": "src/lib-long_to_short",
+          "path": "src/lib.rs:757:5: 793:6 (#0)"
+        }
+      ]
+    },
+    "unsupported constant value: FnDef(DefId(2:8254 ~ core[ea]::option::is_some), [V/#0]))": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "vec_map-0.8.1",
+          "fn": "src/lib-shrink_to_fit",
+          "path": "src/lib.rs:205:5: 214:6 (#0)"
+        }
+      ]
+    },
+    "cast statements that create loans are not supported": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "itoa-0.4.4",
+          "fn": "src/lib-write_to",
+          "path": "src/lib.rs:185:13: 242:14 (#68)"
+        }
+      ]
+    },
+    "unsupported constant type str; Const { ty: usize, kind: Leaf(0x0000000000000003) }]": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "itoa-0.4.4",
+          "fn": "src/lib-write_to",
+          "path": "src/lib.rs:185:13: 242:14 (#68)"
+        }
+      ]
+    },
+    "unsupported constant value: Unevaluated(UnevaluatedConst { def: DefId(0:31 ~ itoa[bf59]::DEC_DIGITS_LUT), args: [], promoted: None }, [u8])": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "itoa-0.4.4",
+          "fn": "src/lib-write_to",
+          "path": "src/lib.rs:185:13: 242:14 (#68)"
+        }
+      ]
+    },
+    "unsupported statement kind: Intrinsic(Assume(move _7))": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "time-0.2.3",
+          "fn": "src/weekday-number_days_from_sunday",
+          "path": "src/weekday.rs:122:5: 124:6 (#0)"
+        }
+      ]
+    },
+    "unsupported constant type [u8; Const { ty: usize, kind: Leaf(0x0000000000000007) }]": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "termcolor-1.1.0",
+          "fn": "src/lib-write_color",
+          "path": "src/lib.rs:1327:5: 1434:6 (#0)"
+        }
+      ]
+    },
+    "unsupported constant type Adt(frame::stream_id::StreamId, [])": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "h2-0.2.1",
+          "fn": "src/frame/stream_id-next_id",
+          "path": "src/frame/stream_id.rs:70:5: 77:6 (#0)"
+        }
+      ]
+    },
+    "unsupported constant value: FnDef(DefId(0:367 ~ pulldown_cmark[c0ac]::scanners::is_ascii_alphanumeric), []))": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "pulldown-cmark-0.6.1",
+          "fn": "src/scanners-scan_html_block_tag",
+          "path": "src/scanners.rs:951:65: 951:65 (#0)"
+        }
+      ]
+    },
+    "unsupported constant value: FnDef(DefId(0:366 ~ pulldown_cmark[c0ac]::scanners::is_ascii_alpha), []))": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "pulldown-cmark-0.6.1",
+          "fn": "src/scanners-scan_html_block_inner",
+          "path": "src/scanners.rs:996:19: 996:19 (#0)"
+        }
+      ]
+    },
+    "Non-slice LHS type u8 not supported yet": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "syn-1.0.13",
+          "fn": "src/bigint-add_assign",
+          "path": "src/bigint.rs:42:5: 52:6 (#0)"
+        }
+      ]
+    }
+  },
+  "unevaluated": 66,
+  "mir_only_total": 57,
+  "mir_only_l": {
+    "attempt to compute `{} + {}`, which would overflow": {
+      "count": 10,
+      "i.e.": [
+        {
+          "crate": "redox_syscall-0.1.56",
+          "fn": "src/flag-wifsignaled",
+          "path": "src/flag.rs:148:42: 148:42 (#0)"
+        },
+        {
+          "crate": "httparse-1.3.4",
+          "fn": "src/iter-next_8",
+          "path": "src/iter.rs:67:5: 73:6 (#0)"
+        },
+        {
+          "crate": "ansi_term-0.12.1",
+          "fn": "examples/256_colours-main",
+          "path": "examples/256_colours.rs:13:10: 13:10 (#0)"
+        },
+        {
+          "crate": "strsim-0.9.3",
+          "fn": "src/lib-generic_jaro",
+          "path": "src/lib.rs:67:5: 69:34 (#0)"
+        },
+        {
+          "crate": "strsim-0.9.3",
+          "fn": "src/lib-generic_hamming",
+          "path": "src/lib.rs:36:5: 38:34 (#0)"
+        },
+        {
+          "crate": "mime_guess-2.0.1",
+          "fn": "build-split_mime",
+          "path": "build.rs:185:42: 185:42 (#0)"
+        },
+        {
+          "crate": "mime-0.3.16",
+          "fn": "src/lib-params_eq",
+          "path": "src/lib.rs:275:57: 275:57 (#0)"
+        },
+        {
+          "crate": "bytes-0.5.3",
+          "fn": "benches/buf-next_readlen",
+          "path": "benches/buf.rs:40:5: 46:6 (#0)"
+        },
+        {
+          "crate": "vec_map-0.8.1",
+          "fn": "src/lib-hash",
+          "path": "src/lib.rs:98:5: 107:6 (#0)"
+        },
+        {
+          "crate": "getrandom-0.1.14",
+          "fn": "src/error-CUSTOM_START:u32={\nletmut_0:u32;\nletmut_1:u32;\nletmut_2:u32;\nletmut_3:bool;\nletmut_4:u32;\nletmut_5:u32;\nletmut_6:bool;\nletmut_7:",
+          "path": "src/error.rs:38:5: 38:57 (#0)"
+        }
+      ]
+    },
+    "attempt to shift left by `{}`, which would overflow": {
+      "count": 7,
+      "i.e.": [
+        {
+          "crate": "rand_pcg-0.2.1",
+          "fn": "src/pcg128-new",
+          "path": "src/pcg128.rs:50:5: 54:6 (#0)"
+        },
+        {
+          "crate": "crc32fast-1.2.0",
+          "fn": "src/combine-combine",
+          "path": "src/combine.rs:23:70: 23:70 (#0)"
+        },
+        {
+          "crate": "version_check-0.9.1",
+          "fn": "src/version-parse",
+          "path": "src/version.rs:60:5: 78:6 (#0)"
+        },
+        {
+          "crate": "parking_lot_core-0.7.0",
+          "fn": "src/spinwait-spin_no_yield",
+          "path": "src/spinwait.rs:68:5: 74:6 (#0)"
+        },
+        {
+          "crate": "pulldown-cmark-0.6.1",
+          "fn": "src/simd-compute_lookup",
+          "path": "src/simd.rs:29:38: 29:38 (#0)"
+        },
+        {
+          "crate": "pulldown-cmark-0.6.1",
+          "fn": "src/puncttable-is_ascii_punctuation",
+          "path": "src/puncttable.rs:307:43: 307:43 (#0)"
+        },
+        {
+          "crate": "pulldown-cmark-0.6.1",
+          "fn": "src/puncttable-is_punctuation",
+          "path": "src/puncttable.rs:311:39: 311:39 (#0)"
+        }
+      ]
+    },
+    "attempt to compute `{} * {}`, which would overflow": {
+      "count": 6,
+      "i.e.": [
+        {
+          "crate": "quickcheck-0.9.2",
+          "fn": "examples/sieve-sieve",
+          "path": "examples/sieve.rs:6:33: 6:33 (#0)"
+        },
+        {
+          "crate": "quickcheck-0.9.2",
+          "fn": "src/tests-sieve",
+          "path": "src/tests.rs:108:33: 108:33 (#0)"
+        },
+        {
+          "crate": "fs2-0.4.3",
+          "fn": "src/unix-allocate",
+          "path": "src/unix.rs:106:53: 106:53 (#0)"
+        },
+        {
+          "crate": "flate2-1.0.13",
+          "fn": "src/bufreader-new",
+          "path": "src/bufreader.rs:40:5: 42:6 (#0)"
+        },
+        {
+          "crate": "nom-5.1.0",
+          "fn": "src/traits-input_len",
+          "path": "src/traits.rs:45:3: 49:4 (#0)"
+        },
+        {
+          "crate": "tokio-fs-0.2.0-alpha.6",
+          "fn": "tests/sys/file-read",
+          "path": "tests/sys/file.rs:203:5: 220:6 (#0)"
+        }
+      ]
+    },
+    "attempt to calculate the remainder of `{}` with a divisor of zero": {
+      "count": 4,
+      "i.e.": [
+        {
+          "crate": "syntex_syntax-0.59.1",
+          "fn": "src/print/pp-buf_str",
+          "path": "src/print/pp.rs:213:78: 213:78 (#0)"
+        },
+        {
+          "crate": "syntex_syntax-0.59.1",
+          "fn": "src/print/pp-advance_right",
+          "path": "src/print/pp.rs:410:5: 414:6 (#0)"
+        },
+        {
+          "crate": "h2-0.2.1",
+          "fn": "src/frame/stream_id-is_server_initiated",
+          "path": "src/frame/stream_id.rs:51:5: 54:6 (#0)"
+        },
+        {
+          "crate": "h2-0.2.1",
+          "fn": "src/frame/stream_id-is_client_initiated",
+          "path": "src/frame/stream_id.rs:44:5: 47:6 (#0)"
+        }
+      ]
+    },
+    "attempt to divide `{}` by zero": {
+      "count": 3,
+      "i.e.": [
+        {
+          "crate": "indexmap-1.3.1",
+          "fn": "src/util-ptrdistance",
+          "path": "src/util.rs:17:57: 17:57 (#0)"
+        },
+        {
+          "crate": "uuid-0.8.1",
+          "fn": "src/v1-to_unix",
+          "path": "src/v1.rs:102:5: 108:6 (#0)"
+        },
+        {
+          "crate": "uuid-0.8.1",
+          "fn": "src/v1-from_unix",
+          "path": "src/v1.rs:73:5: 83:6 (#0)"
+        }
+      ]
+    },
+    "assert_failed": {
+      "count": 3,
+      "i.e.": [
+        {
+          "crate": "crossbeam-deque-0.7.2",
+          "fn": "src/lib-alloc",
+          "path": "src/lib.rs:133:5: 141:6 (#0)"
+        },
+        {
+          "crate": "log-0.4.8",
+          "fn": "tests/filters-last",
+          "path": "tests/filters.rs:69:48: 69:48 (#0)"
+        },
+        {
+          "crate": "base64-0.11.0",
+          "fn": "src/write/encoder-write_all_encoded_output",
+          "path": "src/write/encoder.rs:183:5: 198:6 (#0)"
+        }
+      ]
+    },
+    "unreachable_display": {
+      "count": 3,
+      "i.e.": [
+        {
+          "crate": "cookie-0.12.0",
+          "fn": "src/parse-as_str",
+          "path": "src/parse.rs:35:5: 44:6 (#0)"
+        },
+        {
+          "crate": "same-file-1.0.6",
+          "fn": "src/unknown-as_file",
+          "path": "src/unknown.rs:42:5: 44:6 (#0)"
+        },
+        {
+          "crate": "same-file-1.0.6",
+          "fn": "src/unknown-as_file_mut",
+          "path": "src/unknown.rs:46:5: 48:6 (#0)"
+        }
+      ]
+    },
+    "attempt to shift right by `{}`, which would overflow": {
+      "count": 3,
+      "i.e.": [
+        {
+          "crate": "openssl-sys-0.9.53",
+          "fn": "build/main-validate_headers",
+          "path": "build/main.rs:107:57: 107:57 (#0)"
+        },
+        {
+          "crate": "sha2-0.8.1",
+          "fn": "src/sha512_utils-sha512_schedule_x2::sigma1",
+          "path": "src/sha512_utils.rs:24:29: 24:29 (#0)"
+        },
+        {
+          "crate": "itoa-0.4.4",
+          "fn": "src/udiv128-udivmod_1e19",
+          "path": "src/udiv128.rs:24:44: 24:44 (#0)"
+        }
+      ]
+    },
+    "attempt to compute `{} / {}`, which would overflow": {
+      "count": 2,
+      "i.e.": [
+        {
+          "crate": "nix-0.16.1",
+          "fn": "src/sys/time-num_microseconds",
+          "path": "src/sys/time.rs:136:5: 138:6 (#0)"
+        },
+        {
+          "crate": "nix-0.16.1",
+          "fn": "src/sys/time-num_milliseconds",
+          "path": "src/sys/time.rs:132:5: 134:6 (#0)"
+        }
+      ]
+    },
+    "assertion failed: path2.parent().unwrap().is_dir()": {
+      "count": 2,
+      "i.e.": [
+        {
+          "crate": "tempfile-3.1.0",
+          "fn": "tests/tempdir-recursive_mkdir_rel_2",
+          "path": "tests/tempdir.rs:176:27: 176:27 (#0)"
+        },
+        {
+          "crate": "tempdir-0.3.7",
+          "fn": "tests/smoke-recursive_mkdir_rel_2",
+          "path": "tests/smoke.rs:155:27: 155:27 (#0)"
+        }
+      ]
+    },
+    "assertion failed: mask1 != 0 || mask2 != 0 || mask3 != 0": {
+      "count": 2,
+      "i.e.": [
+        {
+          "crate": "memchr-2.3.0",
+          "fn": "src/x86/avx-forward_pos3",
+          "path": "src/x86/avx.rs:655:61: 655:61 (#0)"
+        },
+        {
+          "crate": "memchr-2.3.0",
+          "fn": "src/x86/sse2-reverse_pos3",
+          "path": "src/x86/sse2.rs:783:61: 783:61 (#0)"
+        }
+      ]
+    },
+    "index out of bounds: the length is {} but the index is {}": {
+      "count": 2,
+      "i.e.": [
+        {
+          "crate": "time-0.2.3",
+          "fn": "src/date-month_day",
+          "path": "src/date.rs:342:5: 381:6 (#0)"
+        },
+        {
+          "crate": "time-0.2.3",
+          "fn": "src/date-days_in_year_month",
+          "path": "src/date.rs:30:56: 30:56 (#0)"
+        }
+      ]
+    },
+    "attempt to compute `{} - {}`, which would overflow": {
+      "count": 2,
+      "i.e.": [
+        {
+          "crate": "unicode-segmentation-1.6.0",
+          "fn": "src/sentence-fwd::match_sb11",
+          "path": "src/sentence.rs:151:55: 151:55 (#0)"
+        },
+        {
+          "crate": "filetime-0.2.8",
+          "fn": "src/lib-unix_seconds",
+          "path": "src/lib.rs:187:5: 189:6 (#0)"
+        }
+      ]
+    },
+    "assertion failed: src.len() <= MAX_LENGTH": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "iovec-0.1.4",
+          "fn": "src/sys/windows-from",
+          "path": "src/sys/windows.rs:58:5: 68:6 (#0)"
+        }
+      ]
+    },
+    "panic_fmt(move _102) -> bb43;\n": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "safemem-0.3.3",
+          "fn": "src/lib-copy_over",
+          "path": "src/lib.rs:37:88: 37:88 (#0)"
+        }
+      ]
+    },
+    "assertion failed: self.waiter().is_none()": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "tokio-0.2.9",
+          "fn": "src/sync/semaphore_ll-acquire_permits",
+          "path": "src/sync/semaphore_ll.rs:1081:5: 1098:6 (#0)"
+        }
+      ]
+    },
+    "internal error: entered unreachable code": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "typenum-1.11.2",
+          "fn": "build/tests-build_tests",
+          "path": "build/tests.rs:216:61: 216:61 (#0)"
+        }
+      ]
+    },
+    "assertion failed: supported_algorithms.iter().all(|a|\\n        { match *a { Algorithm::__ForExtensibility => false, _ => true, } })": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "schannel-0.1.16",
+          "fn": "src/schannel_cred-supported_algorithms",
+          "path": "src/schannel_cred.rs:149:5: 161:6 (#0)"
+        }
+      ]
+    },
+    "explicit panic": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "scopeguard-1.0.0",
+          "fn": "examples/readme-f",
+          "path": "examples/readme.rs:7:7: 7:7 (#0)"
+        }
+      ]
+    },
+    "try_borrow_with: cell was filled by closure": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "lazycell-1.2.1",
+          "fn": "src/lib-try_borrow_with",
+          "path": "src/lib.rs:168:5: 179:6 (#0)"
+        }
+      ]
+    },
+    "assertion failed: opt.unwrap() == &v": {
+      "count": 1,
+      "i.e.": [
+        {
+          "crate": "linked-hash-map-0.5.2",
+          "fn": "tests/test-assert_opt_eq",
+          "path": "tests/test.rs:6:54: 6:54 (#0)"
+        }
+      ]
+    }
+  }
+}

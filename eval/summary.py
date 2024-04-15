@@ -1,4 +1,4 @@
-import os, json
+import os, json, sys
 from w import wksp
 
 w = wksp()
@@ -31,6 +31,29 @@ def count(acc, t, crate, list):
     return acc, t
 
 
+def count_v(acc, t, crate, list):
+    for rsn in list:
+        for o in list[rsn]:
+            o = {
+                "crate": crate,
+                "fn": o["fn"],
+                "path": o["path"]
+            }
+            if rsn in acc:
+                acc[rsn]["count"] += 1
+                acc[rsn]["i.e."].append(o)
+            else:
+                acc[rsn] = {
+                "count": 1,
+                "i.e.": [{
+                    "crate": crate,
+                    "fn": o["fn"],
+                    "path": o["path"]}
+                ]
+                }
+            t += 1
+    return acc, t
+
 def run():
     s = Stat()
     crashed = os.listdir(w.c_r)
@@ -40,11 +63,18 @@ def run():
         if not r.replace(".json", ".txt") in crashed:
             i += 1
             with open(os.path.join(w.e_c, r), "r") as f_:
-                f = json.load(f_)
-                s.match_l, s.match_t = count(s.match_l, s.match_t, r.replace(".json", ""), f["match"])
-                s.mir_l, s.mir_t = count(s.mir_l, s.mir_t, r.replace(".json", ""), f["mir_only"])
-                s.us_l, s.us_t =  count(s.us_l, s.us_t, r.replace(".json", ""), f["unsupported"])
-                s.mmatch_t += len(f["unevaluated"])
+                if "--v" in sys.argv:
+                    f = json.load(f_)
+                    s.match_l, s.match_t = count_v(s.match_l, s.match_t, r.replace(".json", ""), f["match"])
+                    s.mir_l, s.mir_t = count_v(s.mir_l, s.mir_t, r.replace(".json", ""), f["mir_only"])
+                    s.us_l, s.us_t =  count_v(s.us_l, s.us_t, r.replace(".json", ""), f["unsupported"])
+                    s.mmatch_t += len(f["unevaluated"])
+                else:
+                    f = json.load(f_)
+                    s.match_l, s.match_t = count(s.match_l, s.match_t, r.replace(".json", ""), f["match"])
+                    s.mir_l, s.mir_t = count(s.mir_l, s.mir_t, r.replace(".json", ""), f["mir_only"])
+                    s.us_l, s.us_t =  count(s.us_l, s.us_t, r.replace(".json", ""), f["unsupported"])
+                    s.mmatch_t += len(f["unevaluated"])
 
     
     s.match_l =  dict(sorted(s.match_l.items(),  key=lambda x: x[1]["count"], reverse=True))
