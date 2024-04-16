@@ -456,7 +456,7 @@
   },
   "unevaluated": 66,
   "mir_only_total": 57,
-  "mir_only_l": {
+  "mir_only": {
     "attempt to compute `{} + {}`, which would overflow": {
       "count": 10,
       "i.e.": {
