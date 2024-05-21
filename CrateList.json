@@ -1401,6 +1401,114 @@
         "name": "matches",
         "version": "0.1.8"
       }
+    },
+    {
+      "Package": {
+        "name": "error",
+        "version": "0.1.9"
+      }
+    },
+    {
+      "Package": {
+        "name": "serde_stacker",
+        "version": "0.1.1"
+      }
+    },
+    {
+      "Package": {
+        "name": "hyper-openssl",
+        "version": "0.8.0"
+      }
+    },
+    {
+      "Package": {
+        "name": "state",
+        "version": "0.4.1"
+      }
+    },
+    {
+      "Package": {
+        "name": "tracing-core",
+        "version": "0.1.9"
+      }
+    },
+    {
+      "Package": {
+        "name": "winutil",
+        "version": "0.1.1"
+      }
+    },
+    {
+      "Package": {
+        "name": "curve25519-dalek",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "Package": {
+        "name": "postgres",
+        "version": "0.17.0"
+      }
+    },
+    {
+      "Package": {
+        "name": "tokio-openssl",
+        "version": "0.4.0"
+      }
+    },
+    {
+      "Package": {
+        "name": "sourcefile",
+        "version": "0.1.4"
+      }
+    },
+    {
+      "Package": {
+        "name": "actix-utils",
+        "version": "1.0.6"
+      }
+    },
+    {
+      "Package": {
+        "name": "debug_unreachable",
+        "version": "0.1.1"
+      }
+    },
+    {
+      "Package": {
+        "name": "cargo",
+        "version": "0.41.0"
+      }
+    },
+    {
+      "Package": {
+        "name": "scroll_derive",
+        "version": "0.10.1"
+      }
+    },
+    {
+      "Package": {
+        "name": "plain",
+        "version": "0.2.3"
+      }
+    },
+    {
+      "Package": {
+        "name": "onig",
+        "version": "5.0.0"
+      }
+    },
+    {
+      "Package": {
+        "name": "error-chain",
+        "version": "0.1.9"
+      }
+    },
+    {
+      "Package": {
+        "name": "tokio",
+        "version": "0.2.9"
+      }
     }
   ]
 }
